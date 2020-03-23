@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["calc-stats"],{"0d4d":function(t,a,n){"use strict";n.r(a);var s=function(){var t=this,a=t.$createElement,n=t._self._c||a;return n("div",{staticClass:"about"},[n("h1",[t._v("This is an about page")]),n("b-button",{attrs:{size:"lg",variant:"outline-primary"}},[t._v("Bootstrap Button")])],1)},e=[],i=n("2877"),o={},u=Object(i["a"])(o,s,e,!1,null,null,null);a["default"]=u.exports}}]);
+//# sourceMappingURL=calc-stats.js.map
