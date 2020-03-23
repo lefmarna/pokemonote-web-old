@@ -5,8 +5,12 @@
     <div>
       レベル：
       <input type="number" id="lv" min="1" max="100" v-model.number="lv" />
-      <button class="btn btn-outline-secondary btn-sm" v-on:click="lv=50">50</button>
-      <button class="btn btn-outline-secondary btn-sm" v-on:click="lv=100">100</button>
+      <button class="btn btn-outline-secondary btn-sm" v-on:click="lv = 50">
+        50
+      </button>
+      <button class="btn btn-outline-secondary btn-sm" v-on:click="lv = 100">
+        100
+      </button>
       {{ hp }}
     </div>
   </div>
@@ -33,13 +37,15 @@ export default {
     hp() {
       return (
         Math.floor(
-          ((this.values[0].bs * 2 + this.values[0].iv + Math.floor(this.values[0].ev / 4)) *
+          ((this.values[0].bs * 2 +
+            this.values[0].iv +
+            Math.floor(this.values[0].ev / 4)) *
             this.lv) /
             100
         ) +
         10 +
         this.lv
-      )
+      );
     }
   }
 };

@@ -1,5 +1,5 @@
 module.exports = {
-  outputDir: 'docs',
-  publicPath: './',
-  filenameHashing: false,
-}
+  outputDir: "docs",
+  publicPath: "./",
+  filenameHashing: false
+};
