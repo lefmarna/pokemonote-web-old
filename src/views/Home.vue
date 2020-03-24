@@ -5,6 +5,12 @@
   </div>
 </template>
 
+<style lang="scss" scoped>
+.home {
+  text-align: center;
+}
+</style>
+
 <script>
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
