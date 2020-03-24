@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <HelloWorld msg="ようこそ！ポケモニットのアプリ集へ！" />
   </div>
 </template>
 
@@ -19,6 +19,13 @@ export default {
   name: "Home",
   components: {
     HelloWorld
+  },
+  mounted() {
+    const title = "ポケモニットのアプリ集";
+    document.title = title;
+    document
+      .querySelector("meta[property='og:title']")
+      .setAttribute("content", title);
   }
 };
 </script>
