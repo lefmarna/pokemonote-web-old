@@ -820,6 +820,44 @@ export default {
       } else {
         this.values[0].ev = n;
       }
+    },
+    statsCalc(i) {
+      let n = Number(event.target.value);
+      if (n % 11 === 10 && this.natureCalc[i] === 1.1) {
+        if (
+          n >=
+          Math.floor(
+            (Math.floor(
+              ((this.values[i].bs * 2 +
+                this.values[i].iv +
+                Math.floor(this.values[i].ev / 4)) *
+                this.lv) /
+                100
+            ) +
+              5) *
+              this.natureCalc[i]
+          )
+        ) {
+          n += 1;
+        } else {
+          n -= 1;
+        }
+      }
+      if (this.natureCalc[i] === 1.1) {
+        n = Math.ceil(n / 1.1);
+      } else if (this.natureCalc[i] === 0.9) {
+        n = Math.ceil(n / 0.9);
+      }
+      n =
+        (Math.ceil(((n - 5) * 100) / this.lv) -
+          this.values[i].bs * 2 -
+          this.values[i].iv) *
+        4;
+      if (n < 0) {
+        this.values[i].ev = 0;
+      } else {
+        this.values[i].ev = n;
+      }
     }
   }
 };
