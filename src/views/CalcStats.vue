@@ -14,9 +14,11 @@
             v-focus
           />
           <div class="font-weight-bold text-info">ポケモン名：{{ name }}</div>
-          <div
-            class="font-weight-bold text-info"
-          >種族値：{{values[0].bs}}-{{values[1].bs}}-{{values[2].bs}}-{{values[3].bs}}-{{values[4].bs}}-{{values[5].bs}}</div>
+          <div class="font-weight-bold text-info">
+            種族値：{{ values[0].bs }}-{{ values[1].bs }}-{{ values[2].bs }}-{{
+              values[3].bs
+            }}-{{ values[4].bs }}-{{ values[5].bs }}
+          </div>
           <div id="contents">
             <div>
               性格：
@@ -50,9 +52,25 @@
             </div>
             <div>
               レベル：
-              <input type="number" id="lv" min="1" max="100" v-model.number="lv" />
-              <button class="btn btn-outline-secondary btn-sm" v-on:click="lv = 50">50</button>
-              <button class="btn btn-outline-secondary btn-sm" v-on:click="lv = 100">100</button>
+              <input
+                type="number"
+                id="lv"
+                min="1"
+                max="100"
+                v-model.number="lv"
+              />
+              <button
+                class="btn btn-outline-secondary btn-sm"
+                v-on:click="lv = 50"
+              >
+                50
+              </button>
+              <button
+                class="btn btn-outline-secondary btn-sm"
+                v-on:click="lv = 100"
+              >
+                100
+              </button>
             </div>
           </div>
         </div>
@@ -82,51 +100,113 @@
               <tr align="center">
                 <td class="align-middle">HP</td>
                 <td class="align-middle text-right">
-                  <input type="number" min="0" max="31" v-model.number="values[0].iv" />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[0].iv=31">31</button>
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[0].iv=0">0</button>
-                  </div>
-                </td>
-                <td class="align-middle text-right">
-                  <input type="number" min="0" max="252" step="4" v-model.number="values[0].ev" />
+                  <input
+                    type="number"
+                    min="0"
+                    max="31"
+                    v-model.number="values[0].iv"
+                  />
                 </td>
                 <td class="text-left">
                   <div class="btn-group-vertical">
                     <button
                       class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[0].ev=252"
-                    >252</button>
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[0].ev=0">0</button>
+                      v-on:click="values[0].iv = 31"
+                    >
+                      31
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[0].iv = 0"
+                    >
+                      0
+                    </button>
+                  </div>
+                </td>
+                <td class="align-middle text-right">
+                  <input
+                    type="number"
+                    min="0"
+                    max="252"
+                    step="4"
+                    v-model.number="values[0].ev"
+                  />
+                </td>
+                <td class="text-left">
+                  <div class="btn-group-vertical">
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[0].ev = 252"
+                    >
+                      252
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[0].ev = 0"
+                    >
+                      0
+                    </button>
                   </div>
                 </td>
                 <td class="align-middle" colspan="2">
-                  <input type="number" min="0" max="999" v-bind:value="hp" v-on:input="hpCalc()" />
+                  <input
+                    type="number"
+                    min="0"
+                    max="999"
+                    v-bind:value="hp"
+                    v-on:input="hpCalc()"
+                  />
                 </td>
               </tr>
               <tr align="center">
                 <td class="align-middle">攻撃</td>
                 <td class="align-middle text-right">
-                  <input type="number" min="0" max="31" v-model.number="values[1].iv" />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[1].iv=31">31</button>
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[1].iv=0">0</button>
-                  </div>
-                </td>
-                <td class="align-middle text-right">
-                  <input type="number" min="0" max="252" step="4" v-model.number="values[1].ev" />
+                  <input
+                    type="number"
+                    min="0"
+                    max="31"
+                    v-model.number="values[1].iv"
+                  />
                 </td>
                 <td class="text-left">
                   <div class="btn-group-vertical">
                     <button
                       class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[1].ev=252"
-                    >252</button>
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[1].ev=0">0</button>
+                      v-on:click="values[1].iv = 31"
+                    >
+                      31
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[1].iv = 0"
+                    >
+                      0
+                    </button>
+                  </div>
+                </td>
+                <td class="align-middle text-right">
+                  <input
+                    type="number"
+                    min="0"
+                    max="252"
+                    step="4"
+                    v-model.number="values[1].ev"
+                  />
+                </td>
+                <td class="text-left">
+                  <div class="btn-group-vertical">
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[1].ev = 252"
+                    >
+                      252
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[1].ev = 0"
+                    >
+                      0
+                    </button>
                   </div>
                 </td>
                 <td class="align-middle" colspan="2">
@@ -142,24 +222,52 @@
               <tr align="center">
                 <td class="align-middle">防御</td>
                 <td class="align-middle text-right">
-                  <input type="number" min="0" max="31" v-model.number="values[2].iv" />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[2].iv=31">31</button>
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[2].iv=0">0</button>
-                  </div>
-                </td>
-                <td class="align-middle text-right">
-                  <input type="number" min="0" max="252" step="4" v-model.number="values[2].ev" />
+                  <input
+                    type="number"
+                    min="0"
+                    max="31"
+                    v-model.number="values[2].iv"
+                  />
                 </td>
                 <td class="text-left">
                   <div class="btn-group-vertical">
                     <button
                       class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[2].ev=252"
-                    >252</button>
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[2].ev=0">0</button>
+                      v-on:click="values[2].iv = 31"
+                    >
+                      31
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[2].iv = 0"
+                    >
+                      0
+                    </button>
+                  </div>
+                </td>
+                <td class="align-middle text-right">
+                  <input
+                    type="number"
+                    min="0"
+                    max="252"
+                    step="4"
+                    v-model.number="values[2].ev"
+                  />
+                </td>
+                <td class="text-left">
+                  <div class="btn-group-vertical">
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[2].ev = 252"
+                    >
+                      252
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[2].ev = 0"
+                    >
+                      0
+                    </button>
                   </div>
                 </td>
                 <td class="align-middle" colspan="2">
@@ -175,24 +283,52 @@
               <tr align="center">
                 <td class="align-middle">特攻</td>
                 <td class="align-middle text-right">
-                  <input type="number" min="0" max="31" v-model.number="values[3].iv" />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[3].iv=31">31</button>
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[3].iv=0">0</button>
-                  </div>
-                </td>
-                <td class="align-middle text-right">
-                  <input type="number" min="0" max="252" step="4" v-model.number="values[3].ev" />
+                  <input
+                    type="number"
+                    min="0"
+                    max="31"
+                    v-model.number="values[3].iv"
+                  />
                 </td>
                 <td class="text-left">
                   <div class="btn-group-vertical">
                     <button
                       class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[3].ev=252"
-                    >252</button>
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[3].ev=0">0</button>
+                      v-on:click="values[3].iv = 31"
+                    >
+                      31
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[3].iv = 0"
+                    >
+                      0
+                    </button>
+                  </div>
+                </td>
+                <td class="align-middle text-right">
+                  <input
+                    type="number"
+                    min="0"
+                    max="252"
+                    step="4"
+                    v-model.number="values[3].ev"
+                  />
+                </td>
+                <td class="text-left">
+                  <div class="btn-group-vertical">
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[3].ev = 252"
+                    >
+                      252
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[3].ev = 0"
+                    >
+                      0
+                    </button>
                   </div>
                 </td>
                 <td class="align-middle" colspan="2">
@@ -208,24 +344,52 @@
               <tr align="center">
                 <td class="align-middle">特防</td>
                 <td class="align-middle text-right">
-                  <input type="number" min="0" max="31" v-model.number="values[4].iv" />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[4].iv=31">31</button>
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[4].iv=0">0</button>
-                  </div>
-                </td>
-                <td class="align-middle text-right">
-                  <input type="number" min="0" max="252" step="4" v-model.number="values[4].ev" />
+                  <input
+                    type="number"
+                    min="0"
+                    max="31"
+                    v-model.number="values[4].iv"
+                  />
                 </td>
                 <td class="text-left">
                   <div class="btn-group-vertical">
                     <button
                       class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[4].ev=252"
-                    >252</button>
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[4].ev=0">0</button>
+                      v-on:click="values[4].iv = 31"
+                    >
+                      31
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[4].iv = 0"
+                    >
+                      0
+                    </button>
+                  </div>
+                </td>
+                <td class="align-middle text-right">
+                  <input
+                    type="number"
+                    min="0"
+                    max="252"
+                    step="4"
+                    v-model.number="values[4].ev"
+                  />
+                </td>
+                <td class="text-left">
+                  <div class="btn-group-vertical">
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[4].ev = 252"
+                    >
+                      252
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[4].ev = 0"
+                    >
+                      0
+                    </button>
                   </div>
                 </td>
                 <td class="align-middle" colspan="2">
@@ -241,24 +405,52 @@
               <tr align="center">
                 <td class="align-middle">素早</td>
                 <td class="align-middle text-right">
-                  <input type="number" min="0" max="31" v-model.number="values[5].iv" />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[5].iv=31">31</button>
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[5].iv=0">0</button>
-                  </div>
-                </td>
-                <td class="align-middle text-right">
-                  <input type="number" min="0" max="252" step="4" v-model.number="values[5].ev" />
+                  <input
+                    type="number"
+                    min="0"
+                    max="31"
+                    v-model.number="values[5].iv"
+                  />
                 </td>
                 <td class="text-left">
                   <div class="btn-group-vertical">
                     <button
                       class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[5].ev=252"
-                    >252</button>
-                    <button class="btn btn-outline-secondary btn-sm" v-on:click="values[5].ev=0">0</button>
+                      v-on:click="values[5].iv = 31"
+                    >
+                      31
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[5].iv = 0"
+                    >
+                      0
+                    </button>
+                  </div>
+                </td>
+                <td class="align-middle text-right">
+                  <input
+                    type="number"
+                    min="0"
+                    max="252"
+                    step="4"
+                    v-model.number="values[5].ev"
+                  />
+                </td>
+                <td class="text-left">
+                  <div class="btn-group-vertical">
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[5].ev = 252"
+                    >
+                      252
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary btn-sm"
+                      v-on:click="values[5].ev = 0"
+                    >
+                      0
+                    </button>
                   </div>
                 </td>
                 <td class="align-middle" colspan="2">
@@ -299,7 +491,9 @@
                 value="option1"
                 checked
               />
-              <label class="form-check-label" for="exampleRadios1">とつげきチョッキ</label>
+              <label class="form-check-label" for="exampleRadios1"
+                >とつげきチョッキ</label
+              >
             </div>
             <div class="form-check">
               <input
@@ -309,7 +503,9 @@
                 id="exampleRadios2"
                 value="option2"
               />
-              <label class="form-check-label" for="exampleRadios2">しんかのきせき</label>
+              <label class="form-check-label" for="exampleRadios2"
+                >しんかのきせき</label
+              >
             </div>
           </div>
           <div class="card p-1 col-6">
@@ -336,7 +532,7 @@
 <script>
 export default {
   name: "CalcStats",
-  title: 'ステータス計算機',
+  title: "ステータス計算機",
   data() {
     return {
       name: "ガブリアス",
@@ -594,14 +790,21 @@ export default {
     }
     // エンターで次のマスいけるようにできるコマンドかけないかな？
   },
-      mounted(){
-        const title = "ステータス計算機｜ポケモニットのアプリ集"
-        const description = "ポケモン剣盾に対応しているステータスの計算機です。個体値と努力値から実数値を求められるだけでなく、実数値から努力値の逆算にも対応しています。リアルタイムで計算が行われ、めざパや総合耐久も計算できるようになっています"
-        document.title = title
-        document.querySelector("meta[property='og:title']").setAttribute('content', title)
-        document.querySelector("meta[name='description']").setAttribute('content', description)
-        document.querySelector("meta[property='og:description']").setAttribute('content', description)
-    },
+  mounted() {
+    const title = "ステータス計算機｜ポケモニットのアプリ集";
+    const description =
+      "ポケモン剣盾に対応しているステータスの計算機です。個体値と努力値から実数値を求められるだけでなく、実数値から努力値の逆算にも対応しています。リアルタイムで計算が行われ、めざパや総合耐久も計算できるようになっています";
+    document.title = title;
+    document
+      .querySelector("meta[property='og:title']")
+      .setAttribute("content", title);
+    document
+      .querySelector("meta[name='description']")
+      .setAttribute("content", description);
+    document
+      .querySelector("meta[property='og:description']")
+      .setAttribute("content", description);
+  },
   // メソッドは重くなるので、努力値の逆算のみにしよう
   methods: {
     hpCalc() {
