@@ -5,8 +5,19 @@
       <router-link to="/calc-stats">ステータス計算機</router-link>
     </div>
     <router-view />
+    <app-footer></app-footer>
   </div>
 </template>
+
+<script>
+import Footer from "./components/Footer.vue";
+
+export default {
+  components: {
+    "app-footer": Footer
+  }
+};
+</script>
 
 <style lang="scss">
 #nav {
