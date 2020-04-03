@@ -8,11 +8,10 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 Vue.use(BootstrapVue);
 
-import VueHead from 'vue-head';
+import VueHead from "vue-head";
 Vue.use(VueHead, {
-  separator: '|'
-})
-
+  separator: "|"
+});
 
 Vue.config.productionTip = false;
 

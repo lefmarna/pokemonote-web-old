@@ -535,22 +535,23 @@ export default {
   head: {
     title() {
       return {
-        inner: this.title,
-      }
+        inner: this.title
+      };
     },
     meta() {
       return [
-        { name: 'title', content: this.title },
-        { name: 'description', content: this.description },
-        { property: 'og:title', content: this.title },
-        { property: 'og:description', content: this.description },
-      ]
+        { name: "title", content: this.title },
+        { name: "description", content: this.description },
+        { property: "og:title", content: this.title },
+        { property: "og:description", content: this.description }
+      ];
     }
   },
   data() {
     return {
-      title: 'ステータス計算機',
-      description: 'ポケモン剣盾に対応しているステータスの計算機です。個体値と努力値から実数値を求められるだけでなく、実数値から努力値の逆算にも対応しています。リアルタイムで計算が行われ、めざパや総合耐久も計算できるようになっています',
+      title: "ステータス計算機",
+      description:
+        "ポケモン剣盾に対応しているステータスの計算機です。個体値と努力値から実数値を求められるだけでなく、実数値から努力値の逆算にも対応しています。リアルタイムで計算が行われ、めざパや総合耐久も計算できるようになっています",
       name: "ガブリアス",
       pokemons: [],
       searchName: "",
