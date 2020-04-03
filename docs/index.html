@@ -1,4 +1,15 @@
-<!DOCTYPE html><html lang=ja><head><meta charset=UTF-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=favicon.ico><script async src="https://www.googletagmanager.com/gtag/js?id=UA-147275438-2"></script><script>window.dataLayer = window.dataLayer || [];
+<!DOCTYPE html><html lang=ja><head><meta charset=UTF-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=favicon.ico><script>(function (l) {
+        if (l.search) {
+          var q = {};
+          l.search.slice(1).split('&').forEach(function (v) { // ?p=/fooの分解
+            var a = v.split('='); // 'p=/foo' となっているはずなので=で分割
+            q[a[0]] = a[1]; // {p: '/foo'} 形式に修正
+          });
+          if (q.p !== undefined) {
+            window.history.replaceState(null, null, l.pathname.slice(0, -1) + (q.p || '')); // https://hoge.com/fooへ遷移
+          }
+        }
+      }(window.location))</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-147275438-2"></script><script>window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
