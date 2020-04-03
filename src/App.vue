@@ -13,6 +13,17 @@
 import Footer from "./components/Footer.vue";
 
 export default {
+  head: {
+    meta() {
+      return [
+        { property: 'og:site_name', content: 'ポケモニットのアプリ集' },
+        { property: 'og:type', content: 'website' },
+        { name: 'twitter:card', content:'summary_large_image' },
+        { name: 'twitter:site', content: '@lefmarna' },
+        { name: 'format-detection', content: 'telephone=no' },
+      ]
+    },
+  },
   components: {
     "app-footer": Footer
   }

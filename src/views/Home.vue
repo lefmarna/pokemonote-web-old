@@ -20,12 +20,5 @@ export default {
   components: {
     HelloWorld
   },
-  mounted() {
-    const title = "ポケモニットのアプリ集";
-    document.title = title;
-    document
-      .querySelector("meta[property='og:title']")
-      .setAttribute("content", title);
-  }
 };
 </script>

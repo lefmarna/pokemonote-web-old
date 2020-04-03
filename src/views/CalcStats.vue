@@ -532,9 +532,25 @@
 <script>
 export default {
   name: "CalcStats",
-  title: "ステータス計算機",
+  head: {
+    title() {
+      return {
+        inner: this.title,
+      }
+    },
+    meta() {
+      return [
+        { name: 'title', content: this.title },
+        { name: 'description', content: this.description },
+        { property: 'og:title', content: this.title },
+        { property: 'og:description', content: this.description },
+      ]
+    }
+  },
   data() {
     return {
+      title: 'ステータス計算機',
+      description: 'ポケモン剣盾に対応しているステータスの計算機です。個体値と努力値から実数値を求められるだけでなく、実数値から努力値の逆算にも対応しています。リアルタイムで計算が行われ、めざパや総合耐久も計算できるようになっています',
       name: "ガブリアス",
       pokemons: [],
       searchName: "",
@@ -789,21 +805,6 @@ export default {
       }
     }
     // エンターで次のマスいけるようにできるコマンドかけないかな？
-  },
-  mounted() {
-    const title = "ステータス計算機｜ポケモニットのアプリ集";
-    const description =
-      "ポケモン剣盾に対応しているステータスの計算機です。個体値と努力値から実数値を求められるだけでなく、実数値から努力値の逆算にも対応しています。リアルタイムで計算が行われ、めざパや総合耐久も計算できるようになっています";
-    document.title = title;
-    document
-      .querySelector("meta[property='og:title']")
-      .setAttribute("content", title);
-    document
-      .querySelector("meta[name='description']")
-      .setAttribute("content", description);
-    document
-      .querySelector("meta[property='og:description']")
-      .setAttribute("content", description);
   },
   // メソッドは重くなるので、努力値の逆算のみにしよう
   methods: {
