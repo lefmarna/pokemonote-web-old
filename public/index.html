@@ -1,17 +1,35 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-  <title>ポケモニットのアプリ集</title>
-</head>
-<body>
-  <noscript>
-    <strong>申し訳ありませんが、<%= htmlWebpackPlugin.options.title %>は、JavaScriptが有効になっていないと正しく機能しません。 続行するには有効にしてください。</strong>
-  </noscript>
-  <div id="app"></div>
-  <!-- built files will be auto injected -->
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <title>ポケモニットのアプリ集</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-147275438-3"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'UA-147275438-3');
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <strong
+        >申し訳ありませんが、<%= htmlWebpackPlugin.options.title
+        %>は、JavaScriptが有効になっていないと正しく機能しません。
+        続行するには有効にしてください。</strong
+      >
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
 </html>
