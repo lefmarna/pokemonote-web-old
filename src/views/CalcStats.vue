@@ -550,7 +550,6 @@
             <br />ポケモン剣盾（ソード・シールド）に対応しています。ピカブイには対応しておりません。
           </p>
         </div>
-        {{ pokemons[2].name }}
       </div>
     </div>
   </div>
@@ -585,7 +584,7 @@ export default {
       pokemons: Pokemon,
       searchName: "",
       lv: 50,
-      nature: "いじっぱり",
+      nature: "がんばりや",
       item: "持ち物なし",
       values: [
         { name: "ＨＰ", iv: 31, ev: 0, bs: 108, calc: "hp" },
