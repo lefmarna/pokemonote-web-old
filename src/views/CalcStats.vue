@@ -13,6 +13,17 @@
             autocomplete="on"
             v-focus
           />
+          <div id="pokemonlistArea" class="overflow-auto">
+            <ul id="SuggestList">
+              <li
+                v-for="pokemon in searchPokemons"
+                v-bind:key="pokemon.name"
+                v-on:mousedown="searchName = pokemon.name"
+              >
+                {{ pokemon.name }}
+              </li>
+            </ul>
+          </div>
           <div class="font-weight-bold text-info">ポケモン名：{{ name }}</div>
           <div class="font-weight-bold text-info">
             種族値：{{ values[0].bs }}-{{ values[1].bs }}-{{ values[2].bs }}-{{
@@ -539,12 +550,15 @@
             <br />ポケモン剣盾（ソード・シールド）に対応しています。ピカブイには対応しておりません。
           </p>
         </div>
+        {{ pokemons[2].name }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Pokemon from "@/components/pokemon_data.json";
+
 export default {
   name: "CalcStats",
   head: {
@@ -568,7 +582,7 @@ export default {
       description:
         "ポケモン剣盾に対応しているステータスの計算機です。個体値と努力値から実数値を求められるだけでなく、実数値から努力値の逆算にも対応しています。リアルタイムで計算が行われ、めざパや総合耐久も計算できるようになっています",
       name: "ガブリアス",
-      pokemons: [],
+      pokemons: Pokemon,
       searchName: "",
       lv: 50,
       nature: "いじっぱり",
@@ -709,6 +723,17 @@ export default {
           return [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
       }
     },
+    // ひらがなをカタカナに変換
+    checkName: function() {
+      return this.searchName.replace(/[ぁ-ん]/g, function(s) {
+        return String.fromCharCode(s.charCodeAt(0) + 0x60);
+      });
+    },
+    searchPokemons() {
+      return this.pokemons.filter(
+        value => value.name.indexOf(this.checkName) === 0
+      );
+    },
     totalStats() {
       return (
         this.hp +
@@ -831,6 +856,21 @@ export default {
     }
     // エンターで次のマスいけるようにできるコマンドかけないかな？
   },
+  watch: {
+    // 入力されたポケモンが存在するとき、各種情報を更新する
+    searchPokemons: function() {
+      const pokemon = this.pokemons.find(i => i.name === this.checkName);
+      if (pokemon !== undefined) {
+        this.name = pokemon.name;
+        this.values[0].bs = pokemon.stats.hp;
+        this.values[1].bs = pokemon.stats.attack;
+        this.values[2].bs = pokemon.stats.defence;
+        this.values[3].bs = pokemon.stats.spAttack;
+        this.values[4].bs = pokemon.stats.spDefence;
+        this.values[5].bs = pokemon.stats.speed;
+      }
+    }
+  },
   // メソッドは重くなるので、努力値の逆算のみにしよう
   methods: {
     hpCalc() {
@@ -888,3 +928,40 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+#pokemonlistArea {
+  display: none;
+  z-index: 10;
+}
+
+#selectName:focus + #pokemonlistArea {
+  position: absolute;
+  display: block;
+  overflow-y: scroll;
+  width: 230px;
+  height: 250px;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+#SuggestList:hover + #pokemonlistArea {
+  display: block;
+}
+
+#SuggestList li:hover {
+  background-color: #f2a2b7;
+}
+
+li {
+  font-size: 15px;
+  padding-left: 5px;
+  padding-bottom: 1px;
+  list-style: none;
+  background-color: #ffffff;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+</style>
