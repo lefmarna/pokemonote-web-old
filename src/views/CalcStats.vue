@@ -165,7 +165,7 @@
                     min="0"
                     max="999"
                     v-bind:value="hp"
-                    v-on:input="hpCalc()"
+                    v-on:change="hpCalc()"
                   />
                 </td>
               </tr>
@@ -226,7 +226,7 @@
                     min="0"
                     max="999"
                     v-bind:value="attack"
-                    v-on:input="statsCalc(1)"
+                    v-on:change="statsCalc(1)"
                   />
                 </td>
               </tr>
@@ -287,7 +287,7 @@
                     min="0"
                     max="999"
                     v-bind:value="defence"
-                    v-on:input="statsCalc(2)"
+                    v-on:change="statsCalc(2)"
                   />
                 </td>
               </tr>
@@ -348,7 +348,7 @@
                     min="0"
                     max="999"
                     v-bind:value="spAttack"
-                    v-on:input="statsCalc(3)"
+                    v-on:change="statsCalc(3)"
                   />
                 </td>
               </tr>
@@ -409,7 +409,7 @@
                     min="0"
                     max="999"
                     v-bind:value="spDefence"
-                    v-on:input="statsCalc(4)"
+                    v-on:change="statsCalc(4)"
                   />
                 </td>
               </tr>
@@ -470,7 +470,7 @@
                     min="0"
                     max="999"
                     v-bind:value="speed"
-                    v-on:input="statsCalc(5)"
+                    v-on:change="statsCalc(5)"
                   />
                 </td>
               </tr>
