@@ -543,14 +543,24 @@
             ></textarea>
             <button
               class="btn btn-outline-secondary btn-sm"
-              v-on:click="restore"
+              v-on:click="result(1)"
             >
               保存する
             </button>
           </div>
           <div class="card">
-            <textarea name="name" rows="5" cols="80"></textarea>
-            <button class="btn btn-outline-secondary btn-sm">保存する</button>
+            <textarea
+              name="name"
+              rows="5"
+              cols="80"
+              v-model="calcAreas"
+            ></textarea>
+            <button
+              class="btn btn-outline-secondary btn-sm"
+              v-on:click="result(2)"
+            >
+              保存する
+            </button>
           </div>
         </div>
         <div class="card px-2 pt-3">
@@ -601,6 +611,7 @@ export default {
       nature: "がんばりや",
       item: "持ち物なし",
       calcArea: "",
+      calcAreas: "",
       values: [
         { name: "ＨＰ", iv: 31, ev: 0, bs: 108, calc: "hp" },
         { name: "攻撃", iv: 31, ev: 0, bs: 130, calc: "attack" },
@@ -947,7 +958,7 @@ export default {
         this.values[i].ev = n;
       }
     },
-    restore() {
+    result(e) {
       let n = "";
       let v = "";
       if (this.values[0].ev == 0) {
@@ -986,14 +997,25 @@ export default {
         n = n + `${this.speed}(${this.values[5].ev})`;
         v = v + `S${this.values[5].ev}`;
       }
-      this.calcArea =
-        `${this.name} ${this.nature}\n` +
-        n +
-        `\n${this.hp}-${this.attack}-${this.defence}-${this.spAttack}-${this.spDefence}-${this.speed}\n` +
-        v +
-        `\n${this.physicalDurability + this.specialDurability}-${
-          this.physicalDurability
-        }-${this.specialDurability}`;
+      if (e == 1) {
+        this.calcArea =
+          `${this.name} ${this.nature}\n` +
+          n +
+          `\n${this.hp}-${this.attack}-${this.defence}-${this.spAttack}-${this.spDefence}-${this.speed}\n` +
+          v +
+          `\n${this.physicalDurability + this.specialDurability}-${
+            this.physicalDurability
+          }-${this.specialDurability}`;
+      } else {
+        this.calcAreas =
+          `${this.name} ${this.nature}\n` +
+          n +
+          `\n${this.hp}-${this.attack}-${this.defence}-${this.spAttack}-${this.spDefence}-${this.speed}\n` +
+          v +
+          `\n${this.physicalDurability + this.specialDurability}-${
+            this.physicalDurability
+          }-${this.specialDurability}`;
+      }
     }
   }
 };
