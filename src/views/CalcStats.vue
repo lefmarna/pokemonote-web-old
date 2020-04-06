@@ -478,21 +478,19 @@
           </table>
         </div>
       </div>
-      <div class="col-12 col-md-6">
-        <div class="d-flex">
-          <div class="card p-2 col-6">
-            <div>
-              <p>めざパ：{{ hiddenPower }}</p>
-              <p>総合耐久：{{ physicalDurability + specialDurability }}</p>
-              <p>
-                <span class="col-1"></span>
-                物理：{{ physicalDurability }}
-              </p>
-              <p>
-                <span class="col-1"></span>
-                特殊：{{ specialDurability }}
-              </p>
-            </div>
+      <div class="col-12 col-md-6 p-0">
+        <div class="d-flex border">
+          <div class="col-6 pt-2">
+            <p>めざパ：{{ hiddenPower }}</p>
+            <p>
+              総合耐久：{{ physicalDurability + specialDurability }} <br /><span
+                class="col-1"
+              ></span>
+              物理：{{ physicalDurability }} <br /><span class="col-1"></span>
+              特殊：{{ specialDurability }}
+            </p>
+          </div>
+          <div class="col-6 pt-2">
             <div class="form-check">
               <input
                 class="form-check-input"
@@ -534,25 +532,25 @@
               </label>
             </div>
           </div>
-          <div class="card p-1 col-6">
-            <div class="card">
-              <textarea
-                name="name"
-                rows="5"
-                cols="80"
-                v-model="calcArea"
-              ></textarea>
-              <button
-                class="btn btn-outline-secondary btn-sm"
-                v-on:click="restore"
-              >
-                保存する
-              </button>
-            </div>
-            <div class="card mt-2">
-              <textarea name="name" rows="5" cols="80"></textarea>
-              <button class="btn btn-outline-secondary btn-sm">保存する</button>
-            </div>
+        </div>
+        <div>
+          <div class="card">
+            <textarea
+              name="name"
+              rows="5"
+              cols="80"
+              v-model="calcArea"
+            ></textarea>
+            <button
+              class="btn btn-outline-secondary btn-sm"
+              v-on:click="restore"
+            >
+              保存する
+            </button>
+          </div>
+          <div class="card">
+            <textarea name="name" rows="5" cols="80"></textarea>
+            <button class="btn btn-outline-secondary btn-sm">保存する</button>
           </div>
         </div>
         <div class="card px-2 pt-3">
@@ -951,40 +949,51 @@ export default {
     },
     restore() {
       let n = "";
+      let v = "";
       if (this.values[0].ev == 0) {
         n = n + String(this.hp) + "-";
       } else {
         n = n + `${this.hp}(${this.values[0].ev})-`;
+        v = v + `H${this.values[0].ev} `;
       }
       if (this.values[1].ev == 0) {
         n = n + String(this.attack) + "-";
       } else {
         n = n + `${this.attack}(${this.values[1].ev})-`;
+        v = v + `A${this.values[1].ev} `;
       }
       if (this.values[2].ev == 0) {
         n = n + String(this.defence) + "-";
       } else {
         n = n + `${this.defence}(${this.values[2].ev})-`;
+        v = v + `B${this.values[2].ev} `;
       }
       if (this.values[3].ev == 0) {
         n = n + String(this.spAttack) + "-";
       } else {
         n = n + `${this.spAttack}(${this.values[3].ev})-`;
+        v = v + `C${this.values[3].ev} `;
       }
       if (this.values[4].ev == 0) {
         n = n + String(this.spDefence) + "-";
       } else {
         n = n + `${this.spDefence}(${this.values[4].ev})-`;
+        v = v + `D${this.values[4].ev} `;
       }
       if (this.values[5].ev == 0) {
         n = n + String(this.speed);
       } else {
         n = n + `${this.speed}(${this.values[5].ev})`;
+        v = v + `S${this.values[5].ev}`;
       }
       this.calcArea =
         `${this.name} ${this.nature}\n` +
         n +
-        `\n${this.hp}-${this.attack}-${this.defence}-${this.spAttack}-${this.spDefence}-${this.speed}`;
+        `\n${this.hp}-${this.attack}-${this.defence}-${this.spAttack}-${this.spDefence}-${this.speed}\n` +
+        v +
+        `\n${this.physicalDurability + this.specialDurability}-${
+          this.physicalDurability
+        }-${this.specialDurability}`;
     }
   }
 };
