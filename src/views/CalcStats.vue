@@ -536,8 +536,18 @@
           </div>
           <div class="card p-1 col-6">
             <div class="card">
-              <textarea name="name" rows="5" cols="80"></textarea>
-              <button class="btn btn-outline-secondary btn-sm">保存する</button>
+              <textarea
+                name="name"
+                rows="5"
+                cols="80"
+                v-model="calcArea"
+              ></textarea>
+              <button
+                class="btn btn-outline-secondary btn-sm"
+                v-on:click="restore"
+              >
+                保存する
+              </button>
             </div>
             <div class="card mt-2">
               <textarea name="name" rows="5" cols="80"></textarea>
@@ -592,6 +602,7 @@ export default {
       lv: 50,
       nature: "がんばりや",
       item: "持ち物なし",
+      calcArea: "",
       values: [
         { name: "ＨＰ", iv: 31, ev: 0, bs: 108, calc: "hp" },
         { name: "攻撃", iv: 31, ev: 0, bs: 130, calc: "attack" },
@@ -929,6 +940,43 @@ export default {
       } else {
         this.values[i].ev = n;
       }
+    },
+    restore() {
+      let n = "";
+      if (this.values[0].ev == 0) {
+        n = n + String(this.hp) + "-";
+      } else {
+        n = n + `${this.hp}(${this.values[0].ev})-`;
+      }
+      if (this.values[1].ev == 0) {
+        n = n + String(this.attack) + "-";
+      } else {
+        n = n + `${this.attack}(${this.values[1].ev})-`;
+      }
+      if (this.values[2].ev == 0) {
+        n = n + String(this.defence) + "-";
+      } else {
+        n = n + `${this.defence}(${this.values[2].ev})-`;
+      }
+      if (this.values[3].ev == 0) {
+        n = n + String(this.spAttack) + "-";
+      } else {
+        n = n + `${this.spAttack}(${this.values[3].ev})-`;
+      }
+      if (this.values[4].ev == 0) {
+        n = n + String(this.spDefence) + "-";
+      } else {
+        n = n + `${this.spDefence}(${this.values[4].ev})-`;
+      }
+      if (this.values[5].ev == 0) {
+        n = n + String(this.speed);
+      } else {
+        n = n + `${this.speed}(${this.values[5].ev})`;
+      }
+      this.calcArea =
+        `${this.name} ${this.nature}\n` +
+        n +
+        `\n${this.hp}-${this.attack}-${this.defence}-${this.spAttack}-${this.spDefence}-${this.speed}`;
     }
   }
 };
