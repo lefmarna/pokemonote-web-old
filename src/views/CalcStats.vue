@@ -562,10 +562,10 @@
 </template>
 
 <script>
-import Pokemon from '@/components/pokemon_data.json';
+import Pokemon from "@/components/pokemon_data.json";
 
 export default {
-  name: 'CalcStats',
+  name: "CalcStats",
   head: {
     title() {
       return {
@@ -574,31 +574,31 @@ export default {
     },
     meta() {
       return [
-        { name: 'title', content: this.title },
-        { name: 'description', content: this.description },
-        { property: 'og:title', content: this.title },
-        { property: 'og:description', content: this.description }
+        { name: "title", content: this.title },
+        { name: "description", content: this.description },
+        { property: "og:title", content: this.title },
+        { property: "og:description", content: this.description }
       ];
     }
   },
   data() {
     return {
-      title: 'ステータス計算機',
+      title: "ステータス計算機",
       description:
-        'ポケモン剣盾に対応しているステータスの計算機です。個体値と努力値から実数値を求められるだけでなく、実数値から努力値の逆算にも対応しています。リアルタイムで計算が行われ、めざパや総合耐久も計算できるようになっています',
-      name: 'ガブリアス',
+        "ポケモン剣盾に対応しているステータスの計算機です。個体値と努力値から実数値を求められるだけでなく、実数値から努力値の逆算にも対応しています。リアルタイムで計算が行われ、めざパや総合耐久も計算できるようになっています",
+      name: "ガブリアス",
       pokemons: Pokemon,
-      searchName: '',
+      searchName: "",
       lv: 50,
-      nature: 'がんばりや',
-      item: '持ち物なし',
+      nature: "がんばりや",
+      item: "持ち物なし",
       values: [
-        { name: 'ＨＰ', iv: 31, ev: 0, bs: 108, calc: 'hp' },
-        { name: '攻撃', iv: 31, ev: 0, bs: 130, calc: 'attack' },
-        { name: '防御', iv: 31, ev: 0, bs: 95, calc: 'defence' },
-        { name: '特攻', iv: 31, ev: 0, bs: 80, calc: 'spAttack' },
-        { name: '特防', iv: 31, ev: 0, bs: 85, calc: 'spDefence' },
-        { name: '素早', iv: 31, ev: 0, bs: 102, calc: 'speed' }
+        { name: "ＨＰ", iv: 31, ev: 0, bs: 108, calc: "hp" },
+        { name: "攻撃", iv: 31, ev: 0, bs: 130, calc: "attack" },
+        { name: "防御", iv: 31, ev: 0, bs: 95, calc: "defence" },
+        { name: "特攻", iv: 31, ev: 0, bs: 80, calc: "spAttack" },
+        { name: "特防", iv: 31, ev: 0, bs: 85, calc: "spDefence" },
+        { name: "素早", iv: 31, ev: 0, bs: 102, calc: "speed" }
       ]
     };
   },
@@ -684,45 +684,45 @@ export default {
     // 性格補正
     natureCalc() {
       switch (this.nature) {
-        case 'いじっぱり':
+        case "いじっぱり":
           return [1.0, 1.1, 1.0, 0.9, 1.0, 1.0];
-        case 'うっかりや':
+        case "うっかりや":
           return [1.0, 1.0, 1.0, 1.1, 0.9, 1.0];
-        case 'おくびょう':
+        case "おくびょう":
           return [1.0, 0.9, 1.0, 1.0, 1.0, 1.1];
-        case 'おだやか':
+        case "おだやか":
           return [1.0, 0.9, 1.0, 1.0, 1.1, 1.0];
-        case 'おっとり':
+        case "おっとり":
           return [1.0, 1.0, 0.9, 1.1, 1.0, 1.0];
-        case 'おとなしい':
+        case "おとなしい":
           return [1.0, 1.0, 0.9, 1.0, 1.1, 1.0];
-        case 'さみしがり':
+        case "さみしがり":
           return [1.0, 1.1, 0.9, 1.0, 1.0, 1.0];
-        case 'しんちょう':
+        case "しんちょう":
           return [1.0, 1.0, 1.0, 0.9, 1.1, 1.0];
-        case 'ずぶとい':
+        case "ずぶとい":
           return [1.0, 0.9, 1.1, 1.0, 1.0, 1.0];
-        case 'せっかち':
+        case "せっかち":
           return [1.0, 1.0, 0.9, 1.0, 1.0, 1.1];
-        case 'なまいき':
+        case "なまいき":
           return [1.0, 1.0, 1.0, 1.0, 1.1, 0.9];
-        case 'のうてんき':
+        case "のうてんき":
           return [1.0, 1.0, 1.1, 1.0, 0.9, 1.0];
-        case 'のんき':
+        case "のんき":
           return [1.0, 1.0, 1.1, 1.0, 1.0, 0.9];
-        case 'ひかえめ':
+        case "ひかえめ":
           return [1.0, 0.9, 1.0, 1.1, 1.0, 1.0];
-        case 'むじゃき':
+        case "むじゃき":
           return [1.0, 1.0, 1.0, 1.0, 0.9, 1.1];
-        case 'やんちゃ':
+        case "やんちゃ":
           return [1.0, 1.1, 1.0, 1.0, 0.9, 1.0];
-        case 'ゆうかん':
+        case "ゆうかん":
           return [1.0, 1.1, 1.0, 1.0, 1.0, 0.9];
-        case 'ようき':
+        case "ようき":
           return [1.0, 1.0, 1.0, 0.9, 1.0, 1.1];
-        case 'れいせい':
+        case "れいせい":
           return [1.0, 1.0, 1.0, 1.1, 1.0, 0.9];
-        case 'わんぱく':
+        case "わんぱく":
           return [1.0, 1.0, 1.1, 0.9, 1.0, 1.0];
         default:
           return [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
@@ -773,29 +773,29 @@ export default {
     // 個体値の合計が186より大きいとき、警告を出す
     totalIvCheck() {
       if (this.totalIv > 186) {
-        return 'text-danger';
+        return "text-danger";
       } else {
-        return '';
+        return "";
       }
     },
     // 努力値の合計が510より大きいとき、警告を出す
     totalEvCheck() {
       if (this.totalEv > 510) {
-        return 'text-danger';
+        return "text-danger";
       } else {
-        return '';
+        return "";
       }
     },
     // 耐久指数
     physicalDurability() {
-      if (this.item == 'しんかのきせき') {
+      if (this.item == "しんかのきせき") {
         return this.hp * Math.floor(this.defence * 1.5);
       } else {
         return this.hp * this.defence;
       }
     },
     specialDurability() {
-      if (this.item == 'しんかのきせき' || this.item == 'とつげきチョッキ') {
+      if (this.item == "しんかのきせき" || this.item == "とつげきチョッキ") {
         return this.hp * Math.floor(this.spDefence * 1.5);
       } else {
         return this.hp * this.spDefence;
@@ -818,37 +818,37 @@ export default {
       hiddenPowerCalc = Math.floor((hiddenPowerCalc * 15) / 63);
       switch (hiddenPowerCalc) {
         case 0:
-          return 'かくとう';
+          return "かくとう";
         case 1:
-          return 'ひこう';
+          return "ひこう";
         case 2:
-          return 'どく';
+          return "どく";
         case 3:
-          return 'じめん';
+          return "じめん";
         case 4:
-          return 'いわ';
+          return "いわ";
         case 5:
-          return 'むし';
+          return "むし";
         case 6:
-          return 'ゴースト';
+          return "ゴースト";
         case 7:
-          return 'はがね';
+          return "はがね";
         case 8:
-          return 'ほのお';
+          return "ほのお";
         case 9:
-          return 'みず';
+          return "みず";
         case 10:
-          return 'くさ';
+          return "くさ";
         case 11:
-          return 'でんき';
+          return "でんき";
         case 12:
-          return 'エスパー';
+          return "エスパー";
         case 13:
-          return 'こおり';
+          return "こおり";
         case 14:
-          return 'ドラゴン';
+          return "ドラゴン";
         default:
-          return 'あく';
+          return "あく";
       }
     }
   },
