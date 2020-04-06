@@ -887,9 +887,13 @@ export default {
       }
     }
   },
-  // メソッドは重くなるので、努力値の逆算のみにしよう
+  // メソッドは重くなるので、あまり使わないようにしよう
   methods: {
     hpCalc() {
+      const pattern = /^[-]?([1-9]\d*|0)(\.\d+)?$/;
+      if (!pattern.test(this.values[0].iv)) {
+        this.values[0].iv = 0;
+      }
       const n =
         (Math.ceil(
           ((Number(event.target.value) - this.lv - 10) * 100) / this.lv
@@ -905,6 +909,10 @@ export default {
     },
     statsCalc(i) {
       let n = Number(event.target.value);
+      const pattern = /^[-]?([1-9]\d*|0)(\.\d+)?$/;
+      if (!pattern.test(this.values[i].iv)) {
+        this.values[i].iv = 0;
+      }
       if (n % 11 === 10 && this.natureCalc[i] === 1.1) {
         if (
           n >=
