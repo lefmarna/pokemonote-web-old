@@ -612,6 +612,7 @@ export default {
       item: "持ち物なし",
       calcArea: "",
       calcAreas: "",
+      regex: /^[-]?([1-9]\d*|0)(\.\d+)?$/,
       values: [
         { name: "ＨＰ", iv: 31, ev: 0, bs: 108, calc: "hp" },
         { name: "攻撃", iv: 31, ev: 0, bs: 130, calc: "attack" },
@@ -770,25 +771,23 @@ export default {
       );
     },
     totalIv() {
-      return (
-        this.values[0].iv +
-        this.values[1].iv +
-        this.values[2].iv +
-        this.values[3].iv +
-        this.values[4].iv +
-        this.values[5].iv
-      );
+      let n = 0;
+      for (let i = 0, len = this.values.length; i < len; i++) {
+        if (this.regex.test(this.values[i].iv)) {
+          n += this.values[i].iv;
+        }
+      }
+      return n;
     },
     // 努力値の合計を計算
     totalEv() {
-      return (
-        this.values[0].ev +
-        this.values[1].ev +
-        this.values[2].ev +
-        this.values[3].ev +
-        this.values[4].ev +
-        this.values[5].ev
-      );
+      let n = 0;
+      for (let i = 0, len = this.values.length; i < len; i++) {
+        if (this.regex.test(this.values[i].ev)) {
+          n += this.values[i].ev;
+        }
+      }
+      return n;
     },
     // 個体値の合計が186より大きいとき、警告を出す
     totalIvCheck() {
@@ -899,8 +898,7 @@ export default {
   // メソッドは重くなるので、あまり使わないようにしよう
   methods: {
     hpCalc() {
-      const pattern = /^[-]?([1-9]\d*|0)(\.\d+)?$/;
-      if (!pattern.test(this.values[0].iv)) {
+      if (!this.regex.test(this.values[0].iv)) {
         this.values[0].iv = 0;
       }
       const n =
@@ -918,8 +916,7 @@ export default {
     },
     statsCalc(i) {
       let n = Number(event.target.value);
-      const pattern = /^[-]?([1-9]\d*|0)(\.\d+)?$/;
-      if (!pattern.test(this.values[i].iv)) {
+      if (!this.regex.test(this.values[i].iv)) {
         this.values[i].iv = 0;
       }
       if (n % 11 === 10 && this.natureCalc[i] === 1.1) {
