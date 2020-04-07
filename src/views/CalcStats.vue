@@ -625,11 +625,13 @@ export default {
   },
   computed: {
     hp() {
+      let iv = this.values[0].iv;
+      if (!this.regex.test(iv)) {
+        iv = 0;
+      }
       return (
         Math.floor(
-          ((this.values[0].bs * 2 +
-            this.values[0].iv +
-            Math.floor(this.values[0].ev / 4)) *
+          ((this.values[0].bs * 2 + iv + Math.floor(this.values[0].ev / 4)) *
             this.lv) /
             100
         ) +
@@ -638,11 +640,13 @@ export default {
       );
     },
     attack() {
+      let iv = this.values[1].iv;
+      if (!this.regex.test(iv)) {
+        iv = 0;
+      }
       return Math.floor(
         (Math.floor(
-          ((this.values[1].bs * 2 +
-            this.values[1].iv +
-            Math.floor(this.values[1].ev / 4)) *
+          ((this.values[1].bs * 2 + iv + Math.floor(this.values[1].ev / 4)) *
             this.lv) /
             100
         ) +
@@ -651,11 +655,13 @@ export default {
       );
     },
     defence() {
+      let iv = this.values[2].iv;
+      if (!this.regex.test(iv)) {
+        iv = 0;
+      }
       return Math.floor(
         (Math.floor(
-          ((this.values[2].bs * 2 +
-            this.values[2].iv +
-            Math.floor(this.values[2].ev / 4)) *
+          ((this.values[2].bs * 2 + iv + Math.floor(this.values[2].ev / 4)) *
             this.lv) /
             100
         ) +
@@ -664,11 +670,13 @@ export default {
       );
     },
     spAttack() {
+      let iv = this.values[3].iv;
+      if (!this.regex.test(iv)) {
+        iv = 0;
+      }
       return Math.floor(
         (Math.floor(
-          ((this.values[3].bs * 2 +
-            this.values[3].iv +
-            Math.floor(this.values[3].ev / 4)) *
+          ((this.values[3].bs * 2 + iv + Math.floor(this.values[3].ev / 4)) *
             this.lv) /
             100
         ) +
@@ -677,11 +685,13 @@ export default {
       );
     },
     spDefence() {
+      let iv = this.values[4].iv;
+      if (!this.regex.test(iv)) {
+        iv = 0;
+      }
       return Math.floor(
         (Math.floor(
-          ((this.values[4].bs * 2 +
-            this.values[4].iv +
-            Math.floor(this.values[4].ev / 4)) *
+          ((this.values[4].bs * 2 + iv + Math.floor(this.values[4].ev / 4)) *
             this.lv) /
             100
         ) +
@@ -690,11 +700,13 @@ export default {
       );
     },
     speed() {
+      let iv = this.values[5].iv;
+      if (!this.regex.test(iv)) {
+        iv = 0;
+      }
       return Math.floor(
         (Math.floor(
-          ((this.values[5].bs * 2 +
-            this.values[5].iv +
-            Math.floor(this.values[5].ev / 4)) *
+          ((this.values[5].bs * 2 + iv + Math.floor(this.values[5].ev / 4)) *
             this.lv) /
             100
         ) +
