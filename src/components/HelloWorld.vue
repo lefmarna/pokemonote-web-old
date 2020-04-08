@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <h1 class="mt-3">{{ msg }}</h1>
+    <router-link to="/privacy-policy">利用規約</router-link>
     <h3>フォローする</h3>
     <ul>
       <li>

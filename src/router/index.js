@@ -12,12 +12,17 @@ const routes = [
   },
   {
     path: "/calc-stats",
-    name: "CalcStats",
+    name: "ステータス計算機",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "calc-stats" */ "../views/CalcStats.vue")
+  },
+  {
+    path: "/privacy-policy",
+    name: "利用規約",
+    component: () => import("../views/privacyPolicy")
   }
 ];
 
