@@ -1,30 +1,29 @@
 <template>
-  <div>
-    <!-- wp:quote -->
+  <div class="container">
     <p>
       本利用規約は、<a href="https://pokemonit.com">ポケモニット</a
       >（以下、「当サイト」とします。)の各種サービス（当サイトによる情報提供、各種お問合せの受付等）において、当サイトの訪問者（以下、「訪問者」とします。）の個人情報もしくはそれに準ずる情報を取り扱う際に、当サイトが遵守する方針を示したものです。
     </p>
-    <h2 lang="ja-JP"><strong>基本方針</strong></h2>
-    <p lang="ja-JP">
+    <h2><strong>基本方針</strong></h2>
+    <p>
       当サイトは、個人情報の重要性を認識し、個人情報を保護することが社会的責務であると考え、個人情報に関する法令を遵守し、当サイトで取扱う個人情報の取得、利用、管理を適正に行います。当サイトで収集した情報は、利用目的の範囲内で適切に取り扱います。
     </p>
-    <h2 lang="ja-JP"><strong>適用範囲</strong></h2>
-    <p lang="ja-JP">
+    <h2><strong>適用範囲</strong></h2>
+    <p>
       本利用規約は、当サイトにおいてのみ適用されます。
     </p>
-    <h2 lang="ja-JP"><strong>個人情報の取得と利用目的</strong></h2>
-    <p lang="ja-JP">
+    <h2><strong>個人情報の取得と利用目的</strong></h2>
+    <p>
       当サイトで取得する訪問者の個人情報と利用目的、保存期間等は下記の通りです。
     </p>
-    <h3><strong>お問合せされた個人情報を取得します</strong></h3>
+    <h3><strong>お問い合わせされた個人情報を取得します</strong></h3>
     <p>
       当サイトでは<a href="https://pokemonit.com/otoiawase/"
         >お問い合わせフォーム</a
       >を設けています。
     </p>
     <p>
-      訪問者がそのお問い合わせフォームから問い合わせをされた際に入力された、以下の個人情報を取得します。
+      訪問者がお問い合わせフォームから問い合わせをされた際に入力された、以下の個人情報を取得します。
     </p>
     <ul>
       <li>お問い合わせフォームに入力された名前（HN）</li>
@@ -110,11 +109,11 @@
       >にてお問い合わせください。
     </p>
     <h2><strong>個人情報の第三者への提供について</strong></h2>
-    <p lang="ja-JP">
+    <p>
       当サイトは、訪問者からご提供いただいた個人情報を、訪問者本人の同意を得ることなく第三者に提供することはありません。また、今後第三者提供を行うことになった場合には、提供する情報と提供目的などを提示し、訪問者から同意を得た場合のみ第三者提供を行います。
     </p>
-    <h2 lang="ja-JP"><strong>未成年の個人情報について</strong></h2>
-    <p lang="ja-JP">
+    <h2><strong>未成年の個人情報について</strong></h2>
+    <p>
       未成年者が当サイトにコメントをしたり、お問い合わせフォームから問い合わせをされたりする場合は必ず親権者の同意を得るものとし、コメントやお問い合わせをされた時点で、当利用規約に対して親権者の同意があるものとみなします。
     </p>
     <h2><strong>アクセス解析ツールについて</strong></h2>
@@ -176,13 +175,6 @@
         >ここをクリック</a
       >してください。
     </p>
-    <h2><strong>Amazonの広告配信について</strong></h2>
-    <p>
-      ポケモニットは、Amazon.co.jpを宣伝しリンクすることによってサイトが紹介料を獲得できる手段を提供することを目的に設定されたアフィリエイトプログラムである、Amazonアソシエイト・プログラムの参加者です。
-    </p>
-    <p>
-      第三者（Amazonや他の広告掲載者）がコンテンツおよび宣伝を提供し、訪問者から直接情報を収集し、訪問者のブラウザにCookieを設定したり、認識したりする場合があります。
-    </p>
     <h2>利用規約の変更について</h2>
     <p>
       当サイトは、個人情報に関して適用される日本の法令を遵守するとともに、本利用規約の内容を適宜見直しその改善に努めます。修正された最新の利用規約は常に本ページにて開示されます。
@@ -230,10 +222,38 @@
 </template>
 
 <style scoped>
-  h2 {
-    background-color: gray;
-  }
-  h3 {
-    background-color: lightgray;
-  }
+ul {
+  background-color: #f2f2f2;
+  box-shadow: 0px 0px 0px 5px #f2f2f2;
+  border: 1px dashed #191919;
+  padding: 20px;
+  box-sizing: inherit;
+  margin-top: 20px;
+}
+
+li {
+  margin: 6px 20px;
+}
+
+h2,
+h3,
+h4 {
+  padding: 20px;
+  box-sizing: inherit;
+  display: block;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  font-weight: bold;
+}
+h2 {
+  border-radius: 6px;
+  color: #ffffff;
+  background-color: #1e73be;
+}
+
+h3 {
+  color: #191919;
+  border-left: solid 4px #1e73be;
+  border-bottom: solid 1px #d8d8d8;
+}
 </style>

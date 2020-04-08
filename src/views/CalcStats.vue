@@ -1041,8 +1041,7 @@ export default {
   display: block;
   overflow-y: scroll;
   width: 230px;
-  height: 250px;
-  background-color: rgba(255, 255, 255, 0);
+  max-height: 250px;
 }
 
 #SuggestList:hover + #pokemonlistArea {
