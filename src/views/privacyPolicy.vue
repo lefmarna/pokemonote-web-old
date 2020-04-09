@@ -1,7 +1,8 @@
 <template>
-  <div class="container">
+  <div class="container mb-5">
+    <h1 class="text-center">利用規約</h1>
     <p>
-      本利用規約は、<a href="https://pokemonit.com">ポケモニット</a
+      本利用規約は、<a href="https://app.pokemonit.com">ポケモニット</a
       >（以下、「当サイト」とします。)の各種サービス（当サイトによる情報提供、各種お問合せの受付等）において、当サイトの訪問者（以下、「訪問者」とします。）の個人情報もしくはそれに準ずる情報を取り扱う際に、当サイトが遵守する方針を示したものです。
     </p>
     <h2><strong>基本方針</strong></h2>
@@ -18,7 +19,10 @@
     </p>
     <h3><strong>お問い合わせされた個人情報を取得します</strong></h3>
     <p>
-      当サイトでは<a href="https://pokemonit.com/otoiawase/"
+      当サイトでは<a
+        href="https://pokemonit.com/otoiawase/"
+        target="_blank"
+        rel="noopener noreferrer"
         >お問い合わせフォーム</a
       >を設けています。
     </p>
@@ -35,7 +39,7 @@
       お問い合わせ対応をするためと、訪問者の管理のためです。訪問者からのお問い合わせ情報を保存しておくことによって、同じ訪問者が別のお問い合わせをした際に、過去の問い合わせ内容を踏まえた対応をすることが出来、より的確な対応をすることが出来ます。
     </p>
     <p>
-      また、当サイト内で「このようなお問合せがありました」と紹介させていただく場合もあります。
+      また、当サイト内で「このようなお問い合わせがありました」と紹介させていただく場合もあります。
     </p>
     <h4><strong>保存期間について</strong></h4>
     <p>お問い合わせフォームに入力された個人情報は、3年間保存します。</p>
@@ -104,7 +108,10 @@
       訪問者ご本人からの個人情報の開示、訂正、追加、削除、利用停止のご希望の場合には、ご本人であることを確認させていただいた上、速やかに対応させていただきます。
     </p>
     <p>
-      上記を希望される場合は、<a href="https://pokemonit.com/otoiawase/"
+      上記を希望される場合は、<a
+        href="https://pokemonit.com/otoiawase/"
+        target="_blank"
+        rel="noopener noreferrer"
         >お問い合わせフォーム</a
       >にてお問い合わせください。
     </p>
@@ -181,20 +188,6 @@
     </p>
     <h2><strong>免責事項</strong></h2>
     <p>当サイトにおける免責事項は、下記の通りです。</p>
-    <h3>コメントについて</h3>
-    <p>
-      次の各号に掲げる内容を含むコメントは、当サイト管理人の裁量によって承認せず、削除する事があります。
-    </p>
-    <ul>
-      <li>特定の自然人または法人を誹謗し、中傷するもの</li>
-      <li>極度にわいせつな内容を含むもの</li>
-      <li>
-        禁制品の取引に関するものや、他者を害する行為の依頼など、法律によって禁止されている物品、行為の依頼や斡旋などに関するもの
-      </li>
-      <li>
-        その他、公序良俗に反し、または管理人によって承認すべきでないと認められるもの
-      </li>
-    </ul>
     <h3>当サイトの情報の正確性について</h3>
     <p>
       当サイトのコンテンツや情報において、可能な限り正確な情報を掲載するよう努めています。しかし、誤情報が入り込んだり、情報が古くなったりすることもあります。必ずしも正確性を保証するものではありません。また合法性や安全性なども保証しません。
@@ -235,16 +228,6 @@ li {
   margin: 6px 20px;
 }
 
-h2,
-h3,
-h4 {
-  padding: 20px;
-  box-sizing: inherit;
-  display: block;
-  margin-block-start: 0.83em;
-  margin-block-end: 0.83em;
-  font-weight: bold;
-}
 h2 {
   border-radius: 6px;
   color: #ffffff;
@@ -255,5 +238,39 @@ h3 {
   color: #191919;
   border-left: solid 4px #1e73be;
   border-bottom: solid 1px #d8d8d8;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  padding: 20px;
+  box-sizing: inherit;
+  display: block;
+  margin-block-start: 1.1em;
+  margin-block-end: 0.7em;
+  font-weight: bold;
+}
+
+h4 {
+  position: relative;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+h4::after {
+  background: repeating-linear-gradient(
+    -45deg,
+    #1e73be,
+    #1e73be 2px,
+    #d8d8d8 2px,
+    #d8d8d8 4px
+  );
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 6px;
 }
 </style>

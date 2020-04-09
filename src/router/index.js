@@ -23,6 +23,10 @@ const routes = [
     path: "/privacy-policy",
     name: "利用規約",
     component: () => import("../views/privacyPolicy")
+  },
+  {
+    path: "/sitemap.xml",
+    name: "XMLサイトマップ"
   }
 ];
 
