@@ -3,7 +3,7 @@
     <h1 class="text-center">利用規約</h1>
     <p>
       本利用規約は、<a href="https://app.pokemonit.com">ポケモニット</a
-      >（以下、「当サイト」とします。)の各種サービス（当サイトによる情報提供、各種お問合せの受付等）において、当サイトの訪問者（以下、「訪問者」とします。）の個人情報もしくはそれに準ずる情報を取り扱う際に、当サイトが遵守する方針を示したものです。
+      >（以下、「当サイト」とします。)の各種サービス（当サイトによる情報提供、各種お問い合わせの受付等）において、当サイトの訪問者（以下、「訪問者」とします。）の個人情報もしくはそれに準ずる情報を取り扱う際に、当サイトが遵守する方針を示したものです。
     </p>
     <h2><strong>基本方針</strong></h2>
     <p>
@@ -214,12 +214,37 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: "privacyPolicy",
+  head: {
+    title() {
+      return {
+        inner: this.title
+      };
+    },
+    meta() {
+      return [
+        { name: "title", content: this.title },
+        { property: "og:title", content: this.title },
+        { name: "robots", content: "noindex, nofollow" }
+      ];
+    }
+  },
+  data() {
+    return {
+      title: "利用規約"
+    };
+  }
+};
+</script>
+
 <style scoped>
 ul {
   background-color: #f2f2f2;
   box-shadow: 0px 0px 0px 5px #f2f2f2;
   border: 1px dashed #191919;
-  padding: 20px;
+  padding: 20px 5px 20px 20px;
   box-sizing: inherit;
   margin-top: 20px;
 }
