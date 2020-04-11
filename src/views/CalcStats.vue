@@ -610,6 +610,7 @@ export default {
       lv: 50,
       nature: "がんばりや",
       item: "持ち物なし",
+      evolution: "",
       calcArea: "",
       calcAreas: "",
       regex: /^[-]?([1-9]\d*|0)(\.\d+)?$/,
@@ -762,7 +763,7 @@ export default {
       }
     },
     // ひらがなをカタカナに変換
-    checkName: function() {
+    checkName() {
       return this.searchName.replace(/[ぁ-ん]/g, function(s) {
         return String.fromCharCode(s.charCodeAt(0) + 0x60);
       });
@@ -819,14 +820,17 @@ export default {
     },
     // 耐久指数
     physicalDurability() {
-      if (this.item == "しんかのきせき") {
+      if (this.item == "しんかのきせき" && this.evolution.length) {
         return this.hp * Math.floor(this.defence * 1.5);
       } else {
         return this.hp * this.defence;
       }
     },
     specialDurability() {
-      if (this.item == "しんかのきせき" || this.item == "とつげきチョッキ") {
+      if (
+        (this.item == "しんかのきせき" && this.evolution.length) ||
+        this.item == "とつげきチョッキ"
+      ) {
         return this.hp * Math.floor(this.spDefence * 1.5);
       } else {
         return this.hp * this.spDefence;
@@ -895,9 +899,10 @@ export default {
   watch: {
     // 入力されたポケモンが存在するとき、各種情報を更新する
     searchPokemons: function() {
-      const pokemon = this.pokemons.find(i => i.name === this.checkName);
+      const pokemon = this.pokemons.find(i => i.name === this.searchName);
       if (pokemon !== undefined) {
         this.name = pokemon.name;
+        this.evolution = pokemon.evolutions;
         this.values[0].bs = pokemon.stats.hp;
         this.values[1].bs = pokemon.stats.attack;
         this.values[2].bs = pokemon.stats.defence;
