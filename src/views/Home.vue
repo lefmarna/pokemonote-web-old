@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="ようこそ！ポケモニットのアプリ集へ！" />
+    <HelloWorld msg="ポケモニット アプリ" />
   </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
     meta() {
       return [
         { name: "description", content: this.description },
-        { property: "og:title", content: "ポケモニットのアプリ集" },
+        { property: "og:title", content: "ポケモニット アプリ" },
         { property: "og:description", content: this.description }
       ];
     }

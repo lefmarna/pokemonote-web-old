@@ -2,7 +2,7 @@
   <div class="container mb-5">
     <h1 class="text-center">利用規約</h1>
     <p>
-      本利用規約は、<a href="https://app.pokemonit.com">ポケモニット</a
+      本利用規約は、<a href="https://app.pokemonit.com">ポケモニット アプリ</a
       >（以下、「当サイト」とします。)の各種サービス（当サイトによる情報提供、各種お問い合わせの受付等）において、当サイトの訪問者（以下、「訪問者」とします。）の個人情報もしくはそれに準ずる情報を取り扱う際に、当サイトが遵守する方針を示したものです。
     </p>
     <h2><strong>基本方針</strong></h2>

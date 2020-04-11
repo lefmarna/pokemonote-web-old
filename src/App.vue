@@ -16,7 +16,7 @@ export default {
   head: {
     meta() {
       return [
-        { property: "og:site_name", content: "ポケモニットのアプリ集" },
+        { property: "og:site_name", content: "ポケモニット アプリ" },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:site", content: "@lefmarna" },
