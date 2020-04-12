@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="row d-flex justify-content-between">
+    <div class="row d-flex">
       <div class="card p-0 mb-2 col-12 col-md-6">
         <div id="card-header" class="card-header py-3">
           <input
@@ -14,8 +14,12 @@
             v-focus
           />
           <div id="pokemonlistArea" class="overflow-auto">
-            <ul id="SuggestList">
+            <ul
+              id="SuggestList"
+              class="list-unstyled bg-white list-group-flush"
+            >
               <li
+                class="list-group-item"
                 v-for="pokemon in searchPokemons"
                 v-bind:key="pokemon.name"
                 v-on:mousedown="searchName = pokemon.name"
@@ -1045,28 +1049,26 @@ export default {
   position: absolute;
   display: block;
   overflow-y: scroll;
-  width: 230px;
   max-height: 250px;
 }
 
-#SuggestList:hover + #pokemonlistArea {
-  display: block;
-}
-
-#SuggestList li:hover {
-  background-color: #f2a2b7;
-}
-
-li {
-  font-size: 15px;
-  padding-left: 5px;
-  padding-bottom: 1px;
-  list-style: none;
-  background-color: #ffffff;
-}
-
-ul {
-  padding: 0;
-  margin: 0;
+#SuggestList {
+  &:hover + #pokemonlistArea {
+    display: block;
+  }
+  li:hover {
+    background-color: #f2a2b7;
+    color: white;
+  }
+  li:nth-child(1) {
+    background-color: lightblue;
+    color: white;
+  }
+  li:after {
+    content: ">";
+    position: absolute;
+    top: 25%;
+    right: 10px;
+  }
 }
 </style>
