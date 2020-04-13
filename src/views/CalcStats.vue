@@ -113,14 +113,18 @@
               </tr>
             </tfoot>
             <tbody>
-              <tr
-                align="center"
-                v-bind:class="{
-                  'table-danger': natureCalc[0] == 1.1,
-                  'table-primary': natureCalc[0] == 0.9
-                }"
-              >
-                <td class="align-middle">HP</td>
+              <tr align="center">
+                <td
+                  v-bind:class="[
+                    'align-middle',
+                    {
+                      'text-danger': natureCalc[0] == 1.1,
+                      'text-primary': natureCalc[0] == 0.9
+                    }
+                  ]"
+                >
+                  HP
+                </td>
                 <td class="align-middle text-right">
                   <input
                     type="number"
@@ -180,14 +184,18 @@
                   />
                 </td>
               </tr>
-              <tr
-                align="center"
-                v-bind:class="{
-                  'table-danger': natureCalc[1] == 1.1,
-                  'table-primary': natureCalc[1] == 0.9
-                }"
-              >
-                <td class="align-middle">攻撃</td>
+              <tr align="center">
+                <td
+                  v-bind:class="[
+                    'align-middle',
+                    {
+                      'text-danger': natureCalc[1] == 1.1,
+                      'text-primary': natureCalc[1] == 0.9
+                    }
+                  ]"
+                >
+                  攻撃
+                </td>
                 <td class="align-middle text-right">
                   <input
                     type="number"
@@ -247,14 +255,18 @@
                   />
                 </td>
               </tr>
-              <tr
-                align="center"
-                v-bind:class="{
-                  'table-danger': natureCalc[2] == 1.1,
-                  'table-primary': natureCalc[2] == 0.9
-                }"
-              >
-                <td class="align-middle">防御</td>
+              <tr align="center">
+                <td
+                  v-bind:class="[
+                    'align-middle',
+                    {
+                      'text-danger': natureCalc[2] == 1.1,
+                      'text-primary': natureCalc[2] == 0.9
+                    }
+                  ]"
+                >
+                  防御
+                </td>
                 <td class="align-middle text-right">
                   <input
                     type="number"
@@ -314,14 +326,18 @@
                   />
                 </td>
               </tr>
-              <tr
-                align="center"
-                v-bind:class="{
-                  'table-danger': natureCalc[3] == 1.1,
-                  'table-primary': natureCalc[3] == 0.9
-                }"
-              >
-                <td class="align-middle">特攻</td>
+              <tr align="center">
+                <td
+                  v-bind:class="[
+                    'align-middle',
+                    {
+                      'text-danger': natureCalc[3] == 1.1,
+                      'text-primary': natureCalc[3] == 0.9
+                    }
+                  ]"
+                >
+                  特攻
+                </td>
                 <td class="align-middle text-right">
                   <input
                     type="number"
@@ -381,14 +397,18 @@
                   />
                 </td>
               </tr>
-              <tr
-                align="center"
-                v-bind:class="{
-                  'table-danger': natureCalc[4] == 1.1,
-                  'table-primary': natureCalc[4] == 0.9
-                }"
-              >
-                <td class="align-middle">特防</td>
+              <tr align="center">
+                <td
+                  v-bind:class="[
+                    'align-middle',
+                    {
+                      'text-danger': natureCalc[4] == 1.1,
+                      'text-primary': natureCalc[4] == 0.9
+                    }
+                  ]"
+                >
+                  特防
+                </td>
                 <td class="align-middle text-right">
                   <input
                     type="number"
@@ -448,14 +468,18 @@
                   />
                 </td>
               </tr>
-              <tr
-                align="center"
-                v-bind:class="{
-                  'table-danger': natureCalc[5] == 1.1,
-                  'table-primary': natureCalc[5] == 0.9
-                }"
-              >
-                <td class="align-middle">素早</td>
+              <tr align="center">
+                <td
+                  v-bind:class="[
+                    'align-middle',
+                    {
+                      'text-danger': natureCalc[5] == 1.1,
+                      'text-primary': natureCalc[5] == 0.9
+                    }
+                  ]"
+                >
+                  素早
+                </td>
                 <td class="align-middle text-right">
                   <input
                     type="number"
