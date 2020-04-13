@@ -10,6 +10,7 @@
             placeholder="ここにポケモン名を入力してください"
             v-bind:value="searchName"
             v-on:input="searchName = $event.target.value"
+            @change="enterName"
             autocomplete="on"
             v-focus
           />
@@ -974,6 +975,14 @@ export default {
         this.values[i].ev = 0;
       } else {
         this.values[i].ev = n;
+      }
+    },
+    enterName() {
+      if (this.searchName.length >= 1) {
+        let psss = this.pokemons.filter(
+          value => value.name.indexOf(this.checkName) === 0
+        );
+        this.searchName = psss[0].name;
       }
     },
     result(e) {
