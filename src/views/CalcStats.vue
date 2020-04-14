@@ -17,7 +17,7 @@
           <div id="pokemonlistArea" class="overflow-auto">
             <ul
               id="SuggestList"
-              class="list-unstyled bg-white list-group-flush"
+              class="list-unstyled bg-white list-group list-group-flush"
             >
               <li
                 class="list-group-item"
@@ -1134,7 +1134,7 @@ export default {
     color: white;
   }
   li:after {
-    content: ">";
+    content: "▶";
     position: absolute;
     top: 25%;
     right: 10px;
