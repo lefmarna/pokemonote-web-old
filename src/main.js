@@ -13,6 +13,10 @@ Vue.use(VueHead, {
   separator: "|"
 });
 
+import VueAdsense from "vue-adsense";
+// Google Adsense 用
+Vue.component("adsense", VueAdsense);
+
 Vue.config.productionTip = false;
 
 new Vue({

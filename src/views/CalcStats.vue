@@ -641,6 +641,13 @@
         </div>
       </div>
     </div>
+    <adsense
+      ad-client="ca-pub-3240586325286249"
+      ad-slot="3353369882"
+      ad-style="display:block"
+      ad-format="auto"
+    >
+    </adsense>
   </div>
 </template>
 
