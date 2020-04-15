@@ -598,36 +598,8 @@
             </div>
           </div>
         </div>
-        <div>
-          <div class="card">
-            <textarea
-              name="name"
-              rows="5"
-              cols="80"
-              v-model="calcArea"
-            ></textarea>
-            <button
-              class="btn btn-outline-secondary btn-sm"
-              v-on:click="result(1)"
-            >
-              保存する
-            </button>
-          </div>
-          <div class="card">
-            <textarea
-              name="name"
-              rows="5"
-              cols="80"
-              v-model="calcAreas"
-            ></textarea>
-            <button
-              class="btn btn-outline-secondary btn-sm"
-              v-on:click="result(2)"
-            >
-              保存する
-            </button>
-          </div>
-        </div>
+        <result></result>
+        <result></result>
         <div class="card px-2 pt-3">
           <p>使い方</p>
           <p>
@@ -653,6 +625,7 @@
 
 <script>
 import Pokemon from "@/components/pokemon_data.json";
+import result from "@/components/result.vue";
 
 export default {
   name: "CalcStats",
@@ -671,6 +644,9 @@ export default {
       ];
     }
   },
+  components: {
+    result
+  },
   data() {
     return {
       title: "ステータス計算機",
@@ -683,16 +659,49 @@ export default {
       nature: "がんばりや",
       item: "持ち物なし",
       evolution: "",
-      calcArea: "",
-      calcAreas: "",
       regex: /^[-]?([1-9]\d*|0)(\.\d+)?$/,
       values: [
-        { name: "ＨＰ", iv: 31, ev: 0, bs: 108, calc: "hp" },
-        { name: "攻撃", iv: 31, ev: 0, bs: 130, calc: "attack" },
-        { name: "防御", iv: 31, ev: 0, bs: 95, calc: "defence" },
-        { name: "特攻", iv: 31, ev: 0, bs: 80, calc: "spAttack" },
-        { name: "特防", iv: 31, ev: 0, bs: 85, calc: "spDefence" },
-        { name: "素早", iv: 31, ev: 0, bs: 102, calc: "speed" }
+        { name: "ＨＰ", iv: 31, ev: 0, bs: 108, calc: "hp", abbreviation: "H" },
+        {
+          name: "攻撃",
+          iv: 31,
+          ev: 0,
+          bs: 130,
+          calc: "attack",
+          abbreviation: "A"
+        },
+        {
+          name: "防御",
+          iv: 31,
+          ev: 0,
+          bs: 95,
+          calc: "defence",
+          abbreviation: "B"
+        },
+        {
+          name: "特攻",
+          iv: 31,
+          ev: 0,
+          bs: 80,
+          calc: "spAttack",
+          abbreviation: "C"
+        },
+        {
+          name: "特防",
+          iv: 31,
+          ev: 0,
+          bs: 85,
+          calc: "spDefence",
+          abbreviation: "D"
+        },
+        {
+          name: "素早",
+          iv: 31,
+          ev: 0,
+          bs: 102,
+          calc: "speed",
+          abbreviation: "S"
+        }
       ]
     };
   },
@@ -1050,65 +1059,6 @@ export default {
           value => value.name.indexOf(this.checkName) === 0
         );
         this.searchName = psss[0].name;
-      }
-    },
-    result(e) {
-      let n = "";
-      let v = "";
-      if (this.values[0].ev == 0) {
-        n = n + String(this.hp) + "-";
-      } else {
-        n = n + `${this.hp}(${this.values[0].ev})-`;
-        v = v + `H${this.values[0].ev} `;
-      }
-      if (this.values[1].ev == 0) {
-        n = n + String(this.attack) + "-";
-      } else {
-        n = n + `${this.attack}(${this.values[1].ev})-`;
-        v = v + `A${this.values[1].ev} `;
-      }
-      if (this.values[2].ev == 0) {
-        n = n + String(this.defence) + "-";
-      } else {
-        n = n + `${this.defence}(${this.values[2].ev})-`;
-        v = v + `B${this.values[2].ev} `;
-      }
-      if (this.values[3].ev == 0) {
-        n = n + String(this.spAttack) + "-";
-      } else {
-        n = n + `${this.spAttack}(${this.values[3].ev})-`;
-        v = v + `C${this.values[3].ev} `;
-      }
-      if (this.values[4].ev == 0) {
-        n = n + String(this.spDefence) + "-";
-      } else {
-        n = n + `${this.spDefence}(${this.values[4].ev})-`;
-        v = v + `D${this.values[4].ev} `;
-      }
-      if (this.values[5].ev == 0) {
-        n = n + String(this.speed);
-      } else {
-        n = n + `${this.speed}(${this.values[5].ev})`;
-        v = v + `S${this.values[5].ev}`;
-      }
-      if (e == 1) {
-        this.calcArea =
-          `${this.name} ${this.nature}\n` +
-          n +
-          `\n${this.hp}-${this.attack}-${this.defence}-${this.spAttack}-${this.spDefence}-${this.speed}\n` +
-          v +
-          `\n${this.physicalDurability + this.specialDurability}-${
-            this.physicalDurability
-          }-${this.specialDurability}`;
-      } else {
-        this.calcAreas =
-          `${this.name} ${this.nature}\n` +
-          n +
-          `\n${this.hp}-${this.attack}-${this.defence}-${this.spAttack}-${this.spDefence}-${this.speed}\n` +
-          v +
-          `\n${this.physicalDurability + this.specialDurability}-${
-            this.physicalDurability
-          }-${this.specialDurability}`;
       }
     }
   }
