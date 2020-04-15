@@ -1091,7 +1091,8 @@ export default {
     color: white;
   }
   li:after {
-    content: "▶";
+    font-family: "FontAwesome" !important;
+    content: "\f054";
     position: absolute;
     top: 25%;
     right: 10px;
