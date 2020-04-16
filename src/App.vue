@@ -4,7 +4,7 @@
       <router-link to="/">Home</router-link>
       <router-link to="/calc-stats">ステータス計算機</router-link>
     </div>
-    <router-view class="mt-3 mb-5" />
+    <router-view />
     <app-footer></app-footer>
   </div>
 </template>
@@ -73,5 +73,9 @@ _:lang(x)::-ms-backdrop,
       color: rgba(255, 255, 255, 0.9);
     }
   }
+}
+
+#app {
+  background-color: lightcyan;
 }
 </style>

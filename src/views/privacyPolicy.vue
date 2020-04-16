@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container bg-white border my-0 my-sm-3 px-sm-4 pb-sm-3">
     <h1 class="text-center">利用規約</h1>
     <p>
       本利用規約は、<a href="https://app.pokemonit.com">ポケモニット アプリ</a
