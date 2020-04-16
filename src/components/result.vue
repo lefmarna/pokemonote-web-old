@@ -1,11 +1,12 @@
 <template>
-  <div>
-    <div class="card">
-      <textarea name="name" rows="5" cols="80" v-model="calcArea"></textarea>
-      <button class="btn btn-outline-secondary btn-sm" v-on:click="result()">
-        保存する
-      </button>
-    </div>
+  <div class="position-relative">
+    <textarea class="form-control" rows="5" v-model="calcArea"></textarea>
+    <button
+      class="btn btn-outline-secondary btn-sm position-absolute"
+      v-on:click="result()"
+    >
+      保存する
+    </button>
   </div>
 </template>
 
@@ -75,3 +76,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.position-relative .btn {
+  right: 1px;
+  bottom: 1px;
+}
+</style>

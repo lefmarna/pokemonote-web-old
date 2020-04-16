@@ -1,96 +1,96 @@
 <template>
-  <div class="container">
+  <div class="container my-1 my-sm-3">
     <div class="row d-flex">
-      <div class="card p-0 mb-2 col-12 col-md-6">
-        <div id="card-header" class="card-header py-3">
-          <input
-            type="search"
-            id="selectName"
-            class="form-control"
-            placeholder="ここにポケモン名を入力してください"
-            v-bind:value="searchName"
-            v-on:input="searchName = $event.target.value"
-            @change="enterName"
-            autocomplete="on"
-            v-focus
-          />
-          <div id="pokemonlistArea" class="overflow-auto">
-            <ul
-              id="SuggestList"
-              class="list-unstyled bg-white list-group list-group-flush"
-            >
-              <li
-                class="list-group-item"
-                v-for="pokemon in searchPokemons"
-                v-bind:key="pokemon.name"
-                v-on:mousedown="searchName = pokemon.name"
+      <div class="col-12 col-md-6 mr-md-2 ml-md-n2 px-1 mb-2">
+        <div class="card shadow-sm p-0">
+          <div class="bg-light p-3">
+            <input
+              type="search"
+              id="selectName"
+              class="form-control"
+              placeholder="ここにポケモン名を入力してください"
+              v-bind:value="searchName"
+              v-on:input="searchName = $event.target.value"
+              @change="enterName"
+              autocomplete="on"
+              v-focus
+            />
+            <div id="pokemonlistArea" class="overflow-auto">
+              <ul
+                id="SuggestList"
+                class="list-unstyled bg-white list-group list-group-flush"
               >
-                {{ pokemon.name }}
-              </li>
-            </ul>
-          </div>
-          <div class="font-weight-bold text-info">ポケモン名：{{ name }}</div>
-          <div class="font-weight-bold text-info">
-            種族値：{{ values[0].bs }}-{{ values[1].bs }}-{{ values[2].bs }}-{{
-              values[3].bs
-            }}-{{ values[4].bs }}-{{ values[5].bs }}
-          </div>
-          <div id="contents">
-            <div>
-              性格：
-              <select v-model="nature">
-                <option value="いじっぱり">いじっぱり</option>
-                <option value="うっかりや">うっかりや</option>
-                <option value="おくびょう">おくびょう</option>
-                <option value="おだやか">おだやか</option>
-                <option value="おっとり">おっとり</option>
-                <option value="おとなしい">おとなしい</option>
-                <option value="がんばりや">がんばりや</option>
-                <option value="きまぐれ">きまぐれ</option>
-                <option value="さみしがり">さみしがり</option>
-                <option value="しんちょう">しんちょう</option>
-                <option value="すなお">すなお</option>
-                <option value="ずぶとい">ずぶとい</option>
-                <option value="せっかち">せっかち</option>
-                <option value="てれや">てれや</option>
-                <option value="なまいき">なまいき</option>
-                <option value="のうてんき">のうてんき</option>
-                <option value="のんき">のんき</option>
-                <option value="ひかえめ">ひかえめ</option>
-                <option value="まじめ">まじめ</option>
-                <option value="むじゃき">むじゃき</option>
-                <option value="やんちゃ">やんちゃ</option>
-                <option value="ゆうかん">ゆうかん</option>
-                <option value="ようき">ようき</option>
-                <option value="れいせい">れいせい</option>
-                <option value="わんぱく">わんぱく</option>
-              </select>
+                <li
+                  class="list-group-item"
+                  v-for="pokemon in searchPokemons"
+                  v-bind:key="pokemon.name"
+                  v-on:mousedown="searchName = pokemon.name"
+                >
+                  {{ pokemon.name }}
+                </li>
+              </ul>
+            </div>
+            <div class="font-weight-bold text-info">ポケモン名：{{ name }}</div>
+            <div class="font-weight-bold text-info">
+              種族値：{{ values[0].bs }}-{{ values[1].bs }}-{{
+                values[2].bs
+              }}-{{ values[3].bs }}-{{ values[4].bs }}-{{ values[5].bs }}
             </div>
             <div>
-              レベル：
-              <input
-                type="number"
-                id="lv"
-                min="1"
-                max="100"
-                v-model.number="lv"
-              />
-              <button
-                class="btn btn-outline-secondary btn-sm"
-                v-on:click="lv = 50"
-              >
-                50
-              </button>
-              <button
-                class="btn btn-outline-secondary btn-sm"
-                v-on:click="lv = 100"
-              >
-                100
-              </button>
+              <div>
+                性格：
+                <select v-model="nature">
+                  <option value="いじっぱり">いじっぱり</option>
+                  <option value="うっかりや">うっかりや</option>
+                  <option value="おくびょう">おくびょう</option>
+                  <option value="おだやか">おだやか</option>
+                  <option value="おっとり">おっとり</option>
+                  <option value="おとなしい">おとなしい</option>
+                  <option value="がんばりや">がんばりや</option>
+                  <option value="きまぐれ">きまぐれ</option>
+                  <option value="さみしがり">さみしがり</option>
+                  <option value="しんちょう">しんちょう</option>
+                  <option value="すなお">すなお</option>
+                  <option value="ずぶとい">ずぶとい</option>
+                  <option value="せっかち">せっかち</option>
+                  <option value="てれや">てれや</option>
+                  <option value="なまいき">なまいき</option>
+                  <option value="のうてんき">のうてんき</option>
+                  <option value="のんき">のんき</option>
+                  <option value="ひかえめ">ひかえめ</option>
+                  <option value="まじめ">まじめ</option>
+                  <option value="むじゃき">むじゃき</option>
+                  <option value="やんちゃ">やんちゃ</option>
+                  <option value="ゆうかん">ゆうかん</option>
+                  <option value="ようき">ようき</option>
+                  <option value="れいせい">れいせい</option>
+                  <option value="わんぱく">わんぱく</option>
+                </select>
+              </div>
+              <div>
+                レベル：
+                <input
+                  type="number"
+                  id="lv"
+                  min="1"
+                  max="100"
+                  v-model.number="lv"
+                />
+                <button
+                  class="btn btn-outline-secondary btn-sm"
+                  v-on:click="lv = 50"
+                >
+                  50
+                </button>
+                <button
+                  class="btn btn-outline-secondary btn-sm"
+                  v-on:click="lv = 100"
+                >
+                  100
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="card-body p-0">
           <table class="table table-sm table-striped">
             <thead>
               <tr align="center">
@@ -543,9 +543,9 @@
           </table>
         </div>
       </div>
-      <div class="col-12 col-md-6 p-0">
-        <div class="d-flex border">
-          <div class="col-6 pt-2">
+      <div class="col-12 col-md-6 ml-md-2 mr-md-n2 px-1">
+        <div class="d-flex bg-white border rounded-lg shadow-sm mb-2 pt-3">
+          <div class="col-6">
             <p>めざパ：{{ hiddenPower }}</p>
             <p>
               総合耐久：{{ physicalDurability + specialDurability }} <br /><span
@@ -555,7 +555,7 @@
               特殊：{{ specialDurability }}
             </p>
           </div>
-          <div class="col-6 pt-2">
+          <div class="col-6">
             <div class="form-check">
               <input
                 class="form-check-input"
@@ -598,14 +598,13 @@
             </div>
           </div>
         </div>
-        <result></result>
-        <result></result>
-        <div class="card px-2 pt-3">
+        <result class="mb-2 border rounded shadow-sm"></result>
+        <result class="mb-2 border rounded shadow-sm"></result>
+        <div class="bg-white border rounded shadow-sm pt-3 px-2">
           <p>使い方</p>
           <p>
-            ポケモンの各種ステータスを計算するツールです。
-            <br />あらゆる数値をリアルタイムに計算します。
-            <br />実数値から努力値を逆算することもできます。(個体値が自動で変動することはありません)
+            ポケモンの各種ステータスをリアルタイムに計算するツールです。
+            <br />実数値から努力値の逆算にも対応しています。（個体値は自動で変動しません）
           </p>
           <p>
             <br />ポケモン剣盾（ソード・シールド）に対応しています。ピカブイには対応しておりません。
