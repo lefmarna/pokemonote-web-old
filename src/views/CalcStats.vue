@@ -548,10 +548,12 @@
           <div class="col-6">
             <p>めざパ：{{ hiddenPower }}</p>
             <p>
-              総合耐久：{{ physicalDurability + specialDurability }} <br /><span
-                class="col-1"
-              ></span>
-              物理：{{ physicalDurability }} <br /><span class="col-1"></span>
+              総合耐久：{{ physicalDurability + specialDurability }}
+              <br />
+              <span class="col-1"></span>
+              物理：{{ physicalDurability }}
+              <br />
+              <span class="col-1"></span>
               特殊：{{ specialDurability }}
             </p>
           </div>
@@ -566,9 +568,7 @@
                 v-model="item"
                 checked
               />
-              <label class="form-check-label" for="item1">
-                持ち物なし
-              </label>
+              <label class="form-check-label" for="item1">持ち物なし</label>
             </div>
             <div class="form-check">
               <input
@@ -579,9 +579,9 @@
                 value="とつげきチョッキ"
                 v-model="item"
               />
-              <label class="form-check-label" for="item2">
-                とつげきチョッキ
-              </label>
+              <label class="form-check-label" for="item2"
+                >とつげきチョッキ</label
+              >
             </div>
             <div class="form-check">
               <input
@@ -592,9 +592,7 @@
                 value="しんかのきせき"
                 v-model="item"
               />
-              <label class="form-check-label" for="item3">
-                しんかのきせき
-              </label>
+              <label class="form-check-label" for="item3">しんかのきせき</label>
             </div>
           </div>
         </div>
@@ -617,8 +615,7 @@
       ad-slot="3353369882"
       ad-style="display:block"
       ad-format="auto"
-    >
-    </adsense>
+    ></adsense>
   </div>
 </template>
 
@@ -710,15 +707,19 @@ export default {
       if (!this.regex.test(iv)) {
         iv = 0;
       }
-      return (
-        Math.floor(
-          ((this.values[0].bs * 2 + iv + Math.floor(this.values[0].ev / 4)) *
-            this.lv) /
-            100
-        ) +
-        10 +
-        this.lv
-      );
+      if (this.name == "ヌケニン") {
+        return 1;
+      } else {
+        return (
+          Math.floor(
+            ((this.values[0].bs * 2 + iv + Math.floor(this.values[0].ev / 4)) *
+              this.lv) /
+              100
+          ) +
+          10 +
+          this.lv
+        );
+      }
     },
     attack() {
       let iv = this.values[1].iv;
