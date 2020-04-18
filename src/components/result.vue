@@ -30,32 +30,64 @@ export default {
         parent.spDefence,
         parent.speed
       ];
-      let ev = [
-        parent.values[0].ev,
-        parent.values[1].ev,
-        parent.values[2].ev,
-        parent.values[3].ev,
-        parent.values[4].ev,
-        parent.values[5].ev
+      let valuesCopy = [
+        parent.values[0],
+        parent.values[1],
+        parent.values[2],
+        parent.values[3],
+        parent.values[4],
+        parent.values[5]
       ];
-      for (let i = 0, len = parent.values.length; i < len; i++) {
-        if (ev[i] == 0) {
-          if (i == 5) {
-            n = n + `${stats[i]}`;
-          } else {
-            n = n + `${stats[i]}-`;
+      let maxEvCount = valuesCopy.filter(value => value.ev == 252);
+      let noMaxEvCount = valuesCopy.filter(
+        value => value.ev != 252 && value.ev > 0
+      );
+      if (maxEvCount.length >= 2) {
+        for (let i = 0, len = maxEvCount.length; i < len; i++) {
+          v = v + `${maxEvCount[i].abbreviation}`;
+        }
+        v = v + "252";
+        for (let i = 0, len = noMaxEvCount.length; i < len; i++) {
+          if (noMaxEvCount[i].ev) {
+            v = v + ` ${noMaxEvCount[i].abbreviation}${noMaxEvCount[i].ev}`;
           }
-        } else {
-          if (i == 5) {
-            n = n + `${stats[i]}(${ev[i]})`;
-            v = v + `${parent.values[i].abbreviation}${ev[i]}`;
+        }
+
+        for (let i = 0, len = parent.values.length; i < len; i++) {
+          if (valuesCopy[i].ev == 0) {
+            if (i == 0) {
+              n = n + `${stats[i]}`;
+            } else {
+              n = n + `-${stats[i]}`;
+            }
           } else {
-            n = n + `${stats[i]}(${ev[i]})-`;
-            v = v + `${parent.values[i].abbreviation}${ev[i]} `;
+            if (i == 0) {
+              n = n + `${stats[i]}(${valuesCopy[i].ev})`;
+            } else {
+              n = n + `-${stats[i]}(${valuesCopy[i].ev})`;
+            }
+          }
+        }
+      } else {
+        for (let i = 0, len = parent.values.length; i < len; i++) {
+          if (valuesCopy[i].ev == 0) {
+            if (i == 0) {
+              n = n + `${stats[i]}`;
+            } else {
+              n = n + `-${stats[i]}`;
+            }
+          } else {
+            if (i == 0) {
+              n = n + `${stats[i]}(${valuesCopy[i].ev})`;
+              v = v + `${parent.values[i].abbreviation}${valuesCopy[i].ev}`;
+            } else {
+              n = n + `-${stats[i]}(${valuesCopy[i].ev})`;
+              v = v + ` ${parent.values[i].abbreviation}${valuesCopy[i].ev}`;
+            }
           }
         }
       }
-      if (ev.some(value => value > 0)) {
+      if (valuesCopy.some(value => value.ev > 0)) {
         this.calcArea =
           `${parent.name} ${parent.nature}\n` +
           n +
