@@ -52,7 +52,6 @@ export default {
             v = v + ` ${noMaxEvCount[i].abbreviation}${noMaxEvCount[i].ev}`;
           }
         }
-
         for (let i = 0, len = parent.values.length; i < len; i++) {
           if (valuesCopy[i].ev == 0) {
             if (i == 0) {
@@ -77,8 +76,12 @@ export default {
               n = n + `-${stats[i]}`;
             }
           } else {
-            if (i == 0) {
-              n = n + `${stats[i]}(${valuesCopy[i].ev})`;
+            if (!v) {
+              if (i == 0) {
+                n = n + `${stats[i]}(${valuesCopy[i].ev})`;
+              } else {
+                n = n + `-${stats[i]}(${valuesCopy[i].ev})`;
+              }
               v = v + `${parent.values[i].abbreviation}${valuesCopy[i].ev}`;
             } else {
               n = n + `-${stats[i]}(${valuesCopy[i].ev})`;
