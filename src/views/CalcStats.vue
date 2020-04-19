@@ -591,6 +591,7 @@
                 id="item3"
                 value="しんかのきせき"
                 v-model="item"
+                v-bind:disabled="evolution.length == 0"
               />
               <label class="form-check-label" for="item3">しんかのきせき</label>
             </div>
