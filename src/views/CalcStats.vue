@@ -1,599 +1,607 @@
 <template>
-  <div class="container my-1 my-sm-3">
+  <div class="container my-1 my-sm-2">
     <div class="row d-flex">
-      <div class="col-12 col-md-6 mr-md-2 ml-md-n2 px-1 mb-2">
-        <div class="card shadow-sm p-0">
-          <div class="bg-light p-3">
-            <input
-              type="search"
-              id="selectName"
-              class="form-control"
-              placeholder="ここにポケモン名を入力してください"
-              v-bind:value="searchName"
-              v-on:input="searchName = $event.target.value"
-              @change="enterName"
-              autocomplete="on"
-              v-focus
-            />
-            <div id="pokemonlistArea" class="overflow-auto">
-              <ul
-                id="SuggestList"
-                class="list-unstyled bg-white list-group list-group-flush"
-              >
-                <li
-                  class="list-group-item"
-                  v-for="pokemon in searchPokemons"
-                  v-bind:key="pokemon.name"
-                  v-on:mousedown="searchName = pokemon.name"
+      <div class="col-12 col-md-6 px-1">
+        <div class="mb-2">
+          <div class="card shadow-sm p-0">
+            <div class="bg-light p-3">
+              <input
+                type="search"
+                id="selectName"
+                class="form-control"
+                placeholder="ここにポケモン名を入力してください"
+                v-bind:value="searchName"
+                v-on:input="searchName = $event.target.value"
+                @change="enterName"
+                autocomplete="on"
+                v-focus
+              />
+              <div id="pokemonlistArea" class="overflow-auto">
+                <ul
+                  id="SuggestList"
+                  class="list-unstyled bg-white list-group list-group-flush"
                 >
-                  {{ pokemon.name }}
-                </li>
-              </ul>
-            </div>
-            <div class="font-weight-bold text-info">ポケモン名：{{ name }}</div>
-            <div class="font-weight-bold text-info">
-              種族値：{{ values[0].bs }}-{{ values[1].bs }}-{{
-                values[2].bs
-              }}-{{ values[3].bs }}-{{ values[4].bs }}-{{ values[5].bs }}
-            </div>
-            <div>
-              <div>
-                性格：
-                <select v-model="nature">
-                  <option value="いじっぱり">いじっぱり</option>
-                  <option value="うっかりや">うっかりや</option>
-                  <option value="おくびょう">おくびょう</option>
-                  <option value="おだやか">おだやか</option>
-                  <option value="おっとり">おっとり</option>
-                  <option value="おとなしい">おとなしい</option>
-                  <option value="がんばりや">がんばりや</option>
-                  <option value="きまぐれ">きまぐれ</option>
-                  <option value="さみしがり">さみしがり</option>
-                  <option value="しんちょう">しんちょう</option>
-                  <option value="すなお">すなお</option>
-                  <option value="ずぶとい">ずぶとい</option>
-                  <option value="せっかち">せっかち</option>
-                  <option value="てれや">てれや</option>
-                  <option value="なまいき">なまいき</option>
-                  <option value="のうてんき">のうてんき</option>
-                  <option value="のんき">のんき</option>
-                  <option value="ひかえめ">ひかえめ</option>
-                  <option value="まじめ">まじめ</option>
-                  <option value="むじゃき">むじゃき</option>
-                  <option value="やんちゃ">やんちゃ</option>
-                  <option value="ゆうかん">ゆうかん</option>
-                  <option value="ようき">ようき</option>
-                  <option value="れいせい">れいせい</option>
-                  <option value="わんぱく">わんぱく</option>
-                </select>
+                  <li
+                    class="list-group-item"
+                    v-for="pokemon in searchPokemons"
+                    v-bind:key="pokemon.name"
+                    v-on:mousedown="searchName = pokemon.name"
+                  >
+                    {{ pokemon.name }}
+                  </li>
+                </ul>
+              </div>
+              <div class="font-weight-bold text-info">
+                ポケモン名：{{ name }}
+              </div>
+              <div class="font-weight-bold text-info">
+                種族値：{{ values[0].bs }}-{{ values[1].bs }}-{{
+                  values[2].bs
+                }}-{{ values[3].bs }}-{{ values[4].bs }}-{{ values[5].bs }}
               </div>
               <div>
-                レベル：
-                <input
-                  type="number"
-                  id="lv"
-                  min="1"
-                  max="100"
-                  v-model.number="lv"
-                />
-                <button
-                  class="btn btn-outline-secondary btn-sm"
-                  v-on:click="lv = 50"
-                >
-                  50
-                </button>
-                <button
-                  class="btn btn-outline-secondary btn-sm"
-                  v-on:click="lv = 100"
-                >
-                  100
-                </button>
+                <div>
+                  性格：
+                  <select v-model="nature">
+                    <option value="いじっぱり">いじっぱり</option>
+                    <option value="うっかりや">うっかりや</option>
+                    <option value="おくびょう">おくびょう</option>
+                    <option value="おだやか">おだやか</option>
+                    <option value="おっとり">おっとり</option>
+                    <option value="おとなしい">おとなしい</option>
+                    <option value="がんばりや">がんばりや</option>
+                    <option value="きまぐれ">きまぐれ</option>
+                    <option value="さみしがり">さみしがり</option>
+                    <option value="しんちょう">しんちょう</option>
+                    <option value="すなお">すなお</option>
+                    <option value="ずぶとい">ずぶとい</option>
+                    <option value="せっかち">せっかち</option>
+                    <option value="てれや">てれや</option>
+                    <option value="なまいき">なまいき</option>
+                    <option value="のうてんき">のうてんき</option>
+                    <option value="のんき">のんき</option>
+                    <option value="ひかえめ">ひかえめ</option>
+                    <option value="まじめ">まじめ</option>
+                    <option value="むじゃき">むじゃき</option>
+                    <option value="やんちゃ">やんちゃ</option>
+                    <option value="ゆうかん">ゆうかん</option>
+                    <option value="ようき">ようき</option>
+                    <option value="れいせい">れいせい</option>
+                    <option value="わんぱく">わんぱく</option>
+                  </select>
+                </div>
+                <div>
+                  レベル：
+                  <input
+                    type="number"
+                    id="lv"
+                    min="1"
+                    max="100"
+                    v-model.number="lv"
+                  />
+                  <button
+                    class="btn btn-outline-secondary btn-sm"
+                    v-on:click="lv = 50"
+                  >
+                    50
+                  </button>
+                  <button
+                    class="btn btn-outline-secondary btn-sm"
+                    v-on:click="lv = 100"
+                  >
+                    100
+                  </button>
+                </div>
               </div>
             </div>
+            <table class="table table-sm table-striped">
+              <thead>
+                <tr align="center">
+                  <th></th>
+                  <th class="px-0" colspan="2">個体値</th>
+                  <th class="px-0" colspan="2">努力値</th>
+                  <th colspan="2">実数値</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr align="center">
+                  <th>合計</th>
+                  <th colspan="2">
+                    <span v-bind:class="totalIvCheck">{{ totalIv }}</span> / 186
+                  </th>
+                  <th colspan="2">
+                    <span v-bind:class="totalEvCheck">{{ totalEv }}</span> / 510
+                  </th>
+                  <th>{{ totalStats }}</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <tr align="center">
+                  <td
+                    v-bind:class="[
+                      'align-middle',
+                      {
+                        'text-danger': natureCalc[0] == 1.1,
+                        'text-primary': natureCalc[0] == 0.9
+                      }
+                    ]"
+                  >
+                    HP
+                  </td>
+                  <td class="align-middle text-right">
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="values[0].iv"
+                    />
+                  </td>
+                  <td class="text-left">
+                    <div class="btn-group-vertical">
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[0].iv = 31"
+                      >
+                        31
+                      </button>
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[0].iv = 0"
+                      >
+                        0
+                      </button>
+                    </div>
+                  </td>
+                  <td class="align-middle text-right">
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="values[0].ev"
+                    />
+                  </td>
+                  <td class="text-left">
+                    <div class="btn-group-vertical">
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[0].ev = 252"
+                      >
+                        252
+                      </button>
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[0].ev = 0"
+                      >
+                        0
+                      </button>
+                    </div>
+                  </td>
+                  <td class="align-middle" colspan="2">
+                    <input
+                      type="number"
+                      min="0"
+                      max="999"
+                      v-bind:value="hp"
+                      v-on:change="hpCalc()"
+                    />
+                  </td>
+                </tr>
+                <tr align="center">
+                  <td
+                    v-bind:class="[
+                      'align-middle',
+                      {
+                        'text-danger': natureCalc[1] == 1.1,
+                        'text-primary': natureCalc[1] == 0.9
+                      }
+                    ]"
+                  >
+                    攻撃
+                  </td>
+                  <td class="align-middle text-right">
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="values[1].iv"
+                    />
+                  </td>
+                  <td class="text-left">
+                    <div class="btn-group-vertical">
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[1].iv = 31"
+                      >
+                        31
+                      </button>
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[1].iv = 0"
+                      >
+                        0
+                      </button>
+                    </div>
+                  </td>
+                  <td class="align-middle text-right">
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="values[1].ev"
+                    />
+                  </td>
+                  <td class="text-left">
+                    <div class="btn-group-vertical">
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[1].ev = 252"
+                      >
+                        252
+                      </button>
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[1].ev = 0"
+                      >
+                        0
+                      </button>
+                    </div>
+                  </td>
+                  <td class="align-middle" colspan="2">
+                    <input
+                      type="number"
+                      min="0"
+                      max="999"
+                      v-bind:value="attack"
+                      v-on:change="statsCalc(1)"
+                    />
+                  </td>
+                </tr>
+                <tr align="center">
+                  <td
+                    v-bind:class="[
+                      'align-middle',
+                      {
+                        'text-danger': natureCalc[2] == 1.1,
+                        'text-primary': natureCalc[2] == 0.9
+                      }
+                    ]"
+                  >
+                    防御
+                  </td>
+                  <td class="align-middle text-right">
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="values[2].iv"
+                    />
+                  </td>
+                  <td class="text-left">
+                    <div class="btn-group-vertical">
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[2].iv = 31"
+                      >
+                        31
+                      </button>
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[2].iv = 0"
+                      >
+                        0
+                      </button>
+                    </div>
+                  </td>
+                  <td class="align-middle text-right">
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="values[2].ev"
+                    />
+                  </td>
+                  <td class="text-left">
+                    <div class="btn-group-vertical">
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[2].ev = 252"
+                      >
+                        252
+                      </button>
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[2].ev = 0"
+                      >
+                        0
+                      </button>
+                    </div>
+                  </td>
+                  <td class="align-middle" colspan="2">
+                    <input
+                      type="number"
+                      min="0"
+                      max="999"
+                      v-bind:value="defence"
+                      v-on:change="statsCalc(2)"
+                    />
+                  </td>
+                </tr>
+                <tr align="center">
+                  <td
+                    v-bind:class="[
+                      'align-middle',
+                      {
+                        'text-danger': natureCalc[3] == 1.1,
+                        'text-primary': natureCalc[3] == 0.9
+                      }
+                    ]"
+                  >
+                    特攻
+                  </td>
+                  <td class="align-middle text-right">
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="values[3].iv"
+                    />
+                  </td>
+                  <td class="text-left">
+                    <div class="btn-group-vertical">
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[3].iv = 31"
+                      >
+                        31
+                      </button>
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[3].iv = 0"
+                      >
+                        0
+                      </button>
+                    </div>
+                  </td>
+                  <td class="align-middle text-right">
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="values[3].ev"
+                    />
+                  </td>
+                  <td class="text-left">
+                    <div class="btn-group-vertical">
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[3].ev = 252"
+                      >
+                        252
+                      </button>
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[3].ev = 0"
+                      >
+                        0
+                      </button>
+                    </div>
+                  </td>
+                  <td class="align-middle" colspan="2">
+                    <input
+                      type="number"
+                      min="0"
+                      max="999"
+                      v-bind:value="spAttack"
+                      v-on:change="statsCalc(3)"
+                    />
+                  </td>
+                </tr>
+                <tr align="center">
+                  <td
+                    v-bind:class="[
+                      'align-middle',
+                      {
+                        'text-danger': natureCalc[4] == 1.1,
+                        'text-primary': natureCalc[4] == 0.9
+                      }
+                    ]"
+                  >
+                    特防
+                  </td>
+                  <td class="align-middle text-right">
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="values[4].iv"
+                    />
+                  </td>
+                  <td class="text-left">
+                    <div class="btn-group-vertical">
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[4].iv = 31"
+                      >
+                        31
+                      </button>
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[4].iv = 0"
+                      >
+                        0
+                      </button>
+                    </div>
+                  </td>
+                  <td class="align-middle text-right">
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="values[4].ev"
+                    />
+                  </td>
+                  <td class="text-left">
+                    <div class="btn-group-vertical">
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[4].ev = 252"
+                      >
+                        252
+                      </button>
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[4].ev = 0"
+                      >
+                        0
+                      </button>
+                    </div>
+                  </td>
+                  <td class="align-middle" colspan="2">
+                    <input
+                      type="number"
+                      min="0"
+                      max="999"
+                      v-bind:value="spDefence"
+                      v-on:change="statsCalc(4)"
+                    />
+                  </td>
+                </tr>
+                <tr align="center">
+                  <td
+                    v-bind:class="[
+                      'align-middle',
+                      {
+                        'text-danger': natureCalc[5] == 1.1,
+                        'text-primary': natureCalc[5] == 0.9
+                      }
+                    ]"
+                  >
+                    素早
+                  </td>
+                  <td class="align-middle text-right">
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="values[5].iv"
+                    />
+                  </td>
+                  <td class="text-left">
+                    <div class="btn-group-vertical">
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[5].iv = 31"
+                      >
+                        31
+                      </button>
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[5].iv = 0"
+                      >
+                        0
+                      </button>
+                    </div>
+                  </td>
+                  <td class="align-middle text-right">
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="values[5].ev"
+                    />
+                  </td>
+                  <td class="text-left">
+                    <div class="btn-group-vertical">
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[5].ev = 252"
+                      >
+                        252
+                      </button>
+                      <button
+                        class="btn btn-outline-secondary btn-sm"
+                        v-on:click="values[5].ev = 0"
+                      >
+                        0
+                      </button>
+                    </div>
+                  </td>
+                  <td class="align-middle" colspan="2">
+                    <input
+                      type="number"
+                      min="0"
+                      max="999"
+                      v-bind:value="speed"
+                      v-on:change="statsCalc(5)"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <table class="table table-sm table-striped">
-            <thead>
-              <tr align="center">
-                <th></th>
-                <th class="px-0" colspan="2">個体値</th>
-                <th class="px-0" colspan="2">努力値</th>
-                <th colspan="2">実数値</th>
-              </tr>
-            </thead>
-            <tfoot>
-              <tr align="center">
-                <th>合計</th>
-                <th colspan="2">
-                  <span v-bind:class="totalIvCheck">{{ totalIv }}</span> / 186
-                </th>
-                <th colspan="2">
-                  <span v-bind:class="totalEvCheck">{{ totalEv }}</span> / 510
-                </th>
-                <th>{{ totalStats }}</th>
-              </tr>
-            </tfoot>
-            <tbody>
-              <tr align="center">
-                <td
-                  v-bind:class="[
-                    'align-middle',
-                    {
-                      'text-danger': natureCalc[0] == 1.1,
-                      'text-primary': natureCalc[0] == 0.9
-                    }
-                  ]"
-                >
-                  HP
-                </td>
-                <td class="align-middle text-right">
-                  <input
-                    type="number"
-                    min="0"
-                    max="31"
-                    v-model.number="values[0].iv"
-                  />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[0].iv = 31"
-                    >
-                      31
-                    </button>
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[0].iv = 0"
-                    >
-                      0
-                    </button>
-                  </div>
-                </td>
-                <td class="align-middle text-right">
-                  <input
-                    type="number"
-                    min="0"
-                    max="252"
-                    step="4"
-                    v-model.number="values[0].ev"
-                  />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[0].ev = 252"
-                    >
-                      252
-                    </button>
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[0].ev = 0"
-                    >
-                      0
-                    </button>
-                  </div>
-                </td>
-                <td class="align-middle" colspan="2">
-                  <input
-                    type="number"
-                    min="0"
-                    max="999"
-                    v-bind:value="hp"
-                    v-on:change="hpCalc()"
-                  />
-                </td>
-              </tr>
-              <tr align="center">
-                <td
-                  v-bind:class="[
-                    'align-middle',
-                    {
-                      'text-danger': natureCalc[1] == 1.1,
-                      'text-primary': natureCalc[1] == 0.9
-                    }
-                  ]"
-                >
-                  攻撃
-                </td>
-                <td class="align-middle text-right">
-                  <input
-                    type="number"
-                    min="0"
-                    max="31"
-                    v-model.number="values[1].iv"
-                  />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[1].iv = 31"
-                    >
-                      31
-                    </button>
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[1].iv = 0"
-                    >
-                      0
-                    </button>
-                  </div>
-                </td>
-                <td class="align-middle text-right">
-                  <input
-                    type="number"
-                    min="0"
-                    max="252"
-                    step="4"
-                    v-model.number="values[1].ev"
-                  />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[1].ev = 252"
-                    >
-                      252
-                    </button>
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[1].ev = 0"
-                    >
-                      0
-                    </button>
-                  </div>
-                </td>
-                <td class="align-middle" colspan="2">
-                  <input
-                    type="number"
-                    min="0"
-                    max="999"
-                    v-bind:value="attack"
-                    v-on:change="statsCalc(1)"
-                  />
-                </td>
-              </tr>
-              <tr align="center">
-                <td
-                  v-bind:class="[
-                    'align-middle',
-                    {
-                      'text-danger': natureCalc[2] == 1.1,
-                      'text-primary': natureCalc[2] == 0.9
-                    }
-                  ]"
-                >
-                  防御
-                </td>
-                <td class="align-middle text-right">
-                  <input
-                    type="number"
-                    min="0"
-                    max="31"
-                    v-model.number="values[2].iv"
-                  />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[2].iv = 31"
-                    >
-                      31
-                    </button>
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[2].iv = 0"
-                    >
-                      0
-                    </button>
-                  </div>
-                </td>
-                <td class="align-middle text-right">
-                  <input
-                    type="number"
-                    min="0"
-                    max="252"
-                    step="4"
-                    v-model.number="values[2].ev"
-                  />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[2].ev = 252"
-                    >
-                      252
-                    </button>
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[2].ev = 0"
-                    >
-                      0
-                    </button>
-                  </div>
-                </td>
-                <td class="align-middle" colspan="2">
-                  <input
-                    type="number"
-                    min="0"
-                    max="999"
-                    v-bind:value="defence"
-                    v-on:change="statsCalc(2)"
-                  />
-                </td>
-              </tr>
-              <tr align="center">
-                <td
-                  v-bind:class="[
-                    'align-middle',
-                    {
-                      'text-danger': natureCalc[3] == 1.1,
-                      'text-primary': natureCalc[3] == 0.9
-                    }
-                  ]"
-                >
-                  特攻
-                </td>
-                <td class="align-middle text-right">
-                  <input
-                    type="number"
-                    min="0"
-                    max="31"
-                    v-model.number="values[3].iv"
-                  />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[3].iv = 31"
-                    >
-                      31
-                    </button>
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[3].iv = 0"
-                    >
-                      0
-                    </button>
-                  </div>
-                </td>
-                <td class="align-middle text-right">
-                  <input
-                    type="number"
-                    min="0"
-                    max="252"
-                    step="4"
-                    v-model.number="values[3].ev"
-                  />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[3].ev = 252"
-                    >
-                      252
-                    </button>
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[3].ev = 0"
-                    >
-                      0
-                    </button>
-                  </div>
-                </td>
-                <td class="align-middle" colspan="2">
-                  <input
-                    type="number"
-                    min="0"
-                    max="999"
-                    v-bind:value="spAttack"
-                    v-on:change="statsCalc(3)"
-                  />
-                </td>
-              </tr>
-              <tr align="center">
-                <td
-                  v-bind:class="[
-                    'align-middle',
-                    {
-                      'text-danger': natureCalc[4] == 1.1,
-                      'text-primary': natureCalc[4] == 0.9
-                    }
-                  ]"
-                >
-                  特防
-                </td>
-                <td class="align-middle text-right">
-                  <input
-                    type="number"
-                    min="0"
-                    max="31"
-                    v-model.number="values[4].iv"
-                  />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[4].iv = 31"
-                    >
-                      31
-                    </button>
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[4].iv = 0"
-                    >
-                      0
-                    </button>
-                  </div>
-                </td>
-                <td class="align-middle text-right">
-                  <input
-                    type="number"
-                    min="0"
-                    max="252"
-                    step="4"
-                    v-model.number="values[4].ev"
-                  />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[4].ev = 252"
-                    >
-                      252
-                    </button>
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[4].ev = 0"
-                    >
-                      0
-                    </button>
-                  </div>
-                </td>
-                <td class="align-middle" colspan="2">
-                  <input
-                    type="number"
-                    min="0"
-                    max="999"
-                    v-bind:value="spDefence"
-                    v-on:change="statsCalc(4)"
-                  />
-                </td>
-              </tr>
-              <tr align="center">
-                <td
-                  v-bind:class="[
-                    'align-middle',
-                    {
-                      'text-danger': natureCalc[5] == 1.1,
-                      'text-primary': natureCalc[5] == 0.9
-                    }
-                  ]"
-                >
-                  素早
-                </td>
-                <td class="align-middle text-right">
-                  <input
-                    type="number"
-                    min="0"
-                    max="31"
-                    v-model.number="values[5].iv"
-                  />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[5].iv = 31"
-                    >
-                      31
-                    </button>
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[5].iv = 0"
-                    >
-                      0
-                    </button>
-                  </div>
-                </td>
-                <td class="align-middle text-right">
-                  <input
-                    type="number"
-                    min="0"
-                    max="252"
-                    step="4"
-                    v-model.number="values[5].ev"
-                  />
-                </td>
-                <td class="text-left">
-                  <div class="btn-group-vertical">
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[5].ev = 252"
-                    >
-                      252
-                    </button>
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      v-on:click="values[5].ev = 0"
-                    >
-                      0
-                    </button>
-                  </div>
-                </td>
-                <td class="align-middle" colspan="2">
-                  <input
-                    type="number"
-                    min="0"
-                    max="999"
-                    v-bind:value="speed"
-                    v-on:change="statsCalc(5)"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
-      <div class="col-12 col-md-6 ml-md-2 mr-md-n2 px-1">
-        <div class="d-flex bg-white border rounded-lg shadow-sm mb-2 pt-3">
-          <div class="col-6">
-            <p>めざパ：{{ hiddenPower }}</p>
-            <p>
-              総合耐久：{{ physicalDurability + specialDurability }}
-              <br />
-              <span class="col-1"></span>
-              物理：{{ physicalDurability }}
-              <br />
-              <span class="col-1"></span>
-              特殊：{{ specialDurability }}
-            </p>
-          </div>
-          <div class="col-6">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="item"
-                id="item1"
-                value="持ち物なし"
-                v-model="item"
-                checked
-              />
-              <label class="form-check-label" for="item1">持ち物なし</label>
+      <div class="col-12 col-md-6 px-1">
+        <div>
+          <div class="d-flex bg-white border rounded-lg shadow-sm mb-2 pt-3">
+            <div class="col-6">
+              <p>めざパ：{{ hiddenPower }}</p>
+              <p>
+                総合耐久：{{ physicalDurability + specialDurability }}
+                <br />
+                <span class="col-1"></span>
+                物理：{{ physicalDurability }}
+                <br />
+                <span class="col-1"></span>
+                特殊：{{ specialDurability }}
+              </p>
             </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="item"
-                id="item2"
-                value="とつげきチョッキ"
-                v-model="item"
-              />
-              <label class="form-check-label" for="item2"
-                >とつげきチョッキ</label
-              >
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="item"
-                id="item3"
-                value="しんかのきせき"
-                v-model="item"
-                v-bind:disabled="evolution.length == 0"
-              />
-              <label class="form-check-label" for="item3">しんかのきせき</label>
+            <div class="col-6">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="item"
+                  id="item1"
+                  value="持ち物なし"
+                  v-model="item"
+                  checked
+                />
+                <label class="form-check-label" for="item1">持ち物なし</label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="item"
+                  id="item2"
+                  value="とつげきチョッキ"
+                  v-model="item"
+                />
+                <label class="form-check-label" for="item2"
+                  >とつげきチョッキ</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="item"
+                  id="item3"
+                  value="しんかのきせき"
+                  v-model="item"
+                  v-bind:disabled="evolution.length == 0"
+                />
+                <label class="form-check-label" for="item3"
+                  >しんかのきせき</label
+                >
+              </div>
             </div>
           </div>
         </div>

@@ -76,6 +76,50 @@ _:lang(x)::-ms-backdrop,
 }
 
 #app {
-  background-color: lightcyan;
+  background-color: #e3f2fd;
+  background-image: linear-gradient(135deg, #bbdefb 0.85em, transparent 0),
+    linear-gradient(-135deg, #bbdefb 0.85em, transparent 0),
+    radial-gradient(circle at 7.4em 7.4em, #bbdefb 0.85em, transparent 0.85em),
+    radial-gradient(circle at 0.56em 7.4em, #bbdefb 0.85em, transparent 0.85em),
+    linear-gradient(135deg, #90caf9 0.85em, transparent 0),
+    linear-gradient(-135deg, #90caf9 0.85em, transparent 0),
+    radial-gradient(circle at 7.4em 7.4em, #90caf9 0.85em, transparent 0.85em),
+    radial-gradient(circle at 0.56em 7.4em, #90caf9 0.85em, transparent 0.85em);
+  background-position: 0 4em, 0 4em, 0 -4em, 0 -4em, 4em 0, 4em 0, 4em 0, 4em 0;
+  background-size: 8em 8em;
+  background-repeat: repeat;
+}
+
+h2 {
+  position: relative;
+  background: #ffcce5;
+  box-shadow: 0px 0px 0px 5px #ffcce5;
+  border: dashed 2px white;
+  padding: 0.4em 0.5em;
+  color: #454545;
+}
+
+h2:after {
+  position: absolute;
+  content: "";
+  left: -7px;
+  top: -7px;
+  border-width: 0 0 15px 15px;
+  border-style: solid;
+  border-color: #fff #fff #ffb8da;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #fff;
+  border-left: solid 1px #ececec;
+}
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 2px #fff;
 }
 </style>
