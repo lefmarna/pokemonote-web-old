@@ -876,9 +876,13 @@ export default {
       });
     },
     searchPokemons() {
-      return this.pokemons.filter(
-        value => value.name.indexOf(this.checkName) === 0
-      );
+      if (this.searchName) {
+        return this.pokemons.filter(
+          value => value.name.indexOf(this.checkName) === 0
+        );
+      } else {
+        return [];
+      }
     },
     totalStats() {
       return (
