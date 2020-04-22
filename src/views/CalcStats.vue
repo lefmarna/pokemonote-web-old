@@ -32,7 +32,7 @@
               <div id="pokemonlistArea" class="overflow-auto w-75">
                 <ul
                   id="SuggestList"
-                  class="list-unstyled bg-white list-group list-group-flush"
+                  class="list-unstyled bg-white list-group list-group-flush border-left"
                 >
                   <li
                     v-for="(pokemon, index) in searchPokemons"
