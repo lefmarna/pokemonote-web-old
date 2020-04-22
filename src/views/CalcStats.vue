@@ -16,8 +16,16 @@
                   activeList = 0;
                 "
                 @change="enterName"
-                @keydown.prevent.up="activeList--"
-                @keydown.prevent.down="activeList++"
+                @keydown.prevent.up="
+                  if (activeList) {
+                    activeList--;
+                  }
+                "
+                @keydown.prevent.down="
+                  if (activeList < searchPokemons.length - 1) {
+                    activeList++;
+                  }
+                "
                 autocomplete="off"
                 v-focus
               />
