@@ -11,9 +11,14 @@
                 class="form-control"
                 placeholder="ここにポケモン名を入力してください"
                 v-bind:value="searchName"
-                v-on:input="searchName = $event.target.value"
+                @input="
+                  searchName = $event.target.value;
+                  activeList = 0;
+                "
                 @change="enterName"
-                autocomplete="on"
+                @keydown.prevent.up="activeList--"
+                @keydown.prevent.down="activeList++"
+                autocomplete="off"
                 v-focus
               />
               <div id="pokemonlistArea" class="overflow-auto">
@@ -22,8 +27,11 @@
                   class="list-unstyled bg-white list-group list-group-flush"
                 >
                   <li
-                    class="list-group-item"
-                    v-for="pokemon in searchPokemons"
+                    v-for="(pokemon, index) in searchPokemons"
+                    :class="[
+                      'list-group-item',
+                      { active: index === activeList }
+                    ]"
                     v-bind:key="pokemon.name"
                     v-on:mousedown="searchName = pokemon.name"
                   >
@@ -664,6 +672,7 @@ export default {
       nature: "がんばりや",
       item: "持ち物なし",
       evolution: "",
+      activeList: 0,
       regex: /^[-]?([1-9]\d*|0)(\.\d+)?$/,
       values: [
         { name: "ＨＰ", iv: 31, ev: 0, bs: 108, calc: "hp", abbreviation: "H" },
@@ -988,7 +997,7 @@ export default {
   },
   watch: {
     // 入力されたポケモンが存在するとき、各種情報を更新する
-    searchPokemons: function() {
+    searchPokemons() {
       const pokemon = this.pokemons.find(i => i.name === this.searchName);
       if (pokemon !== undefined) {
         this.name = pokemon.name;
@@ -1063,12 +1072,12 @@ export default {
       }
     },
     enterName() {
-      if (this.searchName.length >= 1) {
-        let psss = this.pokemons.filter(
-          value => value.name.indexOf(this.checkName) === 0
-        );
-        this.searchName = psss[0].name;
-      }
+      const activePokemon = document
+        .getElementById("SuggestList")
+        .getElementsByClassName("active");
+      this.searchName = this.pokemons.find(
+        i => i.name === activePokemon[0].innerText
+      ).name;
     }
   }
 };
@@ -1093,10 +1102,6 @@ export default {
   }
   li:hover {
     background-color: #f2a2b7;
-    color: white;
-  }
-  li:nth-child(1) {
-    background-color: lightblue;
     color: white;
   }
   li:after {
