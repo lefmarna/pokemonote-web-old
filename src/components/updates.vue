@@ -1,5 +1,9 @@
 <template>
   <div class="overflow-auto px-2">
+    <updatesTemplate
+      day="2020-04-22"
+      content="『ステータス計算機』における、ポケモン入力の候補選択をカーソルの上下で移動できるようにしました"
+    />
     <updatesTemplate day="2020-04-20" content="サイト全体のデザインを変更" />
     <updatesTemplate
       day="2020-04-19"

@@ -29,7 +29,7 @@
                 autocomplete="off"
                 v-focus
               />
-              <div id="pokemonlistArea" class="overflow-auto">
+              <div id="pokemonlistArea" class="overflow-auto w-75">
                 <ul
                   id="SuggestList"
                   class="list-unstyled bg-white list-group list-group-flush"
