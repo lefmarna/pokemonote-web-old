@@ -10,20 +10,7 @@
         <div class="col-12 col-md-6 px-1 mb-2 d-flex">
           <div class=" bg-white border rounded-lg shadow-sm">
             <h2 class="mb-3">更新情報</h2>
-            <div class="overflow-auto px-2">
-              <h3 class="h4 text-left">2020-04-20</h3>
-              <p class="text-left">
-                サイト全体のデザインを変更
-              </p>
-              <h3 class="h4 text-left">2020-04-19</h3>
-              <p class="text-left">
-                『ステータス計算機』において、進化先の存在しないポケモンであっても『しんかのきせき』にチェックを入れることができていた不具合を修正
-              </p>
-              <h3 class="h4 text-left">2020-04-18</h3>
-              <p class="text-left">
-                『ステータス計算機』におけるヌケニンのHPを修正
-              </p>
-            </div>
+            <updates />
           </div>
         </div>
         <div class="col-12 col-md-6 px-1 mb-2 d-flex">
@@ -92,30 +79,6 @@ h2 {
   font-weight: bold;
 }
 
-h3 {
-  position: relative;
-  display: inline-block;
-  padding: 0 55px;
-}
-
-h3:before,
-h3:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  display: inline-block;
-  width: 45px;
-  height: 1px;
-  background-color: black;
-}
-
-h3:before {
-  left: 0;
-}
-h3:after {
-  right: 0;
-}
-
 .jumbotron {
   background: url(../assets/top.jpg) center no-repeat;
   background-size: cover;
@@ -151,6 +114,7 @@ h3:after {
 <script>
 // @ is an alias to /src
 import Jumbotron from "@/components/Jumbotron.vue";
+import updates from "@/components/updates.vue";
 
 export default {
   name: "Home",
@@ -170,7 +134,8 @@ export default {
     };
   },
   components: {
-    Jumbotron
+    Jumbotron,
+    updates
   }
 };
 </script>
