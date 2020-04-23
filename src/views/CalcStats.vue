@@ -2,7 +2,7 @@
   <div class="container my-1 my-sm-2">
     <div class="row d-flex">
       <div class="col-12 col-md-6 px-1">
-        <div class="mb-2">
+        <div class="mb-1">
           <div class="card shadow-sm p-0">
             <div class="bg-light p-3">
               <input
@@ -564,10 +564,10 @@
         </div>
       </div>
       <div class="col-12 col-md-6 px-1 d-flex flex-column">
-        <result class="mb-2 border rounded shadow-sm order-md-2"></result>
-        <result class="mb-2 border rounded shadow-sm order-md-3"></result>
+        <result class="mb-1 border rounded shadow-sm order-md-2"></result>
+        <result class="mb-1 border rounded shadow-sm order-md-3"></result>
         <div
-          class="d-flex bg-white border rounded-lg shadow-sm mb-2 pt-3 order-md-1"
+          class="d-flex bg-white border rounded-lg shadow-sm mb-1 pt-3 order-md-1"
         >
           <div class="col-6">
             <p>めざパ：{{ hiddenPower }}</p>
@@ -628,7 +628,8 @@
             <br />実数値から努力値の逆算にも対応しています。（個体値は自動で変動しません）
           </p>
           <p>
-            <br />ポケモン剣盾（ソード・シールド）に対応しています。ピカブイには対応しておりません。
+            <br />『ポケットモンスター
+            ソード・シールド』（ポケモン剣盾）に対応しています。ピカブイには対応しておりません。
           </p>
         </div>
       </div>
@@ -1103,7 +1104,7 @@ export default {
   position: absolute;
   display: block;
   overflow-y: scroll;
-  max-height: 250px;
+  max-height: 350px;
 }
 
 #SuggestList {
