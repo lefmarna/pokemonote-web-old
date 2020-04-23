@@ -1,6 +1,11 @@
 <template>
   <div class="overflow-auto px-2">
     <updatesTemplate
+      day="2020-04-23"
+      content="トップページのデザインが『利用規約』のデザインにも影響を及ぼしていた不具合を修正しました。"
+      content2="『ステータス計算機』をスマホで表示した際のレイアウトを少し変更しました。"
+    />
+    <updatesTemplate
       day="2020-04-22"
       content="『ステータス計算機』におけるポケモン入力の候補選択を、キーボードの上下キーで移動できるようにしました。"
     />
@@ -29,30 +34,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
-h3 {
-  position: relative;
-  display: inline-block;
-  padding: 0 55px;
-}
-h3:before,
-h3:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  display: inline-block;
-  width: 45px;
-  height: 1px;
-  background-color: black;
-}
-
-h3:before {
-  left: 0;
-}
-h3:after {
-  right: 0;
-}
-
+<style lang="scss" scoped>
 .overflow-auto {
   height: 280px;
 }

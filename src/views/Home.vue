@@ -14,7 +14,9 @@
           </div>
         </div>
         <div class="col-12 col-md-6 px-1 mb-2 d-flex">
-          <div class="bg-white border rounded-lg shadow-sm flex-fill">
+          <div
+            class="bg-white border rounded-lg shadow-sm flex-fill text-center"
+          >
             <h2 class="mb-3">フォローする</h2>
             <img
               src="../assets/lefmarna.png"
@@ -38,22 +40,21 @@
       <div class="row">
         <div class="col-12 px-1 mb-2">
           <div class="bg-white border rounded-lg shadow-sm">
-            <h2 class="mb-3">ポケモニット アプリとは？</h2>
+            <h2 class="mb-3">ポケモニット アプリについて</h2>
             <div class="px-2">
               <p>
-                ポケモンの攻略ブログ『<a
+                『ポケモニット アプリ』は、ポケモンの攻略ブログ『<a
                   href="https://pokemonit.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   >ポケモニット</a
-                >』を運営している『レフマーナ』の自作アプリ集です。
+                >』を運営している『レフマーナ』による自作アプリ集です。
               </p>
               <p>
                 SPA(シングルページアプリケーション)という技術を用いて制作しているため、当サイト内のリンクであれば読み込みがかからず、各ページ間の遷移をスムーズに行うことができます。
               </p>
               <p>
-                当サイト「ポケモニット
-                アプリ」は、個人の運営するファンサイトであり、株式会社ポケモンや任天堂、その他各企業様とは一切関係ありません。
+                当サイトは、個人の運営するファンサイトであり、株式会社ポケモンや任天堂、その他各企業様とは一切関係ありません。
               </p>
               <p>
                 ポケットモンスター・ポケモン・Pokémonは任天堂・クリーチャーズ・ゲームフリークの登録商標です。
@@ -67,16 +68,10 @@
 </template>
 
 <style lang="scss" scoped>
-* {
-  text-align: center;
-}
-// a {
-//   color: #42b983;
-// }
-
 h2 {
   margin: 10px;
   font-weight: bold;
+  text-align: center;
 }
 
 .jumbotron {

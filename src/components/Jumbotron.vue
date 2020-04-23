@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-center">
     <h1 class="mt-3 text-white font-weight-bold">{{ msg }}</h1>
     <p class="text-white">ポケモンをより楽しむためのWebアプリ</p>
   </div>
