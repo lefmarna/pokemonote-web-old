@@ -563,67 +563,65 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-6 px-1">
-        <div>
-          <div class="d-flex bg-white border rounded-lg shadow-sm mb-2 pt-3">
-            <div class="col-6">
-              <p>めざパ：{{ hiddenPower }}</p>
-              <p>
-                総合耐久：{{ physicalDurability + specialDurability }}
-                <br />
-                <span class="col-1"></span>
-                物理：{{ physicalDurability }}
-                <br />
-                <span class="col-1"></span>
-                特殊：{{ specialDurability }}
-              </p>
+      <div class="col-12 col-md-6 px-1 d-flex flex-column">
+        <result class="mb-2 border rounded shadow-sm order-md-2"></result>
+        <result class="mb-2 border rounded shadow-sm order-md-3"></result>
+        <div
+          class="d-flex bg-white border rounded-lg shadow-sm mb-2 pt-3 order-md-1"
+        >
+          <div class="col-6">
+            <p>めざパ：{{ hiddenPower }}</p>
+            <p>
+              総合耐久：{{ physicalDurability + specialDurability }}
+              <br />
+              <span class="col-1"></span>
+              物理：{{ physicalDurability }}
+              <br />
+              <span class="col-1"></span>
+              特殊：{{ specialDurability }}
+            </p>
+          </div>
+          <div class="col-6">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="item"
+                id="item1"
+                value="持ち物なし"
+                v-model="item"
+                checked
+              />
+              <label class="form-check-label" for="item1">持ち物なし</label>
             </div>
-            <div class="col-6">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="item"
-                  id="item1"
-                  value="持ち物なし"
-                  v-model="item"
-                  checked
-                />
-                <label class="form-check-label" for="item1">持ち物なし</label>
-              </div>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="item"
-                  id="item2"
-                  value="とつげきチョッキ"
-                  v-model="item"
-                />
-                <label class="form-check-label" for="item2"
-                  >とつげきチョッキ</label
-                >
-              </div>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="item"
-                  id="item3"
-                  value="しんかのきせき"
-                  v-model="item"
-                  v-bind:disabled="evolution.length == 0"
-                />
-                <label class="form-check-label" for="item3"
-                  >しんかのきせき</label
-                >
-              </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="item"
+                id="item2"
+                value="とつげきチョッキ"
+                v-model="item"
+              />
+              <label class="form-check-label" for="item2"
+                >とつげきチョッキ</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="item"
+                id="item3"
+                value="しんかのきせき"
+                v-model="item"
+                v-bind:disabled="evolution.length == 0"
+              />
+              <label class="form-check-label" for="item3">しんかのきせき</label>
             </div>
           </div>
         </div>
-        <result class="mb-2 border rounded shadow-sm"></result>
-        <result class="mb-2 border rounded shadow-sm"></result>
-        <div class="bg-white border rounded shadow-sm pt-3 px-2">
+        <div class="bg-white border rounded shadow-sm pt-3 px-2 order-md-4">
           <p>使い方</p>
           <p>
             ポケモンの各種ステータスをリアルタイムに計算するツールです。
