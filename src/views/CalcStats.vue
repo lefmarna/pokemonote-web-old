@@ -15,7 +15,7 @@
                   searchName = $event.target.value;
                   activeList = 0;
                 "
-                @change="enterName"
+                @keyup.prevent.enter="enterName"
                 @keydown.prevent.up="
                   if (activeList) {
                     activeList--;
