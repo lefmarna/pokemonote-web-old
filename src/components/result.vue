@@ -52,66 +52,54 @@ export default {
       const NoMaxEv = valuesCopy.filter(
         value => value.ev != 252 && value.ev > 0
       );
-      // 持ち物があれば、耐久指数の箇所に持ち物も出力する
-      if (parent.item == "とつげきチョッキ") {
-        line5 += "(チョッキ)";
-      }
-      if (parent.item == "しんかのきせき" && parent.evolution.length) {
-        line5 += "(輝石)";
+      // 努力値が振られているなら()で囲む
+      for (let i = 0, len = parent.values.length; i < len; i++) {
+        if (valuesCopy[i].ev == 0) {
+          if (i == 0) {
+            line2 += `${stats[i]}`;
+          } else {
+            line2 += `-${stats[i]}`;
+          }
+        } else {
+          if (i == 0) {
+            line2 += `${stats[i]}(${valuesCopy[i].ev})`;
+          } else {
+            line2 += `-${stats[i]}(${valuesCopy[i].ev})`;
+          }
+        }
       }
       // 252振りの箇所が2箇所以上あれば、それを1箇所にまとめる
       if (MaxEv.length >= 2) {
         // 252振りの箇所は先に
         for (let i = 0, len = MaxEv.length; i < len; i++) {
-          line4 += `${MaxEv[i].abbreviation}`;
+          line4 += `${MaxEv[i].initial}`;
         }
         line4 = line4 + "252";
         // 252振りでない箇所は後ろに
         for (let i = 0, len = NoMaxEv.length; i < len; i++) {
           if (NoMaxEv[i].ev) {
-            line4 += ` ${NoMaxEv[i].abbreviation}${NoMaxEv[i].ev}`;
+            line4 += ` ${NoMaxEv[i].initial}${NoMaxEv[i].ev}`;
           }
         }
-        // 努力値が振られているなら()で囲む
-        for (let i = 0, len = parent.values.length; i < len; i++) {
-          if (valuesCopy[i].ev == 0) {
-            if (i == 0) {
-              line2 += `${stats[i]}`;
-            } else {
-              line2 += `-${stats[i]}`;
-            }
-          } else {
-            if (i == 0) {
-              line2 += `${stats[i]}(${valuesCopy[i].ev})`;
-            } else {
-              line2 += `-${stats[i]}(${valuesCopy[i].ev})`;
-            }
-          }
-        }
+        // 252振りの箇所が2箇所以下あれば、HABCDSの順に表示する
       } else {
         for (let i = 0, len = parent.values.length; i < len; i++) {
-          if (valuesCopy[i].ev == 0) {
-            if (i == 0) {
-              line2 += `${stats[i]}`;
-            } else {
-              line2 += `-${stats[i]}`;
-            }
-          } else {
+          if (valuesCopy[i].ev > 0) {
             if (!line4) {
-              if (i == 0) {
-                line2 += `${stats[i]}(${valuesCopy[i].ev})`;
-              } else {
-                line2 += `-${stats[i]}(${valuesCopy[i].ev})`;
-              }
-              line4 += `${parent.values[i].abbreviation}${valuesCopy[i].ev}`;
+              line4 += `${parent.values[i].initial}${valuesCopy[i].ev}`;
             } else {
-              line2 += `-${stats[i]}(${valuesCopy[i].ev})`;
-              line4 += ` ${parent.values[i].abbreviation}${valuesCopy[i].ev}`;
+              line4 += ` ${parent.values[i].initial}${valuesCopy[i].ev}`;
             }
           }
         }
       }
-      // 努力値が無振りのときは努力値を出力しない
+      // 持ち物があれば、耐久指数の箇所に持ち物も出力する
+      if (parent.item == "とつげきチョッキ") {
+        line5 += "(チョッキ)";
+      } else if (parent.item == "しんかのきせき" && parent.evolution.length) {
+        line5 += "(輝石)";
+      }
+      // 無振りのときは努力値を出力しない
       if (valuesCopy.some(value => value.ev > 0)) {
         this.calcArea = `${line1}\n${line2}\n${line3}\n${line4}\n${line5}`;
       } else {

@@ -682,14 +682,14 @@ export default {
       activeList: 0,
       regex: /^[-]?([1-9]\d*|0)(\.\d+)?$/,
       values: [
-        { name: "ＨＰ", iv: 31, ev: 0, bs: 108, calc: "hp", abbreviation: "H" },
+        { name: "ＨＰ", iv: 31, ev: 0, bs: 108, calc: "hp", initial: "H" },
         {
           name: "攻撃",
           iv: 31,
           ev: 0,
           bs: 130,
           calc: "attack",
-          abbreviation: "A"
+          initial: "A"
         },
         {
           name: "防御",
@@ -697,7 +697,7 @@ export default {
           ev: 0,
           bs: 95,
           calc: "defence",
-          abbreviation: "B"
+          initial: "B"
         },
         {
           name: "特攻",
@@ -705,7 +705,7 @@ export default {
           ev: 0,
           bs: 80,
           calc: "spAttack",
-          abbreviation: "C"
+          initial: "C"
         },
         {
           name: "特防",
@@ -713,7 +713,7 @@ export default {
           ev: 0,
           bs: 85,
           calc: "spDefence",
-          abbreviation: "D"
+          initial: "D"
         },
         {
           name: "素早",
@@ -721,7 +721,7 @@ export default {
           ev: 0,
           bs: 102,
           calc: "speed",
-          abbreviation: "S"
+          initial: "S"
         }
       ]
     };
