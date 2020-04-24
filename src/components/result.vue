@@ -48,48 +48,39 @@ export default {
         parent.physicalDurability
       }-${parent.specialDurability}`;
       // 努力値が252とそれ以外の箇所に分け、それぞれ配列に格納
-      const MaxEv = valuesCopy.filter(value => value.ev == 252);
-      const NoMaxEv = valuesCopy.filter(
-        value => value.ev != 252 && value.ev > 0
-      );
+      let maxEv = valuesCopy.filter(value => value.ev == 252);
+      let noMaxEv = valuesCopy.filter(value => value.ev != 252 && value.ev > 0);
       // 努力値が振られているなら()で囲む
       for (let i = 0, len = parent.values.length; i < len; i++) {
-        if (valuesCopy[i].ev == 0) {
-          if (i == 0) {
-            line2 += `${stats[i]}`;
-          } else {
-            line2 += `-${stats[i]}`;
-          }
-        } else {
-          if (i == 0) {
-            line2 += `${stats[i]}(${valuesCopy[i].ev})`;
-          } else {
-            line2 += `-${stats[i]}(${valuesCopy[i].ev})`;
-          }
+        if (i > 0) {
+          line2 += "-";
+        }
+        line2 += String(stats[i]);
+        if (valuesCopy[i].ev > 0) {
+          line2 += `(${valuesCopy[i].ev})`;
         }
       }
       // 252振りの箇所が2箇所以上あれば、それを1箇所にまとめる
-      if (MaxEv.length >= 2) {
+      if (maxEv.length >= 2) {
         // 252振りの箇所は先に
-        for (let i = 0, len = MaxEv.length; i < len; i++) {
-          line4 += `${MaxEv[i].initial}`;
+        for (let i = 0, len = maxEv.length; i < len; i++) {
+          line4 += `${maxEv[i].initial}`;
         }
         line4 = line4 + "252";
         // 252振りでない箇所は後ろに
-        for (let i = 0, len = NoMaxEv.length; i < len; i++) {
-          if (NoMaxEv[i].ev) {
-            line4 += ` ${NoMaxEv[i].initial}${NoMaxEv[i].ev}`;
+        for (let i = 0, len = noMaxEv.length; i < len; i++) {
+          if (noMaxEv[i].ev) {
+            line4 += ` ${noMaxEv[i].initial}${noMaxEv[i].ev}`;
           }
         }
         // 252振りの箇所が2箇所以下あれば、HABCDSの順に表示する
       } else {
         for (let i = 0, len = parent.values.length; i < len; i++) {
           if (valuesCopy[i].ev > 0) {
-            if (!line4) {
-              line4 += `${parent.values[i].initial}${valuesCopy[i].ev}`;
-            } else {
-              line4 += ` ${parent.values[i].initial}${valuesCopy[i].ev}`;
+            if (line4) {
+              line4 += " ";
             }
+            line4 += parent.values[i].initial + valuesCopy[i].ev;
           }
         }
       }
