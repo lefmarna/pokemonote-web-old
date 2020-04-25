@@ -18,7 +18,11 @@ export default {
       return [
         { property: "og:site_name", content: "ポケモニット アプリ" },
         { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary_large_image" },
+        {
+          property: "og:image",
+          content: "https://app.pokemonit.com/twitter_card.jpg"
+        },
+        { name: "twitter:card", content: "summary" },
         { name: "twitter:site", content: "@lefmarna" },
         { name: "format-detection", content: "telephone=no" }
       ];
