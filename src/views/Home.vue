@@ -7,13 +7,7 @@
     </div>
     <div class="container my-1 my-sm-2">
       <div class="row d-flex">
-        <div class="col-12 col-md-6 px-1 mb-2 d-flex">
-          <div class=" bg-white border rounded-lg shadow-sm">
-            <h2 class="mb-3">更新情報</h2>
-            <updates />
-          </div>
-        </div>
-        <div class="col-12 col-md-6 px-1 mb-2 d-flex">
+        <div class="col-12 col-md-6 px-1 mb-2 d-flex order-md-2">
           <div
             class="bg-white border rounded-lg shadow-sm flex-fill text-center"
           >
@@ -34,6 +28,12 @@
                 >
               </li>
             </ul>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 px-1 mb-2 d-flex order-md-1">
+          <div class=" bg-white border rounded-lg shadow-sm">
+            <h2 class="mb-3">更新情報</h2>
+            <updates />
           </div>
         </div>
       </div>
