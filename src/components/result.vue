@@ -1,12 +1,31 @@
 <template>
   <div class="position-relative">
     <textarea class="form-control" rows="5" v-model="calcArea"></textarea>
-    <button
-      class="btn btn-outline-secondary btn-sm position-absolute"
-      v-on:click="result()"
-    >
-      保存する
-    </button>
+    <div class="position-absolute">
+      <div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="inlineCheckbox1"
+            v-model="attackCheck"
+          />
+          <label class="form-check-label" for="inlineCheckbox1">A</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="inlineCheckbox2"
+            v-model="spAttackCheck"
+          />
+          <label class="form-check-label" for="inlineCheckbox2">C</label>
+        </div>
+      </div>
+      <button class="btn btn-outline-secondary btn-sm" v-on:click="result()">
+        保存する
+      </button>
+    </div>
   </div>
 </template>
 
@@ -14,7 +33,9 @@
 export default {
   data() {
     return {
-      calcArea: ""
+      calcArea: "",
+      attackCheck: true,
+      spAttackCheck: true
     };
   },
   methods: {
@@ -39,6 +60,12 @@ export default {
         parent.values[4],
         parent.values[5]
       ];
+      if (!this.attackCheck) {
+        stats[1] = "*";
+      }
+      if (!this.spAttackCheck) {
+        stats[3] = "*";
+      }
       // 各行に出力する初期値を設定
       let line1 = `${parent.name} ${parent.nature}`;
       let line2 = "";
@@ -102,8 +129,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.position-relative .btn {
-  right: 1px;
-  bottom: 1px;
+.position-relative .position-absolute {
+  right: -8px;
+  bottom: 0.5px;
 }
 </style>
