@@ -15,17 +15,7 @@ import Footer from "./components/Footer.vue";
 export default {
   head: {
     meta() {
-      return [
-        { property: "og:site_name", content: "ポケモニット アプリ" },
-        { property: "og:type", content: "website" },
-        {
-          property: "og:image",
-          content: "https://app.pokemonit.com/twitter_card.jpg"
-        },
-        { name: "twitter:card", content: "summary" },
-        { name: "twitter:site", content: "@lefmarna" },
-        { name: "format-detection", content: "telephone=no" }
-      ];
+      return [{ name: "format-detection", content: "telephone=no" }];
     }
   },
   components: {
