@@ -130,7 +130,7 @@ export default {
 
 <style lang="scss" scoped>
 .position-relative .position-absolute {
-  right: -8px;
+  right: 0px;
   bottom: 0.5px;
 }
 </style>
