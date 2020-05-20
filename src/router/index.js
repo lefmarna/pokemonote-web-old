@@ -20,6 +20,11 @@ const routes = [
       import(/* webpackChunkName: "calc-stats" */ "../views/CalcStats.vue")
   },
   {
+    path: "/calc-speed",
+    name: "素早さ計算機",
+    component: () => import("../views/CalcSpeed.vue")
+  },
+  {
     path: "/privacy-policy",
     name: "利用規約",
     component: () => import("../views/privacyPolicy")

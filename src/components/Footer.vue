@@ -1,6 +1,6 @@
 <template>
-  <footer class="pt-3 pb-1 text-center bg-dark text-white">
-    <ul>
+  <footer class="pt-3 text-center bg-dark text-white">
+    <ul class="list-unstyled">
       <li><router-link to="/">ホーム</router-link></li>
       <li><router-link to="/privacy-policy">利用規約</router-link></li>
       <li>
@@ -12,7 +12,7 @@
         >
       </li>
     </ul>
-    <p>
+    <p class="mb-0 pb-3">
       © Copyright 2020
       <a href="https://app.pokemonit.com">ポケモニット アプリ</a>
     </p>
@@ -20,10 +20,6 @@
 </template>
 
 <style scoped lang="scss">
-ul {
-  list-style-type: none;
-  padding: 0;
-}
 li {
   display: inline-block;
   margin: 0 10px;
