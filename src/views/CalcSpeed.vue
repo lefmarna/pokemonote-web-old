@@ -1,10 +1,12 @@
 <template>
   <div>
     <div class="container">
-      <div class="row bg-white">
+      <div class="row">
         <div class="col-12 col-md-6">
-          素早さ：<input type="number" v-model="speed" />
-          <div>
+          <div class="bg-white border rounded-lg shadow-sm mb-1 p-2 order-md-1">
+            素早さ：<input type="number" v-model="speed" />
+          </div>
+          <div class="bg-white border rounded-lg shadow-sm mb-1 p-2 order-md-1">
             <p>状態</p>
             <div class="form-check">
               <input
@@ -33,9 +35,9 @@
                 class="form-check-input"
                 type="checkbox"
                 value=""
-                id="defaultCheck2"
+                id="defaultCheck3"
               />
-              <label class="form-check-label" for="defaultCheck2">
+              <label class="form-check-label" for="defaultCheck3">
                 まひ / きょうせいギプス
               </label>
             </div>
@@ -44,20 +46,21 @@
                 class="form-check-input"
                 type="checkbox"
                 value=""
-                id="defaultCheck2"
+                id="defaultCheck4"
               />
-              <label class="form-check-label" for="defaultCheck2">
+              <label class="form-check-label" for="defaultCheck4">
                 湿原
               </label>
             </div>
           </div>
-          <div>
+          <div class="bg-white border rounded-lg shadow-sm mb-1 p-2 order-md-1">
             <p>オプション</p>
             <div class="custom-control custom-switch">
               <input
                 type="checkbox"
                 class="custom-control-input"
                 id="customSwitch1"
+                v-model="option1"
               />
               <label class="custom-control-label" for="customSwitch1"
                 >±4以上も表示する</label
@@ -75,21 +78,23 @@
             </div>
           </div>
         </div>
-        <div class="col-12 col-md-6">
+        <div
+          class="col-12 col-md-6 bg-white border rounded-lg shadow-sm mb-1 order-md-1"
+        >
           <table class="table table-hover">
             <tr>
-              <td scope="col">ランク</td>
-              <td scope="col">素早さ</td>
+              <td>ランク</td>
+              <td>素早さ</td>
             </tr>
-            <tr>
+            <tr v-if="option1">
               <td>+6</td>
               <td>{{ Math.floor(speed * 4.0) }}</td>
             </tr>
-            <tr>
+            <tr v-if="option1">
               <td>+5</td>
               <td>{{ Math.floor(speed * 3.5) }}</td>
             </tr>
-            <tr>
+            <tr v-if="option1">
               <td>+4</td>
               <td>{{ Math.floor(speed * 3.0) }}</td>
             </tr>
@@ -107,7 +112,7 @@
             </tr>
             <tr>
               <td>±0</td>
-              <td>{{ speed }}</td>
+              <td>{{ Math.floor(speed) }}</td>
             </tr>
             <tr>
               <td>-1</td>
@@ -121,15 +126,15 @@
               <td>-3</td>
               <td>{{ Math.floor(speed * 0.4) }}</td>
             </tr>
-            <tr>
+            <tr v-if="option1">
               <td>-4</td>
               <td>{{ Math.floor(speed * 0.33) }}</td>
             </tr>
-            <tr>
+            <tr v-if="option1">
               <td>-5</td>
               <td>{{ Math.floor(speed * 0.29) }}</td>
             </tr>
-            <tr>
+            <tr v-if="option1">
               <td>-6</td>
               <td>{{ Math.floor(speed * 0.25) }}</td>
             </tr>
@@ -163,7 +168,9 @@ export default {
       title: "素早さ計算機（ポケモン剣盾に対応）",
       description:
         "ポケモン剣盾に対応している素早さ計算機です。実数値を入力することで、あらゆる状態の素早さをリアルタイムに表示します。",
-      speed: 100
+      speed: 100,
+      option1: false,
+      option2: false
     };
   }
 };
