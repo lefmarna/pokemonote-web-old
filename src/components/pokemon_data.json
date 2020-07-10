@@ -901,6 +901,40 @@
     }
   },
   {
+    "no": 892,
+    "name": "ウーラオス(一撃)",
+    "form": "いちげきのかた",
+    "evolutions": [],
+    "types": ["かくとう", "あく"],
+    "abilities": ["ふかしのこぶし"],
+    "hiddenAbilities": [],
+    "stats": {
+      "hp": 100,
+      "attack": 130,
+      "defence": 100,
+      "spAttack": 63,
+      "spDefence": 60,
+      "speed": 97
+    }
+  },
+  {
+    "no": 892,
+    "name": "ウーラオス(連撃)",
+    "form": "れんげきのかた",
+    "evolutions": [],
+    "types": ["かくとう", "みず"],
+    "abilities": ["ふかしのこぶし"],
+    "hiddenAbilities": [],
+    "stats": {
+      "hp": 100,
+      "attack": 130,
+      "defence": 100,
+      "spAttack": 63,
+      "spDefence": 60,
+      "speed": 97
+    }
+  },
+  {
     "no": 831,
     "name": "ウールー",
     "form": "",
@@ -6831,6 +6865,23 @@
       "spAttack": 50,
       "spDefence": 70,
       "speed": 110
+    }
+  },
+  {
+    "no": 891,
+    "name": "ダクマ",
+    "form": "",
+    "evolutions": [892],
+    "types": ["かくとう"],
+    "abilities": ["せいしんりょく"],
+    "hiddenAbilities": [],
+    "stats": {
+      "hp": 60,
+      "attack": 90,
+      "defence": 60,
+      "spAttack": 53,
+      "spDefence": 50,
+      "speed": 72
     }
   },
   {
@@ -15572,6 +15623,23 @@
     }
   },
   {
+    "no": 80,
+    "name": "ヤドラン(ガラル)",
+    "form": "ガラルのすがた",
+    "evolutions": [],
+    "types": ["どく", "エスパー"],
+    "abilities": ["クイックドロウ", "マイペース"],
+    "hiddenAbilities": ["さいせいりょく"],
+    "stats": {
+      "hp": 95,
+      "attack": 100,
+      "defence": 95,
+      "spAttack": 100,
+      "spDefence": 70,
+      "speed": 30
+    }
+  },
+  {
     "no": 79,
     "name": "ヤドン",
     "form": "",
@@ -15592,7 +15660,7 @@
     "no": 79,
     "name": "ヤドン(ガラル)",
     "form": "ガラルのすがた",
-    "evolutions": [],
+    "evolutions": [80],
     "types": ["エスパー"],
     "abilities": ["くいしんぼう", "マイペース"],
     "hiddenAbilities": ["さいせいりょく"],
