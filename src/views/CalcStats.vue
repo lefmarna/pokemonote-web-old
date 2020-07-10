@@ -1,6 +1,6 @@
 <template>
   <div class="container my-1 my-sm-2">
-    <div class="row d-flex">
+    <div class="row">
       <div class="col-12 col-md-6 px-1">
         <div class="mb-1">
           <div class="card shadow-sm p-0">

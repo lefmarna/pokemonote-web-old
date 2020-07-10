@@ -3,6 +3,7 @@
     <div id="nav">
       <router-link to="/">Home</router-link>
       <router-link to="/calc-stats">ステータス計算機</router-link>
+      <router-link to="/calc-speed">素早さ計算機</router-link>
     </div>
     <router-view />
     <app-footer></app-footer>
