@@ -113,21 +113,6 @@ import updates from "@/components/updates.vue";
 
 export default {
   name: "Home",
-  head: {
-    meta() {
-      return [
-        { name: "description", content: this.description },
-        { property: "og:title", content: "ポケモニット アプリ" },
-        { property: "og:description", content: this.description }
-      ];
-    }
-  },
-  data() {
-    return {
-      description:
-        "ポケモンの攻略ブログ『ポケモニット』の管理人である『レフマーナ』の自作アプリ集です。"
-    };
-  },
   components: {
     Jumbotron,
     updates

@@ -1,5 +1,7 @@
 <template>
   <div>
+    {{ this.speed }}
+    {{ this.calcSpeed }}
     <div class="container my-1 my-sm-2">
       <div class="row d-flex">
         <div class="col-12 col-md-6 px-1">
@@ -145,15 +147,23 @@
               <tr>
                 <td>+3</td>
                 <td>
-                  {{ Math.floor((speed * 25) / 10) }} ({{
-                    Math.floor((calcSpeed * 25) / 10)
+                  {{ Math.floor((speed * 250) / 100) }} ({{
+                    Math.floor(
+                      Math.floor(Math.floor((speed * 250) / 100) * calcSpeed) /
+                        100000
+                    )
                   }})
                 </td>
               </tr>
               <tr>
                 <td>+2</td>
                 <td>
-                  {{ Math.floor(speed * 2) }} ({{ Math.floor(calcSpeed * 2) }})
+                  {{ Math.floor((speed * 200) / 100) }} ({{
+                    Math.floor(
+                      Math.floor(Math.floor((speed * 200) / 100) * calcSpeed) /
+                        100000
+                    )
+                  }})
                 </td>
               </tr>
               <tr>
@@ -233,26 +243,8 @@
 <script>
 export default {
   name: "CalcSpeed",
-  head: {
-    title() {
-      return {
-        inner: this.title
-      };
-    },
-    meta() {
-      return [
-        { name: "title", content: this.title },
-        { name: "description", content: this.description },
-        { property: "og:title", content: this.title },
-        { property: "og:description", content: this.description }
-      ];
-    }
-  },
   data() {
     return {
-      title: "素早さ計算機（ポケモン剣盾に対応）",
-      description:
-        "ポケモン剣盾に対応している素早さ計算機です。実数値を入力することで、あらゆる状態の素早さをリアルタイムに表示します。",
       remove: 0,
       speed: 100,
       tailwind: 1,
@@ -267,15 +259,13 @@ export default {
   },
   computed: {
     calcSpeed() {
-      return Math.floor(
-        (this.speed *
-          this.tailwind *
-          this.ability *
-          this.scarf *
-          this.paralysis *
-          this.macho *
-          this.swamp) /
-          100000
+      return (
+        this.tailwind *
+        this.ability *
+        this.scarf *
+        this.paralysis *
+        this.macho *
+        this.swamp
       );
     }
   }

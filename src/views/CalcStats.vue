@@ -58,7 +58,7 @@
               <div>
                 <div>
                   性格：
-                  <select v-model="nature">
+                  <select class="py-1" v-model="nature">
                     <option value="いじっぱり">いじっぱり</option>
                     <option value="うっかりや">うっかりや</option>
                     <option value="おくびょう">おくびょう</option>
@@ -649,29 +649,11 @@ import result from "@/components/result.vue";
 
 export default {
   name: "CalcStats",
-  head: {
-    title() {
-      return {
-        inner: this.title
-      };
-    },
-    meta() {
-      return [
-        { name: "title", content: this.title },
-        { name: "description", content: this.description },
-        { property: "og:title", content: this.title },
-        { property: "og:description", content: this.description }
-      ];
-    }
-  },
   components: {
     result
   },
   data() {
     return {
-      title: "ステータス計算機（ポケモン剣盾に対応）",
-      description:
-        "ポケモン剣盾に対応しているステータスの計算機です。個体値と努力値から実数値を求められるだけでなく、実数値から努力値の逆算にも対応しています。リアルタイムで計算が行われ、めざパや総合耐久も計算できるようになっています。",
       name: "ガブリアス",
       pokemons: Pokemon,
       searchName: "",

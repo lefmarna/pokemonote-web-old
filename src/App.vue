@@ -21,31 +21,75 @@ export default {
   },
   components: {
     "app-footer": Footer
+  },
+  mounted() {
+    var to = this.$route;
+    this.createPageTitle(to);
+  },
+  watch: {
+    $route(to) {
+      this.createPageTitle(to);
+    }
+  },
+  methods: {
+    /* ページが遷移したときにメタタグを書き換える */
+    createPageTitle(to) {
+      // titleを取得
+      let currentTitle = document.querySelectorAll(
+        "meta[name='twitter:title'], meta[property='og:title']"
+      );
+      // titleが存在する場合は書き換え、存在しない場合はデフォルトに設定
+      let rewriteTitle = "ポケモニット アプリ";
+      if (to.meta.title) {
+        rewriteTitle = to.meta.title + " | ポケモニット アプリ";
+      }
+      for (let i = 0, len = currentTitle.length; i < len; i++) {
+        currentTitle[i].setAttribute("content", rewriteTitle);
+      }
+      document.title = rewriteTitle;
+      // descriptionを取得
+      let currentDesc = document.querySelectorAll(
+        "meta[name='description'], meta[name='twitter:description'], meta[property='og:description']"
+      );
+      // descriptionが存在する場合は書き換え、存在しない場合はデフォルトに設定
+      if (to.meta.desc) {
+        for (let i = 0, len = currentDesc.length; i < len; i++) {
+          currentDesc[i].setAttribute("content", to.meta.desc);
+        }
+      } else {
+        for (let i = 0, len = currentDesc.length; i < len; i++) {
+          currentDesc[i].setAttribute(
+            "content",
+            "ポケモンの攻略ブログ『ポケモニット』の管理人である『レフマーナ』の自作アプリ集です。"
+          );
+        }
+      }
+    }
   }
 };
 </script>
 
 <style lang="scss">
-body {
-  font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI",
-    "Helvetica Neue", HelveticaNeue, "游ゴシック体", YuGothic,
-    "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", Verdana,
-    "メイリオ", Meiryo, sans-serif;
-}
+// body {
+//   font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI",
+//     "Helvetica Neue", HelveticaNeue, "游ゴシック体", YuGothic,
+//     "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", Verdana,
+//     "メイリオ", Meiryo, sans-serif;
+// }
 
-b,
-strong,
-.bold {
-  font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI semibold",
-    "Helvetica Neue", HelveticaNeue, "游ゴシック体", YuGothic, "游ゴシック",
-    "Yu Gothic", "Segoe UI", Verdana, "メイリオ", Meiryo, sans-serif;
-}
+// b,
+// strong,
+// .bold {
+//   font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI semibold",
+//     "Helvetica Neue", HelveticaNeue, "游ゴシック体", YuGothic, "游ゴシック",
+//     "Yu Gothic", "Segoe UI", Verdana, "メイリオ", Meiryo, sans-serif;
+// }
 
-/* IEだけに適応 */
-_:lang(x)::-ms-backdrop,
-.selector {
-  font-family: "Segoe UI", "メイリオ", Meiryo, sans-serif;
-}
+// /* IEだけに適応 */
+// _:lang(x)::-ms-backdrop,
+// .selector {
+//   font-family: "Segoe UI", "メイリオ", Meiryo, sans-serif;
+// }
 
 #nav {
   padding: 30px;

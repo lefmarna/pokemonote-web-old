@@ -8,11 +8,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 Vue.use(BootstrapVue);
 
-import VueHead from "vue-head";
-Vue.use(VueHead, {
-  separator: "|"
-});
-
 import VueAdsense from "vue-adsense";
 // Google Adsense 用
 Vue.component("adsense", VueAdsense);

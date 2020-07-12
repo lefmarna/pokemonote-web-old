@@ -214,26 +214,7 @@
 
 <script>
 export default {
-  name: "privacyPolicy",
-  head: {
-    title() {
-      return {
-        inner: this.title
-      };
-    },
-    meta() {
-      return [
-        { name: "title", content: this.title },
-        { property: "og:title", content: this.title },
-        { name: "robots", content: "noindex, nofollow" }
-      ];
-    }
-  },
-  data() {
-    return {
-      title: "利用規約"
-    };
-  }
+  name: "privacyPolicy"
 };
 </script>
 
