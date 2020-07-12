@@ -70,26 +70,26 @@ export default {
 </script>
 
 <style lang="scss">
-body {
-  font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI",
-    "Helvetica Neue", HelveticaNeue, "游ゴシック体", YuGothic,
-    "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", Verdana,
-    "メイリオ", Meiryo, sans-serif;
-}
+// body {
+//   font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI",
+//     "Helvetica Neue", HelveticaNeue, "游ゴシック体", YuGothic,
+//     "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", Verdana,
+//     "メイリオ", Meiryo, sans-serif;
+// }
 
-b,
-strong,
-.bold {
-  font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI semibold",
-    "Helvetica Neue", HelveticaNeue, "游ゴシック体", YuGothic, "游ゴシック",
-    "Yu Gothic", "Segoe UI", Verdana, "メイリオ", Meiryo, sans-serif;
-}
+// b,
+// strong,
+// .bold {
+//   font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI semibold",
+//     "Helvetica Neue", HelveticaNeue, "游ゴシック体", YuGothic, "游ゴシック",
+//     "Yu Gothic", "Segoe UI", Verdana, "メイリオ", Meiryo, sans-serif;
+// }
 
-/* IEだけに適応 */
-_:lang(x)::-ms-backdrop,
-.selector {
-  font-family: "Segoe UI", "メイリオ", Meiryo, sans-serif;
-}
+// /* IEだけに適応 */
+// _:lang(x)::-ms-backdrop,
+// .selector {
+//   font-family: "Segoe UI", "メイリオ", Meiryo, sans-serif;
+// }
 
 #nav {
   padding: 30px;
