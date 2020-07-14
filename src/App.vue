@@ -17,10 +17,10 @@ export default {
   head: {
     meta() {
       return [{ name: "format-detection", content: "telephone=no" }];
-    }
+    },
   },
   components: {
-    "app-footer": Footer
+    "app-footer": Footer,
   },
   mounted() {
     var to = this.$route;
@@ -29,7 +29,7 @@ export default {
   watch: {
     $route(to) {
       this.createPageTitle(to);
-    }
+    },
   },
   methods: {
     /* ページが遷移したときにメタタグを書き換える */
@@ -64,33 +64,12 @@ export default {
           );
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-// body {
-//   font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI",
-//     "Helvetica Neue", HelveticaNeue, "游ゴシック体", YuGothic,
-//     "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", Verdana,
-//     "メイリオ", Meiryo, sans-serif;
-// }
-
-// b,
-// strong,
-// .bold {
-//   font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI semibold",
-//     "Helvetica Neue", HelveticaNeue, "游ゴシック体", YuGothic, "游ゴシック",
-//     "Yu Gothic", "Segoe UI", Verdana, "メイリオ", Meiryo, sans-serif;
-// }
-
-// /* IEだけに適応 */
-// _:lang(x)::-ms-backdrop,
-// .selector {
-//   font-family: "Segoe UI", "メイリオ", Meiryo, sans-serif;
-// }
-
 #nav {
   padding: 30px;
   text-align: center;
@@ -114,16 +93,20 @@ export default {
   }
 }
 
+// ハートの色
+$heart1: #bbdefb;
+$heart2: #90caf9;
+
 #app {
   background-color: #e3f2fd;
-  background-image: linear-gradient(135deg, #bbdefb 0.85em, transparent 0),
-    linear-gradient(-135deg, #bbdefb 0.85em, transparent 0),
-    radial-gradient(circle at 7.4em 7.4em, #bbdefb 0.85em, transparent 0.85em),
-    radial-gradient(circle at 0.56em 7.4em, #bbdefb 0.85em, transparent 0.85em),
+  background-image: linear-gradient(135deg, $heart1 0.85em, transparent 0),
+    linear-gradient(-135deg, $heart1 0.85em, transparent 0),
+    radial-gradient(circle at 7.4em 7.4em, $heart1 0.85em, transparent 0.85em),
+    radial-gradient(circle at 0.56em 7.4em, $heart1 0.85em, transparent 0.85em),
     linear-gradient(135deg, #90caf9 0.85em, transparent 0),
-    linear-gradient(-135deg, #90caf9 0.85em, transparent 0),
-    radial-gradient(circle at 7.4em 7.4em, #90caf9 0.85em, transparent 0.85em),
-    radial-gradient(circle at 0.56em 7.4em, #90caf9 0.85em, transparent 0.85em);
+    linear-gradient(-135deg, $heart2 0.85em, transparent 0),
+    radial-gradient(circle at 7.4em 7.4em, $heart2 0.85em, transparent 0.85em),
+    radial-gradient(circle at 0.56em 7.4em, $heart2 0.85em, transparent 0.85em);
   background-position: 0 4em, 0 4em, 0 -4em, 0 -4em, 4em 0, 4em 0, 4em 0, 4em 0;
   background-size: 8em 8em;
   background-repeat: repeat;

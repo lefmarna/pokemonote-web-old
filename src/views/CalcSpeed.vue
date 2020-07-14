@@ -1,7 +1,5 @@
 <template>
   <div>
-    {{ this.speed }}
-    {{ this.calcSpeed }}
     <div class="container my-1 my-sm-2">
       <div class="row d-flex">
         <div class="col-12 col-md-6 px-1">
@@ -12,13 +10,32 @@
               max="999"
               v-model.number="speed"
             />
-          </div>
-          <div
-            class="bg-white border rounded-lg shadow-sm mb-1 p-2 order-md-1 d-flex"
-          >
-            <div class="col-6">
-              <p>素早さアップ</p>
-              <div class="form-check">
+            <div class="form-row">
+              <div class="col">
+                <label for="selectItem">道具</label>
+                <select class="form-control" id="selectItem" v-model="item">
+                  <option value="20">スピードパウダー (×2)</option>
+                  <option value="15">こだわりスカーフ (×1.5)</option>
+                  <option value="10">--- 道具を選択 ---</option>
+                  <option value="5">くろいてっきゅう (×0.5)</option>
+                </select>
+              </div>
+              <div class="col">
+                <label for="selectaAility">特性</label>
+                <select
+                  class="form-control"
+                  id="selectaAility"
+                  v-model="ability"
+                >
+                  <option value="20">すいすい・ようりょくそ (×2)</option>
+                  <option value="2">はやあし・かるわざ (×2)</option>
+                  <option value="10">--- 特性を選択 ---</option>
+                  <option value="5">スロースタート (×0.5)</option>
+                </select>
+              </div>
+            </div>
+            <div class="d-flex">
+              <div class="form-check col-4">
                 <input
                   class="form-check-input"
                   type="checkbox"
@@ -31,37 +48,7 @@
                   おいかぜ (×2.0)
                 </label>
               </div>
-
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="speedUp2"
-                  v-model.number="ability"
-                  true-value="2"
-                  false-value="1"
-                />
-                <label class="form-check-label" for="speedUp2"
-                  >天候特性 (×2.0)
-                </label>
-              </div>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="speedUp3"
-                  v-model.number="scarf"
-                  true-value="15"
-                  false-value="10"
-                />
-                <label class="form-check-label" for="speedUp3">
-                  スカーフ (×1.5)
-                </label>
-              </div>
-            </div>
-            <div class="col-6">
-              <p>素早さダウン</p>
-              <div class="form-check">
+              <div class="form-check col-4">
                 <input
                   class="form-check-input"
                   type="checkbox"
@@ -74,20 +61,7 @@
                   まひ (×0.5)
                 </label>
               </div>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="speedDown2"
-                  v-model.number="macho"
-                  true-value="5"
-                  false-value="10"
-                />
-                <label class="form-check-label" for="speedDown2">
-                  鉄球 (×0.5)
-                </label>
-              </div>
-              <div class="form-check">
+              <div class="form-check col-4">
                 <input
                   class="form-check-input"
                   type="checkbox"
@@ -126,43 +100,33 @@
               </tr>
               <tr v-if="option1">
                 <td>+6</td>
-                <td>
-                  {{ Math.floor(speed * 4) }} ({{ Math.floor(calcSpeed * 4) }})
-                </td>
+                <td>{{ Math.floor(speed * 4) }} ({{ calcSpeed(400) }})</td>
               </tr>
               <tr v-if="option1">
                 <td>+5</td>
                 <td>
                   {{ Math.floor((speed * 35) / 10) }} ({{
-                    Math.floor((calcSpeed * 35) / 10)
+                    Math.floor(calcSpeed(350))
                   }})
                 </td>
               </tr>
               <tr v-if="option1">
                 <td>+4</td>
-                <td>
-                  {{ Math.floor(speed * 3) }} ({{ Math.floor(calcSpeed * 3) }})
-                </td>
+                <td>{{ Math.floor(speed * 3) }} ({{ calcSpeed(300) }})</td>
               </tr>
               <tr>
                 <td>+3</td>
                 <td>
-                  {{ Math.floor((speed * 250) / 100) }} ({{
-                    Math.floor(
-                      Math.floor(Math.floor((speed * 250) / 100) * calcSpeed) /
-                        100000
-                    )
+                  {{ Math.floor((speed * 25) / 10) }} ({{
+                    Math.floor(Math.floor(calcSpeed(250)))
                   }})
                 </td>
               </tr>
               <tr>
                 <td>+2</td>
                 <td>
-                  {{ Math.floor((speed * 200) / 100) }} ({{
-                    Math.floor(
-                      Math.floor(Math.floor((speed * 200) / 100) * calcSpeed) /
-                        100000
-                    )
+                  {{ Math.floor(speed * 2) }} ({{
+                    Math.floor(Math.floor(calcSpeed(200)))
                   }})
                 </td>
               </tr>
@@ -170,19 +134,21 @@
                 <td>+1</td>
                 <td>
                   {{ Math.floor((speed * 15) / 10) }} ({{
-                    Math.floor((calcSpeed * 15) / 10)
+                    Math.floor(Math.floor(calcSpeed(150)))
                   }})
                 </td>
               </tr>
               <tr>
                 <td>±0</td>
-                <td>{{ Math.floor(speed) }} ({{ Math.floor(calcSpeed) }})</td>
+                <td>
+                  {{ Math.floor(speed) }} ({{ Math.floor(calcSpeed(100)) }})
+                </td>
               </tr>
               <tr>
                 <td>-1</td>
                 <td>
                   {{ Math.floor((speed * 67) / 100) }} ({{
-                    Math.floor((calcSpeed * 67) / 100)
+                    Math.floor(calcSpeed(67))
                   }})
                 </td>
               </tr>
@@ -190,7 +156,7 @@
                 <td>-2</td>
                 <td>
                   {{ Math.floor((speed * 5) / 10) }} ({{
-                    Math.floor((calcSpeed * 5) / 10)
+                    Math.floor(calcSpeed(50))
                   }})
                 </td>
               </tr>
@@ -198,7 +164,7 @@
                 <td>-3</td>
                 <td>
                   {{ Math.floor((speed * 4) / 10) }} ({{
-                    Math.floor((calcSpeed * 4) / 10)
+                    Math.floor(calcSpeed(40))
                   }})
                 </td>
               </tr>
@@ -206,7 +172,7 @@
                 <td>-4</td>
                 <td>
                   {{ Math.floor((speed * 33) / 100) }} ({{
-                    Math.floor((calcSpeed * 33) / 100)
+                    Math.floor(calcSpeed(33))
                   }})
                 </td>
               </tr>
@@ -214,15 +180,15 @@
                 <td>-5</td>
                 <td>
                   {{ Math.floor((speed * 29) / 100) }} ({{
-                    Math.floor((calcSpeed * 29) / 100)
+                    Math.floor(calcSpeed(29))
                   }})
                 </td>
               </tr>
               <tr v-if="option1">
                 <td>-6</td>
                 <td>
-                  {{ Math.floor((calcSpeed * 25) / 100) }} ({{
-                    Math.floor((calcSpeed * 25) / 100)
+                  {{ Math.floor((speed * 25) / 100) }} ({{
+                    Math.floor(calcSpeed(25))
                   }})
                 </td>
               </tr>
@@ -230,13 +196,15 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <adsense
+          ad-client="ca-pub-3240586325286249"
+          ad-slot="3353369882"
+          ad-style="display:block"
+          ad-format="auto"
+        ></adsense>
+      </div>
     </div>
-    <adsense
-      ad-client="ca-pub-3240586325286249"
-      ad-slot="3353369882"
-      ad-style="display:block"
-      ad-format="auto"
-    ></adsense>
   </div>
 </template>
 
@@ -247,26 +215,50 @@ export default {
     return {
       remove: 0,
       speed: 100,
+      item: 10,
+      ability: 10,
       tailwind: 1,
-      ability: 1,
-      scarf: 10,
       paralysis: 10,
-      macho: 10,
       swamp: 100,
-      option1: false,
-      item: ""
+      option1: false
     };
   },
-  computed: {
-    calcSpeed() {
-      return (
-        this.tailwind *
-        this.ability *
-        this.scarf *
-        this.paralysis *
-        this.macho *
-        this.swamp
-      );
+  methods: {
+    calcSpeed(rank) {
+      // 特性が「はやあし・かるわざ」のときは計算の順番を変える
+      if (this.ability == 2) {
+        return Math.floor(
+          (Math.floor(
+            (Math.floor(
+              (Math.floor((this.speed * rank) / 100) * this.item) / 10
+            ) *
+              this.paralysis) /
+              10
+          ) *
+            2 *
+            this.tailwind *
+            this.swamp) /
+            100
+        );
+        // 特性がその他であれば通常通り計算する
+      } else {
+        return Math.floor(
+          (Math.floor(
+            (Math.floor(
+              (Math.floor(
+                (Math.floor((this.speed * rank) / 100) * this.ability) / 10
+              ) *
+                this.item) /
+                10
+            ) *
+              this.paralysis) /
+              10
+          ) *
+            this.tailwind *
+            this.swamp) /
+            100
+        );
+      }
     }
   }
 };
