@@ -17,10 +17,10 @@ export default {
   head: {
     meta() {
       return [{ name: "format-detection", content: "telephone=no" }];
-    },
+    }
   },
   components: {
-    "app-footer": Footer,
+    "app-footer": Footer
   },
   mounted() {
     var to = this.$route;
@@ -29,7 +29,7 @@ export default {
   watch: {
     $route(to) {
       this.createPageTitle(to);
-    },
+    }
   },
   methods: {
     /* ページが遷移したときにメタタグを書き換える */
@@ -64,8 +64,8 @@ export default {
           );
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -12,8 +12,10 @@
     "core-js": "^3.6.5",
     "firebase": "^7.16.0",
     "vue": "^2.6.11",
-    "vue-adsense": "^1.0.1",
+    "vue-google-adsense": "^1.8.3",
     "vue-router": "^3.2.0",
+    "vue-script2": "^2.1.0",
+    "vue-select": "git+https://github.com/lefmarna/vue-select.git",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

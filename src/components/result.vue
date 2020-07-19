@@ -22,9 +22,7 @@
           <label class="form-check-label" for="inlineCheckbox2">C</label>
         </div>
       </div>
-      <button class="btn btn-outline-secondary btn-sm" v-on:click="result()">
-        保存する
-      </button>
+      <button class="btn btn-outline-secondary btn-sm" v-on:click="result()">保存する</button>
     </div>
   </div>
 </template>

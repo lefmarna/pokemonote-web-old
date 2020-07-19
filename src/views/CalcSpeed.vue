@@ -4,12 +4,8 @@
       <div class="row d-flex">
         <div class="col-12 col-md-6 px-1">
           <div class="bg-white border rounded-lg shadow-sm mb-1 p-2 order-md-1">
-            素早さ：<input
-              type="number"
-              min="0"
-              max="999"
-              v-model.number="speed"
-            />
+            素早さ：
+            <input type="number" min="0" max="999" v-model.number="speed" />
             <div class="form-row">
               <div class="col">
                 <label for="selectItem">道具</label>
@@ -44,9 +40,9 @@
                   true-value="2"
                   false-value="1"
                 />
-                <label class="form-check-label" for="speedUp1">
-                  おいかぜ (×2.0)
-                </label>
+                <label class="form-check-label" for="speedUp1"
+                  >おいかぜ (×2.0)</label
+                >
               </div>
               <div class="form-check col-4">
                 <input
@@ -57,9 +53,9 @@
                   true-value="5"
                   false-value="10"
                 />
-                <label class="form-check-label" for="speedDown1">
-                  まひ (×0.5)
-                </label>
+                <label class="form-check-label" for="speedDown1"
+                  >まひ (×0.5)</label
+                >
               </div>
               <div class="form-check col-4">
                 <input
@@ -70,9 +66,9 @@
                   true-value="25"
                   false-value="100"
                 />
-                <label class="form-check-label" for="speedDown3">
-                  湿原 (×0.25)
-                </label>
+                <label class="form-check-label" for="speedDown3"
+                  >湿原 (×0.25)</label
+                >
               </div>
             </div>
           </div>
@@ -196,14 +192,10 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <adsense
-          ad-client="ca-pub-3240586325286249"
-          ad-slot="3353369882"
-          ad-style="display:block"
-          ad-format="auto"
-        ></adsense>
-      </div>
+      <Adsense
+        data-ad-client="ca-pub-3240586325286249"
+        data-ad-slot="3353369882"
+      ></Adsense>
     </div>
   </div>
 </template>
@@ -220,7 +212,7 @@ export default {
       tailwind: 1,
       paralysis: 10,
       swamp: 100,
-      option1: false
+      option1: false,
     };
   },
   methods: {
@@ -259,7 +251,7 @@ export default {
             100
         );
       }
-    }
-  }
+    },
+  },
 };
 </script>
