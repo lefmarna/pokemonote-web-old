@@ -5,50 +5,19 @@
         <div class="mb-1">
           <div class="card shadow-sm p-0">
             <div class="bg-light p-3">
-              <input
-                type="search"
-                id="selectName"
-                class="form-control"
-                placeholder="ここにポケモン名を入力してください"
-                v-bind:value="searchName"
-                @input="
-                  searchName = $event.target.value;
-                  activeList = 0;
-                "
-                @keyup.prevent.enter="enterName"
-                @keydown.prevent.up="
-                  if (activeList) {
-                    activeList--;
-                  }
-                "
-                @keydown.prevent.down="
-                  if (activeList < searchPokemons.length - 1) {
-                    activeList++;
-                  }
-                "
-                autocomplete="off"
-                v-focus
-              />
-              <div id="pokemonlistArea" class="overflow-auto w-75">
-                <ul
-                  id="SuggestList"
-                  class="list-unstyled bg-white list-group list-group-flush border-left"
-                >
-                  <li
-                    v-for="(pokemon, index) in searchPokemons"
-                    :class="[
-                      'list-group-item',
-                      { active: index === activeList }
-                    ]"
-                    v-bind:key="pokemon.name"
-                    v-on:mousedown="searchName = pokemon.name"
-                  >{{ pokemon.name }}</li>
-                </ul>
+              <div class="d-flex">
+                <label for="" class="pt-1 w-25 text-right">ポケモン：</label>
+                <v-select
+                  class="bg-white w-75"
+                  :options="pokemons"
+                  label="name"
+                  v-model="selectPokemon"
+                  placeholder="ここにポケモン名を入力してください"
+                />
               </div>
-              <div class="font-weight-bold text-info">ポケモン名：{{ name }}</div>
               <div class="font-weight-bold text-info">
                 種族値：{{ values[0].bs }}-{{ values[1].bs }}-{{
-                values[2].bs
+                  values[2].bs
                 }}-{{ values[3].bs }}-{{ values[4].bs }}-{{ values[5].bs }}
               </div>
               <div>
@@ -84,9 +53,25 @@
                 </div>
                 <div>
                   レベル：
-                  <input type="number" id="lv" min="1" max="100" v-model.number="lv" />
-                  <button class="btn btn-outline-secondary btn-sm" v-on:click="lv = 50">50</button>
-                  <button class="btn btn-outline-secondary btn-sm" v-on:click="lv = 100">100</button>
+                  <input
+                    type="number"
+                    id="lv"
+                    min="1"
+                    max="100"
+                    v-model.number="lv"
+                  />
+                  <button
+                    class="btn btn-outline-secondary btn-sm"
+                    v-on:click="lv = 50"
+                  >
+                    50
+                  </button>
+                  <button
+                    class="btn btn-outline-secondary btn-sm"
+                    v-on:click="lv = 100"
+                  >
+                    100
+                  </button>
                 </div>
               </div>
             </div>
@@ -118,42 +103,69 @@
                       'align-middle',
                       {
                         'text-danger': natureCalc[0] == 1.1,
-                        'text-primary': natureCalc[0] == 0.9
-                      }
+                        'text-primary': natureCalc[0] == 0.9,
+                      },
                     ]"
-                  >HP</td>
+                  >
+                    HP
+                  </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="values[0].iv" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="values[0].iv"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[0].iv = 31"
-                      >31</button>
+                      >
+                        31
+                      </button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[0].iv = 0"
-                      >0</button>
+                      >
+                        0
+                      </button>
                     </div>
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="252" step="4" v-model.number="values[0].ev" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="values[0].ev"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[0].ev = 252"
-                      >252</button>
+                      >
+                        252
+                      </button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[0].ev = 0"
-                      >0</button>
+                      >
+                        0
+                      </button>
                     </div>
                   </td>
                   <td class="align-middle" colspan="2">
-                    <input type="number" min="0" max="999" v-bind:value="hp" v-on:change="hpCalc()" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="999"
+                      v-bind:value="hp"
+                      v-on:change="hpCalc()"
+                    />
                   </td>
                 </tr>
                 <tr align="center">
@@ -162,38 +174,59 @@
                       'align-middle',
                       {
                         'text-danger': natureCalc[1] == 1.1,
-                        'text-primary': natureCalc[1] == 0.9
-                      }
+                        'text-primary': natureCalc[1] == 0.9,
+                      },
                     ]"
-                  >攻撃</td>
+                  >
+                    攻撃
+                  </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="values[1].iv" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="values[1].iv"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[1].iv = 31"
-                      >31</button>
+                      >
+                        31
+                      </button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[1].iv = 0"
-                      >0</button>
+                      >
+                        0
+                      </button>
                     </div>
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="252" step="4" v-model.number="values[1].ev" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="values[1].ev"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[1].ev = 252"
-                      >252</button>
+                      >
+                        252
+                      </button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[1].ev = 0"
-                      >0</button>
+                      >
+                        0
+                      </button>
                     </div>
                   </td>
                   <td class="align-middle" colspan="2">
@@ -212,38 +245,59 @@
                       'align-middle',
                       {
                         'text-danger': natureCalc[2] == 1.1,
-                        'text-primary': natureCalc[2] == 0.9
-                      }
+                        'text-primary': natureCalc[2] == 0.9,
+                      },
                     ]"
-                  >防御</td>
+                  >
+                    防御
+                  </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="values[2].iv" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="values[2].iv"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[2].iv = 31"
-                      >31</button>
+                      >
+                        31
+                      </button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[2].iv = 0"
-                      >0</button>
+                      >
+                        0
+                      </button>
                     </div>
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="252" step="4" v-model.number="values[2].ev" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="values[2].ev"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[2].ev = 252"
-                      >252</button>
+                      >
+                        252
+                      </button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[2].ev = 0"
-                      >0</button>
+                      >
+                        0
+                      </button>
                     </div>
                   </td>
                   <td class="align-middle" colspan="2">
@@ -262,38 +316,59 @@
                       'align-middle',
                       {
                         'text-danger': natureCalc[3] == 1.1,
-                        'text-primary': natureCalc[3] == 0.9
-                      }
+                        'text-primary': natureCalc[3] == 0.9,
+                      },
                     ]"
-                  >特攻</td>
+                  >
+                    特攻
+                  </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="values[3].iv" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="values[3].iv"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[3].iv = 31"
-                      >31</button>
+                      >
+                        31
+                      </button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[3].iv = 0"
-                      >0</button>
+                      >
+                        0
+                      </button>
                     </div>
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="252" step="4" v-model.number="values[3].ev" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="values[3].ev"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[3].ev = 252"
-                      >252</button>
+                      >
+                        252
+                      </button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[3].ev = 0"
-                      >0</button>
+                      >
+                        0
+                      </button>
                     </div>
                   </td>
                   <td class="align-middle" colspan="2">
@@ -312,38 +387,59 @@
                       'align-middle',
                       {
                         'text-danger': natureCalc[4] == 1.1,
-                        'text-primary': natureCalc[4] == 0.9
-                      }
+                        'text-primary': natureCalc[4] == 0.9,
+                      },
                     ]"
-                  >特防</td>
+                  >
+                    特防
+                  </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="values[4].iv" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="values[4].iv"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[4].iv = 31"
-                      >31</button>
+                      >
+                        31
+                      </button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[4].iv = 0"
-                      >0</button>
+                      >
+                        0
+                      </button>
                     </div>
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="252" step="4" v-model.number="values[4].ev" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="values[4].ev"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[4].ev = 252"
-                      >252</button>
+                      >
+                        252
+                      </button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[4].ev = 0"
-                      >0</button>
+                      >
+                        0
+                      </button>
                     </div>
                   </td>
                   <td class="align-middle" colspan="2">
@@ -362,38 +458,59 @@
                       'align-middle',
                       {
                         'text-danger': natureCalc[5] == 1.1,
-                        'text-primary': natureCalc[5] == 0.9
-                      }
+                        'text-primary': natureCalc[5] == 0.9,
+                      },
                     ]"
-                  >素早</td>
+                  >
+                    素早
+                  </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="values[5].iv" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="values[5].iv"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[5].iv = 31"
-                      >31</button>
+                      >
+                        31
+                      </button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[5].iv = 0"
-                      >0</button>
+                      >
+                        0
+                      </button>
                     </div>
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="252" step="4" v-model.number="values[5].ev" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="values[5].ev"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[5].ev = 252"
-                      >252</button>
+                      >
+                        252
+                      </button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
                         v-on:click="values[5].ev = 0"
-                      >0</button>
+                      >
+                        0
+                      </button>
                     </div>
                   </td>
                   <td class="align-middle" colspan="2">
@@ -414,7 +531,9 @@
       <div class="col-12 col-md-6 px-1 d-flex flex-column">
         <result class="mb-1 border rounded shadow-sm order-md-2"></result>
         <result class="mb-1 border rounded shadow-sm order-md-3"></result>
-        <div class="d-flex bg-white border rounded-lg shadow-sm mb-1 pt-3 order-md-1">
+        <div
+          class="d-flex bg-white border rounded-lg shadow-sm mb-1 pt-3 order-md-1"
+        >
           <div class="col-6">
             <p>めざパ：{{ hiddenPower }}</p>
             <p>
@@ -449,7 +568,9 @@
                 value="とつげきチョッキ"
                 v-model="item"
               />
-              <label class="form-check-label" for="item2">とつげきチョッキ</label>
+              <label class="form-check-label" for="item2"
+                >とつげきチョッキ</label
+              >
             </div>
             <div class="form-check">
               <input
@@ -478,29 +599,34 @@
         </div>
       </div>
     </div>
-    <Adsense data-ad-client="ca-pub-3240586325286249" data-ad-slot="3353369882"></Adsense>
+    <Adsense
+      data-ad-client="ca-pub-3240586325286249"
+      data-ad-slot="3353369882"
+    ></Adsense>
   </div>
 </template>
 
 <script>
 import Pokemon from "@/components/pokemon_data.json";
 import result from "@/components/result.vue";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 export default {
   name: "CalcStats",
   components: {
-    result
+    result,
+    vSelect,
   },
   data() {
     return {
       name: "ガブリアス",
+      selectPokemon: null,
       pokemons: Pokemon,
-      searchName: "",
       lv: 50,
       nature: "がんばりや",
       item: "持ち物なし",
       evolution: "",
-      activeList: 0,
       regex: /^[-]?([1-9]\d*|0)(\.\d+)?$/,
       values: [
         { name: "ＨＰ", iv: 31, ev: 0, bs: 108, calc: "hp", initial: "H" },
@@ -510,7 +636,7 @@ export default {
           ev: 0,
           bs: 130,
           calc: "attack",
-          initial: "A"
+          initial: "A",
         },
         {
           name: "防御",
@@ -518,7 +644,7 @@ export default {
           ev: 0,
           bs: 95,
           calc: "defence",
-          initial: "B"
+          initial: "B",
         },
         {
           name: "特攻",
@@ -526,7 +652,7 @@ export default {
           ev: 0,
           bs: 80,
           calc: "spAttack",
-          initial: "C"
+          initial: "C",
         },
         {
           name: "特防",
@@ -534,7 +660,7 @@ export default {
           ev: 0,
           bs: 85,
           calc: "spDefence",
-          initial: "D"
+          initial: "D",
         },
         {
           name: "素早",
@@ -542,9 +668,9 @@ export default {
           ev: 0,
           bs: 102,
           calc: "speed",
-          initial: "S"
-        }
-      ]
+          initial: "S",
+        },
+      ],
     };
   },
   computed: {
@@ -689,21 +815,6 @@ export default {
           return [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
       }
     },
-    // ひらがなをカタカナに変換
-    checkName() {
-      return this.searchName.replace(/[ぁ-ん]/g, function(s) {
-        return String.fromCharCode(s.charCodeAt(0) + 0x60);
-      });
-    },
-    searchPokemons() {
-      if (this.searchName) {
-        return this.pokemons.filter(
-          value => value.name.indexOf(this.checkName) === 0
-        );
-      } else {
-        return [];
-      }
-    },
     totalStats() {
       return (
         this.hp +
@@ -816,32 +927,22 @@ export default {
         default:
           return "あく";
       }
-    }
-  },
-  directives: {
-    // 読み込み時ポケモン名の入力欄にフォーカスする
-    focus: {
-      inserted: function(el) {
-        el.focus();
-      }
-    }
-    // エンターで次のマスいけるようにできるコマンドかけないかな？
+    },
   },
   watch: {
     // 入力されたポケモンが存在するとき、各種情報を更新する
-    searchPokemons() {
-      const pokemon = this.pokemons.find(i => i.name === this.searchName);
-      if (pokemon !== undefined) {
-        this.name = pokemon.name;
-        this.evolution = pokemon.evolutions;
-        this.values[0].bs = pokemon.stats.hp;
-        this.values[1].bs = pokemon.stats.attack;
-        this.values[2].bs = pokemon.stats.defence;
-        this.values[3].bs = pokemon.stats.spAttack;
-        this.values[4].bs = pokemon.stats.spDefence;
-        this.values[5].bs = pokemon.stats.speed;
+    selectPokemon() {
+      if (this.selectPokemon !== undefined) {
+        this.name = this.selectPokemon.name;
+        this.evolution = this.selectPokemon.evolutions;
+        this.values[0].bs = this.selectPokemon.stats.hp;
+        this.values[1].bs = this.selectPokemon.stats.attack;
+        this.values[2].bs = this.selectPokemon.stats.defence;
+        this.values[3].bs = this.selectPokemon.stats.spAttack;
+        this.values[4].bs = this.selectPokemon.stats.spDefence;
+        this.values[5].bs = this.selectPokemon.stats.speed;
       }
-    }
+    },
   },
   // メソッドは重くなるので、あまり使わないようにしよう
   methods: {
@@ -903,45 +1004,12 @@ export default {
         this.values[i].ev = n;
       }
     },
-    enterName() {
-      const activePokemon = document
-        .getElementById("SuggestList")
-        .getElementsByClassName("active");
-      this.searchName = this.pokemons.find(
-        i => i.name === activePokemon[0].innerText
-      ).name;
-    }
-  }
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-#pokemonlistArea {
-  display: none;
-  z-index: 10;
-}
-
-#selectName:focus + #pokemonlistArea {
-  position: absolute;
-  display: block;
-  overflow-y: scroll;
-  max-height: 350px;
-}
-
-#SuggestList {
-  &:hover + #pokemonlistArea {
-    display: block;
-  }
-  li:hover {
-    background-color: #f2a2b7;
-    color: white;
-  }
-  li:after {
-    font-family: "FontAwesome" !important;
-    content: "\f054";
-    position: absolute;
-    top: 25%;
-    right: 10px;
-  }
+<style lang="scss">
+input::placeholder {
+  color: #757575 !important;
 }
 </style>
