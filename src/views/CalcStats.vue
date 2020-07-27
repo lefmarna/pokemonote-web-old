@@ -21,9 +21,9 @@
                 values[2].bs
                 }}-{{ values[3].bs }}-{{ values[4].bs }}-{{ values[5].bs }}
               </div>-->
-              <div class="form-row">
+              <div class="d-flex justify-content-between">
                 <div class="form-row" style="width: 35%">
-                  <div class="ml-2">
+                  <div>
                     <label for="lv">レベル</label>
                     <input
                       type="number"
@@ -40,7 +40,7 @@
                   </div>
                 </div>
                 <div style="width: 65%">
-                  <label for="lv">性格</label>
+                  <label>性格</label>
                   <v-select
                     class="bg-white"
                     :options="natureList"
@@ -1118,8 +1118,5 @@ export default {
 <style lang="scss">
 input::placeholder {
   color: #757575 !important;
-}
-.container {
-  font-size: 15px; /* ルート要素のフォントサイズを1rem=14pxと定義する */
 }
 </style>
