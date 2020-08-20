@@ -5270,6 +5270,23 @@
     }
   },
   {
+    "no": 893,
+    "name": "ザルード",
+    "form": "",
+    "evolutions": [],
+    "types": ["あく", "くさ"],
+    "abilities": ["リーフガード"],
+    "hiddenAbilities": [],
+    "stats": {
+      "hp": 105,
+      "attack": 120,
+      "defence": 105,
+      "spAttack": 70,
+      "spDefence": 95,
+      "speed": 105
+    }
+  },
+  {
     "no": 810,
     "name": "サルノリ",
     "form": "",
