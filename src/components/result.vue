@@ -33,7 +33,7 @@ export default {
     return {
       calcArea: "",
       attackCheck: true,
-      spAttackCheck: true
+      spAttackCheck: true,
     };
   },
   methods: {
@@ -47,16 +47,16 @@ export default {
         parent.defence,
         parent.spAttack,
         parent.spDefence,
-        parent.speed
+        parent.speed,
       ];
       // 努力値を取得
-      let valuesCopy = [
-        parent.values[0],
-        parent.values[1],
-        parent.values[2],
-        parent.values[3],
-        parent.values[4],
-        parent.values[5]
+      let parametersCopy = [
+        parent.parameters[0],
+        parent.parameters[1],
+        parent.parameters[2],
+        parent.parameters[3],
+        parent.parameters[4],
+        parent.parameters[5],
       ];
       if (!this.attackCheck) {
         stats[1] = "*";
@@ -73,16 +73,18 @@ export default {
         parent.physicalDurability
       }-${parent.specialDurability}`;
       // 努力値が252とそれ以外の箇所に分け、それぞれ配列に格納
-      let maxEv = valuesCopy.filter(value => value.ev == 252);
-      let noMaxEv = valuesCopy.filter(value => value.ev != 252 && value.ev > 0);
+      let maxEv = parametersCopy.filter((value) => value.ev == 252);
+      let noMaxEv = parametersCopy.filter(
+        (value) => value.ev != 252 && value.ev > 0
+      );
       // 努力値が振られているなら()で囲む
-      for (let i = 0, len = parent.values.length; i < len; i++) {
+      for (let i = 0, len = parent.parameters.length; i < len; i++) {
         if (i > 0) {
           line2 += "-";
         }
         line2 += String(stats[i]);
-        if (valuesCopy[i].ev > 0) {
-          line2 += `(${valuesCopy[i].ev})`;
+        if (parametersCopy[i].ev > 0) {
+          line2 += `(${parametersCopy[i].ev})`;
         }
       }
       // 252振りの箇所が2箇所以上あれば、それを1箇所にまとめる
@@ -100,12 +102,12 @@ export default {
         }
         // 252振りの箇所が2箇所以下あれば、HABCDSの順に表示する
       } else {
-        for (let i = 0, len = parent.values.length; i < len; i++) {
-          if (valuesCopy[i].ev > 0) {
+        for (let i = 0, len = parent.parameters.length; i < len; i++) {
+          if (parametersCopy[i].ev > 0) {
             if (line4) {
               line4 += " ";
             }
-            line4 += parent.values[i].initial + valuesCopy[i].ev;
+            line4 += parent.parameters[i].initial + parametersCopy[i].ev;
           }
         }
       }
@@ -116,13 +118,13 @@ export default {
         line5 += "(輝石)";
       }
       // 無振りのときは努力値を出力しない
-      if (valuesCopy.some(value => value.ev > 0)) {
+      if (parametersCopy.some((value) => value.ev > 0)) {
         this.calcArea = `${line1}\n${line2}\n${line3}\n${line4}\n${line5}`;
       } else {
         this.calcArea = `${line1}\n${line2}\n${line5}`;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

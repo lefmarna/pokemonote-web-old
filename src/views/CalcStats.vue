@@ -17,9 +17,9 @@
               </div>
               <hr />
               <!-- <div class="font-weight-bold text-info">
-                種族値：{{ values[0].bs }}-{{ values[1].bs }}-{{
-                values[2].bs
-                }}-{{ values[3].bs }}-{{ values[4].bs }}-{{ values[5].bs }}
+                種族値：{{ parameters[0].bs }}-{{ parameters[1].bs }}-{{
+                parameters[2].bs
+                }}-{{ parameters[3].bs }}-{{ parameters[4].bs }}-{{ parameters[5].bs }}
               </div>-->
               <div class="d-flex justify-content-between">
                 <div class="form-row" style="width: 35%">
@@ -78,42 +78,48 @@
                     v-bind:class="[
                       'align-middle',
                       {
-                        'text-danger': values[0].natureCalc == 1.1,
-                        'text-primary': values[0].natureCalc == 0.9,
+                        'text-danger': parameters[0].natureCalc == 1.1,
+                        'text-primary': parameters[0].natureCalc == 0.9,
                       },
                     ]"
                   >
                     HP
                     <br />
-                    {{ values[0].bs }}
+                    {{ parameters[0].bs }}
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="values[0].iv" />
+                    <input type="number" min="0" max="31" v-model.number="parameters[0].iv" />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[0].iv = 31"
+                        v-on:click="parameters[0].iv = 31"
                       >31</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[0].iv = 0"
+                        v-on:click="parameters[0].iv = 0"
                       >0</button>
                     </div>
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="252" step="4" v-model.number="values[0].ev" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="parameters[0].ev"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[0].ev = 252"
+                        v-on:click="parameters[0].ev = 252"
                       >252</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[0].ev = 0"
+                        v-on:click="parameters[0].ev = 0"
                       >0</button>
                     </div>
                   </td>
@@ -126,42 +132,48 @@
                     v-bind:class="[
                       'align-middle',
                       {
-                        'text-danger': values[1].natureCalc == 1.1,
-                        'text-primary': values[1].natureCalc == 0.9,
+                        'text-danger': parameters[1].natureCalc == 1.1,
+                        'text-primary': parameters[1].natureCalc == 0.9,
                       },
                     ]"
                   >
                     攻撃
                     <br />
-                    {{ this.values[1].bs }}
+                    {{ this.parameters[1].bs }}
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="values[1].iv" />
+                    <input type="number" min="0" max="31" v-model.number="parameters[1].iv" />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[1].iv = 31"
+                        v-on:click="parameters[1].iv = 31"
                       >31</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[1].iv = 0"
+                        v-on:click="parameters[1].iv = 0"
                       >0</button>
                     </div>
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="252" step="4" v-model.number="values[1].ev" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="parameters[1].ev"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[1].ev = 252"
+                        v-on:click="parameters[1].ev = 252"
                       >252</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[1].ev = 0"
+                        v-on:click="parameters[1].ev = 0"
                       >0</button>
                     </div>
                   </td>
@@ -180,42 +192,48 @@
                     v-bind:class="[
                       'align-middle',
                       {
-                        'text-danger': values[2].natureCalc == 1.1,
-                        'text-primary': values[2].natureCalc == 0.9,
+                        'text-danger': parameters[2].natureCalc == 1.1,
+                        'text-primary': parameters[2].natureCalc == 0.9,
                       },
                     ]"
                   >
                     防御
                     <br />
-                    {{ this.values[2].bs }}
+                    {{ this.parameters[2].bs }}
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="values[2].iv" />
+                    <input type="number" min="0" max="31" v-model.number="parameters[2].iv" />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[2].iv = 31"
+                        v-on:click="parameters[2].iv = 31"
                       >31</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[2].iv = 0"
+                        v-on:click="parameters[2].iv = 0"
                       >0</button>
                     </div>
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="252" step="4" v-model.number="values[2].ev" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="parameters[2].ev"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[2].ev = 252"
+                        v-on:click="parameters[2].ev = 252"
                       >252</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[2].ev = 0"
+                        v-on:click="parameters[2].ev = 0"
                       >0</button>
                     </div>
                   </td>
@@ -234,42 +252,48 @@
                     v-bind:class="[
                       'align-middle',
                       {
-                        'text-danger': values[3].natureCalc == 1.1,
-                        'text-primary': values[3].natureCalc == 0.9,
+                        'text-danger': parameters[3].natureCalc == 1.1,
+                        'text-primary': parameters[3].natureCalc == 0.9,
                       },
                     ]"
                   >
                     特攻
                     <br />
-                    {{ this.values[3].bs }}
+                    {{ this.parameters[3].bs }}
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="values[3].iv" />
+                    <input type="number" min="0" max="31" v-model.number="parameters[3].iv" />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[3].iv = 31"
+                        v-on:click="parameters[3].iv = 31"
                       >31</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[3].iv = 0"
+                        v-on:click="parameters[3].iv = 0"
                       >0</button>
                     </div>
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="252" step="4" v-model.number="values[3].ev" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="parameters[3].ev"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[3].ev = 252"
+                        v-on:click="parameters[3].ev = 252"
                       >252</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[3].ev = 0"
+                        v-on:click="parameters[3].ev = 0"
                       >0</button>
                     </div>
                   </td>
@@ -288,42 +312,48 @@
                     v-bind:class="[
                       'align-middle',
                       {
-                        'text-danger': values[4].natureCalc == 1.1,
-                        'text-primary': values[4].natureCalc == 0.9,
+                        'text-danger': parameters[4].natureCalc == 1.1,
+                        'text-primary': parameters[4].natureCalc == 0.9,
                       },
                     ]"
                   >
                     特防
                     <br />
-                    {{ this.values[4].bs }}
+                    {{ this.parameters[4].bs }}
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="values[4].iv" />
+                    <input type="number" min="0" max="31" v-model.number="parameters[4].iv" />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[4].iv = 31"
+                        v-on:click="parameters[4].iv = 31"
                       >31</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[4].iv = 0"
+                        v-on:click="parameters[4].iv = 0"
                       >0</button>
                     </div>
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="252" step="4" v-model.number="values[4].ev" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="parameters[4].ev"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[4].ev = 252"
+                        v-on:click="parameters[4].ev = 252"
                       >252</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[4].ev = 0"
+                        v-on:click="parameters[4].ev = 0"
                       >0</button>
                     </div>
                   </td>
@@ -342,42 +372,48 @@
                     v-bind:class="[
                       'align-middle',
                       {
-                        'text-danger': values[5].natureCalc == 1.1,
-                        'text-primary': values[5].natureCalc == 0.9,
+                        'text-danger': parameters[5].natureCalc == 1.1,
+                        'text-primary': parameters[5].natureCalc == 0.9,
                       },
                     ]"
                   >
                     素早
                     <br />
-                    {{ this.values[5].bs }}
+                    {{ this.parameters[5].bs }}
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="values[5].iv" />
+                    <input type="number" min="0" max="31" v-model.number="parameters[5].iv" />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[5].iv = 31"
+                        v-on:click="parameters[5].iv = 31"
                       >31</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[5].iv = 0"
+                        v-on:click="parameters[5].iv = 0"
                       >0</button>
                     </div>
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="252" step="4" v-model.number="values[5].ev" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="252"
+                      step="4"
+                      v-model.number="parameters[5].ev"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[5].ev = 252"
+                        v-on:click="parameters[5].ev = 252"
                       >252</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="values[5].ev = 0"
+                        v-on:click="parameters[5].ev = 0"
                       >0</button>
                     </div>
                   </td>
@@ -767,7 +803,7 @@ export default {
       item: "持ち物なし",
       evolutions: "",
       regex: /^[-]?([1-9]\d*|0)(\.\d+)?$/,
-      values: [
+      parameters: [
         { name: "ＨＰ", iv: 31, ev: 0, bs: 108, calc: "hp", initial: "H" },
         {
           name: "攻撃",
@@ -819,7 +855,7 @@ export default {
   },
   computed: {
     hp() {
-      let iv = this.values[0].iv;
+      let iv = this.parameters[0].iv;
       if (!this.regex.test(iv)) {
         iv = 0;
       }
@@ -828,7 +864,9 @@ export default {
       } else {
         return (
           Math.floor(
-            ((this.values[0].bs * 2 + iv + Math.floor(this.values[0].ev / 4)) *
+            ((this.parameters[0].bs * 2 +
+              iv +
+              Math.floor(this.parameters[0].ev / 4)) *
               this.lv) /
               100
           ) +
@@ -838,78 +876,88 @@ export default {
       }
     },
     attack() {
-      let iv = this.values[1].iv;
+      let iv = this.parameters[1].iv;
       if (!this.regex.test(iv)) {
         iv = 0;
       }
       return Math.floor(
         (Math.floor(
-          ((this.values[1].bs * 2 + iv + Math.floor(this.values[1].ev / 4)) *
+          ((this.parameters[1].bs * 2 +
+            iv +
+            Math.floor(this.parameters[1].ev / 4)) *
             this.lv) /
             100
         ) +
           5) *
-          this.values[1].natureCalc
+          this.parameters[1].natureCalc
       );
     },
     defence() {
-      let iv = this.values[2].iv;
+      let iv = this.parameters[2].iv;
       if (!this.regex.test(iv)) {
         iv = 0;
       }
       return Math.floor(
         (Math.floor(
-          ((this.values[2].bs * 2 + iv + Math.floor(this.values[2].ev / 4)) *
+          ((this.parameters[2].bs * 2 +
+            iv +
+            Math.floor(this.parameters[2].ev / 4)) *
             this.lv) /
             100
         ) +
           5) *
-          this.values[2].natureCalc
+          this.parameters[2].natureCalc
       );
     },
     spAttack() {
-      let iv = this.values[3].iv;
+      let iv = this.parameters[3].iv;
       if (!this.regex.test(iv)) {
         iv = 0;
       }
       return Math.floor(
         (Math.floor(
-          ((this.values[3].bs * 2 + iv + Math.floor(this.values[3].ev / 4)) *
+          ((this.parameters[3].bs * 2 +
+            iv +
+            Math.floor(this.parameters[3].ev / 4)) *
             this.lv) /
             100
         ) +
           5) *
-          this.values[3].natureCalc
+          this.parameters[3].natureCalc
       );
     },
     spDefence() {
-      let iv = this.values[4].iv;
+      let iv = this.parameters[4].iv;
       if (!this.regex.test(iv)) {
         iv = 0;
       }
       return Math.floor(
         (Math.floor(
-          ((this.values[4].bs * 2 + iv + Math.floor(this.values[4].ev / 4)) *
+          ((this.parameters[4].bs * 2 +
+            iv +
+            Math.floor(this.parameters[4].ev / 4)) *
             this.lv) /
             100
         ) +
           5) *
-          this.values[4].natureCalc
+          this.parameters[4].natureCalc
       );
     },
     speed() {
-      let iv = this.values[5].iv;
+      let iv = this.parameters[5].iv;
       if (!this.regex.test(iv)) {
         iv = 0;
       }
       return Math.floor(
         (Math.floor(
-          ((this.values[5].bs * 2 + iv + Math.floor(this.values[5].ev / 4)) *
+          ((this.parameters[5].bs * 2 +
+            iv +
+            Math.floor(this.parameters[5].ev / 4)) *
             this.lv) /
             100
         ) +
           5) *
-          this.values[5].natureCalc
+          this.parameters[5].natureCalc
       );
     },
     totalStats() {
@@ -924,9 +972,9 @@ export default {
     },
     totalIv() {
       let n = 0;
-      for (let i = 0, len = this.values.length; i < len; i++) {
-        if (this.regex.test(this.values[i].iv)) {
-          n += this.values[i].iv;
+      for (let i = 0, len = this.parameters.length; i < len; i++) {
+        if (this.regex.test(this.parameters[i].iv)) {
+          n += this.parameters[i].iv;
         }
       }
       return n;
@@ -934,9 +982,9 @@ export default {
     // 努力値の合計を計算
     totalEv() {
       let n = 0;
-      for (let i = 0, len = this.values.length; i < len; i++) {
-        if (this.regex.test(this.values[i].ev)) {
-          n += this.values[i].ev;
+      for (let i = 0, len = this.parameters.length; i < len; i++) {
+        if (this.regex.test(this.parameters[i].ev)) {
+          n += this.parameters[i].ev;
         }
       }
       return n;
@@ -978,8 +1026,8 @@ export default {
     // めざめるパワーのタイプを求める
     hiddenPower() {
       let hiddenPowerCalc = 0;
-      for (let i = 0; i < this.values.length; i++) {
-        if (this.values[i].iv % 2 == 1) {
+      for (let i = 0; i < this.parameters.length; i++) {
+        if (this.parameters[i].iv % 2 == 1) {
           if (i == 5) {
             hiddenPowerCalc += 8;
           } else if (i > 2) {
@@ -1035,7 +1083,7 @@ export default {
         // 種族値を更新する
         let selectPokemonStats = this.selectPokemonData.stats;
         Object.keys(selectPokemonStats).forEach((value, index) => {
-          this.values[index].bs = selectPokemonStats[value];
+          this.parameters[index].bs = selectPokemonStats[value];
         });
       }
     },
@@ -1045,7 +1093,7 @@ export default {
         this.nature = this.selectNature.nature;
         let selectNatureStats = this.selectNature.stats;
         Object.keys(selectNatureStats).forEach((value, index) => {
-          this.values[index].natureCalc = selectNatureStats[value];
+          this.parameters[index].natureCalc = selectNatureStats[value];
         });
       }
     },
@@ -1053,40 +1101,40 @@ export default {
   // メソッドは重くなるので、あまり使わないようにしよう
   methods: {
     hpCalc() {
-      if (!this.regex.test(this.values[0].iv)) {
-        this.values[0].iv = 0;
+      if (!this.regex.test(this.parameters[0].iv)) {
+        this.parameters[0].iv = 0;
       }
       const n =
         (Math.ceil(
           ((Number(event.target.value) - this.lv - 10) * 100) / this.lv
         ) -
-          this.values[0].bs * 2 -
-          this.values[0].iv) *
+          this.parameters[0].bs * 2 -
+          this.parameters[0].iv) *
         4;
       if (n < 0) {
-        this.values[0].ev = 0;
+        this.parameters[0].ev = 0;
       } else {
-        this.values[0].ev = n;
+        this.parameters[0].ev = n;
       }
     },
     statsCalc(i) {
       let n = Number(event.target.value);
-      if (!this.regex.test(this.values[i].iv)) {
-        this.values[i].iv = 0;
+      if (!this.regex.test(this.parameters[i].iv)) {
+        this.parameters[i].iv = 0;
       }
-      if (n % 11 === 10 && this.values[i].natureCalc === 1.1) {
+      if (n % 11 === 10 && this.parameters[i].natureCalc === 1.1) {
         if (
           n >=
           Math.floor(
             (Math.floor(
-              ((this.values[i].bs * 2 +
-                this.values[i].iv +
-                Math.floor(this.values[i].ev / 4)) *
+              ((this.parameters[i].bs * 2 +
+                this.parameters[i].iv +
+                Math.floor(this.parameters[i].ev / 4)) *
                 this.lv) /
                 100
             ) +
               5) *
-              this.values[i].natureCalc
+              this.parameters[i].natureCalc
           )
         ) {
           n += 1;
@@ -1094,20 +1142,20 @@ export default {
           n -= 1;
         }
       }
-      if (this.values[i].natureCalc === 1.1) {
+      if (this.parameters[i].natureCalc === 1.1) {
         n = Math.ceil(n / 1.1);
-      } else if (this.values[i].natureCalc === 0.9) {
+      } else if (this.parameters[i].natureCalc === 0.9) {
         n = Math.ceil(n / 0.9);
       }
       n =
         (Math.ceil(((n - 5) * 100) / this.lv) -
-          this.values[i].bs * 2 -
-          this.values[i].iv) *
+          this.parameters[i].bs * 2 -
+          this.parameters[i].iv) *
         4;
       if (n < 0) {
-        this.values[i].ev = 0;
+        this.parameters[i].ev = 0;
       } else {
-        this.values[i].ev = n;
+        this.parameters[i].ev = n;
       }
     },
   },
