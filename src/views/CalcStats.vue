@@ -11,7 +11,7 @@
                   class="bg-white"
                   :options="pokemons"
                   label="name"
-                  v-model="selectPokemon"
+                  v-model="selectPokemonData"
                   placeholder="ポケモン名を入力してください"
                 />
               </div>
@@ -444,7 +444,7 @@
                 id="item3"
                 value="しんかのきせき"
                 v-model="item"
-                v-bind:disabled="evolution.length == 0"
+                v-bind:disabled="evolutions.length == 0"
               />
               <label class="form-check-label" for="item3">しんかのきせき</label>
             </div>
@@ -482,7 +482,7 @@ export default {
   data() {
     return {
       name: "ガブリアス",
-      selectPokemon: null,
+      selectPokemonData: null,
       pokemons: Pokemon,
       lv: 50,
       nature: "がんばりや",
@@ -765,7 +765,7 @@ export default {
         },
       ],
       item: "持ち物なし",
-      evolution: "",
+      evolutions: "",
       regex: /^[-]?([1-9]\d*|0)(\.\d+)?$/,
       values: [
         { name: "ＨＰ", iv: 31, ev: 0, bs: 108, calc: "hp", initial: "H" },
@@ -959,7 +959,7 @@ export default {
     },
     // 耐久指数
     physicalDurability() {
-      if (this.item == "しんかのきせき" && this.evolution.length) {
+      if (this.item == "しんかのきせき" && this.evolutions.length) {
         return this.hp * Math.floor(this.defence * 1.5);
       } else {
         return this.hp * this.defence;
@@ -967,7 +967,7 @@ export default {
     },
     specialDurability() {
       if (
-        (this.item == "しんかのきせき" && this.evolution.length) ||
+        (this.item == "しんかのきせき" && this.evolutions.length) ||
         this.item == "とつげきチョッキ"
       ) {
         return this.hp * Math.floor(this.spDefence * 1.5);
