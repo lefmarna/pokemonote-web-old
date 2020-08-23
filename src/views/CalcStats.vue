@@ -1028,26 +1028,25 @@ export default {
   },
   watch: {
     // 入力されたポケモンが存在するとき、各種情報を更新する
-    selectPokemon() {
-      if (this.selectPokemon !== undefined) {
-        this.name = this.selectPokemon.name;
-        this.evolution = this.selectPokemon.evolutions;
-        this.values[0].bs = this.selectPokemon.stats.hp;
-        this.values[1].bs = this.selectPokemon.stats.attack;
-        this.values[2].bs = this.selectPokemon.stats.defence;
-        this.values[3].bs = this.selectPokemon.stats.spAttack;
-        this.values[4].bs = this.selectPokemon.stats.spDefence;
-        this.values[5].bs = this.selectPokemon.stats.speed;
+    selectPokemonData() {
+      if (this.selectPokemonData !== undefined) {
+        this.name = this.selectPokemonData.name;
+        this.evolutions = this.selectPokemonData.evolutions;
+        // 種族値を更新する
+        let selectPokemonStats = this.selectPokemonData.stats;
+        Object.keys(selectPokemonStats).forEach((value, index) => {
+          this.values[index].bs = selectPokemonStats[value];
+        });
       }
     },
+    // 性格が変更されたとき、性格補正のかかる箇所を更新する
     selectNature() {
       if (this.selectNature !== undefined) {
         this.nature = this.selectNature.nature;
-        this.values[1].natureCalc = this.selectNature.stats.attack;
-        this.values[2].natureCalc = this.selectNature.stats.defence;
-        this.values[3].natureCalc = this.selectNature.stats.spAttack;
-        this.values[4].natureCalc = this.selectNature.stats.spDefence;
-        this.values[5].natureCalc = this.selectNature.stats.speed;
+        let selectNatureStats = this.selectNature.stats;
+        Object.keys(selectNatureStats).forEach((value, index) => {
+          this.values[index].natureCalc = selectNatureStats[value];
+        });
       }
     },
   },
