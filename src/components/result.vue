@@ -22,7 +22,9 @@
           <label class="form-check-label" for="inlineCheckbox2">C</label>
         </div>
       </div>
-      <button class="btn btn-outline-secondary btn-sm" v-on:click="result()">保存する</button>
+      <button class="btn btn-outline-secondary btn-sm" v-on:click="result()">
+        保存する
+      </button>
     </div>
   </div>
 </template>
@@ -73,9 +75,9 @@ export default {
         parent.physicalDurability
       }-${parent.specialDurability}`;
       // 努力値が252とそれ以外の箇所に分け、それぞれ配列に格納
-      let maxEv = parametersCopy.filter((value) => value.ev == 252);
+      let maxEv = parametersCopy.filter((value) => value.effortvalue == 252);
       let noMaxEv = parametersCopy.filter(
-        (value) => value.ev != 252 && value.ev > 0
+        (value) => value.effortvalue != 252 && value.effortvalue > 0
       );
       // 努力値が振られているなら()で囲む
       for (let i = 0, len = parent.parameters.length; i < len; i++) {
@@ -83,8 +85,8 @@ export default {
           line2 += "-";
         }
         line2 += String(stats[i]);
-        if (parametersCopy[i].ev > 0) {
-          line2 += `(${parametersCopy[i].ev})`;
+        if (parametersCopy[i].effortvalue > 0) {
+          line2 += `(${parametersCopy[i].effortvalue})`;
         }
       }
       // 252振りの箇所が2箇所以上あれば、それを1箇所にまとめる
@@ -96,18 +98,19 @@ export default {
         line4 = line4 + "252";
         // 252振りでない箇所は後ろに
         for (let i = 0, len = noMaxEv.length; i < len; i++) {
-          if (noMaxEv[i].ev) {
-            line4 += ` ${noMaxEv[i].initial}${noMaxEv[i].ev}`;
+          if (noMaxEv[i].effortvalue) {
+            line4 += ` ${noMaxEv[i].initial}${noMaxEv[i].effortvalue}`;
           }
         }
         // 252振りの箇所が2箇所以下あれば、HABCDSの順に表示する
       } else {
         for (let i = 0, len = parent.parameters.length; i < len; i++) {
-          if (parametersCopy[i].ev > 0) {
+          if (parametersCopy[i].effortvalue > 0) {
             if (line4) {
               line4 += " ";
             }
-            line4 += parent.parameters[i].initial + parametersCopy[i].ev;
+            line4 +=
+              parent.parameters[i].initial + parametersCopy[i].effortvalue;
           }
         }
       }
@@ -118,7 +121,7 @@ export default {
         line5 += "(輝石)";
       }
       // 無振りのときは努力値を出力しない
-      if (parametersCopy.some((value) => value.ev > 0)) {
+      if (parametersCopy.some((value) => value.effortvalue > 0)) {
         this.calcArea = `${line1}\n${line2}\n${line3}\n${line4}\n${line5}`;
       } else {
         this.calcArea = `${line1}\n${line2}\n${line5}`;
