@@ -17,9 +17,9 @@
               </div>
               <hr />
               <!-- <div class="font-weight-bold text-info">
-                種族値：{{ parameters[0].bs }}-{{ parameters[1].bs }}-{{
-                parameters[2].bs
-                }}-{{ parameters[3].bs }}-{{ parameters[4].bs }}-{{ parameters[5].bs }}
+                種族値：{{ parameters[0].basestats }}-{{ parameters[1].basestats }}-{{
+                parameters[2].basestats
+                }}-{{ parameters[3].basestats }}-{{ parameters[4].basestats }}-{{ parameters[5].basestats }}
               </div>-->
               <div class="d-flex justify-content-between">
                 <div class="form-row" style="width: 35%">
@@ -85,20 +85,25 @@
                   >
                     HP
                     <br />
-                    {{ parameters[0].bs }}
+                    {{ parameters[0].basestats }}
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="parameters[0].iv" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="parameters[0].individualvalue"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[0].iv = 31"
+                        v-on:click="parameters[0].individualvalue = 31"
                       >31</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[0].iv = 0"
+                        v-on:click="parameters[0].individualvalue = 0"
                       >0</button>
                     </div>
                   </td>
@@ -108,18 +113,18 @@
                       min="0"
                       max="252"
                       step="4"
-                      v-model.number="parameters[0].ev"
+                      v-model.number="parameters[0].effortvalue"
                     />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[0].ev = 252"
+                        v-on:click="parameters[0].effortvalue = 252"
                       >252</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[0].ev = 0"
+                        v-on:click="parameters[0].effortvalue = 0"
                       >0</button>
                     </div>
                   </td>
@@ -139,20 +144,25 @@
                   >
                     攻撃
                     <br />
-                    {{ this.parameters[1].bs }}
+                    {{ this.parameters[1].basestats }}
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="parameters[1].iv" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="parameters[1].individualvalue"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[1].iv = 31"
+                        v-on:click="parameters[1].individualvalue = 31"
                       >31</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[1].iv = 0"
+                        v-on:click="parameters[1].individualvalue = 0"
                       >0</button>
                     </div>
                   </td>
@@ -162,18 +172,18 @@
                       min="0"
                       max="252"
                       step="4"
-                      v-model.number="parameters[1].ev"
+                      v-model.number="parameters[1].effortvalue"
                     />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[1].ev = 252"
+                        v-on:click="parameters[1].effortvalue = 252"
                       >252</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[1].ev = 0"
+                        v-on:click="parameters[1].effortvalue = 0"
                       >0</button>
                     </div>
                   </td>
@@ -199,20 +209,25 @@
                   >
                     防御
                     <br />
-                    {{ this.parameters[2].bs }}
+                    {{ this.parameters[2].basestats }}
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="parameters[2].iv" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="parameters[2].individualvalue"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[2].iv = 31"
+                        v-on:click="parameters[2].individualvalue = 31"
                       >31</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[2].iv = 0"
+                        v-on:click="parameters[2].individualvalue = 0"
                       >0</button>
                     </div>
                   </td>
@@ -222,18 +237,18 @@
                       min="0"
                       max="252"
                       step="4"
-                      v-model.number="parameters[2].ev"
+                      v-model.number="parameters[2].effortvalue"
                     />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[2].ev = 252"
+                        v-on:click="parameters[2].effortvalue = 252"
                       >252</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[2].ev = 0"
+                        v-on:click="parameters[2].effortvalue = 0"
                       >0</button>
                     </div>
                   </td>
@@ -259,20 +274,25 @@
                   >
                     特攻
                     <br />
-                    {{ this.parameters[3].bs }}
+                    {{ this.parameters[3].basestats }}
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="parameters[3].iv" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="parameters[3].individualvalue"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[3].iv = 31"
+                        v-on:click="parameters[3].individualvalue = 31"
                       >31</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[3].iv = 0"
+                        v-on:click="parameters[3].individualvalue = 0"
                       >0</button>
                     </div>
                   </td>
@@ -282,18 +302,18 @@
                       min="0"
                       max="252"
                       step="4"
-                      v-model.number="parameters[3].ev"
+                      v-model.number="parameters[3].effortvalue"
                     />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[3].ev = 252"
+                        v-on:click="parameters[3].effortvalue = 252"
                       >252</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[3].ev = 0"
+                        v-on:click="parameters[3].effortvalue = 0"
                       >0</button>
                     </div>
                   </td>
@@ -319,20 +339,25 @@
                   >
                     特防
                     <br />
-                    {{ this.parameters[4].bs }}
+                    {{ this.parameters[4].basestats }}
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="parameters[4].iv" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="parameters[4].individualvalue"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[4].iv = 31"
+                        v-on:click="parameters[4].individualvalue = 31"
                       >31</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[4].iv = 0"
+                        v-on:click="parameters[4].individualvalue = 0"
                       >0</button>
                     </div>
                   </td>
@@ -342,18 +367,18 @@
                       min="0"
                       max="252"
                       step="4"
-                      v-model.number="parameters[4].ev"
+                      v-model.number="parameters[4].effortvalue"
                     />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[4].ev = 252"
+                        v-on:click="parameters[4].effortvalue = 252"
                       >252</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[4].ev = 0"
+                        v-on:click="parameters[4].effortvalue = 0"
                       >0</button>
                     </div>
                   </td>
@@ -379,20 +404,25 @@
                   >
                     素早
                     <br />
-                    {{ this.parameters[5].bs }}
+                    {{ this.parameters[5].basestats }}
                   </td>
                   <td class="align-middle text-right">
-                    <input type="number" min="0" max="31" v-model.number="parameters[5].iv" />
+                    <input
+                      type="number"
+                      min="0"
+                      max="31"
+                      v-model.number="parameters[5].individualvalue"
+                    />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[5].iv = 31"
+                        v-on:click="parameters[5].individualvalue = 31"
                       >31</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[5].iv = 0"
+                        v-on:click="parameters[5].individualvalue = 0"
                       >0</button>
                     </div>
                   </td>
@@ -402,18 +432,18 @@
                       min="0"
                       max="252"
                       step="4"
-                      v-model.number="parameters[5].ev"
+                      v-model.number="parameters[5].effortvalue"
                     />
                   </td>
                   <td class="text-left">
                     <div class="btn-group-vertical">
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[5].ev = 252"
+                        v-on:click="parameters[5].effortvalue = 252"
                       >252</button>
                       <button
                         class="btn btn-outline-secondary btn-sm"
-                        v-on:click="parameters[5].ev = 0"
+                        v-on:click="parameters[5].effortvalue = 0"
                       >0</button>
                     </div>
                   </td>
@@ -804,48 +834,55 @@ export default {
       evolutions: "",
       regex: /^[-]?([1-9]\d*|0)(\.\d+)?$/,
       parameters: [
-        { name: "ＨＰ", iv: 31, ev: 0, bs: 108, calc: "hp", initial: "H" },
+        {
+          name: "ＨＰ",
+          individualvalue: 31,
+          effortvalue: 0,
+          basestats: 108,
+          calc: "hp",
+          initial: "H",
+        },
         {
           name: "攻撃",
-          iv: 31,
-          ev: 0,
-          bs: 130,
+          individualvalue: 31,
+          effortvalue: 0,
+          basestats: 130,
           natureCalc: 1.0,
           calc: "attack",
           initial: "A",
         },
         {
           name: "防御",
-          iv: 31,
-          ev: 0,
-          bs: 95,
+          individualvalue: 31,
+          effortvalue: 0,
+          basestats: 95,
           natureCalc: 1.0,
           calc: "defence",
           initial: "B",
         },
         {
           name: "特攻",
-          iv: 31,
-          ev: 0,
-          bs: 80,
+          individualvalue: 31,
+          effortvalue: 0,
+          basestats: 80,
           natureCalc: 1.0,
           calc: "spAttack",
           initial: "C",
         },
         {
           name: "特防",
-          iv: 31,
-          ev: 0,
-          bs: 85,
+          individualvalue: 31,
+          effortvalue: 0,
+          basestats: 85,
           natureCalc: 1.0,
           calc: "spDefence",
           initial: "D",
         },
         {
           name: "素早",
-          iv: 31,
-          ev: 0,
-          bs: 102,
+          individualvalue: 31,
+          effortvalue: 0,
+          basestats: 102,
           natureCalc: 1.0,
           calc: "speed",
           initial: "S",
@@ -855,18 +892,18 @@ export default {
   },
   computed: {
     hp() {
-      let iv = this.parameters[0].iv;
-      if (!this.regex.test(iv)) {
-        iv = 0;
+      let individualvalue = this.parameters[0].individualvalue;
+      if (!this.regex.test(individualvalue)) {
+        individualvalue = 0;
       }
       if (this.name == "ヌケニン") {
         return 1;
       } else {
         return (
           Math.floor(
-            ((this.parameters[0].bs * 2 +
-              iv +
-              Math.floor(this.parameters[0].ev / 4)) *
+            ((this.parameters[0].basestats * 2 +
+              individualvalue +
+              Math.floor(this.parameters[0].effortvalue / 4)) *
               this.lv) /
               100
           ) +
@@ -876,15 +913,15 @@ export default {
       }
     },
     attack() {
-      let iv = this.parameters[1].iv;
-      if (!this.regex.test(iv)) {
-        iv = 0;
+      let individualvalue = this.parameters[1].individualvalue;
+      if (!this.regex.test(individualvalue)) {
+        individualvalue = 0;
       }
       return Math.floor(
         (Math.floor(
-          ((this.parameters[1].bs * 2 +
-            iv +
-            Math.floor(this.parameters[1].ev / 4)) *
+          ((this.parameters[1].basestats * 2 +
+            individualvalue +
+            Math.floor(this.parameters[1].effortvalue / 4)) *
             this.lv) /
             100
         ) +
@@ -893,15 +930,15 @@ export default {
       );
     },
     defence() {
-      let iv = this.parameters[2].iv;
-      if (!this.regex.test(iv)) {
-        iv = 0;
+      let individualvalue = this.parameters[2].individualvalue;
+      if (!this.regex.test(individualvalue)) {
+        individualvalue = 0;
       }
       return Math.floor(
         (Math.floor(
-          ((this.parameters[2].bs * 2 +
-            iv +
-            Math.floor(this.parameters[2].ev / 4)) *
+          ((this.parameters[2].basestats * 2 +
+            individualvalue +
+            Math.floor(this.parameters[2].effortvalue / 4)) *
             this.lv) /
             100
         ) +
@@ -910,15 +947,15 @@ export default {
       );
     },
     spAttack() {
-      let iv = this.parameters[3].iv;
-      if (!this.regex.test(iv)) {
-        iv = 0;
+      let individualvalue = this.parameters[3].individualvalue;
+      if (!this.regex.test(individualvalue)) {
+        individualvalue = 0;
       }
       return Math.floor(
         (Math.floor(
-          ((this.parameters[3].bs * 2 +
-            iv +
-            Math.floor(this.parameters[3].ev / 4)) *
+          ((this.parameters[3].basestats * 2 +
+            individualvalue +
+            Math.floor(this.parameters[3].effortvalue / 4)) *
             this.lv) /
             100
         ) +
@@ -927,15 +964,15 @@ export default {
       );
     },
     spDefence() {
-      let iv = this.parameters[4].iv;
-      if (!this.regex.test(iv)) {
-        iv = 0;
+      let individualvalue = this.parameters[4].individualvalue;
+      if (!this.regex.test(individualvalue)) {
+        individualvalue = 0;
       }
       return Math.floor(
         (Math.floor(
-          ((this.parameters[4].bs * 2 +
-            iv +
-            Math.floor(this.parameters[4].ev / 4)) *
+          ((this.parameters[4].basestats * 2 +
+            individualvalue +
+            Math.floor(this.parameters[4].effortvalue / 4)) *
             this.lv) /
             100
         ) +
@@ -944,15 +981,15 @@ export default {
       );
     },
     speed() {
-      let iv = this.parameters[5].iv;
-      if (!this.regex.test(iv)) {
-        iv = 0;
+      let individualvalue = this.parameters[5].individualvalue;
+      if (!this.regex.test(individualvalue)) {
+        individualvalue = 0;
       }
       return Math.floor(
         (Math.floor(
-          ((this.parameters[5].bs * 2 +
-            iv +
-            Math.floor(this.parameters[5].ev / 4)) *
+          ((this.parameters[5].basestats * 2 +
+            individualvalue +
+            Math.floor(this.parameters[5].effortvalue / 4)) *
             this.lv) /
             100
         ) +
@@ -973,8 +1010,8 @@ export default {
     totalIv() {
       let n = 0;
       for (let i = 0, len = this.parameters.length; i < len; i++) {
-        if (this.regex.test(this.parameters[i].iv)) {
-          n += this.parameters[i].iv;
+        if (this.regex.test(this.parameters[i].individualvalue)) {
+          n += this.parameters[i].individualvalue;
         }
       }
       return n;
@@ -983,8 +1020,8 @@ export default {
     totalEv() {
       let n = 0;
       for (let i = 0, len = this.parameters.length; i < len; i++) {
-        if (this.regex.test(this.parameters[i].ev)) {
-          n += this.parameters[i].ev;
+        if (this.regex.test(this.parameters[i].effortvalue)) {
+          n += this.parameters[i].effortvalue;
         }
       }
       return n;
@@ -1027,7 +1064,7 @@ export default {
     hiddenPower() {
       let hiddenPowerCalc = 0;
       for (let i = 0; i < this.parameters.length; i++) {
-        if (this.parameters[i].iv % 2 == 1) {
+        if (this.parameters[i].individualvalue % 2 == 1) {
           if (i == 5) {
             hiddenPowerCalc += 8;
           } else if (i > 2) {
@@ -1083,7 +1120,7 @@ export default {
         // 種族値を更新する
         let selectPokemonStats = this.selectPokemonData.stats;
         Object.keys(selectPokemonStats).forEach((value, index) => {
-          this.parameters[index].bs = selectPokemonStats[value];
+          this.parameters[index].basestats = selectPokemonStats[value];
         });
       }
     },
@@ -1101,35 +1138,35 @@ export default {
   // メソッドは重くなるので、あまり使わないようにしよう
   methods: {
     hpCalc() {
-      if (!this.regex.test(this.parameters[0].iv)) {
-        this.parameters[0].iv = 0;
+      if (!this.regex.test(this.parameters[0].individualvalue)) {
+        this.parameters[0].individualvalue = 0;
       }
       const n =
         (Math.ceil(
           ((Number(event.target.value) - this.lv - 10) * 100) / this.lv
         ) -
-          this.parameters[0].bs * 2 -
-          this.parameters[0].iv) *
+          this.parameters[0].basestats * 2 -
+          this.parameters[0].individualvalue) *
         4;
       if (n < 0) {
-        this.parameters[0].ev = 0;
+        this.parameters[0].effortvalue = 0;
       } else {
-        this.parameters[0].ev = n;
+        this.parameters[0].effortvalue = n;
       }
     },
     statsCalc(i) {
       let n = Number(event.target.value);
-      if (!this.regex.test(this.parameters[i].iv)) {
-        this.parameters[i].iv = 0;
+      if (!this.regex.test(this.parameters[i].individualvalue)) {
+        this.parameters[i].individualvalue = 0;
       }
       if (n % 11 === 10 && this.parameters[i].natureCalc === 1.1) {
         if (
           n >=
           Math.floor(
             (Math.floor(
-              ((this.parameters[i].bs * 2 +
-                this.parameters[i].iv +
-                Math.floor(this.parameters[i].ev / 4)) *
+              ((this.parameters[i].basestats * 2 +
+                this.parameters[i].individualvalue +
+                Math.floor(this.parameters[i].effortvalue / 4)) *
                 this.lv) /
                 100
             ) +
@@ -1149,13 +1186,13 @@ export default {
       }
       n =
         (Math.ceil(((n - 5) * 100) / this.lv) -
-          this.parameters[i].bs * 2 -
-          this.parameters[i].iv) *
+          this.parameters[i].basestats * 2 -
+          this.parameters[i].individualvalue) *
         4;
       if (n < 0) {
-        this.parameters[i].ev = 0;
+        this.parameters[i].effortvalue = 0;
       } else {
-        this.parameters[i].ev = n;
+        this.parameters[i].effortvalue = n;
       }
     },
   },
