@@ -9,7 +9,7 @@
 export default {
   name: "Jumbotron",
   props: {
-    msg: String
-  }
+    msg: String,
+  },
 };
 </script>
