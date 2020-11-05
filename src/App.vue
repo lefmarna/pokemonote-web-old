@@ -1,98 +1,115 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-      <router-link to="/calc-stats">ステータス計算機</router-link>
-      <router-link to="/calc-speed">素早さ計算機</router-link>
-    </div>
-    <router-view />
-    <app-footer></app-footer>
-  </div>
+  <v-app>
+    <v-navigation-drawer v-model="drawer" app>
+      <v-container>
+        <v-list-item>
+          ポケモニット アプリ
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list dense nav>
+          <v-list-item
+            v-for="nav_list in nav_lists"
+            :to="nav_list.link"
+            :key="nav_list.name"
+          >
+            <v-list-item-icon>
+              <v-icon>{{ nav_list.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ nav_list.name }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-divider />
+        <v-list-item>
+          その他
+        </v-list-item>
+        <v-divider />
+        <v-list dense nav>
+          <v-list-item
+            v-for="nav_list in nav_lists2"
+            :href="nav_list.link"
+            :key="nav_list.name"
+          >
+            <v-list-item-icon>
+              <v-icon>{{ nav_list.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ nav_list.name }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-divider />
+        <v-list class="bottomFooter__copyright">
+          © Copyright 2020 ポケモニット.
+        </v-list>
+      </v-container>
+    </v-navigation-drawer>
+    <v-app-bar app color="primary" dark>
+      <v-app-bar-nav-icon @click="drawer = !drawer" />
+      <div class="d-flex align-center">
+        <v-img
+          alt="ポケモニット アプリ"
+          class="shrink mr-2"
+          contain
+          src="./assets/lefmarna.png"
+          transition="scale-transition"
+          width="40"
+        />
+      </div>
+      <v-toolbar-title>ポケモニット アプリ</v-toolbar-title>
+    </v-app-bar>
+
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import Footer from "./components/Footer.vue";
-
 export default {
-  head: {
-    meta() {
-      return [{ name: "format-detection", content: "telephone=no" }];
-    }
-  },
-  components: {
-    "app-footer": Footer
-  },
-  mounted() {
-    var to = this.$route;
-    this.createPageTitle(to);
-  },
-  watch: {
-    $route(to) {
-      this.createPageTitle(to);
-    }
-  },
-  methods: {
-    /* ページが遷移したときにメタタグを書き換える */
-    createPageTitle(to) {
-      // titleを取得
-      let currentTitle = document.querySelectorAll(
-        "meta[name='twitter:title'], meta[property='og:title']"
-      );
-      // titleが存在する場合は書き換え、存在しない場合はデフォルトに設定
-      let rewriteTitle = "ポケモニット アプリ";
-      if (to.meta.title) {
-        rewriteTitle = to.meta.title + " | ポケモニット アプリ";
-      }
-      for (let i = 0, len = currentTitle.length; i < len; i++) {
-        currentTitle[i].setAttribute("content", rewriteTitle);
-      }
-      document.title = rewriteTitle;
-      // descriptionを取得
-      let currentDesc = document.querySelectorAll(
-        "meta[name='description'], meta[name='twitter:description'], meta[property='og:description']"
-      );
-      // descriptionが存在する場合は書き換え、存在しない場合はデフォルトに設定
-      if (to.meta.desc) {
-        for (let i = 0, len = currentDesc.length; i < len; i++) {
-          currentDesc[i].setAttribute("content", to.meta.desc);
-        }
-      } else {
-        for (let i = 0, len = currentDesc.length; i < len; i++) {
-          currentDesc[i].setAttribute(
-            "content",
-            "ポケモンの攻略ブログ『ポケモニット』の管理人である『レフマーナ』の自作アプリ集です。"
-          );
-        }
-      }
-    }
-  }
+  name: "App",
+  data: () => ({
+    drawer: null,
+    nav_lists: [
+      {
+        name: "Home",
+        icon: "mdi-home",
+        link: "/",
+      },
+      {
+        name: "ステータス計算機",
+        icon: "mdi-calculator",
+        link: "/calc-stats",
+      },
+      {
+        name: "利用規約",
+        icon: "mdi-comment-alert",
+        link: "/privacy-policy",
+      },
+    ],
+    nav_lists2: [
+      {
+        name: "ポケモニット（ブログ）",
+        icon: "mdi-wordpress",
+        link: "https://pokemonit.com/",
+      },
+      {
+        name: "Twitter",
+        icon: "mdi-twitter",
+        link: "https://twitter.com/lefmarna/",
+      },
+      {
+        name: "お問い合わせ",
+        icon: "mdi-email",
+        link: "https://pokemonit.com/otoiawase/",
+      },
+    ],
+  }),
 };
 </script>
 
 <style lang="scss">
-#nav {
-  padding: 30px;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.9);
-  background-color: #1e73be;
-
-  a {
-    font-weight: bold;
-    display: inline-block;
-    font-weight: 700;
-    transition: 0.15s;
-    color: rgba(255, 255, 255, 0.5);
-    margin-right: 1em;
-    &:hover {
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    &.router-link-exact-active {
-      color: rgba(255, 255, 255, 0.9);
-    }
-  }
-}
-
 // ハートの色
 $heart1: #bbdefb;
 $heart2: #90caf9;
@@ -132,16 +149,10 @@ h2:after {
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: #fff;
-  border-left: solid 1px #ececec;
-}
-::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 10px;
-  box-shadow: inset 0 0 0 2px #fff;
+.contents {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  border-radius: 0.3rem !important;
+  border: 1px solid #dee2e6 !important;
+  background-color: #fff !important;
 }
 </style>
