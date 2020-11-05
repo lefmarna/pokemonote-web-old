@@ -1519,6 +1519,30 @@ export default {
       }
     },
   },
+  updated() {
+    // inputタグは、直接入力することでmaxやminを無視することができてしまうため、値を監視して修正する処理を記載した
+    this.stats.forEach((stat, index) => {
+      // 個体値の上限を31、下限を0とする
+      if (stat.individualValue > 31) {
+        this.stats[index].individualValue = 31;
+      } else if (stat.individualValue < 0) {
+        this.stats[index].individualValue = 0;
+      }
+      // 努力値の上限を252、下限を0とする
+      if (stat.effortValue > 252) {
+        this.stats[index].effortValue = 252;
+      } else if (stat.effortValue < 0) {
+        this.stats[index].effortValue = 0;
+      }
+    });
+    // レベルの上限を100、下限を1とする
+    if (this.lv > 252) {
+      this.lv = 100;
+      // ここを「this.lv < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されてしまう。これはUI的によろしくないため、空白の際にはString型になることを利用し「this.lv === 0」としてNumber型のみを検出することによって、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
+    } else if (this.lv < 0 || this.lv === 0) {
+      this.lv = 1;
+    }
+  },
 };
 </script>
 
