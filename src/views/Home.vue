@@ -1,24 +1,27 @@
 <template>
   <div>
-    <div class="jumbotron jumbotron-fluid mb-0">
-      <div class="container">
-        <Jumbotron msg="ポケモニット アプリ" />
-      </div>
+    <div class="jumbotron title py-sm-16 py-8 px-3 text-center">
+      <h1 class="mt-4 mb-2 white--text font-weight-bold">
+        ポケモニット アプリ
+      </h1>
+      <p class="white--text subtitle-1">
+        ポケモンをより楽しむためのWebアプリ
+      </p>
     </div>
-    <div class="container my-1 my-sm-2">
-      <div class="row d-flex">
-        <div class="col-12 col-md-6 px-1 mb-2 d-flex order-md-2">
-          <div
-            class="bg-white border rounded-lg shadow-sm flex-fill text-center"
-          >
-            <h2 class="mb-3">フォローする</h2>
-            <img
+    <v-container>
+      <v-row class="d-flex my-sm-2">
+        <v-col cols="12" md="6" class="d-flex order-md-2">
+          <div class="contents flex-fill text-center m-auto">
+            <h2 class="headline font-weight-bold ma-2 mb-3">フォローする</h2>
+            <v-img
               src="../assets/lefmarna.png"
-              class="img-fluid mb-3"
+              class="mx-auto my-5"
               alt="レフマーナ"
+              height="120px"
+              width="120px"
             />
             <p><strong>レフマーナ</strong></p>
-            <ul class="list-unstyled sosyal">
+            <ul class="sosyal">
               <li class="twitter">
                 <a
                   href="https://twitter.com/lefmarna"
@@ -29,18 +32,109 @@
               </li>
             </ul>
           </div>
-        </div>
-        <div class="col-12 col-md-6 px-1 mb-2 d-flex order-md-1">
-          <div class=" bg-white border rounded-lg shadow-sm">
-            <h2 class="mb-3">更新情報</h2>
-            <updates />
+        </v-col>
+        <v-col cols="12" md="6" class="d-flex order-md-1">
+          <div class="contents">
+            <h2 class="headline font-weight-bold ma-2 mb-3 text-center">
+              更新情報
+            </h2>
+            <v-sheet class="body-1 overflow-y-auto" max-height="280">
+              <div class="px-2">
+                <div>
+                  <h3>2020-09-09</h3>
+                  <p>アイコンを変更しました。</p>
+                </div>
+                <div>
+                  <h3>2020-08-20</h3>
+                  <p>ザルードに対応しました。</p>
+                </div>
+                <div>
+                  <h3>2020-07-27</h3>
+                  <p>『ステータス計算機』のUIを使いやすくしました。</p>
+                </div>
+                <div>
+                  <h3>2020-07-14</h3>
+                  <p>
+                    『ステータス計算機』に『鎧の孤島』のポケモンを対応させました。
+                  </p>
+                  <p>『素早さ計算機』のUIを変更しました。</p>
+                  <p>
+                    『素早さ計算機』の計算の順番が一部間違っていた不具合を修正しました。
+                  </p>
+                </div>
+                <div>
+                  <h3>2020-06-22</h3>
+                  <p>『素早さ計算機』を公開しました。</p>
+                </div>
+                <div>
+                  <h3>2020-05-20</h3>
+                  <p>
+                    検索に引っかかるようにするため、『ステータス計算機』のタイトルを『ステータス計算機（ポケモン剣盾に対応）』に変更しました。
+                  </p>
+                </div>
+                <div>
+                  <h3>2020-05-14</h3>
+                  <p>
+                    『ステータス計算機』をスマホから表示した際、横にスクロールできてしまう（画面の表示がズレてしまう）不具合を修正しました。
+                  </p>
+                </div>
+                <div>
+                  <h3>2020-04-25</h3>
+                  <p>
+                    『ステータス計算機』の保存用エリアに、不要箇所のチェックを入れられるオプションを追加しました。
+                  </p>
+                  <p>
+                    トップページをスマホから閲覧した際、「更新情報」が初期画面にあるとページのスクロールが難しくなってしまうため、「フォローする」を上に持ってくる形としました。
+                  </p>
+                </div>
+                <div>
+                  <h3>2020-04-24</h3>
+                  <p>
+                    『ステータス計算機』で[保存する]のボタンを押した際に「とつげきチョッキ」や「しんかのきせき」にチェックを入れていたかどうかも出力するようにしました。
+                  </p>
+                </div>
+                <div>
+                  <h3>2020-04-23</h3>
+                  <p>
+                    トップページのデザインが『利用規約』のデザインにも影響を及ぼしていた不具合を修正しました。
+                  </p>
+                  <p>
+                    『ステータス計算機』をスマホで表示した際のレイアウトを少し変更しました。
+                  </p>
+                </div>
+                <div>
+                  <h3>2020-04-22</h3>
+                  <p>
+                    『ステータス計算機』におけるポケモン入力の候補選択を、キーボードの上下キーで移動できるようにしました。
+                  </p>
+                </div>
+                <div>
+                  <h3>2020-04-20</h3>
+                  <p>サイト全体のデザインを変更しました。</p>
+                </div>
+                <div>
+                  <h3>2020-04-19</h3>
+                  <p>
+                    『ステータス計算機』において、進化先の存在しないポケモンであっても『しんかのきせき』にチェックを入れることができていた不具合を修正しました。
+                  </p>
+                </div>
+                <div>
+                  <h3>2020-04-18</h3>
+                  <p>
+                    『ステータス計算機』におけるヌケニンのHPを修正しました。
+                  </p>
+                </div>
+              </div>
+            </v-sheet>
           </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 px-1 mb-2">
-          <div class="bg-white border rounded-lg shadow-sm">
-            <h2 class="mb-3">ポケモニット アプリについて</h2>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <div class="contents">
+            <h2 class="headline font-weight-bold ma-2 mb-3 text-center">
+              ポケモニット アプリについて
+            </h2>
             <div class="px-2">
               <p>
                 『ポケモニット アプリ』は、ポケモンの攻略ブログ『<a
@@ -61,19 +155,13 @@
               </p>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <style lang="scss" scoped>
-h2 {
-  margin: 10px;
-  font-weight: bold;
-  text-align: center;
-}
-
 .jumbotron {
   background: url(../assets/top.jpg) center no-repeat;
   background-size: cover;
@@ -81,7 +169,10 @@ h2 {
 
 .sosyal {
   margin: 50px auto;
+  list-style: none;
+  padding-left: 0;
 }
+
 .twitter > a {
   background-color: #008dde;
   box-shadow: 0 4px 0 #595e61;
@@ -104,18 +195,16 @@ h2 {
     background-color: #1397d8;
   }
 }
+
+h3 {
+  padding: 3px 0px;
+  margin-bottom: 3px;
+  border-bottom: double 5px #90caf9;
+}
 </style>
 
 <script>
-// @ is an alias to /src
-import Jumbotron from "@/components/Jumbotron.vue";
-import updates from "@/components/updates.vue";
-
 export default {
   name: "Home",
-  components: {
-    Jumbotron,
-    updates
-  }
 };
 </script>
