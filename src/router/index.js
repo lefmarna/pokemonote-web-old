@@ -36,7 +36,7 @@ const routes = [
   {
     path: "/privacy-policy",
     name: "利用規約",
-    component: () => import("../views/PrivacyPolicy"),
+    component: () => import("../views/PrivacyPolicy.vue"),
     meta: {
       title: "利用規約",
     },
