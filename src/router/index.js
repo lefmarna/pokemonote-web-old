@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
@@ -8,7 +7,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: () => import("../views/Home.vue"),
     meta: {
       desc:
         "ポケモンの攻略ブログ『ポケモニット』の管理人である『レフマーナ』の自作アプリ集です。",
@@ -21,7 +20,7 @@ const routes = [
     meta: {
       title: "ステータス計算機（ポケモン剣盾に対応）",
       desc:
-        "ポケモン剣盾に対応しているステータスの計算機です。個体値と努力値から実数値を求められるだけでなく、実数値から努力値の逆算にも対応しています。リアルタイムで計算が行われ、めざパや総合耐久も計算できるようになっています。",
+        "ポケモン剣盾に対応しているステータスの計算機です。リアルタイムで計算が行われるため、計算ボタンを押す必要がないのが特徴です。個体値と努力値から実数値を求められるだけでなく、実数値から努力値の逆算にも対応している多機能な計算ツールとなっています。",
     },
   },
   {
@@ -37,7 +36,7 @@ const routes = [
   {
     path: "/privacy-policy",
     name: "利用規約",
-    component: () => import("../views/privacyPolicy"),
+    component: () => import("../views/PrivacyPolicy"),
     meta: {
       title: "利用規約",
     },
