@@ -1,8 +1,8 @@
 <template>
-  <div class="container bg-white border my-0 my-sm-3 px-sm-4 pb-sm-3">
-    <h1 class="text-center">利用規約</h1>
+  <v-container class="contents my-0 px-sm-4">
+    <h1 class="font-weight-bold text-center">利用規約</h1>
     <p>
-      本利用規約は、<a href="https://app.pokemonit.com">ポケモニット アプリ</a
+      本利用規約は、<router-link to="/">ポケモニット アプリ</router-link
       >（以下、「当サイト」とします。)の各種サービス（当サイトによる情報提供、各種お問い合わせの受付等）において、当サイトの訪問者（以下、「訪問者」とします。）の個人情報もしくはそれに準ずる情報を取り扱う際に、当サイトが遵守する方針を示したものです。
     </p>
     <h2>基本方針</h2>
@@ -209,12 +209,12 @@
     <p>
       当サイトに存在する、文章や画像、動画等の著作物の情報を無断転載することを禁止します。引用の範囲を超えるものについては、法的処置を行います。転載する際には、お問い合わせよりご連絡いただけますよう宜しくお願い致します。
     </p>
-  </div>
+  </v-container>
 </template>
 
 <script>
 export default {
-  name: "privacyPolicy"
+  name: "PrivacyPolicy",
 };
 </script>
 
