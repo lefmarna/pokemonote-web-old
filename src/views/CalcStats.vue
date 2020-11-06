@@ -20,6 +20,7 @@
                 <v-text-field
                   type="number"
                   label="レベル"
+                  placeholder="1"
                   v-model.trim.number="lv"
                 ></v-text-field>
               </div>
@@ -68,6 +69,7 @@
                   <v-text-field
                     type="number"
                     label="個体値"
+                    placeholder="0"
                     v-model.trim.number="stats[0].individualValue"
                   ></v-text-field>
                 </div>
@@ -81,7 +83,7 @@
                   <CalcButton
                     buttonText="0"
                     class="btn-min-30px"
-                    @click.native="stats[0].individualValue = 0"
+                    @click.native="stats[0].individualValue = ''"
                   />
                 </div>
               </v-col>
@@ -90,6 +92,7 @@
                   <v-text-field
                     type="number"
                     label="努力値"
+                    placeholder="0"
                     v-model.trim.number="stats[0].effortValue"
                   ></v-text-field>
                 </div>
@@ -103,7 +106,7 @@
                   <CalcButton
                     buttonText="0"
                     class="btn-min-35px"
-                    @click.native="stats[0].effortValue = 0"
+                    @click.native="stats[0].effortValue = ''"
                   />
                 </div>
               </v-col>
@@ -112,7 +115,8 @@
                   <v-text-field
                     type="number"
                     :label="stats[0].ja"
-                    v-model.trim.number="hp"
+                    :value="hp"
+                    @change="updateHp()"
                   ></v-text-field>
                 </div>
                 <div>
@@ -145,6 +149,7 @@
                   <v-text-field
                     type="number"
                     label="個体値"
+                    placeholder="0"
                     v-model.trim.number="stats[1].individualValue"
                   ></v-text-field>
                 </div>
@@ -158,7 +163,7 @@
                   <CalcButton
                     buttonText="0"
                     class="btn-min-30px"
-                    @click.native="stats[1].individualValue = 0"
+                    @click.native="stats[1].individualValue = ''"
                   />
                 </div>
               </v-col>
@@ -167,6 +172,7 @@
                   <v-text-field
                     type="number"
                     label="努力値"
+                    placeholder="0"
                     v-model.trim.number="stats[1].effortValue"
                   ></v-text-field>
                 </div>
@@ -180,7 +186,7 @@
                   <CalcButton
                     buttonText="0"
                     class="btn-min-35px"
-                    @click.native="stats[1].effortValue = 0"
+                    @click.native="stats[1].effortValue = ''"
                   />
                 </div>
               </v-col>
@@ -189,7 +195,8 @@
                   <v-text-field
                     type="number"
                     :label="stats[1].ja"
-                    v-model.trim.number="attack"
+                    :value="attack"
+                    @change="updateStats('attack', 1)"
                   ></v-text-field>
                 </div>
                 <div>
@@ -222,6 +229,7 @@
                   <v-text-field
                     type="number"
                     label="個体値"
+                    placeholder="0"
                     v-model.trim.number="stats[2].individualValue"
                   ></v-text-field>
                 </div>
@@ -235,7 +243,7 @@
                   <CalcButton
                     buttonText="0"
                     class="btn-min-30px"
-                    @click.native="stats[2].individualValue = 0"
+                    @click.native="stats[2].individualValue = ''"
                   />
                 </div>
               </v-col>
@@ -244,6 +252,7 @@
                   <v-text-field
                     type="number"
                     label="努力値"
+                    placeholder="0"
                     v-model.trim.number="stats[2].effortValue"
                   ></v-text-field>
                 </div>
@@ -257,7 +266,7 @@
                   <CalcButton
                     buttonText="0"
                     class="btn-min-35px"
-                    @click.native="stats[2].effortValue = 0"
+                    @click.native="stats[2].effortValue = ''"
                   />
                 </div>
               </v-col>
@@ -266,7 +275,8 @@
                   <v-text-field
                     type="number"
                     :label="stats[2].ja"
-                    v-model.trim.number="defence"
+                    :value="defence"
+                    @change="updateStats('defence', 2)"
                   ></v-text-field>
                 </div>
                 <div>
@@ -299,6 +309,7 @@
                   <v-text-field
                     type="number"
                     label="個体値"
+                    placeholder="0"
                     v-model.trim.number="stats[3].individualValue"
                   ></v-text-field>
                 </div>
@@ -312,7 +323,7 @@
                   <CalcButton
                     buttonText="0"
                     class="btn-min-30px"
-                    @click.native="stats[3].individualValue = 0"
+                    @click.native="stats[3].individualValue = ''"
                   />
                 </div>
               </v-col>
@@ -321,6 +332,7 @@
                   <v-text-field
                     type="number"
                     label="努力値"
+                    placeholder="0"
                     v-model.trim.number="stats[3].effortValue"
                   ></v-text-field>
                 </div>
@@ -334,7 +346,7 @@
                   <CalcButton
                     buttonText="0"
                     class="btn-min-35px"
-                    @click.native="stats[3].effortValue = 0"
+                    @click.native="stats[3].effortValue = ''"
                   />
                 </div>
               </v-col>
@@ -343,7 +355,8 @@
                   <v-text-field
                     type="number"
                     :label="stats[3].ja"
-                    v-model.trim.number="spAttack"
+                    :value="spAttack"
+                    @change="updateStats('spAttack', 3)"
                   ></v-text-field>
                 </div>
                 <div>
@@ -376,6 +389,7 @@
                   <v-text-field
                     type="number"
                     label="個体値"
+                    placeholder="0"
                     v-model.trim.number="stats[4].individualValue"
                   ></v-text-field>
                 </div>
@@ -389,7 +403,7 @@
                   <CalcButton
                     buttonText="0"
                     class="btn-min-30px"
-                    @click.native="stats[4].individualValue = 0"
+                    @click.native="stats[4].individualValue = ''"
                   />
                 </div>
               </v-col>
@@ -398,6 +412,7 @@
                   <v-text-field
                     type="number"
                     label="努力値"
+                    placeholder="0"
                     v-model.trim.number="stats[4].effortValue"
                   ></v-text-field>
                 </div>
@@ -411,7 +426,7 @@
                   <CalcButton
                     buttonText="0"
                     class="btn-min-35px"
-                    @click.native="stats[4].effortValue = 0"
+                    @click.native="stats[4].effortValue = ''"
                   />
                 </div>
               </v-col>
@@ -420,7 +435,8 @@
                   <v-text-field
                     type="number"
                     :label="stats[4].ja"
-                    v-model.trim.number="spDefence"
+                    :value="spDefence"
+                    @change="updateStats('spDefence', 4)"
                   ></v-text-field>
                 </div>
                 <div>
@@ -453,6 +469,7 @@
                   <v-text-field
                     type="number"
                     label="個体値"
+                    placeholder="0"
                     v-model.trim.number="stats[5].individualValue"
                   ></v-text-field>
                 </div>
@@ -466,7 +483,7 @@
                   <CalcButton
                     buttonText="0"
                     class="btn-min-30px"
-                    @click.native="stats[5].individualValue = 0"
+                    @click.native="stats[5].individualValue = ''"
                   />
                 </div>
               </v-col>
@@ -475,6 +492,7 @@
                   <v-text-field
                     type="number"
                     label="努力値"
+                    placeholder="0"
                     v-model.trim.number="stats[5].effortValue"
                   ></v-text-field>
                 </div>
@@ -488,7 +506,7 @@
                   <CalcButton
                     buttonText="0"
                     class="btn-min-35px"
-                    @click.native="stats[5].effortValue = 0"
+                    @click.native="stats[5].effortValue = ''"
                   />
                 </div>
               </v-col>
@@ -497,7 +515,8 @@
                   <v-text-field
                     type="number"
                     :label="stats[5].ja"
-                    v-model.trim.number="speed"
+                    :value="speed"
+                    @change="updateStats('speed', 5)"
                   ></v-text-field>
                 </div>
                 <div>
@@ -630,7 +649,7 @@ export default {
     pokemonList: PokemonData, // ポケモンのデータはjsonファイルにまとめてあるため、そちらから取得する
     lv: 50,
     itemGroup: "持ち物なし",
-    isNumber: /^([1-9]\d*|0)$/, // 0~9の整数であればtrueを返す正規表現
+    isNumber: /^([1-9]\d*|0)$/, // 1~9で始まる整数、または0であるときにtrueを返す正規表現
     currentNature: {
       name: "がんばりや",
       stats: {
@@ -925,42 +944,42 @@ export default {
         ja: "ＨＰ",
         abbreviation: "H",
         individualValue: 31,
-        effortValue: 0,
+        effortValue: "",
       },
       {
         en: "attack",
         ja: "こうげき",
         abbreviation: "A",
         individualValue: 31,
-        effortValue: 0,
+        effortValue: "",
       },
       {
         en: "defence",
         ja: "ぼうぎょ",
         abbreviation: "B",
         individualValue: 31,
-        effortValue: 0,
+        effortValue: "",
       },
       {
         en: "spAttack",
         ja: "とくこう",
         abbreviation: "C",
         individualValue: 31,
-        effortValue: 0,
+        effortValue: "",
       },
       {
         en: "spDefence",
         ja: "とくぼう",
         abbreviation: "D",
         individualValue: 31,
-        effortValue: 0,
+        effortValue: "",
       },
       {
         en: "speed",
         ja: "すばやさ",
         abbreviation: "S",
         individualValue: 31,
-        effortValue: 0,
+        effortValue: "",
       },
     ],
     calcAreas: {
@@ -983,7 +1002,11 @@ export default {
     // 各種ステータスの計算（methodsで引数を指定すれば、同じ計算を1箇所にまとめることもできるが、パフォーマンスの高いcomputedを使いたいため、あえて個別に計算している）
     hp: {
       get() {
+        let lv = this.lv;
         let individualValue = this.stats[0].individualValue;
+        if (!this.isNumber.test(lv)) {
+          lv = 1;
+        }
         if (!this.isNumber.test(individualValue)) {
           individualValue = 0;
         }
@@ -995,22 +1018,26 @@ export default {
               ((this.currentPokemon.stats["hp"] * 2 +
                 individualValue +
                 Math.floor(this.stats[0].effortValue / 4)) *
-                this.lv) /
+                lv) /
                 100
             ) +
             10 +
-            this.lv
+            lv
           );
         }
       },
       set(value) {
+        let lv = this.lv;
+        if (!this.isNumber.test(lv)) {
+          lv = 1;
+        }
         const n =
-          (Math.ceil(((Number(value) - this.lv - 10) * 100) / this.lv) -
+          (Math.ceil(((Number(value) - lv - 10) * 100) / lv) -
             this.currentPokemon.stats.hp * 2 -
             this.stats[0].individualValue) *
           4;
         if (n < 0) {
-          this.stats[0].effortValue = 0;
+          this.stats[0].effortValue = "";
         } else {
           this.stats[0].effortValue = n;
         }
@@ -1018,7 +1045,11 @@ export default {
     },
     attack: {
       get() {
+        let lv = this.lv;
         let individualValue = this.stats[1].individualValue;
+        if (!this.isNumber.test(lv)) {
+          lv = 1;
+        }
         if (!this.isNumber.test(individualValue)) {
           individualValue = 0;
         }
@@ -1027,7 +1058,7 @@ export default {
             ((this.currentPokemon.stats["attack"] * 2 +
               individualValue +
               Math.floor(this.stats[1].effortValue / 4)) *
-              this.lv) /
+              lv) /
               100
           ) +
             5) *
@@ -1035,6 +1066,10 @@ export default {
         );
       },
       set(value) {
+        let lv = this.lv;
+        if (!this.isNumber.test(lv)) {
+          lv = 1;
+        }
         let n = Number(value);
         if (n % 11 === 10 && this.currentNature.stats.attack === 1.1) {
           if (
@@ -1044,7 +1079,7 @@ export default {
                 ((this.currentPokemon.stats.attack * 2 +
                   this.stats[1].individualValue +
                   Math.floor(this.stats[1].effortValue / 4)) *
-                  this.lv) /
+                  lv) /
                   100
               ) +
                 5) *
@@ -1067,7 +1102,7 @@ export default {
             this.stats[1].individualValue) *
           4;
         if (n < 0) {
-          this.stats[1].effortValue = 0;
+          this.stats[1].effortValue = "";
         } else {
           this.stats[1].effortValue = n;
         }
@@ -1075,7 +1110,11 @@ export default {
     },
     defence: {
       get() {
+        let lv = this.lv;
         let individualValue = this.stats[2].individualValue;
+        if (!this.isNumber.test(lv)) {
+          lv = 1;
+        }
         if (!this.isNumber.test(individualValue)) {
           individualValue = 0;
         }
@@ -1084,7 +1123,7 @@ export default {
             ((this.currentPokemon.stats["defence"] * 2 +
               individualValue +
               Math.floor(this.stats[2].effortValue / 4)) *
-              this.lv) /
+              lv) /
               100
           ) +
             5) *
@@ -1092,6 +1131,10 @@ export default {
         );
       },
       set(value) {
+        let lv = this.lv;
+        if (!this.isNumber.test(lv)) {
+          lv = 1;
+        }
         let n = Number(value);
         if (n % 11 === 10 && this.currentNature.stats.defence === 1.1) {
           if (
@@ -1101,7 +1144,7 @@ export default {
                 ((this.currentPokemon.stats.defence * 2 +
                   this.stats[2].individualValue +
                   Math.floor(this.stats[2].effortValue / 4)) *
-                  this.lv) /
+                  lv) /
                   100
               ) +
                 5) *
@@ -1124,7 +1167,7 @@ export default {
             this.stats[2].individualValue) *
           4;
         if (n < 0) {
-          this.stats[2].effortValue = 0;
+          this.stats[2].effortValue = "";
         } else {
           this.stats[2].effortValue = n;
         }
@@ -1132,7 +1175,11 @@ export default {
     },
     spAttack: {
       get() {
+        let lv = this.lv;
         let individualValue = this.stats[3].individualValue;
+        if (!this.isNumber.test(lv)) {
+          lv = 1;
+        }
         if (!this.isNumber.test(individualValue)) {
           individualValue = 0;
         }
@@ -1141,7 +1188,7 @@ export default {
             ((this.currentPokemon.stats["spAttack"] * 2 +
               individualValue +
               Math.floor(this.stats[3].effortValue / 4)) *
-              this.lv) /
+              lv) /
               100
           ) +
             5) *
@@ -1149,6 +1196,10 @@ export default {
         );
       },
       set(value) {
+        let lv = this.lv;
+        if (!this.isNumber.test(lv)) {
+          lv = 1;
+        }
         let n = Number(value);
         if (n % 11 === 10 && this.currentNature.stats.spAttack === 1.1) {
           if (
@@ -1158,7 +1209,7 @@ export default {
                 ((this.currentPokemon.stats.spAttack * 2 +
                   this.stats[3].individualValue +
                   Math.floor(this.stats[3].effortValue / 4)) *
-                  this.lv) /
+                  lv) /
                   100
               ) +
                 5) *
@@ -1181,7 +1232,7 @@ export default {
             this.stats[3].individualValue) *
           4;
         if (n < 0) {
-          this.stats[3].effortValue = 0;
+          this.stats[3].effortValue = "";
         } else {
           this.stats[3].effortValue = n;
         }
@@ -1189,7 +1240,11 @@ export default {
     },
     spDefence: {
       get() {
+        let lv = this.lv;
         let individualValue = this.stats[4].individualValue;
+        if (!this.isNumber.test(lv)) {
+          lv = 1;
+        }
         if (!this.isNumber.test(individualValue)) {
           individualValue = 0;
         }
@@ -1198,7 +1253,7 @@ export default {
             ((this.currentPokemon.stats["spDefence"] * 2 +
               individualValue +
               Math.floor(this.stats[4].effortValue / 4)) *
-              this.lv) /
+              lv) /
               100
           ) +
             5) *
@@ -1206,6 +1261,10 @@ export default {
         );
       },
       set(value) {
+        let lv = this.lv;
+        if (!this.isNumber.test(lv)) {
+          lv = 1;
+        }
         let n = Number(value);
         if (n % 11 === 10 && this.currentNature.stats.spDefence === 1.1) {
           if (
@@ -1215,7 +1274,7 @@ export default {
                 ((this.currentPokemon.stats.spDefence * 2 +
                   this.stats[4].individualValue +
                   Math.floor(this.stats[4].effortValue / 4)) *
-                  this.lv) /
+                  lv) /
                   100
               ) +
                 5) *
@@ -1238,7 +1297,7 @@ export default {
             this.stats[4].individualValue) *
           4;
         if (n < 0) {
-          this.stats[4].effortValue = 0;
+          this.stats[4].effortValue = "";
         } else {
           this.stats[4].effortValue = n;
         }
@@ -1246,7 +1305,11 @@ export default {
     },
     speed: {
       get() {
+        let lv = this.lv;
         let individualValue = this.stats[5].individualValue;
+        if (!this.isNumber.test(lv)) {
+          lv = 1;
+        }
         if (!this.isNumber.test(individualValue)) {
           individualValue = 0;
         }
@@ -1255,7 +1318,7 @@ export default {
             ((this.currentPokemon.stats["speed"] * 2 +
               individualValue +
               Math.floor(this.stats[5].effortValue / 4)) *
-              this.lv) /
+              lv) /
               100
           ) +
             5) *
@@ -1263,6 +1326,10 @@ export default {
         );
       },
       set(value) {
+        let lv = this.lv;
+        if (!this.isNumber.test(lv)) {
+          lv = 1;
+        }
         let n = Number(value);
         if (n % 11 === 10 && this.currentNature.stats.speed === 1.1) {
           if (
@@ -1272,7 +1339,7 @@ export default {
                 ((this.currentPokemon.stats.speed * 2 +
                   this.stats[5].individualValue +
                   Math.floor(this.stats[5].effortValue / 4)) *
-                  this.lv) /
+                  lv) /
                   100
               ) +
                 5) *
@@ -1295,7 +1362,7 @@ export default {
             this.stats[5].individualValue) *
           4;
         if (n < 0) {
-          this.stats[5].effortValue = 0;
+          this.stats[5].effortValue = "";
         } else {
           this.stats[5].effortValue = n;
         }
@@ -1436,6 +1503,67 @@ export default {
         (itemName || "").indexOf(hiragana) > -1
       );
     },
+    // 実数値の更新にはSetterを設定しているため、本来なら不要な関数。しかし、Vuetifyではv-modelのlazy修飾子をサポートしていないため、inputではなくchangeイベントで発火させたいケースでは、v-bind:valueとv-on:changeで分けて記述してメソッドを呼び出す必要がある。なお、inputではダメな理由としては、実数値を消しながら入力する際に、努力値が自動更新されることによって、実数値の入力が滞ってしまうから（【例】183→164→16→1）
+    updateStats(statsName, index) {
+      let lv = this.lv;
+      if (!this.isNumber.test(lv)) {
+        lv = 1;
+      }
+      let n = Number(event.target.value);
+      let currentNatureStat = Number(this.currentNature.stats[statsName]);
+      if (n % 11 === 10 && currentNatureStat === 1.1) {
+        if (
+          n >=
+          Math.floor(
+            (Math.floor(
+              ((this.currentPokemon.stats[statsName] * 2 +
+                this.stats[index].individualValue +
+                Math.floor(this.stats[index].effortValue / 4)) *
+                lv) /
+                100
+            ) +
+              5) *
+              currentNatureStat
+          )
+        ) {
+          n += 1;
+        } else {
+          n -= 1;
+        }
+      }
+      if (currentNatureStat === 1.1) {
+        n = Math.ceil(n / 1.1);
+      } else if (currentNatureStat === 0.9) {
+        n = Math.ceil(n / 0.9);
+      }
+      n =
+        (Math.ceil(((n - 5) * 100) / this.lv) -
+          this.currentPokemon.stats[statsName] * 2 -
+          this.stats[index].individualValue) *
+        4;
+      if (n < 0) {
+        this.stats[index].effortValue = "";
+      } else {
+        this.stats[index].effortValue = n;
+      }
+    },
+    // HPのみ計算式が異なるので別の関数を用意した
+    updateHp() {
+      let lv = this.lv;
+      if (!this.isNumber.test(lv)) {
+        lv = 1;
+      }
+      const n =
+        (Math.ceil(((Number(event.target.value) - lv - 10) * 100) / lv) -
+          this.currentPokemon.stats.hp * 2 -
+          this.stats[0].individualValue) *
+        4;
+      if (n < 0) {
+        this.stats[0].effortValue = "";
+      } else {
+        this.stats[0].effortValue = n;
+      }
+    },
     // 計算結果を出力する
     outputResult(i) {
       // 実数値を取得
@@ -1526,17 +1654,17 @@ export default {
       if (stat.individualValue > 31) {
         this.stats[index].individualValue = 31;
       } else if (stat.individualValue < 0) {
-        this.stats[index].individualValue = 0;
+        this.stats[index].individualValue = "";
       }
       // 努力値の上限を252、下限を0とする
       if (stat.effortValue > 252) {
         this.stats[index].effortValue = 252;
       } else if (stat.effortValue < 0) {
-        this.stats[index].effortValue = 0;
+        this.stats[index].effortValue = "";
       }
     });
     // レベルの上限を100、下限を1とする
-    if (this.lv > 252) {
+    if (this.lv > 100) {
       this.lv = 100;
       // ここを「this.lv < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されてしまう。これはUI的によろしくないため、空白の際にはString型になることを利用し「this.lv === 0」としてNumber型のみを検出することによって、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
     } else if (this.lv < 0 || this.lv === 0) {
