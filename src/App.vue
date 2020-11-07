@@ -83,6 +83,11 @@ export default {
         link: "/calc-stats",
       },
       {
+        name: "素早さ計算機",
+        icon: "mdi-run-fast",
+        link: "/calc-speed",
+      },
+      {
         name: "利用規約",
         icon: "mdi-comment-alert",
         link: "/privacy-policy",
@@ -113,7 +118,7 @@ export default {
 // ハートの色
 $heart1: #bbdefb;
 $heart2: #90caf9;
-
+// ハートの背景をCSSで設計する
 #app {
   background-color: #e3f2fd;
   background-image: linear-gradient(135deg, $heart1 0.85em, transparent 0),
@@ -129,6 +134,7 @@ $heart2: #90caf9;
   background-repeat: repeat;
 }
 
+// リボン風の見出しを作る
 h2 {
   position: relative;
   background: #ffcce5;
@@ -137,7 +143,6 @@ h2 {
   padding: 0.4em 0.5em;
   color: #454545;
 }
-
 h2:after {
   position: absolute;
   content: "";
@@ -149,10 +154,22 @@ h2:after {
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
 }
 
+// 各要素の背景色や枠線など、基本となるスタイルを定義
 .contents {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
   border-radius: 0.3rem !important;
   border: 1px solid #dee2e6 !important;
   background-color: #fff !important;
+}
+
+// テーブルの奇数行に背景色をつける
+.v-data-table td {
+  background: #ffffff;
+}
+.v-data-table tr:nth-child(odd) td {
+  background: #f0f8ff;
+}
+.v-data-table tr:hover td {
+  background-color: #eee;
 }
 </style>
