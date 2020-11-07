@@ -1,7 +1,7 @@
 <template>
   <v-container class="pa-0 contents" fluid>
     <v-row>
-      <v-col cols="12" md="6" class="d-flex">
+      <v-col cols="12" md="6" class="d-flex justify-center">
         <div class="pa-3">
           <v-text-field
             type="number"
@@ -58,17 +58,16 @@
           <v-switch label="±4以上も表示する" v-model="option1" dense />
         </div>
       </v-col>
-      <!-- <v-col cols="12" class="d-flex"> </v-col> -->
       <v-col cols="12" md="6" class="pb-0">
         <v-simple-table style="border-top: thin solid rgba(0, 0, 0, 0.12);">
           <thead>
             <tr>
-              <th>ランク</th>
-              <th>素早さ</th>
+              <th class="thead-align-center">ランク</th>
+              <th class="thead-align-center">素早さ</th>
             </tr>
           </thead>
           <!-- 浮動小数点数により誤差が生じるのを防ぐため、あらかじめ100倍した数値を引数に渡し、計算後の結果を1/100にして返すようにしている -->
-          <tbody>
+          <tbody align="center">
             <tr v-if="option1">
               <td>+6</td>
               <td>{{ Math.floor(speed * 4) }} ({{ calcSpeed(400) }})</td>
@@ -247,3 +246,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+// Tableのヘッダー部分は、importantで強行しないと左揃えになってしまう
+.thead-align-center {
+  text-align: center !important;
+}
+</style>
