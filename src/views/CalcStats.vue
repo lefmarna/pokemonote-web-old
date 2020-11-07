@@ -1,7 +1,7 @@
 <template>
-  <v-container class="pa-0">
-    <v-row>
-      <v-col cols="12" md="6" class="py-0">
+  <v-container class="pa-0" fluid>
+    <v-row no-gutters>
+      <v-col cols="12" md="6" class="d-flex">
         <v-container class="contents">
           <v-autocomplete
             :items="pokemonList"
@@ -553,7 +553,7 @@
           </div>
         </v-container>
       </v-col>
-      <v-col cols="12" md="6" class="py-0">
+      <v-col cols="12" md="6" class="d-flex">
         <v-container class="contents">
           <v-row>
             <v-col cols="6">
