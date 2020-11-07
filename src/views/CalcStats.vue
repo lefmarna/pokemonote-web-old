@@ -53,7 +53,7 @@
           </v-row>
           <v-divider />
           <!-- v-forを使用したいところだが、computedでは引数を取ることができないため断念することに… -->
-          <div>
+          <div id="statsTable">
             <v-row>
               <v-col cols="2">
                 <div>
@@ -589,10 +589,16 @@
           </v-row>
           <v-divider />
           <div class="d-flex justify-end align-center">
-            <v-checkbox v-model="attackCheck" label="A不問" dense></v-checkbox>
+            <v-checkbox
+              v-model="attackCheck"
+              label="A不問"
+              class="pr-3"
+              dense
+            ></v-checkbox>
             <v-checkbox
               v-model="spAttackCheck"
               label="C不問"
+              class="pr-3"
               dense
             ></v-checkbox>
           </div>
@@ -602,7 +608,6 @@
               <v-textarea
                 outlined
                 rows="5"
-                label="エリア1"
                 v-model="calcAreas['calcArea' + i]"
               ></v-textarea>
             </v-col>
@@ -619,7 +624,7 @@
           </v-row>
           <v-divider />
           <!-- <TitleInDivider title="【ステータス計算機について】" /> -->
-          <v-row class="text-justify pt-3 px-2 body-1">
+          <v-row class="text-justify pa-3 px-3 body-1">
             <p>【ステータス計算機について】</p>
             <p>
               ポケモンの各種ステータスをリアルタイムに計算するツールです。
@@ -1674,11 +1679,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .text-danger {
   color: #dc3545;
 }
 
+/* デフォルトのボタンだと横幅が大きすぎるのを調整する */
 .btn-min-30px {
   min-width: 30px !important;
 }
@@ -1686,6 +1692,7 @@ export default {
   min-width: 35px !important;
 }
 
+/* 『保存する』のボタンをテキストエリア内に埋め込む */
 #resultArea {
   position: relative;
   right: 0px;
@@ -1694,5 +1701,10 @@ export default {
 .saveButton {
   right: 12px;
   bottom: 30px;
+}
+
+/* ステータスの入力時にハイライトをつけて見やすくする */
+#statsTable .row:hover:not(:last-child) {
+  background-color: #eee;
 }
 </style>
