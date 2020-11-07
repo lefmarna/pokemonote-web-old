@@ -1517,25 +1517,41 @@ export default {
     },
     // 物理耐久指数を求める
     physicalDurability() {
+      let hp = this.hp;
+      let defence = this.defence;
+      if (!this.isNumber.test(hp)) {
+        hp = 0;
+      }
+      if (!this.isNumber.test(defence)) {
+        defence = 0;
+      }
       if (
         this.itemGroup == "しんかのきせき" &&
         this.currentPokemon.evolutions.length
       ) {
-        return this.hp * Math.floor(this.defence * 1.5);
+        return hp * Math.floor(defence * 1.5);
       } else {
-        return this.hp * this.defence;
+        return hp * defence;
       }
     },
     // 特殊耐久指数を求める
     specialDurability() {
+      let hp = this.hp;
+      let spDefence = this.spDefence;
+      if (!this.isNumber.test(hp)) {
+        hp = 0;
+      }
+      if (!this.isNumber.test(spDefence)) {
+        spDefence = 0;
+      }
       if (
         (this.itemGroup == "しんかのきせき" &&
           this.currentPokemon.evolutions.length) ||
         this.itemGroup == "とつげきチョッキ"
       ) {
-        return this.hp * Math.floor(this.spDefence * 1.5);
+        return hp * Math.floor(spDefence * 1.5);
       } else {
-        return this.hp * this.spDefence;
+        return hp * spDefence;
       }
     },
     // めざめるパワーのタイプを求める
