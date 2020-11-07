@@ -629,7 +629,7 @@
                 </div>
               </v-col>
             </v-row>
-            <v-row>
+            <v-row class="font-weight-bold">
               <v-col cols="2">
                 <p>合計</p>
               </v-col>
