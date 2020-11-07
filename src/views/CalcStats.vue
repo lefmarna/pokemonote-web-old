@@ -55,13 +55,28 @@
           <!-- v-forを使用したいところだが、computedでは引数を取ることができないため断念することに… -->
           <div id="statsTable">
             <v-row>
-              <v-col cols="2">
-                <div>
-                  <v-text-field
-                    label="種族値"
-                    :value="`H${currentPokemon.stats.hp}`"
-                    disabled
-                  ></v-text-field>
+              <v-col cols="2"
+                ><div class="v-input--is-disabled theme--light v-text-field">
+                  <div class="v-input__control">
+                    <div class="v-input__slot">
+                      <div class="v-text-field__slot">
+                        <label
+                          class="v-label v-label--active v-label--is-disabled theme--light"
+                          style="left: 0px; right: auto; position: absolute;"
+                          >種族値</label
+                        ><span
+                          :class="[
+                            'py-1',
+                            {
+                              'text-danger': currentNature.stats.hp == 1.1,
+                              'text-primary': currentNature.stats.hp == 0.9,
+                            },
+                          ]"
+                          >{{ `H${currentPokemon.stats.hp}` }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </v-col>
               <v-col class="d-flex justify-center">
@@ -135,13 +150,28 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="2">
-                <div>
-                  <v-text-field
-                    label="種族値"
-                    :value="`A${currentPokemon.stats.attack}`"
-                    disabled
-                  ></v-text-field>
+              <v-col cols="2"
+                ><div class="v-input--is-disabled theme--light v-text-field">
+                  <div class="v-input__control">
+                    <div class="v-input__slot">
+                      <div class="v-text-field__slot">
+                        <label
+                          class="v-label v-label--active v-label--is-disabled theme--light"
+                          style="left: 0px; right: auto; position: absolute;"
+                          >種族値</label
+                        ><span
+                          :class="[
+                            'py-1',
+                            {
+                              'text-danger': currentNature.stats.attack == 1.1,
+                              'text-primary': currentNature.stats.attack == 0.9,
+                            },
+                          ]"
+                          >{{ `A${currentPokemon.stats.attack}` }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </v-col>
               <v-col class="d-flex justify-center">
@@ -215,13 +245,29 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="2">
-                <div>
-                  <v-text-field
-                    label="種族値"
-                    :value="`B${currentPokemon.stats.defence}`"
-                    disabled
-                  ></v-text-field>
+              <v-col cols="2"
+                ><div class="v-input--is-disabled theme--light v-text-field">
+                  <div class="v-input__control">
+                    <div class="v-input__slot">
+                      <div class="v-text-field__slot">
+                        <label
+                          class="v-label v-label--active v-label--is-disabled theme--light"
+                          style="left: 0px; right: auto; position: absolute;"
+                          >種族値</label
+                        ><span
+                          :class="[
+                            'py-1',
+                            {
+                              'text-danger': currentNature.stats.defence == 1.1,
+                              'text-primary':
+                                currentNature.stats.defence == 0.9,
+                            },
+                          ]"
+                          >{{ `B${currentPokemon.stats.defence}` }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </v-col>
               <v-col class="d-flex justify-center">
@@ -295,13 +341,30 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="2">
-                <div>
-                  <v-text-field
-                    label="種族値"
-                    :value="`C${currentPokemon.stats.spAttack}`"
-                    disabled
-                  ></v-text-field>
+              <v-col cols="2"
+                ><div class="v-input--is-disabled theme--light v-text-field">
+                  <div class="v-input__control">
+                    <div class="v-input__slot">
+                      <div class="v-text-field__slot">
+                        <label
+                          class="v-label v-label--active v-label--is-disabled theme--light"
+                          style="left: 0px; right: auto; position: absolute;"
+                          >種族値</label
+                        ><span
+                          :class="[
+                            'py-1',
+                            {
+                              'text-danger':
+                                currentNature.stats.spAttack == 1.1,
+                              'text-primary':
+                                currentNature.stats.spAttack == 0.9,
+                            },
+                          ]"
+                          >{{ `C${currentPokemon.stats.spAttack}` }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </v-col>
               <v-col class="d-flex justify-center">
@@ -375,13 +438,30 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="2">
-                <div>
-                  <v-text-field
-                    label="種族値"
-                    :value="`D${currentPokemon.stats.spDefence}`"
-                    disabled
-                  ></v-text-field>
+              <v-col cols="2"
+                ><div class="v-input--is-disabled theme--light v-text-field">
+                  <div class="v-input__control">
+                    <div class="v-input__slot">
+                      <div class="v-text-field__slot">
+                        <label
+                          class="v-label v-label--active v-label--is-disabled theme--light"
+                          style="left: 0px; right: auto; position: absolute;"
+                          >種族値</label
+                        ><span
+                          :class="[
+                            'py-1',
+                            {
+                              'text-danger':
+                                currentNature.stats.spDefence == 1.1,
+                              'text-primary':
+                                currentNature.stats.spDefence == 0.9,
+                            },
+                          ]"
+                          >{{ `D${currentPokemon.stats.spDefence}` }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </v-col>
               <v-col class="d-flex justify-center">
@@ -455,13 +535,28 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="2">
-                <div>
-                  <v-text-field
-                    label="種族値"
-                    :value="`S${currentPokemon.stats.speed}`"
-                    disabled
-                  ></v-text-field>
+              <v-col cols="2"
+                ><div class="v-input--is-disabled theme--light v-text-field">
+                  <div class="v-input__control">
+                    <div class="v-input__slot">
+                      <div class="v-text-field__slot">
+                        <label
+                          class="v-label v-label--active v-label--is-disabled theme--light"
+                          style="left: 0px; right: auto; position: absolute;"
+                          >種族値</label
+                        ><span
+                          :class="[
+                            'py-1',
+                            {
+                              'text-danger': currentNature.stats.speed == 1.1,
+                              'text-primary': currentNature.stats.speed == 0.9,
+                            },
+                          ]"
+                          >{{ `S${currentPokemon.stats.speed}` }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </v-col>
               <v-col class="d-flex justify-center">
@@ -1682,6 +1777,10 @@ export default {
 <style lang="scss" scoped>
 .text-danger {
   color: #dc3545;
+}
+
+.text-primary {
+  color: #1876d1;
 }
 
 /* デフォルトのボタンだと横幅が大きすぎるのを調整する */
