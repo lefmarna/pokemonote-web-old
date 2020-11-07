@@ -8,15 +8,15 @@
         <v-divider></v-divider>
         <v-list dense nav>
           <v-list-item
-            v-for="nav_list in nav_lists"
-            :to="nav_list.link"
-            :key="nav_list.name"
+            v-for="siteMenuList in siteMenuLists"
+            :to="siteMenuList.link"
+            :key="siteMenuList.name"
           >
             <v-list-item-icon>
-              <v-icon>{{ nav_list.icon }}</v-icon>
+              <v-icon>{{ siteMenuList.icon }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>{{ nav_list.name }}</v-list-item-title>
+              <v-list-item-title>{{ siteMenuList.name }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -27,15 +27,15 @@
         <v-divider />
         <v-list dense nav>
           <v-list-item
-            v-for="nav_list in nav_lists2"
-            :href="nav_list.link"
-            :key="nav_list.name"
+            v-for="otherMenuList in otherMenuLists"
+            :href="otherMenuList.link"
+            :key="otherMenuList.name"
           >
             <v-list-item-icon>
-              <v-icon>{{ nav_list.icon }}</v-icon>
+              <v-icon>{{ otherMenuList.icon }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>{{ nav_list.name }}</v-list-item-title>
+              <v-list-item-title>{{ otherMenuList.name }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -71,7 +71,7 @@ export default {
   name: "App",
   data: () => ({
     drawer: null,
-    nav_lists: [
+    siteMenuLists: [
       {
         name: "Home",
         icon: "mdi-home",
@@ -93,7 +93,7 @@ export default {
         link: "/privacy-policy",
       },
     ],
-    nav_lists2: [
+    otherMenuLists: [
       {
         name: "ポケモニット（ブログ）",
         icon: "mdi-wordpress",
