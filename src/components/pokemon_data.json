@@ -5355,6 +5355,23 @@
     }
   },
   {
+    "no": 145,
+    "name": "サンダー(ガラル)",
+    "form": "ガラルのすがた",
+    "evolutions": [],
+    "types": ["かくとう", "ひこう"],
+    "abilities": ["まけんき"],
+    "hiddenAbilities": [],
+    "stats": {
+      "hp": 90,
+      "attack": 125,
+      "defence": 90,
+      "spAttack": 85,
+      "spDefence": 90,
+      "speed": 100
+    }
+  },
+  {
     "no": 135,
     "name": "サンダース",
     "form": "",
@@ -10319,6 +10336,57 @@
     }
   },
   {
+    "no": 898,
+    "name": "バドレックス",
+    "form": "",
+    "evolutions": [],
+    "types": ["エスパー", "くさ"],
+    "abilities": ["きんちょうかん"],
+    "hiddenAbilities": [],
+    "stats": {
+      "hp": 100,
+      "attack": 80,
+      "defence": 80,
+      "spAttack": 80,
+      "spDefence": 80,
+      "speed": 80
+    }
+  },
+  {
+    "no": 898,
+    "name": "バドレックス(こくば)",
+    "form": "こくばじょうのすがた",
+    "evolutions": [],
+    "types": ["エスパー", "ゴースト"],
+    "abilities": ["じんばいったい"],
+    "hiddenAbilities": [],
+    "stats": {
+      "hp": 100,
+      "attack": 85,
+      "defence": 80,
+      "spAttack": 165,
+      "spDefence": 100,
+      "speed": 150
+    }
+  },
+  {
+    "no": 898,
+    "name": "バドレックス(はくば)",
+    "form": "はくばじょうのすがた",
+    "evolutions": [],
+    "types": ["エスパー", "こおり"],
+    "abilities": ["じんばいったい"],
+    "hiddenAbilities": [],
+    "stats": {
+      "hp": 100,
+      "attack": 165,
+      "defence": 150,
+      "spAttack": 85,
+      "spDefence": 130,
+      "speed": 50
+    }
+  },
+  {
     "no": 582,
     "name": "バニプッチ",
     "form": "",
@@ -11526,6 +11594,23 @@
     }
   },
   {
+    "no": 146,
+    "name": "ファイヤー(ガラル)",
+    "form": "ガラルのすがた",
+    "evolutions": [],
+    "types": ["あく", "ひこう"],
+    "abilities": ["ぎゃくじょう"],
+    "hiddenAbilities": [],
+    "stats": {
+      "hp": 90,
+      "attack": 85,
+      "defence": 90,
+      "spAttack": 100,
+      "spDefence": 125,
+      "speed": 90
+    }
+  },
+  {
     "no": 489,
     "name": "フィオネ",
     "form": "",
@@ -12070,6 +12155,23 @@
     }
   },
   {
+    "no": 144,
+    "name": "フリーザー(ガラル)",
+    "form": "ガラルのすがた",
+    "evolutions": [],
+    "types": ["エスパー", "ひこう"],
+    "abilities": ["かちき"],
+    "hiddenAbilities": [],
+    "stats": {
+      "hp": 90,
+      "attack": 85,
+      "defence": 85,
+      "spAttack": 125,
+      "spDefence": 100,
+      "speed": 95
+    }
+  },
+  {
     "no": 615,
     "name": "フリージオ",
     "form": "",
@@ -12101,6 +12203,23 @@
       "spAttack": 74,
       "spDefence": 75,
       "speed": 64
+    }
+  },
+  {
+    "no": 896,
+    "name": "ブリザポス",
+    "form": "",
+    "evolutions": [],
+    "types": ["こおり"],
+    "abilities": ["しろのいななき"],
+    "hiddenAbilities": [],
+    "stats": {
+      "hp": 100,
+      "attack": 145,
+      "defence": 130,
+      "spAttack": 65,
+      "spDefence": 110,
+      "speed": 30
     }
   },
   {
@@ -15623,6 +15742,23 @@
     }
   },
   {
+    "no": 199,
+    "name": "ヤドキング(ガラル)",
+    "form": "ガラルのすがた",
+    "evolutions": [],
+    "types": ["どく", "エスパー"],
+    "abilities": ["きみょうなくすり", "マイペース"],
+    "hiddenAbilities": ["さいせいりょく"],
+    "stats": {
+      "hp": 95,
+      "attack": 65,
+      "defence": 80,
+      "spAttack": 110,
+      "spDefence": 110,
+      "speed": 30
+    }
+  },
+  {
     "no": 80,
     "name": "ヤドラン",
     "form": "",
@@ -15677,7 +15813,7 @@
     "no": 79,
     "name": "ヤドン(ガラル)",
     "form": "ガラルのすがた",
-    "evolutions": [80],
+    "evolutions": [80, 199],
     "types": ["エスパー"],
     "abilities": ["くいしんぼう", "マイペース"],
     "hiddenAbilities": ["さいせいりょく"],
@@ -16932,6 +17068,23 @@
     }
   },
   {
+    "no": 897,
+    "name": "レイスポス",
+    "form": "",
+    "evolutions": [],
+    "types": ["ゴースト"],
+    "abilities": ["くろのいななき"],
+    "hiddenAbilities": [],
+    "stats": {
+      "hp": 100,
+      "attack": 65,
+      "defence": 60,
+      "spAttack": 145,
+      "spDefence": 80,
+      "speed": 130
+    }
+  },
+  {
     "no": 378,
     "name": "レジアイス",
     "form": "",
@@ -16946,6 +17099,23 @@
       "spAttack": 100,
       "spDefence": 200,
       "speed": 50
+    }
+  },
+  {
+    "no": 894,
+    "name": "レジエレキ",
+    "form": "",
+    "evolutions": [],
+    "types": ["でんき"],
+    "abilities": ["トランジスタ"],
+    "hiddenAbilities": [],
+    "stats": {
+      "hp": 80,
+      "attack": 100,
+      "defence": 50,
+      "spAttack": 100,
+      "spDefence": 50,
+      "speed": 200
     }
   },
   {
@@ -16980,6 +17150,23 @@
       "spAttack": 75,
       "spDefence": 150,
       "speed": 50
+    }
+  },
+  {
+    "no": 895,
+    "name": "レジドラゴ",
+    "form": "",
+    "evolutions": [],
+    "types": ["ドラゴン"],
+    "abilities": ["りゅうのあぎと"],
+    "hiddenAbilities": [],
+    "stats": {
+      "hp": 200,
+      "attack": 100,
+      "defence": 50,
+      "spAttack": 100,
+      "spDefence": 50,
+      "speed": 80
     }
   },
   {
