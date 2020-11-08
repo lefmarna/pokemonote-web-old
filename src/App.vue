@@ -88,6 +88,11 @@ export default {
         link: "/calc-speed",
       },
       {
+        name: "種族値ランキング",
+        icon: "mdi-finance",
+        link: "/base-stats-ranking",
+      },
+      {
         name: "利用規約",
         icon: "mdi-comment-alert",
         link: "/privacy-policy",

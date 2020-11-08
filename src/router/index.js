@@ -34,6 +34,16 @@ const routes = [
     },
   },
   {
+    path: "/base-stats-ranking",
+    name: "種族値ランキング",
+    component: () => import("../views/BaseStatsRanking.vue"),
+    meta: {
+      title: "種族値ランキング（ポケモン剣盾に対応）",
+      desc:
+        "ポケモン剣盾の種族値ランキングです。攻撃や特攻、素早さを除いた実質種族値でのリストアップにも対応しています。準伝や600属の暴れる環境で、採用するポケモンに迷った際には、きっとこのツールが役立つことでしょう。",
+    },
+  },
+  {
     path: "/privacy-policy",
     name: "利用規約",
     component: () => import("../views/PrivacyPolicy.vue"),
