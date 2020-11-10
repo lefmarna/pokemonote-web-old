@@ -6,24 +6,15 @@
     <v-divider />
     <v-row>
       <v-col cols="12" md="6">
-        <p>【除外するポケモン】</p>
+        <p>【特別なポケモンを表示する】</p>
         <div class="d-flex">
           <v-checkbox
-            v-model="removeLegendary"
+            v-for="attribute in attributesCheckboxes"
+            :key="attribute.value"
+            :input-value="displayAttributePokemons[attribute.value]"
+            @change="attributeChange(attribute.value)"
+            :label="attribute.text"
             class="pr-2 mt-0"
-            label="伝説"
-            dense
-          ></v-checkbox>
-          <v-checkbox
-            v-model="removeMythical"
-            class="pr-2 mt-0"
-            label="幻"
-            dense
-          ></v-checkbox>
-          <v-checkbox
-            v-model="removeMega"
-            class="pr-2 mt-0"
-            label="メガシンカ"
             dense
           ></v-checkbox>
         </div>
@@ -32,21 +23,12 @@
         <p>【除外するステータス】</p>
         <div class="d-flex">
           <v-checkbox
-            v-model="removeAttack"
+            v-for="stats in statsCheckboxes"
+            :key="stats.value"
+            :input-value="removeStats[stats.value]"
+            @change="statsChange(stats.value)"
+            :label="stats.text"
             class="pr-2 mt-0"
-            label="攻撃"
-            dense
-          ></v-checkbox>
-          <v-checkbox
-            v-model="removeSpAttack"
-            class="pr-2 mt-0"
-            label="特攻"
-            dense
-          ></v-checkbox>
-          <v-checkbox
-            v-model="removeSpeed"
-            class="pr-2 mt-0"
-            label="素早さ"
             dense
           ></v-checkbox>
         </div>
@@ -60,7 +42,7 @@
           class="elevation-1"
           sort-by="total"
           sort-desc
-          multi-sort
+          must-sort
           dense
         ></v-data-table>
       </v-col>
@@ -80,13 +62,27 @@ export default {
   data: () => ({
     pokemonList: PokemonData, // ポケモンのデータはjsonファイルにまとめてあるため、そちらから取得する
     // 除外するポケモン
-    removeLegendary: false,
-    removeMythical: false,
-    removeMega: false,
+    displayAttributePokemons: {
+      legendary: false,
+      mythical: false,
+      mega: false,
+    },
+    attributesCheckboxes: [
+      { text: "伝説", value: "legendary" },
+      { text: "幻", value: "mythical" },
+      { text: "メガシンカ", value: "mega" },
+    ],
     // 除外するステータス
-    removeAttack: false,
-    removeSpAttack: false,
-    removeSpeed: false,
+    removeStats: {
+      attack: false,
+      spAttack: false,
+      speed: false,
+    },
+    statsCheckboxes: [
+      { text: "攻撃", value: "attack" },
+      { text: "特攻", value: "spAttack" },
+      { text: "素早さ", value: "speed" },
+    ],
   }),
   computed: {
     headers() {
@@ -100,25 +96,50 @@ export default {
         { text: "素早", value: "stats.speed", align: "end", width: "10%" },
         { text: "合計", value: "total", align: "end", width: "10%" },
       ];
-      if (this.removeAttack) {
-        dataTableList[2].value = "";
+      if (this.removeStats.attack) {
+        delete dataTableList[2].value;
       }
-      if (this.removeSpAttack) {
-        dataTableList[4].value = "";
+      if (this.removeStats.spAttack) {
+        delete dataTableList[4].value;
       }
-      if (this.removeSpeed) {
-        dataTableList[6].value = "";
+      if (this.removeStats.speed) {
+        delete dataTableList[6].value;
       }
       return dataTableList;
     },
+    // ステータスの合計(total)を計算する
     pokemonListInTotal() {
-      let PokemonDataList = this.pokemonList;
+      // 直接データを書き換えるわけにはいかないので、フィルター用の変数に格納しておく
+      let PokemonDataFilter = this.pokemonList;
       // mapメソッドの中ではthisが使えないため、変数に格納しておく
-      let removeAttack = this.removeAttack;
-      let removeSpAttack = this.removeSpAttack;
-      let removeSpeed = this.removeSpeed;
-      // ステータスの合計を求め、totalに代入する
-      PokemonDataList.map(function(array) {
+      let removeAttack = this.removeStats.attack;
+      let removeSpAttack = this.removeStats.spAttack;
+      let removeSpeed = this.removeStats.speed;
+
+      // 『メガシンカ』にチェックがついていないときは表示させない
+      if (!this.displayAttributePokemons.mega) {
+        PokemonDataFilter = PokemonDataFilter.filter(
+          (pokemonData) =>
+            !pokemonData.attributes.some((attr) => attr == "mega")
+        );
+      }
+      // 『伝説』にチェックがついていないときは表示させない
+      if (!this.displayAttributePokemons.legendary) {
+        PokemonDataFilter = PokemonDataFilter.filter(
+          (pokemonData) =>
+            !pokemonData.attributes.some((attr) => attr == "legendary")
+        );
+      }
+      // 『幻』にチェックがついていないときは表示させない
+      if (!this.displayAttributePokemons.mythical) {
+        PokemonDataFilter = PokemonDataFilter.filter(
+          (pokemonData) =>
+            !pokemonData.attributes.some((attr) => attr == "mythical")
+        );
+      }
+      // 全てのオブジェクトで合計(total)を計算する
+      let PokemonDataListInTotal = PokemonDataFilter.map(function(array) {
+        // statsの各数値のみを抽出し、配列に格納する
         let stats = Object.values(array.stats);
         // 配列の要素数が変わってしまうため、後ろから順に削除していく必要がある
         if (removeSpeed) {
@@ -139,7 +160,17 @@ export default {
         }, 0);
         return array;
       });
-      return PokemonDataList;
+      return PokemonDataListInTotal;
+    },
+  },
+  methods: {
+    attributeChange(value) {
+      this.displayAttributePokemons[value] = !this.displayAttributePokemons[
+        value
+      ];
+    },
+    statsChange(value) {
+      this.removeStats[value] = !this.removeStats[value];
     },
   },
 };
