@@ -1,9 +1,6 @@
 <template>
   <v-container class="contents">
-    <h1 class="title font-weight-bold my-2">
-      種族値ランキング（ポケモン剣盾）
-    </h1>
-    <v-divider />
+    <Title text="種族値ランキング（ポケモン剣盾）" />
     <v-row>
       <v-col cols="12" md="6">
         <p>【特別なポケモンを表示する】</p>
@@ -18,6 +15,7 @@
             dense
           ></v-checkbox>
         </div>
+        <v-divider v-if="!$vuetify.breakpoint.md" />
       </v-col>
       <v-col cols="12" md="6">
         <p>【除外するステータス】</p>
@@ -32,6 +30,7 @@
             dense
           ></v-checkbox>
         </div>
+        <v-divider v-if="!$vuetify.breakpoint.md" />
       </v-col>
       <v-col>
         <v-data-table

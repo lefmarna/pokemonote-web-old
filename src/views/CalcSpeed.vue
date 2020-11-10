@@ -1,7 +1,13 @@
 <template>
-  <v-container class="pa-0 contents" fluid>
+  <v-container class="contents">
+    <Title text="素早さ計算機（ポケモン剣盾）" />
     <v-row>
-      <v-col cols="12" md="6" class="d-flex justify-center">
+      <v-col
+        cols="12"
+        md="6"
+        class="d-flex justify-center"
+        :class="$vuetify.breakpoint.xs ? 'px-0' : ''"
+      >
         <div class="pa-3">
           <v-text-field
             type="number"
@@ -56,10 +62,11 @@
           </div>
           <p>オプション</p>
           <v-switch label="±4以上も表示する" v-model="option1" dense />
+          <v-divider v-if="!$vuetify.breakpoint.md" />
         </div>
       </v-col>
       <v-col cols="12" md="6" class="pb-0">
-        <v-simple-table style="border-top: thin solid rgba(0, 0, 0, 0.12);">
+        <v-simple-table>
           <thead>
             <tr>
               <th class="thead-align-center">ランク</th>

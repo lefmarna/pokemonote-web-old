@@ -1,8 +1,9 @@
 <template>
-  <v-container class="pa-0" fluid>
+  <v-container class="contents">
+    <Title text="ステータス計算機（ポケモン剣盾）" />
     <v-row no-gutters>
       <v-col cols="12" md="6" class="d-flex">
-        <v-container class="contents">
+        <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
           <v-autocomplete
             :items="pokemonList"
             item-text="name"
@@ -10,6 +11,7 @@
             :filter="katakanaToHiragana"
             v-model="currentPokemon"
             no-data-text="ポケモンが見つかりません。"
+            class="mt-3"
             clearable
             auto-select-first
             return-object
@@ -646,10 +648,12 @@
               </v-col>
             </v-row>
           </div>
+          <v-divider v-if="!$vuetify.breakpoint.md" />
         </v-container>
       </v-col>
       <v-col cols="12" md="6" class="d-flex">
-        <v-container class="contents">
+        <v-divider v-if="$vuetify.breakpoint.md" vertical />
+        <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
           <v-row>
             <v-col cols="6">
               <p>めざパ：{{ hiddenPower }}</p>
