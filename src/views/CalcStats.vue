@@ -648,11 +648,14 @@
               </v-col>
             </v-row>
           </div>
-          <v-divider v-if="!$vuetify.breakpoint.md" />
+          <v-divider v-if="$vuetify.breakpoint.xs" />
         </v-container>
       </v-col>
       <v-col cols="12" md="6" class="d-flex">
-        <v-divider v-if="$vuetify.breakpoint.md" vertical />
+        <v-divider
+          v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs"
+          vertical
+        />
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
           <v-row>
             <v-col cols="6">

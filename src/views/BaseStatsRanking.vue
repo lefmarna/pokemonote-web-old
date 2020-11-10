@@ -15,7 +15,7 @@
             dense
           ></v-checkbox>
         </div>
-        <v-divider v-if="!$vuetify.breakpoint.md" />
+        <v-divider v-if="$vuetify.breakpoint.xs" />
       </v-col>
       <v-col cols="12" md="6">
         <p>【除外するステータス】</p>
@@ -30,7 +30,7 @@
             dense
           ></v-checkbox>
         </div>
-        <v-divider v-if="!$vuetify.breakpoint.md" />
+        <v-divider v-if="$vuetify.breakpoint.xs" />
       </v-col>
       <v-col>
         <v-data-table

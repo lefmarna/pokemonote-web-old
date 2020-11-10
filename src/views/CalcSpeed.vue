@@ -62,7 +62,7 @@
           </div>
           <p>オプション</p>
           <v-switch label="±4以上も表示する" v-model="option1" dense />
-          <v-divider v-if="!$vuetify.breakpoint.md" />
+          <v-divider v-if="$vuetify.breakpoint.xs" />
         </div>
       </v-col>
       <v-col cols="12" md="6" class="pb-0">
