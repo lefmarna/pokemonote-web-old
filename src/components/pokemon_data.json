@@ -4089,7 +4089,7 @@
     "no": 658,
     "name": "ゲッコウガ(サトシ)",
     "form": "サトシゲッコウガ",
-    "attributes": [],
+    "attributes": ["mega"],
     "evolutions": [],
     "types": ["みず", "あく"],
     "abilities": ["きずなへんげ"],
