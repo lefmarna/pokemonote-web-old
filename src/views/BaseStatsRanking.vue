@@ -65,11 +65,13 @@ export default {
       legendary: false,
       mythical: false,
       mega: false,
+      NotInPokedex: false,
     },
     attributesCheckboxes: [
       { text: "伝説", value: "legendary" },
       { text: "幻", value: "mythical" },
       { text: "メガシンカ", value: "mega" },
+      { text: "剣盾に登場しないポケモン", value: "NotInPokedex" },
     ],
     // 除外するステータス
     removeStats: {
@@ -134,6 +136,13 @@ export default {
         PokemonDataFilter = PokemonDataFilter.filter(
           (pokemonData) =>
             !pokemonData.attributes.some((attr) => attr == "mythical")
+        );
+      }
+      // 『剣盾に登場しないポケモン』にチェックがついていないときは表示させない
+      if (!this.displayAttributePokemons.NotInPokedex) {
+        PokemonDataFilter = PokemonDataFilter.filter(
+          (pokemonData) =>
+            !pokemonData.attributes.some((attr) => attr == "NotInPokedex")
         );
       }
       // 全てのオブジェクトで合計(total)を計算する
