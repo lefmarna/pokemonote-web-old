@@ -22,13 +22,81 @@ export default new Vuex.Store({
         speed: 91,
       },
     },
+    lv: 50,
+    currentNature: {
+      name: "がんばりや",
+      stats: {
+        hp: 1.0,
+        attack: 1.0,
+        defence: 1.0,
+        spAttack: 1.0,
+        spDefence: 1.0,
+        speed: 1.0,
+      },
+    },
+    stats: [
+      {
+        en: "hp",
+        ja: "ＨＰ",
+        abbreviation: "H",
+        individualValue: 31,
+        effortValue: "",
+      },
+      {
+        en: "attack",
+        ja: "こうげき",
+        abbreviation: "A",
+        individualValue: 31,
+        effortValue: "",
+      },
+      {
+        en: "defence",
+        ja: "ぼうぎょ",
+        abbreviation: "B",
+        individualValue: 31,
+        effortValue: "",
+      },
+      {
+        en: "spAttack",
+        ja: "とくこう",
+        abbreviation: "C",
+        individualValue: 31,
+        effortValue: "",
+      },
+      {
+        en: "spDefence",
+        ja: "とくぼう",
+        abbreviation: "D",
+        individualValue: 31,
+        effortValue: "",
+      },
+      {
+        en: "speed",
+        ja: "すばやさ",
+        abbreviation: "S",
+        individualValue: 31,
+        effortValue: "",
+      },
+    ],
   },
   getters: {
     currentPokemon: (state) => state.currentPokemon,
+    currentNature: (state) => state.currentNature,
+    lv: (state) => state.lv,
+    stats: (state) => state.stats,
   },
   mutations: {
     updateCurrentPokemon(state, selectedPokemon) {
       state.currentPokemon = selectedPokemon;
+    },
+    updateCurrentNature(state, selectedNature) {
+      state.currentNature = selectedNature;
+    },
+    updateLv(state, value) {
+      state.lv = value;
+    },
+    updateStats(state, value) {
+      state.stats = value;
     },
   },
 });

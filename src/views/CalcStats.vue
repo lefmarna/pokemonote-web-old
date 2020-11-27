@@ -758,20 +758,8 @@ export default {
   },
   data: () => ({
     pokemonList: PokemonData, // ポケモンのデータはjsonファイルにまとめてあるため、そちらから取得する
-    lv: 50,
     itemGroup: "持ち物なし",
     isNumber: /^([1-9]\d*|0)$/, // 1~9で始まる整数、または0であるときにtrueを返す正規表現
-    currentNature: {
-      name: "がんばりや",
-      stats: {
-        hp: 1.0,
-        attack: 1.0,
-        defence: 1.0,
-        spAttack: 1.0,
-        spDefence: 1.0,
-        speed: 1.0,
-      },
-    },
     natureList: [
       {
         name: "いじっぱり",
@@ -1049,50 +1037,6 @@ export default {
         },
       },
     ],
-    stats: [
-      {
-        en: "hp",
-        ja: "ＨＰ",
-        abbreviation: "H",
-        individualValue: 31,
-        effortValue: "",
-      },
-      {
-        en: "attack",
-        ja: "こうげき",
-        abbreviation: "A",
-        individualValue: 31,
-        effortValue: "",
-      },
-      {
-        en: "defence",
-        ja: "ぼうぎょ",
-        abbreviation: "B",
-        individualValue: 31,
-        effortValue: "",
-      },
-      {
-        en: "spAttack",
-        ja: "とくこう",
-        abbreviation: "C",
-        individualValue: 31,
-        effortValue: "",
-      },
-      {
-        en: "spDefence",
-        ja: "とくぼう",
-        abbreviation: "D",
-        individualValue: 31,
-        effortValue: "",
-      },
-      {
-        en: "speed",
-        ja: "すばやさ",
-        abbreviation: "S",
-        individualValue: 31,
-        effortValue: "",
-      },
-    ],
     calcAreas: {
       calcArea1: "",
       calcArea2: "",
@@ -1101,13 +1045,39 @@ export default {
     spAttackCheck: false,
   }),
   computed: {
-    // ポケモンの更新には、将来的な拡張性を考慮してVuexを使用している
+    // 将来的な拡張性を考慮して、ポケモン名や各種ステータスはVuexで管理している
     currentPokemon: {
       get() {
         return this.$store.getters.currentPokemon;
       },
       set(selectedPokemon) {
         this.$store.commit("updateCurrentPokemon", selectedPokemon);
+        document.activeElement.blur(); // ポケモンを更新後、フォーカスを外す
+      },
+    },
+    currentNature: {
+      get() {
+        return this.$store.getters.currentNature;
+      },
+      set(selectedNature) {
+        this.$store.commit("updateCurrentNature", selectedNature);
+        document.activeElement.blur(); // 性格を更新後、フォーカスを外す
+      },
+    },
+    lv: {
+      get() {
+        return this.$store.getters.lv;
+      },
+      set(value) {
+        this.$store.commit("updateLv", value);
+      },
+    },
+    stats: {
+      get() {
+        return this.$store.getters.stats;
+      },
+      set(value) {
+        this.$store.commit("updateStats", value);
       },
     },
     // 各種ステータスの計算（methodsで引数を指定すれば、同じ計算を1箇所にまとめることもできるが、パフォーマンスの高いcomputedを使いたいため、あえて個別に計算している）
