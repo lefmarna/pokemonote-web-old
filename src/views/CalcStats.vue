@@ -54,295 +54,8 @@
             </v-col>
           </v-row>
           <v-divider />
-          <!-- v-forを使用したいところだが、computedでは引数を取ることができないため断念することに… -->
-          <div id="statsTable">
-            <v-row>
-              <v-col cols="2"
-                ><div class="v-input--is-disabled theme--light v-text-field">
-                  <div class="v-input__control">
-                    <div class="v-input__slot">
-                      <div class="v-text-field__slot">
-                        <label
-                          class="v-label v-label--active v-label--is-disabled theme--light"
-                          style="left: 0px; right: auto; position: absolute;"
-                          >種族値</label
-                        ><span
-                          :class="[
-                            'py-1',
-                            {
-                              'text-danger': currentNature.stats.hp == 1.1,
-                              'text-primary': currentNature.stats.hp == 0.9,
-                            },
-                          ]"
-                          >{{ `H${currentPokemon.stats.hp}` }}</span
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    label="個体値"
-                    placeholder="0"
-                    v-model.trim.number="stats[0].individualValue"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="31"
-                    class="mb-1 btn-min-30px"
-                    @click.native="stats[0].individualValue = 31"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="0"
-                    class="btn-min-30px"
-                    @click.native="stats[0].individualValue = ''"
-                  />
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    label="努力値"
-                    placeholder="0"
-                    v-model.trim.number="stats[0].effortValue"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="252"
-                    class="mb-1 btn-min-35px"
-                    @click.native="stats[0].effortValue = 252"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="0"
-                    class="btn-min-35px"
-                    @click.native="stats[0].effortValue = ''"
-                  />
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    :label="stats[0].ja"
-                    :value="hp"
-                    @change="updateHp()"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="▲"
-                    class="mb-1 btn-min-30px"
-                    @click.native="hp++"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="▼"
-                    class="btn-min-30px"
-                    @click.native="hp--"
-                  />
-                </div>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="2"
-                ><div class="v-input--is-disabled theme--light v-text-field">
-                  <div class="v-input__control">
-                    <div class="v-input__slot">
-                      <div class="v-text-field__slot">
-                        <label
-                          class="v-label v-label--active v-label--is-disabled theme--light"
-                          style="left: 0px; right: auto; position: absolute;"
-                          >種族値</label
-                        ><span
-                          :class="[
-                            'py-1',
-                            {
-                              'text-danger': currentNature.stats.attack == 1.1,
-                              'text-primary': currentNature.stats.attack == 0.9,
-                            },
-                          ]"
-                          >{{ `A${currentPokemon.stats.attack}` }}</span
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    label="個体値"
-                    placeholder="0"
-                    v-model.trim.number="stats[1].individualValue"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="31"
-                    class="mb-1 btn-min-30px"
-                    @click.native="stats[1].individualValue = 31"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="0"
-                    class="btn-min-30px"
-                    @click.native="stats[1].individualValue = ''"
-                  />
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    label="努力値"
-                    placeholder="0"
-                    v-model.trim.number="stats[1].effortValue"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="252"
-                    class="mb-1 btn-min-35px"
-                    @click.native="stats[1].effortValue = 252"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="0"
-                    class="btn-min-35px"
-                    @click.native="stats[1].effortValue = ''"
-                  />
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    :label="stats[1].ja"
-                    :value="attack"
-                    @change="updateStats('attack', 1)"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="▲"
-                    class="mb-1 btn-min-30px"
-                    @click.native="attack++"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="▼"
-                    class="btn-min-30px"
-                    @click.native="attack--"
-                  />
-                </div>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="2"
-                ><div class="v-input--is-disabled theme--light v-text-field">
-                  <div class="v-input__control">
-                    <div class="v-input__slot">
-                      <div class="v-text-field__slot">
-                        <label
-                          class="v-label v-label--active v-label--is-disabled theme--light"
-                          style="left: 0px; right: auto; position: absolute;"
-                          >種族値</label
-                        ><span
-                          :class="[
-                            'py-1',
-                            {
-                              'text-danger': currentNature.stats.defence == 1.1,
-                              'text-primary':
-                                currentNature.stats.defence == 0.9,
-                            },
-                          ]"
-                          >{{ `B${currentPokemon.stats.defence}` }}</span
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    label="個体値"
-                    placeholder="0"
-                    v-model.trim.number="stats[2].individualValue"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="31"
-                    class="mb-1 btn-min-30px"
-                    @click.native="stats[2].individualValue = 31"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="0"
-                    class="btn-min-30px"
-                    @click.native="stats[2].individualValue = ''"
-                  />
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    label="努力値"
-                    placeholder="0"
-                    v-model.trim.number="stats[2].effortValue"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="252"
-                    class="mb-1 btn-min-35px"
-                    @click.native="stats[2].effortValue = 252"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="0"
-                    class="btn-min-35px"
-                    @click.native="stats[2].effortValue = ''"
-                  />
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    :label="stats[2].ja"
-                    :value="defence"
-                    @change="updateStats('defence', 2)"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="▲"
-                    class="mb-1 btn-min-30px"
-                    @click.native="defence++"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="▼"
-                    class="btn-min-30px"
-                    @click.native="defence--"
-                  />
-                </div>
-              </v-col>
-            </v-row>
-            <v-row>
+          <div class="statsTable">
+            <v-row v-for="(stat, index) in stats" :key="stat.en">
               <v-col cols="2"
                 ><div class="v-input--is-disabled theme--light v-text-field">
                   <div class="v-input__control">
@@ -357,12 +70,12 @@
                             'py-1',
                             {
                               'text-danger':
-                                currentNature.stats.spAttack == 1.1,
+                                currentNature.stats[stat.en] == 1.1,
                               'text-primary':
-                                currentNature.stats.spAttack == 0.9,
+                                currentNature.stats[stat.en] == 0.9,
                             },
                           ]"
-                          >{{ `C${currentPokemon.stats.spAttack}` }}</span
+                          >{{ `H${currentPokemon.stats[stat.en]}` }}</span
                         >
                       </div>
                     </div>
@@ -375,20 +88,20 @@
                     type="number"
                     label="個体値"
                     placeholder="0"
-                    v-model.trim.number="stats[3].individualValue"
+                    v-model.trim.number="stats[index].individualValue"
                   ></v-text-field>
                 </div>
                 <div>
                   <CalcButton
                     buttonText="31"
                     class="mb-1 btn-min-30px"
-                    @click.native="stats[3].individualValue = 31"
+                    @click.native="stats[index].individualValue = 31"
                   />
                   <br />
                   <CalcButton
                     buttonText="0"
                     class="btn-min-30px"
-                    @click.native="stats[3].individualValue = ''"
+                    @click.native="stats[index].individualValue = ''"
                   />
                 </div>
               </v-col>
@@ -398,20 +111,20 @@
                     type="number"
                     label="努力値"
                     placeholder="0"
-                    v-model.trim.number="stats[3].effortValue"
+                    v-model.trim.number="stats[index].effortValue"
                   ></v-text-field>
                 </div>
                 <div>
                   <CalcButton
                     buttonText="252"
                     class="mb-1 btn-min-35px"
-                    @click.native="stats[3].effortValue = 252"
+                    @click.native="stats[index].effortValue = 252"
                   />
                   <br />
                   <CalcButton
                     buttonText="0"
                     class="btn-min-35px"
-                    @click.native="stats[3].effortValue = ''"
+                    @click.native="stats[index].effortValue = ''"
                   />
                 </div>
               </v-col>
@@ -419,214 +132,22 @@
                 <div>
                   <v-text-field
                     type="number"
-                    :label="stats[3].ja"
-                    :value="spAttack"
-                    @change="updateStats('spAttack', 3)"
+                    :label="stats[index].ja"
+                    :value="realNumbers[index]"
+                    @change="updateStats(stat.en, index)"
                   ></v-text-field>
                 </div>
                 <div>
                   <CalcButton
                     buttonText="▲"
                     class="mb-1 btn-min-30px"
-                    @click.native="spAttack++"
+                    @click.native="statPlus(stat.en)"
                   />
                   <br />
                   <CalcButton
                     buttonText="▼"
                     class="btn-min-30px"
-                    @click.native="spAttack--"
-                  />
-                </div>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="2"
-                ><div class="v-input--is-disabled theme--light v-text-field">
-                  <div class="v-input__control">
-                    <div class="v-input__slot">
-                      <div class="v-text-field__slot">
-                        <label
-                          class="v-label v-label--active v-label--is-disabled theme--light"
-                          style="left: 0px; right: auto; position: absolute;"
-                          >種族値</label
-                        ><span
-                          :class="[
-                            'py-1',
-                            {
-                              'text-danger':
-                                currentNature.stats.spDefence == 1.1,
-                              'text-primary':
-                                currentNature.stats.spDefence == 0.9,
-                            },
-                          ]"
-                          >{{ `D${currentPokemon.stats.spDefence}` }}</span
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    label="個体値"
-                    placeholder="0"
-                    v-model.trim.number="stats[4].individualValue"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="31"
-                    class="mb-1 btn-min-30px"
-                    @click.native="stats[4].individualValue = 31"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="0"
-                    class="btn-min-30px"
-                    @click.native="stats[4].individualValue = ''"
-                  />
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    label="努力値"
-                    placeholder="0"
-                    v-model.trim.number="stats[4].effortValue"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="252"
-                    class="mb-1 btn-min-35px"
-                    @click.native="stats[4].effortValue = 252"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="0"
-                    class="btn-min-35px"
-                    @click.native="stats[4].effortValue = ''"
-                  />
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    :label="stats[4].ja"
-                    :value="spDefence"
-                    @change="updateStats('spDefence', 4)"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="▲"
-                    class="mb-1 btn-min-30px"
-                    @click.native="spDefence++"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="▼"
-                    class="btn-min-30px"
-                    @click.native="spDefence--"
-                  />
-                </div>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="2"
-                ><div class="v-input--is-disabled theme--light v-text-field">
-                  <div class="v-input__control">
-                    <div class="v-input__slot">
-                      <div class="v-text-field__slot">
-                        <label
-                          class="v-label v-label--active v-label--is-disabled theme--light"
-                          style="left: 0px; right: auto; position: absolute;"
-                          >種族値</label
-                        ><span
-                          :class="[
-                            'py-1',
-                            {
-                              'text-danger': currentNature.stats.speed == 1.1,
-                              'text-primary': currentNature.stats.speed == 0.9,
-                            },
-                          ]"
-                          >{{ `S${currentPokemon.stats.speed}` }}</span
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    label="個体値"
-                    placeholder="0"
-                    v-model.trim.number="stats[5].individualValue"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="31"
-                    class="mb-1 btn-min-30px"
-                    @click.native="stats[5].individualValue = 31"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="0"
-                    class="btn-min-30px"
-                    @click.native="stats[5].individualValue = ''"
-                  />
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    label="努力値"
-                    placeholder="0"
-                    v-model.trim.number="stats[5].effortValue"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="252"
-                    class="mb-1 btn-min-35px"
-                    @click.native="stats[5].effortValue = 252"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="0"
-                    class="btn-min-35px"
-                    @click.native="stats[5].effortValue = ''"
-                  />
-                </div>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    type="number"
-                    :label="stats[5].ja"
-                    :value="speed"
-                    @change="updateStats('speed', 5)"
-                  ></v-text-field>
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="▲"
-                    class="mb-1 btn-min-30px"
-                    @click.native="speed++"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="▼"
-                    class="btn-min-30px"
-                    @click.native="speed--"
+                    @click.native="statMinus(stat.en)"
                   />
                 </div>
               </v-col>
@@ -1449,6 +970,17 @@ export default {
         }
       },
     },
+    // computedで計算した値を配列に格納することで、v-forで回すことが可能になる
+    realNumbers() {
+      return [
+        this.hp,
+        this.attack,
+        this.defence,
+        this.spAttack,
+        this.spDefence,
+        this.speed,
+      ];
+    },
     totalStats() {
       // レベルが空白のときに、String型になって連結した結果が表示されてしまう不具合があったため、Numberオブジェクトを使い型を厳密に定義することにした
       return (
@@ -1600,78 +1132,76 @@ export default {
         (itemName || "").indexOf(hiragana) > -1
       );
     },
-    // 実数値の更新にはSetterを設定しているため、本来なら不要な関数。しかし、Vuetifyではv-modelのlazy修飾子をサポートしていないため、inputではなくchangeイベントで発火させたいケースでは、v-bind:valueとv-on:changeで分けて記述してメソッドを呼び出す必要がある。なお、inputではダメな理由としては、実数値を消しながら入力する際に、努力値が自動更新されることによって、実数値の入力が滞ってしまうから（【例】183→164→16→1）
+    // 実数値を上下させるボタンを設置
+    statPlus(statName) {
+      this[statName]++;
+    },
+    statMinus(statName) {
+      this[statName]--;
+    },
+    // 実数値から努力値の逆算を行う（実数値の更新にはSetterを設定しているため、本来なら不要な関数。しかし、Vuetifyではv-modelのlazy修飾子をサポートしていないため、inputではなくchangeイベントで発火させたいケースでは、v-bind:valueとv-on:changeで分けて記述してメソッドを呼び出す必要がある。なお、inputではダメな理由としては、実数値を消しながら入力する際に、努力値が自動更新されることによって、実数値の入力が滞ってしまうから（【例】183→164→16→1））
     updateStats(statsName, index) {
       let lv = this.lv;
       if (!this.isNumber.test(lv)) {
         lv = 1;
       }
-      let n = Number(event.target.value);
-      let currentNatureStat = Number(this.currentNature.stats[statsName]);
-      if (n % 11 === 10 && currentNatureStat === 1.1) {
-        if (
-          n >=
-          Math.floor(
-            (Math.floor(
-              ((this.currentPokemon.stats[statsName] * 2 +
-                this.stats[index].individualValue +
-                Math.floor(this.stats[index].effortValue / 4)) *
-                lv) /
-                100
-            ) +
-              5) *
-              currentNatureStat
-          )
-        ) {
-          n += 1;
+      // HPのみ計算式が異なる
+      if (statsName == "hp") {
+        const n =
+          (Math.ceil(((Number(event.target.value) - lv - 10) * 100) / lv) -
+            this.currentPokemon.stats.hp * 2 -
+            this.stats[0].individualValue) *
+          4;
+        if (n < 0) {
+          this.stats[0].effortValue = "";
         } else {
-          n -= 1;
+          this.stats[0].effortValue = n;
         }
-      }
-      if (currentNatureStat === 1.1) {
-        n = Math.ceil(n / 1.1);
-      } else if (currentNatureStat === 0.9) {
-        n = Math.ceil(n / 0.9);
-      }
-      n =
-        (Math.ceil(((n - 5) * 100) / this.lv) -
-          this.currentPokemon.stats[statsName] * 2 -
-          this.stats[index].individualValue) *
-        4;
-      if (n < 0) {
-        this.stats[index].effortValue = "";
+        // HP以外の計算では、性格補正を修正してから努力値の逆算を行う必要がある
       } else {
-        this.stats[index].effortValue = n;
-      }
-    },
-    // HPのみ計算式が異なるので別の関数を用意した
-    updateHp() {
-      let lv = this.lv;
-      if (!this.isNumber.test(lv)) {
-        lv = 1;
-      }
-      const n =
-        (Math.ceil(((Number(event.target.value) - lv - 10) * 100) / lv) -
-          this.currentPokemon.stats.hp * 2 -
-          this.stats[0].individualValue) *
-        4;
-      if (n < 0) {
-        this.stats[0].effortValue = "";
-      } else {
-        this.stats[0].effortValue = n;
+        let n = Number(event.target.value);
+        let currentNatureStat = Number(this.currentNature.stats[statsName]);
+        if (n % 11 === 10 && currentNatureStat === 1.1) {
+          if (
+            n >=
+            Math.floor(
+              (Math.floor(
+                ((this.currentPokemon.stats[statsName] * 2 +
+                  this.stats[index].individualValue +
+                  Math.floor(this.stats[index].effortValue / 4)) *
+                  lv) /
+                  100
+              ) +
+                5) *
+                currentNatureStat
+            )
+          ) {
+            n += 1;
+          } else {
+            n -= 1;
+          }
+        }
+        if (currentNatureStat === 1.1) {
+          n = Math.ceil(n / 1.1);
+        } else if (currentNatureStat === 0.9) {
+          n = Math.ceil(n / 0.9);
+        }
+        n =
+          (Math.ceil(((n - 5) * 100) / this.lv) -
+            this.currentPokemon.stats[statsName] * 2 -
+            this.stats[index].individualValue) *
+          4;
+        if (n < 0) {
+          this.stats[index].effortValue = "";
+        } else {
+          this.stats[index].effortValue = n;
+        }
       }
     },
     // 計算結果を出力する
     outputResult(i) {
-      // 実数値を取得
-      let realNumbers = [
-        this.hp,
-        this.attack,
-        this.defence,
-        this.spAttack,
-        this.spDefence,
-        this.speed,
-      ];
+      // 配列は『mutable』なオブジェクトなため、複製して別の変数に入れている
+      let realNumbers = Array.from(this.realNumbers);
       if (this.attackCheck) {
         realNumbers[1] = "*";
       }
@@ -1780,14 +1310,6 @@ export default {
   color: #1876d1;
 }
 
-/* デフォルトのボタンだと横幅が大きすぎるのを調整する */
-.btn-min-30px {
-  min-width: 30px !important;
-}
-.btn-min-35px {
-  min-width: 35px !important;
-}
-
 /* 『保存する』のボタンをテキストエリア内に埋め込む */
 #resultArea {
   position: relative;
@@ -1797,10 +1319,5 @@ export default {
 .saveButton {
   right: 12px;
   bottom: 30px;
-}
-
-/* ステータスの入力時にハイライトをつけて見やすくする */
-#statsTable .row:hover:not(:last-child) {
-  background-color: #eee;
 }
 </style>

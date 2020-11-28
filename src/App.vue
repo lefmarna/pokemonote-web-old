@@ -221,4 +221,17 @@ h2:after {
 .v-data-table tr:hover td {
   background-color: #eee;
 }
+/* デフォルトのボタンだと横幅が大きすぎるのを調整する */
+.btn-min-30px {
+  min-width: 2.5em !important;
+}
+.btn-min-35px {
+  min-width: 3em !important;
+}
+.statsTable {
+  /* ステータスの入力時にハイライトをつけて見やすくする */
+  .row:hover:not(:last-child) {
+    background-color: #eee;
+  }
+}
 </style>
