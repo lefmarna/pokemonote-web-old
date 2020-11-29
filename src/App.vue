@@ -164,6 +164,9 @@ export default {
 </script>
 
 <style lang="scss">
+// Bootstrapの色を参照
+$primary: #1876d1;
+$danger: #dc3545;
 // ハートの色
 $heart1: #bbdefb;
 $heart2: #90caf9;
@@ -232,6 +235,13 @@ h2:after {
   /* ステータスの入力時にハイライトをつけて見やすくする */
   .row:hover:not(:last-child) {
     background-color: #eee;
+  }
+  // 文字の色を変えることで、性格補正を分かりやすく！
+  .text-primary input {
+    color: $primary !important;
+  }
+  .text-danger input {
+    color: $danger !important;
   }
 }
 </style>

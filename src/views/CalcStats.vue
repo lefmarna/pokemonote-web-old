@@ -56,31 +56,25 @@
           <v-divider />
           <div class="statsTable">
             <v-row v-for="(stat, index) in stats" :key="stat.en">
-              <v-col cols="2"
-                ><div class="v-input--is-disabled theme--light v-text-field">
-                  <div class="v-input__control">
-                    <div class="v-input__slot">
-                      <div class="v-text-field__slot">
-                        <label
-                          class="v-label v-label--active v-label--is-disabled theme--light"
-                          style="left: 0px; right: auto; position: absolute;"
-                          >種族値</label
-                        ><span
-                          :class="[
-                            'py-1',
-                            {
-                              'text-danger':
-                                currentNature.stats[stat.en] == 1.1,
-                              'text-primary':
-                                currentNature.stats[stat.en] == 0.9,
-                            },
-                          ]"
-                          >{{ `H${currentPokemon.stats[stat.en]}` }}</span
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <v-col
+                cols="2"
+                :class="[
+                  'justify-center',
+                  {
+                    'text-danger': currentNature.stats[stat.en] == 1.1,
+                    'text-primary': currentNature.stats[stat.en] == 0.9,
+                  },
+                ]"
+              >
+                <v-text-field
+                  class="baseStatsColor"
+                  label="種族値"
+                  placeholder="0"
+                  :value="
+                    `${stat.abbreviation}${currentPokemon.stats[stat.en]}`
+                  "
+                  disabled
+                ></v-text-field>
               </v-col>
               <v-col class="d-flex justify-center">
                 <div>
@@ -1302,14 +1296,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.text-danger {
-  color: #dc3545;
-}
-
-.text-primary {
-  color: #1876d1;
-}
-
 /* 『保存する』のボタンをテキストエリア内に埋め込む */
 #resultArea {
   position: relative;
