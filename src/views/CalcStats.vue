@@ -29,13 +29,13 @@
               <div>
                 <CalcButton
                   buttonText="100"
-                  class="mb-1 btn-min-35px"
+                  class="mb-1 btn-min-sm"
                   @click.native="lv = 100"
                 />
                 <br />
                 <CalcButton
                   buttonText="50"
-                  class="btn-min-35px"
+                  class="btn-min-sm"
                   @click.native="lv = 50"
                 />
               </div>
@@ -88,13 +88,13 @@
                 <div>
                   <CalcButton
                     buttonText="31"
-                    class="mb-1 btn-min-30px"
+                    class="mb-1 btn-min-xs"
                     @click.native="stats[index].individualValue = 31"
                   />
                   <br />
                   <CalcButton
                     buttonText="0"
-                    class="btn-min-30px"
+                    class="btn-min-xs"
                     @click.native="stats[index].individualValue = ''"
                   />
                 </div>
@@ -111,13 +111,13 @@
                 <div>
                   <CalcButton
                     buttonText="252"
-                    class="mb-1 btn-min-35px"
+                    class="mb-1 btn-min-sm"
                     @click.native="stats[index].effortValue = 252"
                   />
                   <br />
                   <CalcButton
                     buttonText="0"
-                    class="btn-min-35px"
+                    class="btn-min-sm"
                     @click.native="stats[index].effortValue = ''"
                   />
                 </div>
@@ -134,13 +134,13 @@
                 <div>
                   <CalcButton
                     buttonText="▲"
-                    class="mb-1 btn-min-30px"
+                    class="mb-1 btn-min-xs"
                     @click.native="statPlus(stat.en)"
                   />
                   <br />
                   <CalcButton
                     buttonText="▼"
-                    class="btn-min-30px"
+                    class="btn-min-xs"
                     @click.native="statMinus(stat.en)"
                   />
                 </div>
@@ -240,7 +240,6 @@
             </v-btn>
           </v-row>
           <v-divider />
-          <!-- <TitleInDivider title="【ステータス計算機について】" /> -->
           <v-row class="text-justify pa-3 px-3 body-1">
             <p>【ステータス計算機について】</p>
             <p>

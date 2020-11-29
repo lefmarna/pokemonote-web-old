@@ -170,6 +170,34 @@ $danger: #dc3545;
 // ハートの色
 $heart1: #bbdefb;
 $heart2: #90caf9;
+// スマホのサイズ
+$breakpoint-iPhone8Plus: 414px;
+$breakpoint-Android: 360px;
+$breakpoint-iPhoneSE: 320px;
+// ブレークポイント毎にmixinを使うと楽
+@mixin iPhone8Plus {
+  @media screen and (max-width: $breakpoint-iPhone8Plus) {
+    @content;
+  }
+}
+@mixin Android {
+  @media screen and (max-width: $breakpoint-Android) {
+    @content;
+  }
+}
+@mixin iPhoneSE {
+  @media screen and (max-width: $breakpoint-iPhoneSE) {
+    @content;
+  }
+}
+
+// iPhoneSEでもタイトルを1行で表示するために文字サイズを調整した
+#title {
+  @include iPhoneSE() {
+    font-size: 1.13rem !important;
+  }
+}
+
 // ハートの背景をCSSで設計する
 #app {
   background-color: #e3f2fd;
@@ -225,10 +253,10 @@ h2:after {
   background-color: #eee;
 }
 /* デフォルトのボタンだと横幅が大きすぎるのを調整する */
-.btn-min-30px {
+.btn-min-xs {
   min-width: 2.5em !important;
 }
-.btn-min-35px {
+.btn-min-sm {
   min-width: 3em !important;
 }
 .statsTable {
@@ -242,6 +270,53 @@ h2:after {
   }
   .text-danger input {
     color: $danger !important;
+  }
+  // 小さなスマートフォンでも表示が崩れないようにするための処理
+  .col {
+    @include iPhone8Plus() {
+      padding-right: 8px;
+      padding-left: 8px;
+    }
+  }
+  .v-text-field__slot {
+    @include Android {
+      font-size: 98%;
+    }
+    @include iPhoneSE {
+      font-size: 90%;
+    }
+  }
+  label {
+    @include Android {
+      font-size: 98%;
+    }
+    @include iPhoneSE {
+      font-size: 90%;
+    }
+  }
+  .v-btn__content {
+    @include Android {
+      font-size: 0.98em;
+    }
+    @include iPhoneSE() {
+      font-size: 0.9em;
+    }
+  }
+  .btn-min-xs {
+    @include Android {
+      min-width: 2.46em !important;
+    }
+    @include iPhoneSE {
+      min-width: 2.35em !important;
+    }
+  }
+  .btn-min-sm {
+    @include Android {
+      min-width: 2.95em !important;
+    }
+    @include iPhoneSE {
+      min-width: 2.8em !important;
+    }
   }
 }
 </style>
