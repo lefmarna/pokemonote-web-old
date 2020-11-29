@@ -4,18 +4,7 @@
     <v-row no-gutters>
       <v-col cols="12" md="6" class="d-flex">
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
-          <v-autocomplete
-            :items="pokemonList"
-            item-text="name"
-            label="ポケモン名"
-            :filter="katakanaToHiragana"
-            v-model="currentPokemon"
-            no-data-text="ポケモンが見つかりません。"
-            class="mt-3"
-            clearable
-            auto-select-first
-            return-object
-          ></v-autocomplete>
+          <SearchPokemon />
           <v-row>
             <v-col cols="4" class="d-flex">
               <div>
@@ -41,16 +30,7 @@
               </div>
             </v-col>
             <v-col cols="8">
-              <v-autocomplete
-                :items="natureList"
-                item-text="name"
-                label="性格"
-                :filter="katakanaToHiragana"
-                v-model="currentNature"
-                no-data-text="性格が見つかりません。"
-                auto-select-first
-                return-object
-              ></v-autocomplete>
+              <SearchNature />
             </v-col>
           </v-row>
           <v-divider />
@@ -67,7 +47,6 @@
                 ]"
               >
                 <v-text-field
-                  class="baseStatsColor"
                   label="種族値"
                   placeholder="0"
                   :value="
@@ -262,295 +241,20 @@
 </template>
 
 <script>
-import PokemonData from "@/components/pokemon_data.json";
 import CalcButton from "@/components/CalcButton.vue";
+import SearchPokemon from "@/components/SearchPokemon.vue";
+import SearchNature from "@/components/SearchNature.vue";
 
 export default {
   name: "Home",
   components: {
     CalcButton,
+    SearchPokemon,
+    SearchNature,
   },
   data: () => ({
-    pokemonList: PokemonData, // ポケモンのデータはjsonファイルにまとめてあるため、そちらから取得する
     itemGroup: "持ち物なし",
     isNumber: /^([1-9]\d*|0)$/, // 1~9で始まる整数、または0であるときにtrueを返す正規表現
-    natureList: [
-      {
-        name: "いじっぱり",
-        stats: {
-          hp: 1.0,
-          attack: 1.1,
-          defence: 1.0,
-          spAttack: 0.9,
-          spDefence: 1.0,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "うっかりや",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 1.0,
-          spAttack: 1.1,
-          spDefence: 0.9,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "おくびょう",
-        stats: {
-          hp: 1.0,
-          attack: 0.9,
-          defence: 1.0,
-          spAttack: 1.0,
-          spDefence: 1.0,
-          speed: 1.1,
-        },
-      },
-      {
-        name: "おだやか",
-        stats: {
-          hp: 1.0,
-          attack: 0.9,
-          defence: 1.0,
-          spAttack: 1.0,
-          spDefence: 1.1,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "おっとり",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 0.9,
-          spAttack: 1.1,
-          spDefence: 1.0,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "おとなしい",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 0.9,
-          spAttack: 1.0,
-          spDefence: 1.1,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "がんばりや",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 1.0,
-          spAttack: 1.0,
-          spDefence: 1.0,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "きまぐれ",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 1.0,
-          spAttack: 1.0,
-          spDefence: 1.0,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "さみしがり",
-        stats: {
-          hp: 1.0,
-          attack: 1.1,
-          defence: 0.9,
-          spAttack: 1.0,
-          spDefence: 1.0,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "しんちょう",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 1.0,
-          spAttack: 0.9,
-          spDefence: 1.1,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "すなお",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 1.0,
-          spAttack: 1.0,
-          spDefence: 1.0,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "ずぶとい",
-        stats: {
-          hp: 1.0,
-          attack: 0.9,
-          defence: 1.1,
-          spAttack: 1.0,
-          spDefence: 1.0,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "せっかち",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 0.9,
-          spAttack: 1.0,
-          spDefence: 1.0,
-          speed: 1.1,
-        },
-      },
-      {
-        name: "なまいき",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 1.0,
-          spAttack: 1.0,
-          spDefence: 1.1,
-          speed: 0.9,
-        },
-      },
-      {
-        name: "てれや",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 1.0,
-          spAttack: 1.0,
-          spDefence: 1.0,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "のうてんき",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 1.1,
-          spAttack: 1.0,
-          spDefence: 0.9,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "のんき",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 1.1,
-          spAttack: 1.0,
-          spDefence: 1.0,
-          speed: 0.9,
-        },
-      },
-      {
-        name: "ひかえめ",
-        stats: {
-          hp: 1.0,
-          attack: 0.9,
-          defence: 1.0,
-          spAttack: 1.1,
-          spDefence: 1.0,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "まじめ",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 1.0,
-          spAttack: 1.0,
-          spDefence: 1.0,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "むじゃき",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 1.0,
-          spAttack: 1.0,
-          spDefence: 0.9,
-          speed: 1.1,
-        },
-      },
-      {
-        name: "やんちゃ",
-        stats: {
-          hp: 1.0,
-          attack: 1.1,
-          defence: 1.0,
-          spAttack: 1.0,
-          spDefence: 0.9,
-          speed: 1.0,
-        },
-      },
-      {
-        name: "ゆうかん",
-        stats: {
-          hp: 1.0,
-          attack: 1.1,
-          defence: 1.0,
-          spAttack: 1.0,
-          spDefence: 1.0,
-          speed: 0.9,
-        },
-      },
-      {
-        name: "ようき",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 1.0,
-          spAttack: 0.9,
-          spDefence: 1.0,
-          speed: 1.1,
-        },
-      },
-      {
-        name: "れいせい",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 1.0,
-          spAttack: 1.1,
-          spDefence: 1.0,
-          speed: 0.9,
-        },
-      },
-      {
-        name: "わんぱく",
-        stats: {
-          hp: 1.0,
-          attack: 1.0,
-          defence: 1.1,
-          spAttack: 0.9,
-          spDefence: 1.0,
-          speed: 1.0,
-        },
-      },
-    ],
     calcAreas: {
       calcArea1: "",
       calcArea2: "",
@@ -1113,18 +817,6 @@ export default {
     },
   },
   methods: {
-    // ひらがなをカタカナに変換して検索するフィルター
-    katakanaToHiragana(item, queryText) {
-      const itemName = item.name.toLowerCase();
-      const hiragana = queryText
-        .toLowerCase()
-        .replace(/[ぁ-ん]/g, (t) => String.fromCharCode(t.charCodeAt(0) + 96));
-      // 元々の検索ワード、または、ひらがなに変換後の検索ワードと一致する結果を部分一致で表示する
-      return (
-        (itemName || "").indexOf(queryText) > -1 ||
-        (itemName || "").indexOf(hiragana) > -1
-      );
-    },
     // 実数値を上下させるボタンを設置
     statPlus(statName) {
       this[statName]++;
