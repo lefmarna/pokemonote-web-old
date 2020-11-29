@@ -1,72 +1,190 @@
 <template>
   <v-container class="contents">
     <Title text="素早さ計算機（ポケモン剣盾）" />
-    <v-row>
-      <v-col
-        cols="12"
-        md="6"
-        class="d-flex justify-center"
-        :class="$vuetify.breakpoint.xs ? 'px-0' : ''"
-      >
-        <div class="pa-3">
-          <v-text-field
-            type="number"
-            label="素早さ実数値"
-            placeholder="0"
-            v-model="speed"
-          ></v-text-field>
-          <div>
-            <div>
-              <v-select
-                v-model="selectItem"
-                :items="items"
-                item-text="name"
-                item-value="value"
-                label="道具"
-              ></v-select>
-            </div>
-            <div>
-              <v-select
-                v-model="selectAbility"
-                :items="abilities"
-                item-text="name"
-                item-value="value"
-                label="特性"
-              ></v-select>
-            </div>
+    <v-row no-gutters>
+      <v-col cols="12" md="6" class="d-flex">
+        <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
+          <SearchPokemon />
+          <v-row>
+            <v-col cols="4" class="d-flex">
+              <div>
+                <v-text-field
+                  type="number"
+                  label="レベル"
+                  placeholder="1"
+                  v-model.trim.number="lv"
+                ></v-text-field>
+              </div>
+              <div>
+                <CalcButton
+                  buttonText="100"
+                  class="mb-1 btn-min-sm"
+                  @click.native="lv = 100"
+                />
+                <br />
+                <CalcButton
+                  buttonText="50"
+                  class="btn-min-sm"
+                  @click.native="lv = 50"
+                />
+              </div>
+            </v-col>
+            <v-col cols="8">
+              <SearchNature />
+            </v-col>
+          </v-row>
+          <v-divider />
+          <div class="statsTable">
+            <v-row>
+              <v-col
+                cols="2"
+                :class="[
+                  'justify-center',
+                  {
+                    'text-danger': currentNature.stats['speed'] == 1.1,
+                    'text-primary': currentNature.stats['speed'] == 0.9,
+                  },
+                ]"
+              >
+                <v-text-field
+                  label="種族値"
+                  placeholder="0"
+                  :value="
+                    `${stats[5].abbreviation}${currentPokemon.stats['speed']}`
+                  "
+                  disabled
+                ></v-text-field>
+              </v-col>
+              <v-col class="d-flex justify-center">
+                <div>
+                  <v-text-field
+                    type="number"
+                    label="個体値"
+                    placeholder="0"
+                    v-model.trim.number="stats[5].individualValue"
+                  ></v-text-field>
+                </div>
+                <div>
+                  <CalcButton
+                    buttonText="31"
+                    class="mb-1 btn-min-xs"
+                    @click.native="stats[5].individualValue = 31"
+                  />
+                  <br />
+                  <CalcButton
+                    buttonText="0"
+                    class="btn-min-xs"
+                    @click.native="stats[5].individualValue = ''"
+                  />
+                </div>
+              </v-col>
+              <v-col class="d-flex justify-center">
+                <div>
+                  <v-text-field
+                    type="number"
+                    label="努力値"
+                    placeholder="0"
+                    v-model.trim.number="stats[5].effortValue"
+                  ></v-text-field>
+                </div>
+                <div>
+                  <CalcButton
+                    buttonText="252"
+                    class="mb-1 btn-min-sm"
+                    @click.native="stats[5].effortValue = 252"
+                  />
+                  <br />
+                  <CalcButton
+                    buttonText="0"
+                    class="btn-min-sm"
+                    @click.native="stats[5].effortValue = ''"
+                  />
+                </div>
+              </v-col>
+              <v-col class="d-flex justify-center">
+                <div>
+                  <v-text-field
+                    type="number"
+                    :label="stats[5].ja"
+                    :value="speed"
+                    @change="updateStats()"
+                  ></v-text-field>
+                </div>
+                <div>
+                  <CalcButton
+                    buttonText="▲"
+                    class="mb-1 btn-min-xs"
+                    @click.native="speed++"
+                  />
+                  <br />
+                  <CalcButton
+                    buttonText="▼"
+                    class="btn-min-xs"
+                    @click.native="speed--"
+                  />
+                </div>
+              </v-col>
+            </v-row>
           </div>
-          <div class="d-flex pa-3">
-            <v-checkbox
-              label="おいかぜ (×2.0)"
-              class="pr-2"
-              v-model="tailwind"
-              true-value="2"
-              false-value="1"
-              dense
-            />
-            <v-checkbox
-              label="まひ (×0.5)"
-              v-model="paralysis"
-              class="pr-2"
-              true-value="5"
-              false-value="10"
-              dense
-            />
-            <v-checkbox
-              label="湿原 (×0.25)"
-              v-model="swamp"
-              true-value="25"
-              false-value="100"
-              dense
-            />
+          <v-divider />
+          <div class="px-0 pt-3">
+            <div>
+              <div>
+                <v-select
+                  v-model="selectItem"
+                  :items="items"
+                  item-text="name"
+                  item-value="value"
+                  label="道具"
+                ></v-select>
+              </div>
+              <div>
+                <v-select
+                  v-model="selectAbility"
+                  :items="abilities"
+                  item-text="name"
+                  item-value="value"
+                  label="特性"
+                ></v-select>
+              </div>
+            </div>
+            <div class="d-flex pa-3">
+              <v-checkbox
+                label="おいかぜ (×2.0)"
+                class="pr-2"
+                v-model="tailwind"
+                true-value="2"
+                false-value="1"
+                dense
+              />
+              <v-checkbox
+                label="まひ (×0.5)"
+                v-model="paralysis"
+                class="pr-2"
+                true-value="5"
+                false-value="10"
+                dense
+              />
+              <v-checkbox
+                label="湿原 (×0.25)"
+                v-model="swamp"
+                true-value="25"
+                false-value="100"
+                dense
+              />
+            </div>
+            <p>オプション</p>
+            <v-switch label="±4以上も表示する" v-model="option1" dense />
+            <v-divider v-if="$vuetify.breakpoint.sm" />
           </div>
-          <p>オプション</p>
-          <v-switch label="±4以上も表示する" v-model="option1" dense />
-          <v-divider v-if="$vuetify.breakpoint.xs" />
-        </div>
+        </v-container>
       </v-col>
-      <v-col cols="12" md="6" class="pb-0">
-        <v-simple-table>
+      <v-col cols="12" md="6" class="d-flex pb-0">
+        <v-divider
+          v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs"
+          vertical
+        />
+        <v-simple-table style="width: 100%;">
           <thead>
             <tr>
               <th class="thead-align-center">ランク</th>
@@ -181,10 +299,19 @@
 </template>
 
 <script>
+import CalcButton from "@/components/CalcButton.vue";
+import SearchPokemon from "@/components/SearchPokemon.vue";
+import SearchNature from "@/components/SearchNature.vue";
+
 export default {
   name: "CalcSpeed",
+  components: {
+    CalcButton,
+    SearchPokemon,
+    SearchNature,
+  },
   data: () => ({
-    speed: 100,
+    isNumber: /^([1-9]\d*|0)$/,
     tailwind: 1,
     paralysis: 10,
     swamp: 100,
@@ -204,6 +331,108 @@ export default {
       { name: "スロースタート (×0.5)", value: 5 },
     ],
   }),
+  computed: {
+    // 将来的な拡張性を考慮して、ポケモン名や各種ステータスはVuexで管理している
+    currentPokemon: {
+      get() {
+        return this.$store.getters.currentPokemon;
+      },
+      set(selectedPokemon) {
+        this.$store.commit("updateCurrentPokemon", selectedPokemon);
+        document.activeElement.blur(); // ポケモンを更新後、フォーカスを外す
+      },
+    },
+    currentNature: {
+      get() {
+        return this.$store.getters.currentNature;
+      },
+      set(selectedNature) {
+        this.$store.commit("updateCurrentNature", selectedNature);
+        document.activeElement.blur(); // 性格を更新後、フォーカスを外す
+      },
+    },
+    lv: {
+      get() {
+        return this.$store.getters.lv;
+      },
+      set(value) {
+        this.$store.commit("updateLv", value);
+      },
+    },
+    stats: {
+      get() {
+        return this.$store.getters.stats;
+      },
+      set(value) {
+        this.$store.commit("updateStats", value);
+      },
+    },
+    speed: {
+      get() {
+        let lv = this.lv;
+        let individualValue = this.stats[5].individualValue;
+        if (!this.isNumber.test(lv)) {
+          lv = 1;
+        }
+        if (!this.isNumber.test(individualValue)) {
+          individualValue = 0;
+        }
+        return Math.floor(
+          (Math.floor(
+            ((this.currentPokemon.stats["speed"] * 2 +
+              individualValue +
+              Math.floor(this.stats[5].effortValue / 4)) *
+              lv) /
+              100
+          ) +
+            5) *
+            this.currentNature.stats.speed
+        );
+      },
+      set(value) {
+        let lv = this.lv;
+        if (!this.isNumber.test(lv)) {
+          lv = 1;
+        }
+        let n = Number(value);
+        if (n % 11 === 10 && this.currentNature.stats.speed === 1.1) {
+          if (
+            n >=
+            Math.floor(
+              (Math.floor(
+                ((this.currentPokemon.stats.speed * 2 +
+                  this.stats[5].individualValue +
+                  Math.floor(this.stats[5].effortValue / 4)) *
+                  lv) /
+                  100
+              ) +
+                5) *
+                this.currentNature.stats.speed
+            )
+          ) {
+            n += 1;
+          } else {
+            n -= 1;
+          }
+        }
+        if (this.currentNature.stats.speed === 1.1) {
+          n = Math.ceil(n / 1.1);
+        } else if (this.currentNature.stats.speed === 0.9) {
+          n = Math.ceil(n / 0.9);
+        }
+        n =
+          (Math.ceil(((n - 5) * 100) / this.lv) -
+            this.currentPokemon.stats.speed * 2 -
+            this.stats[5].individualValue) *
+          4;
+        if (n < 0) {
+          this.stats[5].effortValue = "";
+        } else {
+          this.stats[5].effortValue = n;
+        }
+      },
+    },
+  },
   methods: {
     calcSpeed(rank) {
       // 特性が「はやあし・かるわざ」のときは計算の順番を変える
@@ -242,13 +471,70 @@ export default {
         );
       }
     },
+    updateStats() {
+      let lv = this.lv;
+      if (!this.isNumber.test(lv)) {
+        lv = 1;
+      }
+      let n = Number(event.target.value);
+      let currentNatureStat = Number(this.currentNature.stats["speed"]);
+      if (n % 11 === 10 && currentNatureStat === 1.1) {
+        if (
+          n >=
+          Math.floor(
+            (Math.floor(
+              ((this.currentPokemon.stats["speed"] * 2 +
+                this.stats[5].individualValue +
+                Math.floor(this.stats[5].effortValue / 4)) *
+                lv) /
+                100
+            ) +
+              5) *
+              currentNatureStat
+          )
+        ) {
+          n += 1;
+        } else {
+          n -= 1;
+        }
+      }
+      if (currentNatureStat === 1.1) {
+        n = Math.ceil(n / 1.1);
+      } else if (currentNatureStat === 0.9) {
+        n = Math.ceil(n / 0.9);
+      }
+      n =
+        (Math.ceil(((n - 5) * 100) / this.lv) -
+          this.currentPokemon.stats["speed"] * 2 -
+          this.stats[5].individualValue) *
+        4;
+      if (n < 0) {
+        this.stats[5].effortValue = "";
+      } else {
+        this.stats[5].effortValue = n;
+      }
+    },
   },
   // 素早さの上限を999、下限を0とする
   updated() {
-    if (this.speed > 999) {
-      this.speed = 999;
-    } else if (this.speed < 0) {
-      this.speed = "";
+    // 個体値の上限を31、下限を0とする
+    if (this.stats[5].individualValue > 31) {
+      this.stats[5].individualValue = 31;
+    } else if (this.stats[5].individualValue < 0) {
+      this.stats[5].individualValue = "";
+    }
+    // 努力値の上限を252、下限を0とする
+    if (this.stats[5].effortValue > 252) {
+      this.stats[5].effortValue = 252;
+    } else if (this.stats[5].effortValue < 0) {
+      this.stats[5].effortValue = "";
+    }
+    // レベルの上限を100、下限を1とする
+    if (this.lv > 100) {
+      this.lv = 100;
+      // ここを「this.lv < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されてしまう。これはUI的によろしくないため、空白の際にはString型になることを利用し「this.lv === 0」としてNumber型のみを検出することによって、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
+    } else if (this.lv < 0 || this.lv === 0) {
+      this.lv = 1;
     }
   },
 };
