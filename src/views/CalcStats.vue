@@ -264,23 +264,11 @@ export default {
   }),
   computed: {
     // 将来的な拡張性を考慮して、ポケモン名や各種ステータスはVuexで管理している
-    currentPokemon: {
-      get() {
-        return this.$store.getters.currentPokemon;
-      },
-      set(selectedPokemon) {
-        this.$store.commit("updateCurrentPokemon", selectedPokemon);
-        document.activeElement.blur(); // ポケモンを更新後、フォーカスを外す
-      },
+    currentPokemon() {
+      return this.$store.getters.currentPokemon;
     },
-    currentNature: {
-      get() {
-        return this.$store.getters.currentNature;
-      },
-      set(selectedNature) {
-        this.$store.commit("updateCurrentNature", selectedNature);
-        document.activeElement.blur(); // 性格を更新後、フォーカスを外す
-      },
+    currentNature() {
+      return this.$store.getters.currentNature;
     },
     lv: {
       get() {
