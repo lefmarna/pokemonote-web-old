@@ -111,52 +111,50 @@ export default {
     // ステータスの合計(total)を計算する
     pokemonListInTotal() {
       // 直接データを書き換えるわけにはいかないので、フィルター用の変数に格納しておく
-      let PokemonDataFilter = this.pokemonList;
+      let pokemonList = Array.from(this.pokemonList);
       // mapメソッドの中ではthisが使えないため、変数に格納しておく
-      let removeAttack = this.removeStats.attack;
-      let removeSpAttack = this.removeStats.spAttack;
-      let removeSpeed = this.removeStats.speed;
+      let removeStats = this.removeStats;
 
       // 『メガシンカ』にチェックがついていないときは表示させない
       if (!this.displayAttributePokemons.mega) {
-        PokemonDataFilter = PokemonDataFilter.filter(
+        pokemonList = pokemonList.filter(
           (pokemonData) =>
             !pokemonData.attributes.some((attr) => attr == "mega")
         );
       }
       // 『伝説』にチェックがついていないときは表示させない
       if (!this.displayAttributePokemons.legendary) {
-        PokemonDataFilter = PokemonDataFilter.filter(
+        pokemonList = pokemonList.filter(
           (pokemonData) =>
             !pokemonData.attributes.some((attr) => attr == "legendary")
         );
       }
       // 『幻』にチェックがついていないときは表示させない
       if (!this.displayAttributePokemons.mythical) {
-        PokemonDataFilter = PokemonDataFilter.filter(
+        pokemonList = pokemonList.filter(
           (pokemonData) =>
             !pokemonData.attributes.some((attr) => attr == "mythical")
         );
       }
       // 『剣盾に登場しないポケモン』にチェックがついていないときは表示させない
       if (!this.displayAttributePokemons.NotInPokedex) {
-        PokemonDataFilter = PokemonDataFilter.filter(
+        pokemonList = pokemonList.filter(
           (pokemonData) =>
             !pokemonData.attributes.some((attr) => attr == "NotInPokedex")
         );
       }
       // 全てのオブジェクトで合計(total)を計算する
-      let PokemonDataListInTotal = PokemonDataFilter.map(function(array) {
+      let pokemonListInTotal = pokemonList.map(function(array) {
         // statsの各数値のみを抽出し、配列に格納する
         let stats = Object.values(array.stats);
         // 配列の要素数が変わってしまうため、後ろから順に削除していく必要がある
-        if (removeSpeed) {
+        if (removeStats.speed) {
           stats.splice(5, 1);
         }
-        if (removeSpAttack) {
+        if (removeStats.spAttack) {
           stats.splice(3, 1);
         }
-        if (removeAttack) {
+        if (removeStats.attack) {
           stats.splice(1, 1);
         }
         // 配列の中の整数を全て合計して返す
@@ -168,7 +166,7 @@ export default {
         }, 0);
         return array;
       });
-      return PokemonDataListInTotal;
+      return pokemonListInTotal;
     },
   },
   methods: {
