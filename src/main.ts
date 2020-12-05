@@ -5,9 +5,9 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 
 // Google AdSense ディスプレイ広告のみ利用する設定
-import Adsense from "vue-google-adsense/dist/Adsense.min.js";
-Vue.use(require("vue-script2"));
-Vue.use(Adsense);
+import Ads from "vue-google-adsense";
+Vue.use(require("vue-script2")); // eslint-disable-line
+Vue.use(Ads.Adsense);
 
 // プロダクションのヒントを表示しない
 Vue.config.productionTip = false;

@@ -117,7 +117,7 @@ export default {
     ],
   }),
   mounted() {
-    var to = this.$route;
+    const to = this.$route;
     this.createPageTitle(to);
   },
   watch: {
@@ -129,7 +129,7 @@ export default {
     /* ページが遷移したときにメタタグを書き換える */
     createPageTitle(to) {
       // titleを取得
-      let currentTitle = document.querySelectorAll(
+      const currentTitle = document.querySelectorAll(
         "meta[name='twitter:title'], meta[property='og:title']"
       );
       // titleが存在する場合は書き換え、存在しない場合はデフォルトに設定
@@ -142,7 +142,7 @@ export default {
       }
       document.title = rewriteTitle;
       // descriptionを取得
-      let currentDesc = document.querySelectorAll(
+      const currentDesc = document.querySelectorAll(
         "meta[name='description'], meta[name='twitter:description'], meta[property='og:description']"
       );
       // descriptionが存在する場合は書き換え、存在しない場合はデフォルトに設定
