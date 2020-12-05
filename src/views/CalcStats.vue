@@ -833,7 +833,7 @@ export default {
         // HP以外の計算では、性格補正を修正してから努力値の逆算を行う必要がある
       } else {
         let n = Number(event.target.value);
-        let currentNatureStat = Number(this.currentNature.stats[statsName]);
+        const currentNatureStat = Number(this.currentNature.stats[statsName]);
         if (n % 11 === 10 && currentNatureStat === 1.1) {
           if (
             n >=
@@ -874,7 +874,7 @@ export default {
     // 計算結果を出力する
     outputResult(i) {
       // 配列は『mutable』なオブジェクトなため、複製して別の変数に入れている
-      let realNumbers = Array.from(this.realNumbers);
+      const realNumbers = Array.from(this.realNumbers);
       if (this.attackCheck) {
         realNumbers[1] = "*";
       }
@@ -882,16 +882,16 @@ export default {
         realNumbers[3] = "*";
       }
       // 各行に出力する初期値を設定
-      let line1 = `${this.$store.getters.currentPokemon.name} ${this.currentNature.name}`;
+      const line1 = `${this.$store.getters.currentPokemon.name} ${this.currentNature.name}`;
       let line2 = "";
-      let line3 = `${realNumbers[0]}-${realNumbers[1]}-${realNumbers[2]}-${realNumbers[3]}-${realNumbers[4]}-${realNumbers[5]}`;
+      const line3 = `${realNumbers[0]}-${realNumbers[1]}-${realNumbers[2]}-${realNumbers[3]}-${realNumbers[4]}-${realNumbers[5]}`;
       let line4 = "";
       let line5 = `${this.physicalDurability + this.specialDurability}-${
         this.physicalDurability
       }-${this.specialDurability}`;
       // 努力値が252とそれ以外の箇所に分け、それぞれ配列に格納
-      let maxEv = this.stats.filter((stat) => stat.effortValue == 252);
-      let noMaxEv = this.stats.filter(
+      const maxEv = this.stats.filter((stat) => stat.effortValue == 252);
+      const noMaxEv = this.stats.filter(
         (stat) => stat.effortValue != 252 && stat.effortValue > 0
       );
       // 努力値が振られているなら()で囲む

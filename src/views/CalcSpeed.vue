@@ -465,7 +465,7 @@ export default {
         lv = 1;
       }
       let n = Number(event.target.value);
-      let currentNatureStat = Number(this.currentNature.stats["speed"]);
+      const currentNatureStat = Number(this.currentNature.stats["speed"]);
       if (n % 11 === 10 && currentNatureStat === 1.1) {
         if (
           n >=

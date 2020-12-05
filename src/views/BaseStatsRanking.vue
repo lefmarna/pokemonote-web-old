@@ -87,7 +87,7 @@ export default {
   }),
   computed: {
     headers() {
-      let dataTableList = [
+      const dataTableList = [
         { text: "ポケモン名", value: "name", align: "start", width: "30%" },
         { text: "ＨＰ", value: "stats.hp", align: "end", width: "10%" },
         { text: "攻撃", value: "stats.attack", align: "end", width: "10%" },
@@ -113,7 +113,7 @@ export default {
       // 直接データを書き換えるわけにはいかないので、フィルター用の変数に格納しておく
       let pokemonList = Array.from(this.pokemonList);
       // mapメソッドの中ではthisが使えないため、変数に格納しておく
-      let removeStats = this.removeStats;
+      const removeStats = this.removeStats;
 
       // 『メガシンカ』にチェックがついていないときは表示させない
       if (!this.displayAttributePokemons.mega) {
@@ -144,9 +144,9 @@ export default {
         );
       }
       // 全てのオブジェクトで合計(total)を計算する
-      let pokemonListInTotal = pokemonList.map(function(array) {
+      const pokemonListInTotal = pokemonList.map(function(array) {
         // statsの各数値のみを抽出し、配列に格納する
-        let stats = Object.values(array.stats);
+        const stats = Object.values(array.stats);
         // 配列の要素数が変わってしまうため、後ろから順に削除していく必要がある
         if (removeStats.speed) {
           stats.splice(5, 1);
