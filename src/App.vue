@@ -191,6 +191,13 @@ $breakpoint-iPhoneSE: 320px;
   }
 }
 
+.text-primary {
+  color: $primary;
+}
+.text-danger {
+  color: $danger;
+}
+
 // iPhoneSEでもタイトルを1行で表示するために文字サイズを調整した
 #title {
   @include iPhoneSE() {
