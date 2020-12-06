@@ -1,6 +1,5 @@
 <template>
   <v-container class="contents">
-    {{ totalEvCheck }}
     <Title text="ステータス計算機（ポケモン剣盾）" />
     <v-row no-gutters>
       <v-col cols="12" md="6" class="d-flex">
