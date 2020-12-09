@@ -12,7 +12,7 @@
                   type="number"
                   label="レベル"
                   placeholder="1"
-                  v-model.trim.number="lv"
+                  v-model="lv"
                 ></v-text-field>
               </div>
               <div>
@@ -61,7 +61,7 @@
                     type="number"
                     label="個体値"
                     placeholder="0"
-                    v-model.trim.number="stats[index].individualValue"
+                    v-model="stats[index].individualValue"
                   ></v-text-field>
                 </div>
                 <div>
@@ -74,7 +74,7 @@
                   <CalcButton
                     buttonText="0"
                     class="btn-min-xs"
-                    @click.native="stats[index].individualValue = ''"
+                    @click.native="stats[index].individualValue = null"
                   />
                 </div>
               </v-col>
@@ -84,7 +84,7 @@
                     type="number"
                     label="努力値"
                     placeholder="0"
-                    v-model.trim.number="stats[index].effortValue"
+                    v-model="stats[index].effortValue"
                   ></v-text-field>
                 </div>
                 <div>
@@ -97,7 +97,7 @@
                   <CalcButton
                     buttonText="0"
                     class="btn-min-sm"
-                    @click.native="stats[index].effortValue = ''"
+                    @click.native="stats[index].effortValue = null"
                   />
                 </div>
               </v-col>
@@ -107,7 +107,7 @@
                     type="number"
                     :label="stats[index].ja"
                     :value="realNumbers[index]"
-                    @change="updateStats(stat.en, index)"
+                    @change="setStats($event, stat.en, index)"
                   ></v-text-field>
                 </div>
                 <div>
@@ -240,19 +240,28 @@
   </v-container>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
 import CalcButton from "@/components/CalcButton.vue";
 import SearchPokemon from "@/components/SearchPokemon.vue";
 import SearchNature from "@/components/SearchNature.vue";
 
-export default {
+export type DataType = {
+  itemGroup: string;
+  isNumber: RegExp;
+  calcAreas: object;
+  attackCheck: boolean;
+  spAttackCheck: boolean;
+};
+
+export default Vue.extend({
   name: "Home",
   components: {
     CalcButton,
     SearchPokemon,
     SearchNature,
   },
-  data: () => ({
+  data: (): DataType => ({
     itemGroup: "持ち物なし",
     isNumber: /^([1-9]\d*|0)$/, // 1~9で始まる整数、または0であるときにtrueを返す正規表現
     calcAreas: {
@@ -264,399 +273,109 @@ export default {
   }),
   computed: {
     // 将来的な拡張性を考慮して、ポケモン名や各種ステータスはVuexで管理している
-    currentPokemon() {
+    currentPokemon(): {
+      no: number;
+      name: string;
+      form: string;
+      evolutions: number[];
+      types: string[];
+      abilities: string[];
+      hiddenAbilities: string[];
+      stats: {
+        [key: string]: number;
+      };
+    } {
       return this.$store.getters.currentPokemon;
     },
-    currentNature() {
+    currentNature(): {
+      name: string;
+      stats: {
+        [key: string]: number;
+      };
+    } {
       return this.$store.getters.currentNature;
     },
     lv: {
-      get() {
+      get(): number {
         return this.$store.getters.lv;
       },
-      set(value) {
+      set(value: number) {
         this.$store.commit("updateLv", value);
       },
     },
     stats: {
-      get() {
+      get(): {
+        en: string;
+        ja: string;
+        abbreviation: string;
+        individualValue: number | null;
+        effortValue: number | null;
+      }[] {
         return this.$store.getters.stats;
       },
-      set(value) {
-        this.$store.commit("updateStats", value);
+      set(
+        value: {
+          en: string;
+          ja: string;
+          abbreviation: string;
+          individualValue: number | null;
+          effortValue: number | null;
+        }[]
+      ) {
+        this.$store.commit("setStats", value);
       },
     },
     // 各種ステータスの計算（methodsで引数を指定すれば、同じ計算を1箇所にまとめることもできるが、パフォーマンスの高いcomputedを使いたいため、あえて個別に計算している）
     hp: {
-      get() {
-        let lv = this.lv;
-        let individualValue = this.stats[0].individualValue;
-        if (!this.isNumber.test(lv)) {
-          lv = 1;
-        }
-        if (!this.isNumber.test(individualValue)) {
-          individualValue = 0;
-        }
-        if (this.currentPokemon.name == "ヌケニン") {
-          return 1;
-        } else {
-          return (
-            Math.floor(
-              ((this.currentPokemon.stats["hp"] * 2 +
-                individualValue +
-                Math.floor(this.stats[0].effortValue / 4)) *
-                lv) /
-                100
-            ) +
-            10 +
-            lv
-          );
-        }
+      get(): number {
+        return this.getStats("hp", 0);
       },
-      set(value) {
-        let lv = this.lv;
-        if (!this.isNumber.test(lv)) {
-          lv = 1;
-        }
-        const n =
-          (Math.ceil(((Number(value) - lv - 10) * 100) / lv) -
-            this.currentPokemon.stats.hp * 2 -
-            this.stats[0].individualValue) *
-          4;
-        if (n < 0) {
-          this.stats[0].effortValue = "";
-        } else {
-          this.stats[0].effortValue = n;
-        }
+      set(value: number) {
+        this.setStats(value, "hp", 0);
       },
     },
     attack: {
-      get() {
-        let lv = this.lv;
-        let individualValue = this.stats[1].individualValue;
-        if (!this.isNumber.test(lv)) {
-          lv = 1;
-        }
-        if (!this.isNumber.test(individualValue)) {
-          individualValue = 0;
-        }
-        return Math.floor(
-          (Math.floor(
-            ((this.currentPokemon.stats["attack"] * 2 +
-              individualValue +
-              Math.floor(this.stats[1].effortValue / 4)) *
-              lv) /
-              100
-          ) +
-            5) *
-            this.currentNature.stats.attack
-        );
+      get(): number {
+        return this.getStats("attack", 1);
       },
-      set(value) {
-        let lv = this.lv;
-        if (!this.isNumber.test(lv)) {
-          lv = 1;
-        }
-        let n = Number(value);
-        if (n % 11 === 10 && this.currentNature.stats.attack === 1.1) {
-          if (
-            n >=
-            Math.floor(
-              (Math.floor(
-                ((this.currentPokemon.stats.attack * 2 +
-                  this.stats[1].individualValue +
-                  Math.floor(this.stats[1].effortValue / 4)) *
-                  lv) /
-                  100
-              ) +
-                5) *
-                this.currentNature.stats.attack
-            )
-          ) {
-            n += 1;
-          } else {
-            n -= 1;
-          }
-        }
-        if (this.currentNature.stats.attack === 1.1) {
-          n = Math.ceil(n / 1.1);
-        } else if (this.currentNature.stats.attack === 0.9) {
-          n = Math.ceil(n / 0.9);
-        }
-        n =
-          (Math.ceil(((n - 5) * 100) / this.lv) -
-            this.currentPokemon.stats.attack * 2 -
-            this.stats[1].individualValue) *
-          4;
-        if (n < 0) {
-          this.stats[1].effortValue = "";
-        } else {
-          this.stats[1].effortValue = n;
-        }
+      set(value: number) {
+        this.setStats(value, "attack", 1);
       },
     },
     defence: {
-      get() {
-        let lv = this.lv;
-        let individualValue = this.stats[2].individualValue;
-        if (!this.isNumber.test(lv)) {
-          lv = 1;
-        }
-        if (!this.isNumber.test(individualValue)) {
-          individualValue = 0;
-        }
-        return Math.floor(
-          (Math.floor(
-            ((this.currentPokemon.stats["defence"] * 2 +
-              individualValue +
-              Math.floor(this.stats[2].effortValue / 4)) *
-              lv) /
-              100
-          ) +
-            5) *
-            this.currentNature.stats.defence
-        );
+      get(): number {
+        return this.getStats("defence", 2);
       },
-      set(value) {
-        let lv = this.lv;
-        if (!this.isNumber.test(lv)) {
-          lv = 1;
-        }
-        let n = Number(value);
-        if (n % 11 === 10 && this.currentNature.stats.defence === 1.1) {
-          if (
-            n >=
-            Math.floor(
-              (Math.floor(
-                ((this.currentPokemon.stats.defence * 2 +
-                  this.stats[2].individualValue +
-                  Math.floor(this.stats[2].effortValue / 4)) *
-                  lv) /
-                  100
-              ) +
-                5) *
-                this.currentNature.stats.defence
-            )
-          ) {
-            n += 1;
-          } else {
-            n -= 1;
-          }
-        }
-        if (this.currentNature.stats.defence === 1.1) {
-          n = Math.ceil(n / 1.1);
-        } else if (this.currentNature.stats.defence === 0.9) {
-          n = Math.ceil(n / 0.9);
-        }
-        n =
-          (Math.ceil(((n - 5) * 100) / this.lv) -
-            this.currentPokemon.stats.defence * 2 -
-            this.stats[2].individualValue) *
-          4;
-        if (n < 0) {
-          this.stats[2].effortValue = "";
-        } else {
-          this.stats[2].effortValue = n;
-        }
+      set(value: number) {
+        this.setStats(value, "defence", 2);
       },
     },
     spAttack: {
-      get() {
-        let lv = this.lv;
-        let individualValue = this.stats[3].individualValue;
-        if (!this.isNumber.test(lv)) {
-          lv = 1;
-        }
-        if (!this.isNumber.test(individualValue)) {
-          individualValue = 0;
-        }
-        return Math.floor(
-          (Math.floor(
-            ((this.currentPokemon.stats["spAttack"] * 2 +
-              individualValue +
-              Math.floor(this.stats[3].effortValue / 4)) *
-              lv) /
-              100
-          ) +
-            5) *
-            this.currentNature.stats.spAttack
-        );
+      get(): number {
+        return this.getStats("spAttack", 3);
       },
-      set(value) {
-        let lv = this.lv;
-        if (!this.isNumber.test(lv)) {
-          lv = 1;
-        }
-        let n = Number(value);
-        if (n % 11 === 10 && this.currentNature.stats.spAttack === 1.1) {
-          if (
-            n >=
-            Math.floor(
-              (Math.floor(
-                ((this.currentPokemon.stats.spAttack * 2 +
-                  this.stats[3].individualValue +
-                  Math.floor(this.stats[3].effortValue / 4)) *
-                  lv) /
-                  100
-              ) +
-                5) *
-                this.currentNature.stats.spAttack
-            )
-          ) {
-            n += 1;
-          } else {
-            n -= 1;
-          }
-        }
-        if (this.currentNature.stats.spAttack === 1.1) {
-          n = Math.ceil(n / 1.1);
-        } else if (this.currentNature.stats.spAttack === 0.9) {
-          n = Math.ceil(n / 0.9);
-        }
-        n =
-          (Math.ceil(((n - 5) * 100) / this.lv) -
-            this.currentPokemon.stats.spAttack * 2 -
-            this.stats[3].individualValue) *
-          4;
-        if (n < 0) {
-          this.stats[3].effortValue = "";
-        } else {
-          this.stats[3].effortValue = n;
-        }
+      set(value: number) {
+        this.setStats(value, "spAttack", 3);
       },
     },
     spDefence: {
-      get() {
-        let lv = this.lv;
-        let individualValue = this.stats[4].individualValue;
-        if (!this.isNumber.test(lv)) {
-          lv = 1;
-        }
-        if (!this.isNumber.test(individualValue)) {
-          individualValue = 0;
-        }
-        return Math.floor(
-          (Math.floor(
-            ((this.currentPokemon.stats["spDefence"] * 2 +
-              individualValue +
-              Math.floor(this.stats[4].effortValue / 4)) *
-              lv) /
-              100
-          ) +
-            5) *
-            this.currentNature.stats.spDefence
-        );
+      get(): number {
+        return this.getStats("spDefence", 4);
       },
-      set(value) {
-        let lv = this.lv;
-        if (!this.isNumber.test(lv)) {
-          lv = 1;
-        }
-        let n = Number(value);
-        if (n % 11 === 10 && this.currentNature.stats.spDefence === 1.1) {
-          if (
-            n >=
-            Math.floor(
-              (Math.floor(
-                ((this.currentPokemon.stats.spDefence * 2 +
-                  this.stats[4].individualValue +
-                  Math.floor(this.stats[4].effortValue / 4)) *
-                  lv) /
-                  100
-              ) +
-                5) *
-                this.currentNature.stats.spDefence
-            )
-          ) {
-            n += 1;
-          } else {
-            n -= 1;
-          }
-        }
-        if (this.currentNature.stats.spDefence === 1.1) {
-          n = Math.ceil(n / 1.1);
-        } else if (this.currentNature.stats.spDefence === 0.9) {
-          n = Math.ceil(n / 0.9);
-        }
-        n =
-          (Math.ceil(((n - 5) * 100) / this.lv) -
-            this.currentPokemon.stats.spDefence * 2 -
-            this.stats[4].individualValue) *
-          4;
-        if (n < 0) {
-          this.stats[4].effortValue = "";
-        } else {
-          this.stats[4].effortValue = n;
-        }
+      set(value: number) {
+        this.setStats(value, "spDefence", 4);
       },
     },
     speed: {
-      get() {
-        let lv = this.lv;
-        let individualValue = this.stats[5].individualValue;
-        if (!this.isNumber.test(lv)) {
-          lv = 1;
-        }
-        if (!this.isNumber.test(individualValue)) {
-          individualValue = 0;
-        }
-        return Math.floor(
-          (Math.floor(
-            ((this.currentPokemon.stats["speed"] * 2 +
-              individualValue +
-              Math.floor(this.stats[5].effortValue / 4)) *
-              lv) /
-              100
-          ) +
-            5) *
-            this.currentNature.stats.speed
-        );
+      get(): number {
+        return this.getStats("speed", 5);
       },
-      set(value) {
-        let lv = this.lv;
-        if (!this.isNumber.test(lv)) {
-          lv = 1;
-        }
-        let n = Number(value);
-        if (n % 11 === 10 && this.currentNature.stats.speed === 1.1) {
-          if (
-            n >=
-            Math.floor(
-              (Math.floor(
-                ((this.currentPokemon.stats.speed * 2 +
-                  this.stats[5].individualValue +
-                  Math.floor(this.stats[5].effortValue / 4)) *
-                  lv) /
-                  100
-              ) +
-                5) *
-                this.currentNature.stats.speed
-            )
-          ) {
-            n += 1;
-          } else {
-            n -= 1;
-          }
-        }
-        if (this.currentNature.stats.speed === 1.1) {
-          n = Math.ceil(n / 1.1);
-        } else if (this.currentNature.stats.speed === 0.9) {
-          n = Math.ceil(n / 0.9);
-        }
-        n =
-          (Math.ceil(((n - 5) * 100) / this.lv) -
-            this.currentPokemon.stats.speed * 2 -
-            this.stats[5].individualValue) *
-          4;
-        if (n < 0) {
-          this.stats[5].effortValue = "";
-        } else {
-          this.stats[5].effortValue = n;
-        }
+      set(value: number) {
+        this.setStats(value, "speed", 5);
       },
     },
     // computedで計算した値を配列に格納することで、v-forで回すことが可能になる
-    realNumbers() {
+    realNumbers(): number[] {
       return [
         this.hp,
         this.attack,
@@ -666,29 +385,27 @@ export default {
         this.speed,
       ];
     },
-    totalStats() {
+    totalStats(): number {
       // レベルが空白のときに、String型になって連結した結果が表示されてしまう不具合があったため、Numberオブジェクトを使い型を厳密に定義することにした
       return (
-        Number(this.hp) +
-        Number(this.attack) +
-        Number(this.defence) +
-        Number(this.spAttack) +
-        Number(this.spDefence) +
-        Number(this.speed)
+        this.hp +
+        this.attack +
+        this.defence +
+        this.spAttack +
+        this.spDefence +
+        this.speed
       );
     },
     // 個体値の合計値を計算する
-    totalIv() {
-      return this.stats.reduce((sum, stat) => {
+    totalIv(): number {
+      return this.stats.reduce((sum: number, stat) => {
         // 空白の箇所が存在すると、数値が連結された表示になってしまうため、0以上の整数であるかどうかをチェックしてから加算する処理を記載した
-        if (this.isNumber.test(stat.individualValue)) {
-          sum += stat.individualValue;
-        }
+        sum += this.numberToInt(stat.individualValue);
         return sum;
       }, 0);
     },
     // 個体値の合計が186より大きい場合は警告を出す
-    totalIvCheck() {
+    totalIvCheck(): string {
       if (this.totalIv > 186) {
         return "text-danger";
       } else {
@@ -696,17 +413,15 @@ export default {
       }
     },
     // 努力値の合計値を計算する
-    totalEv() {
-      return this.stats.reduce((sum, stat) => {
+    totalEv(): number {
+      return this.stats.reduce((sum: number, stat) => {
         // 空白の箇所が存在すると、数値が連結された表示になってしまうため、0以上の整数であるかどうかをチェックしてから加算する処理を記載した
-        if (this.isNumber.test(stat.effortValue)) {
-          sum += stat.effortValue;
-        }
+        sum += this.numberToInt(stat.effortValue);
         return sum;
       }, 0);
     },
     // 努力値の合計が510より大きい場合は警告を出す
-    totalEvCheck() {
+    totalEvCheck(): string {
       if (this.totalEv > 510) {
         return "text-danger";
       } else {
@@ -714,15 +429,9 @@ export default {
       }
     },
     // 物理耐久指数を求める
-    physicalDurability() {
-      let hp = this.hp;
-      let defence = this.defence;
-      if (!this.isNumber.test(hp)) {
-        hp = 0;
-      }
-      if (!this.isNumber.test(defence)) {
-        defence = 0;
-      }
+    physicalDurability(): number {
+      const hp = this.numberToInt(this.hp);
+      const defence = this.numberToInt(this.defence);
       if (
         this.itemGroup == "しんかのきせき" &&
         this.currentPokemon.evolutions.length
@@ -733,15 +442,9 @@ export default {
       }
     },
     // 特殊耐久指数を求める
-    specialDurability() {
-      let hp = this.hp;
-      let spDefence = this.spDefence;
-      if (!this.isNumber.test(hp)) {
-        hp = 0;
-      }
-      if (!this.isNumber.test(spDefence)) {
-        spDefence = 0;
-      }
+    specialDurability(): number {
+      const hp = this.numberToInt(this.hp);
+      const spDefence = this.numberToInt(this.spDefence);
       if (
         (this.itemGroup == "しんかのきせき" &&
           this.currentPokemon.evolutions.length) ||
@@ -753,7 +456,7 @@ export default {
       }
     },
     // めざめるパワーのタイプを求める
-    hiddenPower() {
+    hiddenPower(): string {
       let hiddenPowerCalc = 0;
       for (let i = 0, len = this.stats.length; i < len; i++) {
         if (this.stats[i].individualValue % 2 == 1) {
@@ -805,43 +508,126 @@ export default {
     },
   },
   methods: {
-    // 実数値を上下させるボタンを設置
-    statPlus(statName) {
-      this[statName]++;
+    // 小数点を切り捨てる、また、nullや負の数には初期値を返していく
+    numberToInt(value: number, defaultValue = 0): number {
+      if (String(value) === "" || value < defaultValue) {
+        return defaultValue;
+      } else {
+        return Math.floor(value);
+      }
     },
-    statMinus(statName) {
-      this[statName]--;
+    // 実数値を上下させるボタンを設置
+    statPlus(statName: string): void {
+      switch (statName) {
+        case "hp":
+          this.hp++;
+          break;
+        case "attack":
+          this.attack++;
+          break;
+        case "defence":
+          this.defence++;
+          break;
+        case "spAttack":
+          this.spAttack++;
+          break;
+        case "spDefence":
+          this.spDefence++;
+          break;
+        case "speed":
+          this.speed++;
+          break;
+      }
+    },
+    statMinus(statName: string): void {
+      switch (statName) {
+        case "hp":
+          this.hp--;
+          break;
+        case "attack":
+          this.attack--;
+          break;
+        case "defence":
+          this.defence--;
+          break;
+        case "spAttack":
+          this.spAttack--;
+          break;
+        case "spDefence":
+          this.spDefence--;
+          break;
+        case "speed":
+          this.speed--;
+          break;
+      }
+    },
+    getStats(statsName: string, index: number): number {
+      const lv = this.numberToInt(this.lv, 1);
+      const individualValue = this.numberToInt(
+        this.stats[index].individualValue
+      );
+      const effortValue = this.numberToInt(this.stats[index].effortValue);
+      if (statsName == "hp") {
+        if (this.currentPokemon.name == "ヌケニン") {
+          return 1;
+        } else {
+          return (
+            Math.floor(
+              ((this.currentPokemon.stats[statsName] * 2 +
+                individualValue +
+                Math.floor(effortValue / 4)) *
+                lv) /
+                100
+            ) +
+            10 +
+            lv
+          );
+        }
+      } else {
+        return Math.floor(
+          (Math.floor(
+            ((this.currentPokemon.stats[statsName] * 2 +
+              individualValue +
+              Math.floor(effortValue / 4)) *
+              lv) /
+              100
+          ) +
+            5) *
+            this.currentNature.stats[statsName]
+        );
+      }
     },
     // 実数値から努力値の逆算を行う（実数値の更新にはSetterを設定しているため、本来なら不要な関数。しかし、Vuetifyではv-modelのlazy修飾子をサポートしていないため、inputではなくchangeイベントで発火させたいケースでは、v-bind:valueとv-on:changeで分けて記述してメソッドを呼び出す必要がある。なお、inputではダメな理由としては、実数値を消しながら入力する際に、努力値が自動更新されることによって、実数値の入力が滞ってしまうから（【例】183→164→16→1））
-    updateStats(statsName, index) {
-      let lv = this.lv;
-      if (!this.isNumber.test(lv)) {
-        lv = 1;
-      }
+    setStats(event: number, statsName: string, index: number): void {
+      const lv = this.numberToInt(this.lv, 1);
+      const individualValue = this.numberToInt(
+        this.stats[index].individualValue
+      );
       // HPのみ計算式が異なる
+      let setValue = Number(event);
       if (statsName == "hp") {
-        const n =
-          (Math.ceil(((Number(event.target.value) - lv - 10) * 100) / lv) -
+        setValue =
+          (Math.ceil(((setValue - lv - 10) * 100) / lv) -
             this.currentPokemon.stats.hp * 2 -
-            this.stats[0].individualValue) *
+            individualValue) *
           4;
-        if (n < 0) {
-          this.stats[0].effortValue = "";
+        if (setValue < 0) {
+          this.stats[0].effortValue = null;
         } else {
-          this.stats[0].effortValue = n;
+          this.stats[0].effortValue = setValue;
         }
         // HP以外の計算では、性格補正を修正してから努力値の逆算を行う必要がある
       } else {
-        let n = Number(event.target.value);
+        const effortValue = this.numberToInt(this.stats[index].effortValue);
         const currentNatureStat = Number(this.currentNature.stats[statsName]);
-        if (n % 11 === 10 && currentNatureStat === 1.1) {
+        if (setValue % 11 === 10 && currentNatureStat === 1.1) {
           if (
-            n >=
+            setValue >=
             Math.floor(
               (Math.floor(
                 ((this.currentPokemon.stats[statsName] * 2 +
-                  this.stats[index].individualValue +
-                  Math.floor(this.stats[index].effortValue / 4)) *
+                  individualValue +
+                  Math.floor(effortValue / 4)) *
                   lv) /
                   100
               ) +
@@ -849,46 +635,41 @@ export default {
                 currentNatureStat
             )
           ) {
-            n += 1;
+            setValue += 1;
           } else {
-            n -= 1;
+            setValue -= 1;
           }
         }
         if (currentNatureStat === 1.1) {
-          n = Math.ceil(n / 1.1);
+          setValue = Math.ceil(setValue / 1.1);
         } else if (currentNatureStat === 0.9) {
-          n = Math.ceil(n / 0.9);
+          setValue = Math.ceil(setValue / 0.9);
         }
-        n =
-          (Math.ceil(((n - 5) * 100) / this.lv) -
+        setValue =
+          (Math.ceil(((setValue - 5) * 100) / lv) -
             this.currentPokemon.stats[statsName] * 2 -
-            this.stats[index].individualValue) *
+            individualValue) *
           4;
-        if (n < 0) {
-          this.stats[index].effortValue = "";
+        if (setValue < 0) {
+          this.stats[index].effortValue = null;
         } else {
-          this.stats[index].effortValue = n;
+          this.stats[index].effortValue = setValue;
         }
       }
     },
     // 計算結果を出力する
-    outputResult(i) {
+    outputResult(i: string): void {
       // 配列は『mutable』なオブジェクトなため、複製して別の変数に入れている
       const realNumbers = Array.from(this.realNumbers);
-      if (this.attackCheck) {
-        realNumbers[1] = "*";
-      }
-      if (this.spAttackCheck) {
-        realNumbers[3] = "*";
-      }
       // 各行に出力する初期値を設定
       const line1 = `${this.$store.getters.currentPokemon.name} ${this.currentNature.name}`;
       let line2 = "";
-      const line3 = `${realNumbers[0]}-${realNumbers[1]}-${realNumbers[2]}-${realNumbers[3]}-${realNumbers[4]}-${realNumbers[5]}`;
+      let line3 = `${realNumbers[0]}-`;
       let line4 = "";
       let line5 = `${this.physicalDurability + this.specialDurability}-${
         this.physicalDurability
       }-${this.specialDurability}`;
+      // 2行目 - 努力値が振られている場合は()で囲み、そうでなければそのまま表示させる
       // 努力値が252とそれ以外の箇所に分け、それぞれ配列に格納
       const maxEv = this.stats.filter((stat) => stat.effortValue == 252);
       const noMaxEv = this.stats.filter(
@@ -904,7 +685,18 @@ export default {
           line2 += `(${this.stats[i].effortValue})`;
         }
       }
-      // 252振りの箇所が2箇所以上あれば、それを1箇所にまとめる
+      // 3行目 - 不問の値を * で表示させる
+      if (this.attackCheck) {
+        line3 += `*-${realNumbers[2]}-`;
+      } else {
+        line3 += `${realNumbers[1]}-${realNumbers[2]}-`;
+      }
+      if (this.spAttackCheck) {
+        line3 += `*-${realNumbers[4]}-${realNumbers[5]}`;
+      } else {
+        line3 += `${realNumbers[3]}-${realNumbers[4]}-${realNumbers[5]}`;
+      }
+      // 4行目 - 252振りの箇所が2箇所以上あれば、それを1箇所にまとめて表示させる
       if (maxEv.length >= 2) {
         // 252振りの箇所は先に
         for (let i = 0, len = maxEv.length; i < len; i++) {
@@ -928,7 +720,7 @@ export default {
           }
         }
       }
-      // 持ち物があれば、耐久指数の箇所に持ち物も出力する
+      // 5行目 - 持ち物があれば、耐久指数の箇所に持ち物も出力する
       if (this.itemGroup == "とつげきチョッキ") {
         line5 += "(チョッキ)";
       } else if (
@@ -947,31 +739,32 @@ export default {
       }
     },
   },
-  updated() {
+  updated(): void {
     // inputタグは、直接入力することでmaxやminを無視することができてしまうため、値を監視して修正する処理を記載した
-    this.stats.forEach((stat, index) => {
+    this.stats.forEach((stat, index: number) => {
       // 個体値の上限を31、下限を0とする
       if (stat.individualValue > 31) {
         this.stats[index].individualValue = 31;
       } else if (stat.individualValue < 0) {
-        this.stats[index].individualValue = "";
+        this.stats[index].individualValue = null;
       }
       // 努力値の上限を252、下限を0とする
       if (stat.effortValue > 252) {
         this.stats[index].effortValue = 252;
       } else if (stat.effortValue < 0) {
-        this.stats[index].effortValue = "";
+        this.stats[index].effortValue = null;
       }
     });
+    // }
     // レベルの上限を100、下限を1とする
     if (this.lv > 100) {
-      this.lv = 100;
-      // ここを「this.lv < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されてしまう。これはUI的によろしくないため、空白の際にはString型になることを利用し「this.lv === 0」としてNumber型のみを検出することによって、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
-    } else if (this.lv < 0 || this.lv === 0) {
+      this.$store.commit("updateLv", 100);
+      // ここを「this.lv < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されるため、UI的によろしくない。そこで、"0から始まる数値"を正規表現を用いて検出するようにし、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
+    } else if (this.lv < 0 || /^0/.test(String(this.lv))) {
       this.lv = 1;
     }
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>
