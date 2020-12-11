@@ -57,7 +57,6 @@
 import PokemonData from "@/components/pokemon_data.json";
 
 export default {
-  name: "BaseStatsRanking",
   data: () => ({
     pokemonList: PokemonData, // ポケモンのデータはjsonファイルにまとめてあるため、そちらから取得する
     // 除外するポケモン

@@ -212,12 +212,6 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  name: "PrivacyPolicy",
-};
-</script>
-
 <style scoped>
 ul {
   background-color: #f2f2f2;

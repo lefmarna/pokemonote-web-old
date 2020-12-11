@@ -258,7 +258,6 @@ export type DataType = {
 };
 
 export default Vue.extend({
-  name: "Home",
   components: {
     CalcButton,
     SearchPokemon,

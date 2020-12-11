@@ -304,7 +304,6 @@ import SearchPokemon from "@/components/SearchPokemon.vue";
 import SearchNature from "@/components/SearchNature.vue";
 
 export default {
-  name: "CalcSpeed",
   components: {
     CalcButton,
     SearchPokemon,

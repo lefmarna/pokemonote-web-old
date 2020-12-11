@@ -239,9 +239,3 @@ h3 {
   border-bottom: double 5px #90caf9;
 }
 </style>
-
-<script>
-export default {
-  name: "Home",
-};
-</script>
