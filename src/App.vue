@@ -120,24 +120,24 @@ export default Vue.extend({
   }),
   mounted() {
     const to = this.$route;
-    this.createPageTitle(to);
+    this.createPageTitle(to.meta);
   },
   watch: {
     $route(to) {
-      this.createPageTitle(to);
+      this.createPageTitle(to.meta);
     },
   },
   methods: {
     /* ページが遷移したときにメタタグを書き換える */
-    createPageTitle(to) {
+    createPageTitle(meta: { title: string; desc: string }) {
       // titleを取得
       const currentTitle = document.querySelectorAll(
         "meta[name='twitter:title'], meta[property='og:title']"
       );
       // titleが存在する場合は書き換え、存在しない場合はデフォルトに設定
       let rewriteTitle = "ポケモニット アプリ";
-      if (to.meta.title) {
-        rewriteTitle = to.meta.title + " | ポケモニット アプリ";
+      if (meta.title) {
+        rewriteTitle = meta.title + " | ポケモニット アプリ";
       }
       for (let i = 0, len = currentTitle.length; i < len; i++) {
         currentTitle[i].setAttribute("content", rewriteTitle);
@@ -148,9 +148,9 @@ export default Vue.extend({
         "meta[name='description'], meta[name='twitter:description'], meta[property='og:description']"
       );
       // descriptionが存在する場合は書き換え、存在しない場合はデフォルトに設定
-      if (to.meta.desc) {
+      if (meta.desc) {
         for (let i = 0, len = currentDesc.length; i < len; i++) {
-          currentDesc[i].setAttribute("content", to.meta.desc);
+          currentDesc[i].setAttribute("content", meta.desc);
         }
       } else {
         for (let i = 0, len = currentDesc.length; i < len; i++) {
