@@ -199,12 +199,16 @@
             ></v-checkbox>
           </div>
           <!-- 保存場所は2つ作る -->
-          <v-row v-for="i in 2" :key="i" id="resultArea">
+          <v-row
+            v-for="(calcArea, index) in calcAreas"
+            :key="index"
+            id="resultArea"
+          >
             <v-col class="py-0">
               <v-textarea
                 outlined
                 rows="5"
-                v-model="calcAreas['calcArea' + i]"
+                :value="calcAreas[index]"
               ></v-textarea>
             </v-col>
             <v-btn
@@ -213,7 +217,7 @@
               small
               color="primary"
               right
-              @click="outputResult(i)"
+              @click="outputResult(index)"
             >
               保存する
             </v-btn>
@@ -248,8 +252,7 @@ import SearchNature from "@/components/SearchNature.vue";
 
 export type DataType = {
   itemGroup: string;
-  isNumber: RegExp;
-  calcAreas: object;
+  calcAreas: string[];
   attackCheck: boolean;
   spAttackCheck: boolean;
 };
@@ -263,11 +266,7 @@ export default Vue.extend({
   },
   data: (): DataType => ({
     itemGroup: "持ち物なし",
-    isNumber: /^([1-9]\d*|0)$/, // 1~9で始まる整数、または0であるときにtrueを返す正規表現
-    calcAreas: {
-      calcArea1: "",
-      calcArea2: "",
-    },
+    calcAreas: ["", ""],
     attackCheck: false,
     spAttackCheck: false,
   }),
@@ -612,9 +611,9 @@ export default Vue.extend({
             individualValue) *
           4;
         if (setValue < 0) {
-          this.stats[0].effortValue = null;
+          this.stats[index].effortValue = null;
         } else {
-          this.stats[0].effortValue = setValue;
+          this.stats[index].effortValue = setValue;
         }
         // HP以外の計算では、性格補正を修正してから努力値の逆算を行う必要がある
       } else {
@@ -658,9 +657,9 @@ export default Vue.extend({
       }
     },
     // 計算結果を出力する
-    outputResult(i: string): void {
+    outputResult(index: number): void {
       // 配列は『mutable』なオブジェクトなため、複製して別の変数に入れている
-      const realNumbers = Array.from(this.realNumbers);
+      const realNumbers = [...this.realNumbers];
       // 各行に出力する初期値を設定
       const line1 = `${this.$store.getters.currentPokemon.name} ${this.currentNature.name}`;
       let line2 = "";
@@ -731,11 +730,13 @@ export default Vue.extend({
       }
       // 努力値が振られているときは努力値も出力、無振りのときは努力値を出力しない
       if (this.stats.some((stat) => stat.effortValue > 0)) {
-        this.calcAreas[
-          "calcArea" + i
-        ] = `${line1}\n${line2}\n${line3}\n${line4}\n${line5}`;
+        this.calcAreas.splice(
+          index,
+          1,
+          `${line1}\n${line2}\n${line3}\n${line4}\n${line5}`
+        ); // dataプロパティの配列を変更する場合には、普通に代入するとリアクティブに変化しなくなってしまうため、spliceメソッドで明示的に置き換える必要がある
       } else {
-        this.calcAreas["calcArea" + i] = `${line1}\n${line2}\n${line5}`;
+        this.calcAreas.splice(index, 1, `${line1}\n${line2}\n${line5}`);
       }
     },
   },
