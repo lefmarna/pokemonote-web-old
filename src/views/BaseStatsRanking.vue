@@ -53,11 +53,31 @@
   </v-container>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
 import PokemonData from "@/components/pokemon_data.json";
 
-export default {
-  data: () => ({
+export type DataType = {
+  pokemonList: {
+    no: number;
+    name: string;
+    form: string;
+    attributes: string[];
+    evolutions: number[];
+    types: string[];
+    abilities: string[];
+    hiddenAbilities: string[];
+    stats: { [key: string]: number };
+    total?: number;
+  }[];
+  displayAttributePokemons: { [key: string]: boolean };
+  attributesCheckboxes: { [key: string]: string }[];
+  removeStats: { [key: string]: boolean };
+  statsCheckboxes: { [key: string]: string }[];
+};
+
+export default Vue.extend({
+  data: (): DataType => ({
     pokemonList: PokemonData, // ポケモンのデータはjsonファイルにまとめてあるため、そちらから取得する
     // 除外するポケモン
     displayAttributePokemons: {
@@ -157,7 +177,7 @@ export default {
           stats.splice(1, 1);
         }
         // 配列の中の整数を全て合計して返す
-        array.total = stats.reduce((sum, value) => {
+        array.total = stats.reduce((sum: number, value: number) => {
           if (Number.isInteger(value)) {
             sum += value;
           }
@@ -169,14 +189,16 @@ export default {
     },
   },
   methods: {
-    attributeChange(value) {
-      this.displayAttributePokemons[value] = !this.displayAttributePokemons[
-        value
-      ];
+    attributeChange(value: string): void {
+      this.$set(
+        this.displayAttributePokemons,
+        value,
+        !this.displayAttributePokemons[value]
+      );
     },
-    statsChange(value) {
-      this.removeStats[value] = !this.removeStats[value];
+    statsChange(value: string): void {
+      this.$set(this.removeStats, value, !this.removeStats[value]);
     },
   },
-};
+});
 </script>
