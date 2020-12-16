@@ -9,6 +9,7 @@
             <v-col cols="4" class="d-flex">
               <div>
                 <v-text-field
+                  ref="lv"
                   type="number"
                   label="レベル"
                   placeholder="1"
@@ -298,6 +299,19 @@ export default Vue.extend({
         return this.$store.getters.lv;
       },
       set(value: number) {
+        // レベルの上限を100、下限を1とする
+        if (value > 100) {
+          value = 100;
+          // ここを「value < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されるため、UI的によろしくない。そこで、"0から始まる数値"と"負の数"を正規表現を用いて検出するようにし、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
+        } else if (/^0|^\.|^-/.test(String(value))) {
+          value = 1;
+          // 小数点以下を削除する（勝手に0が入ってしまうのを防ぐため、空白を明示的に除外している）
+        } else if (String(value) != "") {
+          value = Math.floor(value);
+        }
+        (this.$refs.lv as Vue & {
+          lazyValue: number;
+        }).lazyValue = value;
         this.$store.commit("updateLv", value);
       },
     },
@@ -755,14 +769,6 @@ export default Vue.extend({
         this.stats[index].effortValue = null;
       }
     });
-    // }
-    // レベルの上限を100、下限を1とする
-    if (this.lv > 100) {
-      this.$store.commit("updateLv", 100);
-      // ここを「this.lv < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されるため、UI的によろしくない。そこで、"0から始まる数値"を正規表現を用いて検出するようにし、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
-    } else if (this.lv < 0 || /^0/.test(String(this.lv))) {
-      this.lv = 1;
-    }
   },
 });
 </script>
