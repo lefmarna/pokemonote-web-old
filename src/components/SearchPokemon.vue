@@ -3,7 +3,7 @@
     :items="pokemonList"
     item-text="name"
     label="ポケモン名"
-    :filter="katakanaToHiragana"
+    :filter="hiraganaToKatakana"
     v-model="currentPokemon"
     no-data-text="ポケモンが見つかりません。"
     class="mt-3"
@@ -32,16 +32,16 @@ export default {
     },
   },
   methods: {
-    // ひらがなをカタカナに変換して検索するフィルター
-    katakanaToHiragana(item, queryText) {
-      const itemName = item.name.toLowerCase();
-      const hiragana = queryText
-        .toLowerCase()
-        .replace(/[ぁ-ん]/g, (t) => String.fromCharCode(t.charCodeAt(0) + 96));
-      // 元々の検索ワード、または、ひらがなに変換後の検索ワードと一致する結果を部分一致で表示する
+    // 元々の検索ワード、または、カタカナに変換後の検索ワードと一致する結果を返すフィルター
+    hiraganaToKatakana(item, queryText) {
+      // ひらがなをカタカナに置き換える
+      const katakana = queryText.replace(/[ぁ-ん]/g, (t) =>
+        String.fromCharCode(t.charCodeAt(0) + 96)
+      );
+      // 複数条件を指定するケースでは、"test"を使ったほうがパフォーマンスが良いと思われたが、動的な正規表現はどうやら重い？らしく、"無難にindexOf"で検索するようにした。
       return (
-        (itemName || "").indexOf(queryText) > -1 ||
-        (itemName || "").indexOf(hiragana) > -1
+        (item.name || "").indexOf(queryText) > -1 ||
+        (item.name || "").indexOf(katakana) > -1
       );
     },
   },
