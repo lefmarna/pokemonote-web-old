@@ -59,10 +59,12 @@
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
+                    ref="individualValue"
                     type="number"
                     label="個体値"
                     placeholder="0"
-                    v-model="stats[index].individualValue"
+                    :value="stats[index].individualValue"
+                    @input="updateIndividualValue($event, stat.en, index)"
                   ></v-text-field>
                 </div>
                 <div>
@@ -82,10 +84,12 @@
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
+                    ref="effortValue"
                     type="number"
                     label="努力値"
                     placeholder="0"
-                    v-model="stats[index].effortValue"
+                    :value="stats[index].effortValue"
+                    @input="updateEffortValue($event, stat.en, index)"
                   ></v-text-field>
                 </div>
                 <div>
@@ -105,6 +109,7 @@
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
+                    ref="realNumbers"
                     type="number"
                     :label="stats[index].ja"
                     :value="realNumbers[index]"
@@ -309,33 +314,21 @@ export default Vue.extend({
         } else if (String(value) != "") {
           value = Math.floor(value);
         }
+        // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
         (this.$refs.lv as Vue & {
           lazyValue: number;
         }).lazyValue = value;
         this.$store.commit("updateLv", value);
       },
     },
-    stats: {
-      get(): {
-        en: string;
-        ja: string;
-        abbreviation: string;
-        individualValue: number | null;
-        effortValue: number | null;
-      }[] {
-        return this.$store.getters.stats;
-      },
-      set(
-        value: {
-          en: string;
-          ja: string;
-          abbreviation: string;
-          individualValue: number | null;
-          effortValue: number | null;
-        }[]
-      ) {
-        this.$store.commit("setStats", value);
-      },
+    stats(): {
+      en: string;
+      ja: string;
+      abbreviation: string;
+      individualValue: number | null;
+      effortValue: number | null;
+    }[] {
+      return this.$store.getters.stats;
     },
     // 各種ステータスの計算（methodsで引数を指定すれば、同じ計算を1箇所にまとめることもできるが、パフォーマンスの高いcomputedを使いたいため、あえて個別に計算している）
     hp: {
@@ -529,8 +522,8 @@ export default Vue.extend({
       }
     },
     // 実数値を上下させるボタンを設置
-    statPlus(statName: string): void {
-      switch (statName) {
+    statPlus(statsName: string): void {
+      switch (statsName) {
         case "hp":
           this.hp++;
           break;
@@ -551,8 +544,8 @@ export default Vue.extend({
           break;
       }
     },
-    statMinus(statName: string): void {
-      switch (statName) {
+    statMinus(statsName: string): void {
+      switch (statsName) {
         case "hp":
           this.hp--;
           break;
@@ -611,23 +604,18 @@ export default Vue.extend({
     },
     // 実数値から努力値の逆算を行う（実数値の更新にはSetterを設定しているため、本来なら不要な関数。しかし、Vuetifyではv-modelのlazy修飾子をサポートしていないため、inputではなくchangeイベントで発火させたいケースでは、v-bind:valueとv-on:changeで分けて記述してメソッドを呼び出す必要がある。なお、inputではダメな理由としては、実数値を消しながら入力する際に、努力値が自動更新されることによって、実数値の入力が滞ってしまうから（【例】183→164→16→1））
     setStats(event: number, statsName: string, index: number): void {
+      let setValue = Number(event); // eventで取ってきたものはstring型になってしまうため、明示的にキャストの処理を記載している
       const lv = this.numberToInt(this.lv, 1);
       const individualValue = this.numberToInt(
         this.stats[index].individualValue
       );
       // HPのみ計算式が異なる
-      let setValue = Number(event);
       if (statsName == "hp") {
         setValue =
           (Math.ceil(((setValue - lv - 10) * 100) / lv) -
             this.currentPokemon.stats.hp * 2 -
             individualValue) *
           4;
-        if (setValue < 0) {
-          this.stats[index].effortValue = null;
-        } else {
-          this.stats[index].effortValue = setValue;
-        }
         // HP以外の計算では、性格補正を修正してから努力値の逆算を行う必要がある
       } else {
         const effortValue = this.numberToInt(this.stats[index].effortValue);
@@ -662,12 +650,19 @@ export default Vue.extend({
             this.currentPokemon.stats[statsName] * 2 -
             individualValue) *
           4;
-        if (setValue < 0) {
-          this.stats[index].effortValue = null;
-        } else {
-          this.stats[index].effortValue = setValue;
-        }
       }
+      // 【共通の処理】計算した値を代入する
+      if (setValue < 0) {
+        setValue = null;
+      } else if (setValue > 252) {
+        setValue = 252;
+      }
+      this.stats[index].effortValue = setValue;
+      (this.$refs.realNumbers as Vue & {
+        [key: number]: {
+          lazyValue: number;
+        };
+      })[index].lazyValue = this.getStats(statsName, index);
     },
     // 計算結果を出力する
     outputResult(index: number): void {
@@ -752,23 +747,44 @@ export default Vue.extend({
         this.calcAreas.splice(index, 1, `${line1}\n${line2}\n${line5}`);
       }
     },
-  },
-  updated(): void {
-    // inputタグは、直接入力することでmaxやminを無視することができてしまうため、値を監視して修正する処理を記載した
-    this.stats.forEach((stat, index: number) => {
-      // 個体値の上限を31、下限を0とする
-      if (stat.individualValue > 31) {
-        this.stats[index].individualValue = 31;
-      } else if (stat.individualValue < 0) {
-        this.stats[index].individualValue = null;
+    // 努力値の更新
+    updateEffortValue(value: number, statsName: string, index: number): void {
+      if (value > 252) {
+        value = 252;
+      } else if (value <= 0) {
+        value = null;
+      } else {
+        value = Math.floor(value);
       }
-      // 努力値の上限を252、下限を0とする
-      if (stat.effortValue > 252) {
-        this.stats[index].effortValue = 252;
-      } else if (stat.effortValue < 0) {
-        this.stats[index].effortValue = null;
+      // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
+      (this.$refs.effortValue as Vue & {
+        [key: number]: {
+          lazyValue: number;
+        };
+      })[index].lazyValue = value;
+      this.stats[index].effortValue = value;
+    },
+    // 個体値の更新
+    updateIndividualValue(
+      value: number,
+      statsName: string,
+      index: number
+    ): void {
+      if (value > 31) {
+        value = 31;
+      } else if (value <= 0) {
+        value = null;
+      } else {
+        value = Math.floor(value);
       }
-    });
+      // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
+      (this.$refs.individualValue as Vue & {
+        [key: number]: {
+          lazyValue: number;
+        };
+      })[index].lazyValue = value;
+      this.stats[index].individualValue = value;
+    },
   },
 });
 </script>
