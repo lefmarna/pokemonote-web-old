@@ -71,41 +71,49 @@ export type DataType = {
     total?: number;
   }[];
   displayAttributePokemons: { [key: string]: boolean };
-  attributesCheckboxes: { [key: string]: string }[];
   removeStats: { [key: string]: boolean };
-  statsCheckboxes: { [key: string]: string }[];
 };
 
 export default Vue.extend({
   data: (): DataType => ({
     pokemonList: PokemonData, // ポケモンのデータはjsonファイルにまとめてあるため、そちらから取得する
-    // 除外するポケモン
+    // 【特別なポケモンを表示する】
     displayAttributePokemons: {
       legendary: false,
       mythical: false,
       mega: false,
       NotInPokedex: false,
     },
-    attributesCheckboxes: [
-      { text: "伝説", value: "legendary" },
-      { text: "幻", value: "mythical" },
-      { text: "メガシンカ", value: "mega" },
-      { text: "剣盾に登場しないポケモン", value: "NotInPokedex" },
-    ],
-    // 除外するステータス
+    // 【除外するステータス】
     removeStats: {
       attack: false,
       spAttack: false,
       speed: false,
     },
-    statsCheckboxes: [
-      { text: "攻撃", value: "attack" },
-      { text: "特攻", value: "spAttack" },
-      { text: "素早さ", value: "speed" },
-    ],
   }),
   computed: {
-    headers() {
+    /* ループによる処理を可能にするために、チェックボックスとテキストを対応づけている */
+    // 【特別なポケモンを表示する】
+    attributesCheckboxes(): { [key: string]: string }[] {
+      return [
+        { text: "伝説", value: "legendary" },
+        { text: "幻", value: "mythical" },
+        { text: "メガシンカ", value: "mega" },
+        { text: "剣盾に登場しないポケモン", value: "NotInPokedex" },
+      ];
+    },
+    // 【除外するステータス】
+    statsCheckboxes(): { [key: string]: string }[] {
+      return [
+        { text: "攻撃", value: "attack" },
+        { text: "特攻", value: "spAttack" },
+        { text: "素早さ", value: "speed" },
+      ];
+    },
+    /* ここまで */
+
+    // v-data-tableに表示させる内容とオプションの設定
+    headers(): { [key: string]: string }[] {
       const dataTableList = [
         { text: "ポケモン名", value: "name", align: "start", width: "30%" },
         { text: "ＨＰ", value: "stats.hp", align: "end", width: "10%" },
@@ -127,11 +135,11 @@ export default Vue.extend({
       }
       return dataTableList;
     },
-    // ステータスの合計(total)を計算する
+    // ステータスの合計(total)を計算して返す
     pokemonListInTotal() {
       // 直接データを書き換えるわけにはいかないので、フィルター用の変数に格納しておく
       let pokemonList = Array.from(this.pokemonList);
-      // mapメソッドの中ではthisが使えないため、変数に格納しておく
+      // mapメソッドの中ではthisが使えないため、定数に格納しておく
       const removeStats = this.removeStats;
 
       // 『メガシンカ』にチェックがついていないときは表示させない
@@ -163,7 +171,7 @@ export default Vue.extend({
         );
       }
       // 全てのオブジェクトで合計(total)を計算する
-      const pokemonListInTotal = pokemonList.map(function(array) {
+      pokemonList = pokemonList.map((array) => {
         // statsの各数値のみを抽出し、配列に格納する
         const stats = Object.values(array.stats);
         // 配列の要素数が変わってしまうため、後ろから順に削除していく必要がある
@@ -178,17 +186,16 @@ export default Vue.extend({
         }
         // 配列の中の整数を全て合計して返す
         array.total = stats.reduce((sum: number, value: number) => {
-          if (Number.isInteger(value)) {
-            sum += value;
-          }
+          sum += value;
           return sum;
         }, 0);
         return array;
       });
-      return pokemonListInTotal;
+      return pokemonList;
     },
   },
   methods: {
+    // 【特別なポケモンを表示する】のオンオフを切り替える
     attributeChange(value: string): void {
       this.$set(
         this.displayAttributePokemons,
@@ -196,6 +203,7 @@ export default Vue.extend({
         !this.displayAttributePokemons[value]
       );
     },
+    // 【除外するステータス】のオンオフを切り替える
     statsChange(value: string): void {
       this.$set(this.removeStats, value, !this.removeStats[value]);
     },
