@@ -9,6 +9,7 @@
             <v-col cols="4" class="d-flex">
               <div>
                 <v-text-field
+                  ref="lv"
                   type="number"
                   label="レベル"
                   placeholder="1"
@@ -58,10 +59,12 @@
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
+                    ref="speedIndividualValue"
                     type="number"
                     label="個体値"
                     placeholder="0"
-                    v-model.trim.number="stats[5].individualValue"
+                    :value="stats[5].individualValue"
+                    @input="updateSpeedIndividualValue($event)"
                   ></v-text-field>
                 </div>
                 <div>
@@ -81,10 +84,12 @@
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
+                    ref="speedEffortValue"
                     type="number"
                     label="努力値"
                     placeholder="0"
-                    v-model.trim.number="stats[5].effortValue"
+                    :value="stats[5].effortValue"
+                    @input="updateSpeedEffortValue($event)"
                   ></v-text-field>
                 </div>
                 <div>
@@ -104,10 +109,11 @@
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
+                    ref="speed"
                     type="number"
                     :label="stats[5].ja"
                     :value="speed"
-                    @change="updateStats()"
+                    @change="setSpeed($event)"
                   ></v-text-field>
                 </div>
                 <div>
@@ -298,19 +304,36 @@
   </v-container>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
 import CalcButton from "@/components/CalcButton.vue";
 import SearchPokemon from "@/components/SearchPokemon.vue";
 import SearchNature from "@/components/SearchNature.vue";
 
-export default {
+export type DataType = {
+  tailwind: number;
+  paralysis: number;
+  swamp: number;
+  option1: boolean;
+  selectItem: number;
+  selectAbility: number;
+  items: {
+    name: string;
+    value: number;
+  }[];
+  abilities: {
+    name: string;
+    value: number;
+  }[];
+};
+
+export default Vue.extend({
   components: {
     CalcButton,
     SearchPokemon,
     SearchNature,
   },
-  data: () => ({
-    isNumber: /^([1-9]\d*|0)$/,
+  data: (): DataType => ({
     tailwind: 1,
     paralysis: 10,
     swamp: 100,
@@ -332,96 +355,168 @@ export default {
   }),
   computed: {
     // 将来的な拡張性を考慮して、ポケモン名や各種ステータスはVuexで管理している
-    currentPokemon() {
+    currentPokemon(): {
+      no: number;
+      name: string;
+      form: string;
+      evolutions: number[];
+      types: string[];
+      abilities: string[];
+      hiddenAbilities: string[];
+      stats: {
+        [key: string]: number;
+      };
+    } {
       return this.$store.getters.currentPokemon;
     },
-    currentNature() {
+    currentNature(): {
+      name: string;
+      stats: {
+        [key: string]: number;
+      };
+    } {
       return this.$store.getters.currentNature;
     },
     lv: {
-      get() {
+      get(): number {
         return this.$store.getters.lv;
       },
-      set(value) {
+      set(value: number) {
+        // レベルの上限を100、下限を1とする
+        if (value > 100) {
+          value = 100;
+          // ここを「value < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されるため、UI的によろしくない。そこで、"0から始まる数値"と"負の数"を正規表現を用いて検出するようにし、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
+        } else if (/^0|^\.|^-/.test(String(value))) {
+          value = 1;
+          // 小数点以下を削除する（勝手に0が入ってしまうのを防ぐため、空白を明示的に除外している）
+        } else if (String(value) != "") {
+          value = Math.floor(value);
+        }
+        // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
+        (this.$refs.lv as Vue & {
+          lazyValue: number;
+        }).lazyValue = value;
         this.$store.commit("updateLv", value);
       },
     },
-    stats: {
-      get() {
-        return this.$store.getters.stats;
-      },
-      set(value) {
-        this.$store.commit("updateStats", value);
-      },
+    stats(): {
+      en: string;
+      ja: string;
+      abbreviation: string;
+      individualValue: number | null;
+      effortValue: number | null;
+    }[] {
+      return this.$store.getters.stats;
     },
     speed: {
-      get() {
-        let lv = this.lv;
-        let individualValue = this.stats[5].individualValue;
-        if (!this.isNumber.test(lv)) {
-          lv = 1;
-        }
-        if (!this.isNumber.test(individualValue)) {
-          individualValue = 0;
-        }
-        return Math.floor(
-          (Math.floor(
-            ((this.currentPokemon.stats["speed"] * 2 +
-              individualValue +
-              Math.floor(this.stats[5].effortValue / 4)) *
-              lv) /
-              100
-          ) +
-            5) *
-            this.currentNature.stats.speed
-        );
+      get(): number {
+        return this.getSpeed();
       },
-      set(value) {
-        let lv = this.lv;
-        if (!this.isNumber.test(lv)) {
-          lv = 1;
-        }
-        let n = Number(value);
-        if (n % 11 === 10 && this.currentNature.stats.speed === 1.1) {
-          if (
-            n >=
-            Math.floor(
-              (Math.floor(
-                ((this.currentPokemon.stats.speed * 2 +
-                  this.stats[5].individualValue +
-                  Math.floor(this.stats[5].effortValue / 4)) *
-                  lv) /
-                  100
-              ) +
-                5) *
-                this.currentNature.stats.speed
-            )
-          ) {
-            n += 1;
-          } else {
-            n -= 1;
-          }
-        }
-        if (this.currentNature.stats.speed === 1.1) {
-          n = Math.ceil(n / 1.1);
-        } else if (this.currentNature.stats.speed === 0.9) {
-          n = Math.ceil(n / 0.9);
-        }
-        n =
-          (Math.ceil(((n - 5) * 100) / this.lv) -
-            this.currentPokemon.stats.speed * 2 -
-            this.stats[5].individualValue) *
-          4;
-        if (n < 0) {
-          this.stats[5].effortValue = "";
-        } else {
-          this.stats[5].effortValue = n;
-        }
+      set(value: number) {
+        this.setSpeed(value);
       },
     },
   },
   methods: {
-    calcSpeed(rank) {
+    // 小数点を切り捨てる、また、nullや負の数には初期値を返していく
+    numberToInt(value: number, defaultValue = 0): number {
+      if (String(value) === "" || value < defaultValue) {
+        return defaultValue;
+      } else {
+        return Math.floor(value);
+      }
+    },
+    // 代入する値を検証して返す
+    valueVerification(value: number, max: number): number | null {
+      if (value > max) {
+        return max;
+      } else if (value <= 0) {
+        return null;
+      } else {
+        return Math.floor(value);
+      }
+    },
+    // 努力値の更新
+    updateSpeedEffortValue(value: number): void {
+      value = this.valueVerification(value, 252);
+      // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
+      (this.$refs.speedEffortValue as Vue & {
+        lazyValue: number;
+      }).lazyValue = value;
+      this.stats[5].effortValue = value;
+    },
+    // 個体値の更新
+    updateSpeedIndividualValue(value: number): void {
+      value = this.valueVerification(value, 31);
+      // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
+      (this.$refs.speedIndividualValue as Vue & {
+        lazyValue: number;
+      }).lazyValue = value;
+      this.stats[5].individualValue = value;
+    },
+    // 実数値を計算して返す
+    getSpeed(): number {
+      const lv = this.numberToInt(this.lv, 1);
+      const individualValue = this.numberToInt(this.stats[5].individualValue);
+      const effortValue = this.numberToInt(this.stats[5].effortValue);
+      return Math.floor(
+        (Math.floor(
+          ((this.currentPokemon.stats["speed"] * 2 +
+            individualValue +
+            Math.floor(effortValue / 4)) *
+            lv) /
+            100
+        ) +
+          5) *
+          this.currentNature.stats["speed"]
+      );
+    },
+    // 実数値から努力値の逆算を行う
+    setSpeed(event: number) {
+      let setValue = Number(event); // eventで取ってきたものはstring型になってしまうため、明示的にキャストの処理を記載している
+      const lv = this.numberToInt(this.lv, 1);
+      const individualValue = this.numberToInt(this.stats[5].individualValue);
+      const effortValue = this.numberToInt(this.stats[5].effortValue);
+      const currentNatureStat = Number(this.currentNature.stats["speed"]);
+      if (setValue % 11 === 10 && currentNatureStat === 1.1) {
+        if (
+          setValue >=
+          Math.floor(
+            (Math.floor(
+              ((this.currentPokemon.stats["speed"] * 2 +
+                individualValue +
+                Math.floor(effortValue / 4)) *
+                lv) /
+                100
+            ) +
+              5) *
+              currentNatureStat
+          )
+        ) {
+          setValue += 1;
+        } else {
+          setValue -= 1;
+        }
+      }
+      if (currentNatureStat === 1.1) {
+        setValue = Math.ceil(setValue / 1.1);
+      } else if (currentNatureStat === 0.9) {
+        setValue = Math.ceil(setValue / 0.9);
+      }
+      setValue =
+        (Math.ceil(((setValue - 5) * 100) / lv) -
+          this.currentPokemon.stats["speed"] * 2 -
+          individualValue) *
+        4;
+      // 計算した値を代入する
+      setValue = this.valueVerification(setValue, 252);
+      this.stats[5].effortValue = setValue;
+      (this.$refs.speed as Vue & {
+        lazyValue: number;
+      }).lazyValue = this.getSpeed();
+    },
+    // 素早さリストに表示する値を計算する
+    calcSpeed(rank: number) {
       // 特性が「はやあし・かるわざ」のときは計算の順番を変える
       if (this.selectAbility == 2) {
         return Math.floor(
@@ -458,73 +553,8 @@ export default {
         );
       }
     },
-    updateStats() {
-      let lv = this.lv;
-      if (!this.isNumber.test(lv)) {
-        lv = 1;
-      }
-      let n = Number(event.target.value);
-      const currentNatureStat = Number(this.currentNature.stats["speed"]);
-      if (n % 11 === 10 && currentNatureStat === 1.1) {
-        if (
-          n >=
-          Math.floor(
-            (Math.floor(
-              ((this.currentPokemon.stats["speed"] * 2 +
-                this.stats[5].individualValue +
-                Math.floor(this.stats[5].effortValue / 4)) *
-                lv) /
-                100
-            ) +
-              5) *
-              currentNatureStat
-          )
-        ) {
-          n += 1;
-        } else {
-          n -= 1;
-        }
-      }
-      if (currentNatureStat === 1.1) {
-        n = Math.ceil(n / 1.1);
-      } else if (currentNatureStat === 0.9) {
-        n = Math.ceil(n / 0.9);
-      }
-      n =
-        (Math.ceil(((n - 5) * 100) / this.lv) -
-          this.currentPokemon.stats["speed"] * 2 -
-          this.stats[5].individualValue) *
-        4;
-      if (n < 0) {
-        this.stats[5].effortValue = "";
-      } else {
-        this.stats[5].effortValue = n;
-      }
-    },
   },
-  // 素早さの上限を999、下限を0とする
-  updated() {
-    // 個体値の上限を31、下限を0とする
-    if (this.stats[5].individualValue > 31) {
-      this.stats[5].individualValue = 31;
-    } else if (this.stats[5].individualValue < 0) {
-      this.stats[5].individualValue = "";
-    }
-    // 努力値の上限を252、下限を0とする
-    if (this.stats[5].effortValue > 252) {
-      this.stats[5].effortValue = 252;
-    } else if (this.stats[5].effortValue < 0) {
-      this.stats[5].effortValue = "";
-    }
-    // レベルの上限を100、下限を1とする
-    if (this.lv > 100) {
-      this.lv = 100;
-      // ここを「this.lv < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されてしまう。これはUI的によろしくないため、空白の際にはString型になることを利用し「this.lv === 0」としてNumber型のみを検出することによって、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
-    } else if (this.lv < 0 || this.lv === 0) {
-      this.lv = 1;
-    }
-  },
-};
+});
 </script>
 
 <style lang="scss" scoped>
