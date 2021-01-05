@@ -306,10 +306,17 @@ export default Vue.extend({
       ];
     },
     currentNature: {
-      get() {
+      get(): {
+        currentNature: {
+          name: string;
+          stats: {
+            [key: string]: number;
+          };
+        };
+      } {
         return this.$store.getters.currentNature;
       },
-      set(selectedNature) {
+      set(selectedNature): void {
         this.$store.commit("updateCurrentNature", selectedNature);
         (document.activeElement as HTMLElement).blur(); // 性格を更新後、フォーカスを外す
       },
