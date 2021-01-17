@@ -3,7 +3,7 @@
     :items="natureList"
     item-text="name"
     label="性格"
-    :filter="hiraganaToKatakana"
+    :filter="filterForSearch"
     v-model="currentNature"
     no-data-text="性格が見つかりません。"
     auto-select-first
@@ -13,8 +13,10 @@
 
 <script lang="ts">
 import Vue from "vue";
+import filterForSearch from "@/mixins/filterForSearch";
 
 export default Vue.extend({
+  mixins: [filterForSearch],
   computed: {
     natureList(): {
       name: string;
@@ -320,21 +322,6 @@ export default Vue.extend({
         this.$store.commit("updateCurrentNature", selectedNature);
         (document.activeElement as HTMLElement).blur(); // 性格を更新後、フォーカスを外す
       },
-    },
-  },
-  methods: {
-    // 元々の検索ワード、または、カタカナに変換後の検索ワードと一致する結果を返すフィルター
-    hiraganaToKatakana(item: { name: string }, queryText: string): boolean {
-      const itemName = item.name;
-      // ひらがなをカタカナに置き換える
-      const katakana = queryText.replace(/[ぁ-ん]/g, (t) =>
-        String.fromCharCode(t.charCodeAt(0) + 96)
-      );
-      // 複数条件を指定するケースでは、"test"を使ったほうがパフォーマンスが良いと思われたが、動的な正規表現はどうやら重い？らしく、"無難にindexOf"で検索するようにした。
-      return (
-        (itemName || "").indexOf(queryText) > -1 ||
-        (itemName || "").indexOf(katakana) > -1
-      );
     },
   },
 });
