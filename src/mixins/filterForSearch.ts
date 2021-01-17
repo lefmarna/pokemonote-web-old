@@ -204,10 +204,12 @@ export default Vue.extend({
       const itemName = item.name.replace(/[ぁ-ん]/g, (t) =>
         String.fromCharCode(t.charCodeAt(0) + 96)
       );
-      // 入力されたひらがなを全てカタカナに置き換える
-      let katakana = queryText.replace(/[ぁ-ん]/g, (t) =>
-        String.fromCharCode(t.charCodeAt(0) + 96)
-      );
+      // 入力されたひらがなを全てカタカナに、括弧やハイフンも検索元に合わせる形で置き換える
+      let katakana = queryText
+        .replace(/[ぁ-ん]/g, (t) => String.fromCharCode(t.charCodeAt(0) + 96))
+        .replace(/[-]/g, "ー")
+        .replace(/[（]/g, "(")
+        .replace(/[）]/g, ")");
       // 入力されたローマ字を全てカタカナに書き換える
       katakana = this.$_convertRomanToKana(katakana);
       // 部分一致でフィルタリングする
