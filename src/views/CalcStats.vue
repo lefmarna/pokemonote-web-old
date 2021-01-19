@@ -149,6 +149,19 @@
                 {{ totalStats }}
               </v-col>
             </v-row>
+            <v-row>
+              <v-col>
+                <v-btn
+                  color="secondary"
+                  elevation="2"
+                  class="centered-input"
+                  outlined
+                  small
+                  @click.native="durabilityAdjustment"
+                  >耐久調整</v-btn
+                >
+              </v-col>
+            </v-row>
           </div>
           <v-divider v-if="$vuetify.breakpoint.xs" />
         </v-container>
@@ -606,12 +619,18 @@ export default Vue.extend({
       }
     },
     // 実数値を計算して返す
-    getStats(statsName: string, index: number): number {
+    getStats(statsName: string, index: number, tmpEV = 0): number {
       const lv = this.numberToInt(this.lv, 1);
       const individualValue = this.numberToInt(
         this.stats[index].individualValue
       );
-      const effortValue = this.numberToInt(this.stats[index].effortValue);
+      let effortValue = 0;
+      // 耐久調整ボタンから呼び出した場合は、仮の努力値を代入する
+      if (tmpEV) {
+        effortValue = tmpEV;
+      } else {
+        effortValue = this.numberToInt(this.stats[index].effortValue);
+      }
       if (statsName == "hp") {
         if (this.currentPokemon.name == "ヌケニン") {
           return 1;
@@ -782,6 +801,78 @@ export default Vue.extend({
       } else {
         this.calcAreas.splice(index, 1, `${line1}\n${line2}\n${line5}`);
       }
+    },
+    // 理想の耐久調整を自動で計算する関数
+    durabilityAdjustment(): void {
+      // 攻撃、特攻、素早さの努力値を除いた値を求める
+      const maxEffortValue: number =
+        510 -
+        this.stats[1].effortValue -
+        this.stats[3].effortValue -
+        this.stats[5].effortValue;
+
+      // 計算に使う努力値を一時的に格納しておくための変数
+      let tmpHpEV = maxEffortValue; // HPから順に計算していくので、最初に余りの努力値をそのまま代入している
+      let tmpDefenceEV = 0;
+      let tmpSpDefenceEV = 0;
+
+      // 計算に使う実数値を一時的に格納しておくための変数
+      let tmpHp = 0;
+      let tmpDefence = 0;
+      let tmpSpDefence = 0;
+
+      // 最終的に代入することになる実数値を格納しておくための変数
+      let resultHp = 0;
+      let resultDefence = 0;
+      let resultSpDefence = 0;
+
+      // 計算された耐久指数を比較していくのに用いる変数
+      let oldHBD = 0;
+      let newHBD = 0;
+
+      // HBDの努力値を一度リセットする(不要な処理のような気もするが、これを記載しないと努力値の合計が510を超えてしまうことがある)
+      this.stats[0].effortValue = 0;
+      this.stats[2].effortValue = 0;
+      this.stats[4].effortValue = 0;
+
+      // 努力値の余りが252より大きかった場合、スタートであるHPの仮努力値を252とする
+      if (tmpHpEV > 252) {
+        tmpHpEV = 252;
+      }
+      // HP→特防→防御の順に総当たりで計算していく
+      while (tmpHpEV >= 0) {
+        tmpHp = this.getStats("hp", 0, tmpHpEV); // HPの努力値からHPの実数値を計算
+        tmpSpDefenceEV = maxEffortValue - tmpHpEV;
+        if (tmpSpDefenceEV > 252) {
+          tmpSpDefenceEV = 252;
+        }
+        // 防御より先に特防を計算することで、端数が出た場合に特防に割り振られるようになる(ダウンロード対策でB<Dのほうが好まれることから、このような仕様にしている)
+        while (tmpSpDefenceEV >= 0) {
+          tmpSpDefence = this.getStats("spDefence", 4, tmpSpDefenceEV); // 特防の努力値から特防の実数値を計算
+          tmpDefenceEV = maxEffortValue - tmpHpEV - tmpSpDefenceEV;
+          // 防御の仮努力値が252を超えてしまう場合には値を更新しない
+          if (tmpDefenceEV > 252) {
+            break;
+          }
+          tmpDefence = this.getStats("defence", 2, tmpDefenceEV); // 防御の努力値から防御の実数値を計算
+          // 耐久指数を計算する
+          newHBD =
+            (tmpHp * tmpDefence * tmpSpDefence) / (tmpDefence + tmpSpDefence);
+          // 耐久指数が前回のものより大きければ更新、そうでなければ更新しない
+          if (oldHBD < newHBD) {
+            oldHBD = newHBD;
+            resultHp = tmpHp;
+            resultDefence = tmpDefence;
+            resultSpDefence = tmpSpDefence;
+          }
+          tmpSpDefenceEV--;
+        }
+        tmpHpEV--;
+      }
+      // 最も優秀だった結果を代入する
+      this.hp = resultHp;
+      this.defence = resultDefence;
+      this.spDefence = resultSpDefence;
     },
   },
 });
