@@ -206,6 +206,13 @@ $breakpoint-iPhoneSE: 320px;
   }
 }
 
+// iOSのSafariではdisabledに透過がかかって非常に読みにくいので、opacityを明示的に指定している
+input[disabled],
+textarea[disabled],
+select[disabled="disabled"] {
+  opacity: 1;
+}
+
 // ハートの背景をCSSで設計する
 #app {
   background-color: #e3f2fd;
