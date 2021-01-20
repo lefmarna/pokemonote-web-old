@@ -135,7 +135,7 @@
             </v-row>
             <v-row class="font-weight-bold">
               <v-col cols="2">
-                <p>合計</p>
+                <p class="mb-0">合計</p>
               </v-col>
               <v-col class="d-flex justify-center">
                 <span class="pr-1" :class="totalIvCheck">{{ totalIv }}</span
@@ -149,7 +149,10 @@
                 {{ totalStats }}
               </v-col>
             </v-row>
-            <v-row>
+            <v-row class="pb-3">
+              <v-col class="hiddenPower" align-self="center">
+                <p class="mb-0">めざパ：{{ hiddenPower }}</p>
+              </v-col>
               <v-col align-self="center">
                 <v-btn
                   color="danger"
@@ -182,23 +185,20 @@
           v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs"
           vertical
         />
-        <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
+        <v-container :class="$vuetify.breakpoint.xs ? 'pa-0' : ''">
           <v-row>
-            <v-col cols="6">
-              <p>めざパ：{{ hiddenPower }}</p>
-              <p>
+            <v-col cols="6" class="py-0" align-self="center">
+              <p class="mb-2">
                 総合耐久：{{ physicalDurability + specialDurability }}
-                <br />
-                <span style="padding-left: 2em;"
-                  >物理：{{ physicalDurability }}</span
-                >
-                <br />
-                <span style="padding-left: 2em;"
-                  >特殊：{{ specialDurability }}</span
-                >
+              </p>
+              <p class="mb-2" style="padding-left: 2em;">
+                物理：{{ physicalDurability }}
+              </p>
+              <p class="mb-0" style="padding-left: 2em;">
+                特殊：{{ specialDurability }}
               </p>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="6" class="py-0" align-self="center">
               <v-radio-group v-model="itemGroup">
                 <v-radio label="持ち物なし" value="持ち物なし"></v-radio>
                 <v-radio
@@ -264,6 +264,9 @@
             <p>
               『ポケットモンスター
               ソード・シールド』（ポケモン剣盾）に対応しています。ピカブイには対応しておりません。
+            </p>
+            <p>
+              『耐久調整』ボタンを押すと、余っている努力値から計算された理想的な配分を導き出すことができます。すでに耐久面に振られている努力値については、一度リセットされてから再計算されます。
             </p>
           </v-row>
         </v-container>

@@ -326,5 +326,10 @@ h2:after {
       min-width: 2.8em !important;
     }
   }
+  .hiddenPower {
+    @include iPhoneSE {
+      font-size: 82%;
+    }
+  }
 }
 </style>
