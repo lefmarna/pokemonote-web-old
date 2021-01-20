@@ -134,8 +134,8 @@
               </v-col>
             </v-row>
             <v-row class="font-weight-bold">
-              <v-col cols="2">
-                <p class="mb-0">合計</p>
+              <v-col cols="2" class="d-flex justify-center">
+                <p class="mb-0">{{ totalBaseStats }}</p>
               </v-col>
               <v-col class="d-flex justify-center">
                 <span class="pr-1" :class="totalIvCheck">{{ totalIv }}</span
@@ -428,6 +428,17 @@ export default Vue.extend({
         this.spAttack +
         this.spDefence +
         this.speed
+      );
+    },
+    // 種族値の合計値を計算する
+    totalBaseStats(): number {
+      return Object.values(this.currentPokemon.stats).reduce(
+        (sum: number, stat: number) => {
+          // 空白の箇所が存在すると、数値が連結された表示になってしまうため、0以上の整数であるかどうかをチェックしてから加算する処理を記載した
+          sum += stat;
+          return sum;
+        },
+        0
       );
     },
     // 個体値の合計値を計算する
