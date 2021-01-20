@@ -165,9 +165,9 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-// Bootstrapの色を参照
-$primary: #1876d1;
-$danger: #dc3545;
+// Vuetifyのテーマカラー
+$primary: #1976d2;
+$danger: #d32f2f;
 // ハートの色
 $heart1: #bbdefb;
 $heart2: #90caf9;
