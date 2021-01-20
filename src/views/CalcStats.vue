@@ -150,9 +150,20 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col>
+              <v-col align-self="center">
                 <v-btn
-                  color="secondary"
+                  color="danger"
+                  elevation="2"
+                  class="centered-input"
+                  outlined
+                  small
+                  @click.native="resetEffortValue"
+                  >努力値リセット</v-btn
+                >
+              </v-col>
+              <v-col align-self="center">
+                <v-btn
+                  color="primary"
                   elevation="2"
                   class="centered-input"
                   outlined
@@ -801,6 +812,12 @@ export default Vue.extend({
       } else {
         this.calcAreas.splice(index, 1, `${line1}\n${line2}\n${line5}`);
       }
+    },
+    // 努力値をリセットする
+    resetEffortValue(): void {
+      this.stats.forEach((stat) => {
+        stat.effortValue = null;
+      });
     },
     // 理想の耐久調整を自動で計算する関数
     durabilityAdjustment(): void {
