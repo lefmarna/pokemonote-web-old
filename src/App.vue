@@ -213,6 +213,11 @@ select[disabled="disabled"] {
   opacity: 1;
 }
 
+// ダブルタップによる拡大・縮小を無効化(スマホのUIを向上させる目的)
+button {
+  touch-action: manipulation;
+}
+
 // ハートの背景をCSSで設計する
 #app {
   background-color: #e3f2fd;
