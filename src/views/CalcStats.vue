@@ -852,6 +852,10 @@ export default Vue.extend({
       let tmpDefence = 0;
       let tmpSpDefence = 0;
 
+      // 実数値の計算は持ち物による補正込で行うが、代入する際には元の値を使うため、別の変数を用意することにした
+      let tmpDefenceInItem = 0;
+      let tmpSpDefenceInItem = 0;
+
       // 最終的に代入することになる実数値を格納しておくための変数
       let resultHp = 0;
       let resultDefence = 0;
@@ -886,9 +890,26 @@ export default Vue.extend({
             break;
           }
           tmpDefence = this.getStats("defence", 2, tmpDefenceEV); // 防御の努力値から防御の実数値を計算
+
+          // 持ち物込での耐久値を求める
+          if (
+            this.itemGroup == "しんかのきせき" &&
+            this.currentPokemon.evolutions.length
+          ) {
+            tmpDefenceInItem = Math.floor(tmpDefence * 1.5);
+            tmpSpDefenceInItem = Math.floor(tmpSpDefence * 1.5);
+          } else if (this.itemGroup == "とつげきチョッキ") {
+            tmpDefenceInItem = tmpDefence;
+            tmpSpDefenceInItem = Math.floor(tmpSpDefence * 1.5);
+          } else {
+            tmpDefenceInItem = tmpDefence;
+            tmpSpDefenceInItem = tmpSpDefence;
+          }
+
           // 耐久指数を計算する
           newHBD =
-            (tmpHp * tmpDefence * tmpSpDefence) / (tmpDefence + tmpSpDefence);
+            (tmpHp * tmpDefenceInItem * tmpSpDefenceInItem) /
+            (tmpDefenceInItem + tmpSpDefenceInItem);
           // 耐久指数が前回のものより大きければ更新、そうでなければ更新しない
           if (oldHBD < newHBD) {
             oldHBD = newHBD;
