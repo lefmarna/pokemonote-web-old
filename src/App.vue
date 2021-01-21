@@ -281,7 +281,7 @@ h2:after {
 }
 .statsTable {
   /* ステータスの入力時にハイライトをつけて見やすくする */
-  .row:hover:not(:last-child) {
+  .row:hover:not(:nth-last-child(-n + 2)) {
     background-color: #eee;
   }
   // 文字の色を変えることで、性格補正を分かりやすく！
