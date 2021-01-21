@@ -134,8 +134,8 @@
               </v-col>
             </v-row>
             <v-row class="font-weight-bold">
-              <v-col cols="2">
-                <p>合計</p>
+              <v-col cols="2" class="d-flex justify-center">
+                <p class="mb-0">{{ totalBaseStats }}</p>
               </v-col>
               <v-col class="d-flex justify-center">
                 <span class="pr-1" :class="totalIvCheck">{{ totalIv }}</span
@@ -149,6 +149,33 @@
                 {{ totalStats }}
               </v-col>
             </v-row>
+            <v-row class="pb-3">
+              <v-col class="hiddenPower" align-self="center">
+                <p class="mb-0">めざパ：{{ hiddenPower }}</p>
+              </v-col>
+              <v-col align-self="center">
+                <v-btn
+                  color="danger"
+                  elevation="2"
+                  class="centered-input"
+                  outlined
+                  small
+                  @click.native="resetEffortValue"
+                  >努力値リセット</v-btn
+                >
+              </v-col>
+              <v-col align-self="center">
+                <v-btn
+                  color="primary"
+                  elevation="2"
+                  class="centered-input"
+                  outlined
+                  small
+                  @click.native="durabilityAdjustment"
+                  >耐久調整</v-btn
+                >
+              </v-col>
+            </v-row>
           </div>
           <v-divider v-if="$vuetify.breakpoint.xs" />
         </v-container>
@@ -158,23 +185,20 @@
           v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs"
           vertical
         />
-        <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
+        <v-container :class="$vuetify.breakpoint.xs ? 'pa-0' : ''">
           <v-row>
-            <v-col cols="6">
-              <p>めざパ：{{ hiddenPower }}</p>
-              <p>
+            <v-col cols="6" class="py-0" align-self="center">
+              <p class="mb-2">
                 総合耐久：{{ physicalDurability + specialDurability }}
-                <br />
-                <span style="padding-left: 2em;"
-                  >物理：{{ physicalDurability }}</span
-                >
-                <br />
-                <span style="padding-left: 2em;"
-                  >特殊：{{ specialDurability }}</span
-                >
+              </p>
+              <p class="mb-2" style="padding-left: 2em;">
+                物理：{{ physicalDurability }}
+              </p>
+              <p class="mb-0" style="padding-left: 2em;">
+                特殊：{{ specialDurability }}
               </p>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="6" class="py-0" align-self="center">
               <v-radio-group v-model="itemGroup">
                 <v-radio label="持ち物なし" value="持ち物なし"></v-radio>
                 <v-radio
@@ -240,6 +264,9 @@
             <p>
               『ポケットモンスター
               ソード・シールド』（ポケモン剣盾）に対応しています。ピカブイには対応しておりません。
+            </p>
+            <p>
+              『耐久調整』ボタンを押すと、余っている努力値から計算された理想的な配分を導き出すことができます。すでに耐久面に振られている努力値については、一度リセットされてから再計算されます。
             </p>
           </v-row>
         </v-container>
@@ -401,6 +428,17 @@ export default Vue.extend({
         this.spAttack +
         this.spDefence +
         this.speed
+      );
+    },
+    // 種族値の合計値を計算する
+    totalBaseStats(): number {
+      return Object.values(this.currentPokemon.stats).reduce(
+        (sum: number, stat: number) => {
+          // 空白の箇所が存在すると、数値が連結された表示になってしまうため、0以上の整数であるかどうかをチェックしてから加算する処理を記載した
+          sum += stat;
+          return sum;
+        },
+        0
       );
     },
     // 個体値の合計値を計算する
@@ -606,12 +644,18 @@ export default Vue.extend({
       }
     },
     // 実数値を計算して返す
-    getStats(statsName: string, index: number): number {
+    getStats(statsName: string, index: number, tmpEV = 0): number {
       const lv = this.numberToInt(this.lv, 1);
       const individualValue = this.numberToInt(
         this.stats[index].individualValue
       );
-      const effortValue = this.numberToInt(this.stats[index].effortValue);
+      let effortValue = 0;
+      // 耐久調整ボタンから呼び出した場合は、仮の努力値を代入する
+      if (tmpEV) {
+        effortValue = tmpEV;
+      } else {
+        effortValue = this.numberToInt(this.stats[index].effortValue);
+      }
       if (statsName == "hp") {
         if (this.currentPokemon.name == "ヌケニン") {
           return 1;
@@ -782,6 +826,105 @@ export default Vue.extend({
       } else {
         this.calcAreas.splice(index, 1, `${line1}\n${line2}\n${line5}`);
       }
+    },
+    // 努力値をリセットする
+    resetEffortValue(): void {
+      this.stats.forEach((stat) => {
+        stat.effortValue = null;
+      });
+    },
+    // 理想の耐久調整を自動で計算する関数
+    durabilityAdjustment(): void {
+      // 攻撃、特攻、素早さの努力値を除いた値を求める
+      const maxEffortValue: number =
+        510 -
+        this.stats[1].effortValue -
+        this.stats[3].effortValue -
+        this.stats[5].effortValue;
+
+      // 計算に使う努力値を一時的に格納しておくための変数
+      let tmpHpEV = maxEffortValue; // HPから順に計算していくので、最初に余りの努力値をそのまま代入している
+      let tmpDefenceEV = 0;
+      let tmpSpDefenceEV = 0;
+
+      // 計算に使う実数値を一時的に格納しておくための変数
+      let tmpHp = 0;
+      let tmpDefence = 0;
+      let tmpSpDefence = 0;
+
+      // 実数値の計算は持ち物による補正込で行うが、代入する際には元の値を使うため、別の変数を用意することにした
+      let tmpDefenceInItem = 0;
+      let tmpSpDefenceInItem = 0;
+
+      // 最終的に代入することになる実数値を格納しておくための変数
+      let resultHp = 0;
+      let resultDefence = 0;
+      let resultSpDefence = 0;
+
+      // 計算された耐久指数を比較していくのに用いる変数
+      let oldHBD = 0;
+      let newHBD = 0;
+
+      // HBDの努力値を一度リセットする(不要な処理のような気もするが、これを記載しないと努力値の合計が510を超えてしまうことがある)
+      this.stats[0].effortValue = 0;
+      this.stats[2].effortValue = 0;
+      this.stats[4].effortValue = 0;
+
+      // 努力値の余りが252より大きかった場合、スタートであるHPの仮努力値を252とする
+      if (tmpHpEV > 252) {
+        tmpHpEV = 252;
+      }
+      // HP→特防→防御の順に総当たりで計算していく
+      while (tmpHpEV >= 0) {
+        tmpHp = this.getStats("hp", 0, tmpHpEV); // HPの努力値からHPの実数値を計算
+        tmpSpDefenceEV = maxEffortValue - tmpHpEV;
+        if (tmpSpDefenceEV > 252) {
+          tmpSpDefenceEV = 252;
+        }
+        // 防御より先に特防を計算することで、端数が出た場合に特防に割り振られるようになる(ダウンロード対策でB<Dのほうが好まれることから、このような仕様にしている)
+        while (tmpSpDefenceEV >= 0) {
+          tmpSpDefence = this.getStats("spDefence", 4, tmpSpDefenceEV); // 特防の努力値から特防の実数値を計算
+          tmpDefenceEV = maxEffortValue - tmpHpEV - tmpSpDefenceEV;
+          // 防御の仮努力値が252を超えてしまう場合には値を更新しない
+          if (tmpDefenceEV > 252) {
+            break;
+          }
+          tmpDefence = this.getStats("defence", 2, tmpDefenceEV); // 防御の努力値から防御の実数値を計算
+
+          // 持ち物込での耐久値を求める
+          if (
+            this.itemGroup == "しんかのきせき" &&
+            this.currentPokemon.evolutions.length
+          ) {
+            tmpDefenceInItem = Math.floor(tmpDefence * 1.5);
+            tmpSpDefenceInItem = Math.floor(tmpSpDefence * 1.5);
+          } else if (this.itemGroup == "とつげきチョッキ") {
+            tmpDefenceInItem = tmpDefence;
+            tmpSpDefenceInItem = Math.floor(tmpSpDefence * 1.5);
+          } else {
+            tmpDefenceInItem = tmpDefence;
+            tmpSpDefenceInItem = tmpSpDefence;
+          }
+
+          // 耐久指数を計算する
+          newHBD =
+            (tmpHp * tmpDefenceInItem * tmpSpDefenceInItem) /
+            (tmpDefenceInItem + tmpSpDefenceInItem);
+          // 耐久指数が前回のものより大きければ更新、そうでなければ更新しない
+          if (oldHBD < newHBD) {
+            oldHBD = newHBD;
+            resultHp = tmpHp;
+            resultDefence = tmpDefence;
+            resultSpDefence = tmpSpDefence;
+          }
+          tmpSpDefenceEV--;
+        }
+        tmpHpEV--;
+      }
+      // 最も優秀だった結果を代入する
+      this.hp = resultHp;
+      this.defence = resultDefence;
+      this.spDefence = resultSpDefence;
     },
   },
 });

@@ -29,7 +29,10 @@ export default Vue.extend({
         return this.$store.getters.currentPokemon;
       },
       set(selectedPokemon): void {
-        this.$store.commit("updateCurrentPokemon", selectedPokemon);
+        // 全消し(clearable)を利用する場合、ポケモンの情報がなくなってしまうと不具合が発生するため、入力情報がない場合は更新させないようにした
+        if (selectedPokemon) {
+          this.$store.commit("updateCurrentPokemon", selectedPokemon);
+        }
         (document.activeElement as HTMLElement).blur(); // ポケモンを更新後、フォーカスを外す
       },
     },

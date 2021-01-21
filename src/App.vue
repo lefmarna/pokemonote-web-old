@@ -165,9 +165,9 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-// Bootstrapの色を参照
-$primary: #1876d1;
-$danger: #dc3545;
+// Vuetifyのテーマカラー
+$primary: #1976d2;
+$danger: #d32f2f;
 // ハートの色
 $heart1: #bbdefb;
 $heart2: #90caf9;
@@ -204,6 +204,18 @@ $breakpoint-iPhoneSE: 320px;
   @include iPhoneSE() {
     font-size: 1.13rem !important;
   }
+}
+
+// iOSのSafariではdisabledに透過がかかって非常に読みにくいので、opacityを明示的に指定している
+input[disabled],
+textarea[disabled],
+select[disabled="disabled"] {
+  opacity: 1;
+}
+
+// ダブルタップによる拡大・縮小を無効化(スマホのUIを向上させる目的)
+button {
+  touch-action: manipulation;
 }
 
 // ハートの背景をCSSで設計する
@@ -269,7 +281,7 @@ h2:after {
 }
 .statsTable {
   /* ステータスの入力時にハイライトをつけて見やすくする */
-  .row:hover:not(:last-child) {
+  .row:hover:not(:nth-last-child(-n + 2)) {
     background-color: #eee;
   }
   // 文字の色を変えることで、性格補正を分かりやすく！
@@ -324,6 +336,11 @@ h2:after {
     }
     @include iPhoneSE {
       min-width: 2.8em !important;
+    }
+  }
+  .hiddenPower {
+    @include iPhoneSE {
+      font-size: 82%;
     }
   }
 }
