@@ -746,17 +746,28 @@ export default Vue.extend({
     },
     // 計算結果を出力する
     outputResult(index: number): void {
-      // 配列は『mutable』なオブジェクトなため、複製して別の変数に入れている
-      const realNumbers = [...this.realNumbers];
+      // 配列は『mutable』なオブジェクトなため、複製して別の変数に代入。不問箇所を*で表示したいため、String型も許可している。
+      const realNumbers: (string | number)[] = [...this.realNumbers];
+
+      // 不問の値を * で表示させる
+      if (this.attackCheck) {
+        realNumbers[1] = "*";
+      }
+      if (this.spAttackCheck) {
+        realNumbers[3] = "*";
+      }
+
       // 各行に出力する初期値を設定
-      const line1 = `${this.$store.getters.currentPokemon.name} ${this.currentNature.name}`;
+      const line1 = `${this.$store.getters.currentPokemon.name} ${this.currentNature.name}`; // １行目にはポケモン名と性格を表示させている
       let line2 = "";
-      let line3 = `${realNumbers[0]}-`;
+      const line3 = `${realNumbers[0]}-${realNumbers[1]}-${realNumbers[2]}-${realNumbers[3]}-${realNumbers[4]}-${realNumbers[5]}`;
       let line4 = "";
       let line5 = `${this.physicalDurability + this.specialDurability}-${
         this.physicalDurability
       }-${this.specialDurability}`;
-      // 2行目 - 努力値が振られている場合は()で囲み、そうでなければそのまま表示させる
+
+      /* 2行目 ここから */
+      // 努力値が振られている場合は()で囲み、そうでなければそのまま表示させる
       // 努力値が252とそれ以外の箇所に分け、それぞれ配列に格納
       const maxEv = this.stats.filter((stat) => stat.effortValue == 252);
       const noMaxEv = this.stats.filter(
@@ -772,18 +783,12 @@ export default Vue.extend({
           line2 += `(${this.stats[i].effortValue})`;
         }
       }
-      // 3行目 - 不問の値を * で表示させる
-      if (this.attackCheck) {
-        line3 += `*-${realNumbers[2]}-`;
-      } else {
-        line3 += `${realNumbers[1]}-${realNumbers[2]}-`;
-      }
-      if (this.spAttackCheck) {
-        line3 += `*-${realNumbers[4]}-${realNumbers[5]}`;
-      } else {
-        line3 += `${realNumbers[3]}-${realNumbers[4]}-${realNumbers[5]}`;
-      }
-      // 4行目 - 252振りの箇所が2箇所以上あれば、それを1箇所にまとめて表示させる
+      /* 2行目 ここまで */
+
+      /* 3行目は最初に代入済み */
+
+      /* 4行目 ここから */
+      // 252振りの箇所が2箇所以上あれば、それを1箇所にまとめて表示させる
       if (maxEv.length >= 2) {
         // 252振りの箇所は先に
         for (let i = 0, len = maxEv.length; i < len; i++) {
@@ -807,7 +812,10 @@ export default Vue.extend({
           }
         }
       }
-      // 5行目 - 持ち物があれば、耐久指数の箇所に持ち物も出力する
+      /* 4行目 ここまで */
+
+      /* 5行目 ここから*/
+      // 持ち物があれば、耐久指数の箇所に持ち物も出力する
       if (this.itemGroup == "とつげきチョッキ") {
         line5 += "(チョッキ)";
       } else if (
@@ -816,7 +824,9 @@ export default Vue.extend({
       ) {
         line5 += "(輝石)";
       }
-      // 努力値が振られているときは努力値も出力、無振りのときは努力値を出力しない
+      /* 5行目 ここまで*/
+
+      // 努力値が振られているときは努力値(3, 4行目)も出力、無振りのときは努力値(3, 4行目)を出力しない
       if (this.stats.some((stat) => stat.effortValue > 0)) {
         this.calcAreas.splice(
           index,
