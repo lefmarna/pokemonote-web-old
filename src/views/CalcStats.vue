@@ -779,7 +779,7 @@ export default Vue.extend({
           line2 += "-";
         }
         line2 += String(realNumbers[i]);
-        if (this.stats[i].effortValue > 0) {
+        if (this.stats[i].effortValue > 0 && realNumbers[i] != "*") {
           line2 += `(${this.stats[i].effortValue})`;
         }
       }
