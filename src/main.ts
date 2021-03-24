@@ -9,6 +9,13 @@ import Ads from "vue-google-adsense";
 Vue.use(require("vue-script2")); // eslint-disable-line
 Vue.use(Ads.Adsense);
 
+// SPAでもGoogleアナリティクスを使うための設定
+import VueAnalytics from "vue-analytics";
+Vue.use(VueAnalytics, {
+  id: "UA-147275438-3",
+  router,
+});
+
 // プロダクションのヒントを表示しない
 Vue.config.productionTip = false;
 
