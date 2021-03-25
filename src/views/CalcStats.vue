@@ -138,8 +138,7 @@
                 <p class="mb-0">{{ totalBaseStats }}</p>
               </v-col>
               <v-col class="d-flex justify-center">
-                <span class="pr-1" :class="totalIvCheck">{{ totalIv }}</span
-                >/&nbsp;186
+                <span class="pr-1" :class="totalIvCheck">{{ totalIv }}</span>
               </v-col>
               <v-col class="d-flex justify-center">
                 <span class="pr-1" :class="totalEvCheck">{{ totalEv }}</span
