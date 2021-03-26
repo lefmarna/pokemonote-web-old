@@ -137,7 +137,7 @@
               <v-col cols="2" class="d-flex justify-center">
                 <p class="mb-0">{{ totalBaseStats }}</p>
               </v-col>
-              <v-col class="d-flex justify-center">
+              <v-col cols="3" class="d-flex justify-center">
                 <span class="pr-1" :class="totalIvCheck">{{ totalIv }}</span>
               </v-col>
               <v-col class="d-flex justify-center">
