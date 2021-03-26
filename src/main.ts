@@ -12,7 +12,7 @@ Vue.use(Ads.Adsense);
 // SPAでもGoogleアナリティクスを使うための設定
 import VueAnalytics from "vue-analytics";
 Vue.use(VueAnalytics, {
-  id: "UA-147275438-3",
+  id: process.env.VUE_APP_ANALYTICS,
   router,
 });
 
