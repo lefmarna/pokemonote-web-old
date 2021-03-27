@@ -3,7 +3,6 @@ import Vue from "vue";
 export default Vue.extend({
   computed: {
     // ローマ字の変換表
-    // eslint-disable-next-line @typescript-eslint/camelcase
     $_romanConversionTable() {
       return {
         a: "ア",
@@ -216,7 +215,6 @@ export default Vue.extend({
       return (itemName || "").indexOf(katakana) > -1;
     },
     // ローマ字をカタカナに変換する関数
-    // eslint-disable-next-line @typescript-eslint/camelcase
     $_convertRomanToKana(queryText: string) {
       const LowerCaseText = queryText.toLowerCase(); // 大文字を小文字に変更
       let result = ""; // result：最終的に返すテキストを格納していく変数
