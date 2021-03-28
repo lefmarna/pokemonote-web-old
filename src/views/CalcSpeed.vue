@@ -297,10 +297,7 @@
         </v-simple-table>
       </v-col>
     </v-row>
-    <Adsense
-      data-ad-client="ca-pub-3240586325286249"
-      data-ad-slot="3353369882"
-    ></Adsense>
+    <Adsense />
   </v-container>
 </template>
 
@@ -309,6 +306,7 @@ import Vue from "vue";
 import CalcButton from "@/components/CalcButton.vue";
 import SearchPokemon from "@/components/SearchPokemon.vue";
 import SearchNature from "@/components/SearchNature.vue";
+import Adsense from "@/components/Adsense.vue";
 
 export type DataType = {
   tailwind: number;
@@ -332,6 +330,7 @@ export default Vue.extend({
     CalcButton,
     SearchPokemon,
     SearchNature,
+    Adsense,
   },
   data: (): DataType => ({
     tailwind: 1,

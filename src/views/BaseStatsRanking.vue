@@ -46,16 +46,14 @@
         ></v-data-table>
       </v-col>
     </v-row>
-    <Adsense
-      data-ad-client="ca-pub-3240586325286249"
-      data-ad-slot="3353369882"
-    ></Adsense>
+    <Adsense />
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import PokemonData from "@/components/pokemon_data.json";
+import Adsense from "@/components/Adsense.vue";
 
 export type DataType = {
   pokemonList: {
@@ -75,6 +73,9 @@ export type DataType = {
 };
 
 export default Vue.extend({
+  components: {
+    Adsense,
+  },
   data: (): DataType => ({
     pokemonList: PokemonData, // ポケモンのデータはjsonファイルにまとめてあるため、そちらから取得する
     // 【特別なポケモンを表示する】
