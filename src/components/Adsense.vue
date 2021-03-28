@@ -1,7 +1,6 @@
 <template>
-  <!-- prettier-ignore -->
   <Adsense
-    data-ad-client=VUE_APP_ADSENSE_CLIENT
-    data-ad-slot=VUE_APP_ADSENSE_SLOT
+    data-ad-client="ca-pub-3240586325286249"
+    data-ad-slot="3353369882"
   ></Adsense>
 </template>
