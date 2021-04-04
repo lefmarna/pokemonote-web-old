@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
+import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -58,12 +59,53 @@ const routes: Array<RouteConfig> = [
       title: "サイトマップ",
     },
   },
+  {
+    path: "/login",
+    name: "ログイン",
+    component: () => import("../views/Login.vue"),
+    beforeEnter(to, from, next) {
+      if (store.getters.accessToken) {
+        next("/");
+      } else {
+        next();
+      }
+    },
+  },
+  {
+    path: "/registration",
+    name: "新規登録",
+    component: () => import("../views/Registration.vue"),
+    beforeEnter(to, from, next) {
+      if (store.getters.accessToken) {
+        next("/");
+      } else {
+        next();
+      }
+    },
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  // ログイン認証が必要なルートがあるかを確認
+  if (to.matched.some((record) => record.meta.requireAuth)) {
+    if (!store.getters.accessToken) {
+      // 認証していなければログインページにリダイレクト
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath },
+      });
+    } else {
+      next();
+    }
+  } else {
+    next(); // 認証の必要がないルートであればnext()で遷移
+  }
 });
 
 export default router;

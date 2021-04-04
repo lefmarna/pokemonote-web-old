@@ -45,7 +45,9 @@
         </v-list>
       </v-container>
     </v-navigation-drawer>
+    <!-- ヘッダーの設定 -->
     <v-app-bar app color="primary" dark>
+      <!-- ヘッダー左側 -->
       <v-app-bar-nav-icon @click="drawer = !drawer" />
       <div class="d-flex align-center">
         <v-img
@@ -58,6 +60,15 @@
         />
       </div>
       <v-toolbar-title>ポケモニット アプリ</v-toolbar-title>
+      <v-spacer />
+      <!-- ヘッダー右側 -->
+      <v-toolbar-items v-if="accessToken && client && uid">
+        <v-btn text @click="logout">ログアウト</v-btn>
+      </v-toolbar-items>
+      <v-toolbar-items v-else>
+        <v-btn text to="/login">ログイン</v-btn>
+        <v-btn text to="/registration">新規登録</v-btn>
+      </v-toolbar-items>
     </v-app-bar>
 
     <v-main>
@@ -117,6 +128,17 @@ export default Vue.extend({
       },
     ],
   }),
+  computed: {
+    accessToken() {
+      return this.$store.getters.accessToken;
+    },
+    client() {
+      return this.$store.getters.client;
+    },
+    uid() {
+      return this.$store.getters.uid;
+    },
+  },
   mounted() {
     const to = this.$route;
     this.createPageTitle(to.meta);
@@ -127,6 +149,10 @@ export default Vue.extend({
     },
   },
   methods: {
+    // ログアウトの処理はタイムアウトでも用いるため、Vuexから呼び出している
+    logout() {
+      this.$store.dispatch("logout");
+    },
     /* ページが遷移したときにメタタグを書き換える */
     createPageTitle(meta: { title: string; desc: string }) {
       // titleを取得
