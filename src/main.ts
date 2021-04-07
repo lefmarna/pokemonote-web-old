@@ -3,15 +3,10 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
+import axios from "axios";
 
 // axiosのデフォルトURLを指定すると、他の箇所で省略して書くことができる
-import axios from "axios";
 axios.defaults.baseURL = "http://localhost:3000/v1";
-
-// Google AdSense ディスプレイ広告のみ利用する設定
-import Ads from "vue-google-adsense";
-Vue.use(require("vue-script2")); // eslint-disable-line
-Vue.use(Ads.Adsense);
 
 // SPAでもGoogleアナリティクスを使うための設定
 import VueAnalytics from "vue-analytics";

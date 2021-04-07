@@ -271,7 +271,6 @@
         </v-container>
       </v-col>
     </v-row>
-    <Adsense />
   </v-container>
 </template>
 
@@ -280,7 +279,6 @@ import Vue from "vue";
 import CalcButton from "@/components/CalcButton.vue";
 import SearchPokemon from "@/components/SearchPokemon.vue";
 import SearchNature from "@/components/SearchNature.vue";
-import Adsense from "@/components/Adsense.vue";
 
 export type DataType = {
   itemGroup: string;
@@ -294,7 +292,6 @@ export default Vue.extend({
     CalcButton,
     SearchPokemon,
     SearchNature,
-    Adsense,
   },
   data: (): DataType => ({
     itemGroup: "持ち物なし",
