@@ -29,6 +29,7 @@
               ログイン
             </v-btn>
           </v-card-actions>
+          <ErrorMeessages :errors="errors" />
         </v-form>
       </v-card-text>
     </v-card>
@@ -38,17 +39,23 @@
 <script lang="ts">
 import axios from "axios";
 import router from "@/router";
+import ErrorMeessages from "@/components/ErrorMessages.vue";
 
 export type DataType = {
   email: string;
   password: string;
+  errors: string[];
 };
 
 export default {
   name: "login",
+  components: {
+    ErrorMeessages,
+  },
   data: (): DataType => ({
     email: "",
     password: "",
+    errors: [],
   }),
   methods: {
     login(): void {
@@ -67,7 +74,7 @@ export default {
           router.push("/");
         })
         .catch((error) => {
-          console.log(error);
+          this.errors = error.response.data.errors;
         });
     },
   },

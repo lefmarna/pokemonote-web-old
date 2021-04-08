@@ -41,6 +41,7 @@
               新規登録
             </v-btn>
           </v-card-actions>
+          <ErrorMeessages :errors="errors" />
         </v-form>
       </v-card-text>
     </v-card>
@@ -50,21 +51,27 @@
 <script lang="ts">
 import axios from "axios";
 import router from "@/router";
+import ErrorMeessages from "@/components/ErrorMessages.vue";
 
 export type DataType = {
   name: string;
   email: string;
   password: string;
   password_confirmation: string;
+  errors: string[];
 };
 
 export default {
   name: "register",
+  components: {
+    ErrorMeessages,
+  },
   data: (): DataType => ({
     name: "",
     email: "",
     password: "",
     password_confirmation: "",
+    errors: [],
   }),
   methods: {
     register(): void {
@@ -84,7 +91,7 @@ export default {
           router.push("/");
         })
         .catch((error) => {
-          console.log(error);
+          this.errors = error.response.data.errors.full_messages;
         });
     },
   },
