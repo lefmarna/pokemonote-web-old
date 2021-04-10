@@ -151,9 +151,11 @@ export default new Vuex.Store({
         commit("updateClient", localStorage.getItem("client"));
         commit("updateUid", localStorage.getItem("uid"));
         // ログインできた場合は、認証情報も送信するようにする
-        axios.defaults.headers.common["access-token"] = getters.accessToken;
-        axios.defaults.headers.common["uid"] = getters.uid;
-        axios.defaults.headers.common["client"] = getters.client;
+        axios.defaults.headers.common = {
+          ["access-token"]: getters.accessToken,
+          ["uid"]: getters.uid,
+          ["client"]: getters.client,
+        };
       }
     },
     logout({ commit }) {
@@ -182,9 +184,11 @@ export default new Vuex.Store({
       commit("updateClient", authData.client);
       commit("updateUid", authData.uid);
       // axiosでの通信において必要な認証情報を送信するようにする
-      axios.defaults.headers.common["access-token"] = authData.accessToken;
-      axios.defaults.headers.common["uid"] = authData.uid;
-      axios.defaults.headers.common["client"] = authData.client;
+      axios.defaults.headers.common = {
+        ["access-token"]: authData.accessToken,
+        ["uid"]: authData.uid,
+        ["client"]: authData.client,
+      };
       // ローカルストレージに認証情報を保存する（次回以降の自動ログインに使用する）
       localStorage.setItem("userId", authData.userId);
       localStorage.setItem("accessToken", authData.accessToken);
