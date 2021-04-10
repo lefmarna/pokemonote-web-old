@@ -83,6 +83,25 @@ const routes: Array<RouteConfig> = [
       }
     },
   },
+  {
+    path: "/users",
+    name: "ユーザ一覧",
+    component: () => import("../views/users/Index.vue"),
+  },
+  {
+    path: "/users/:id(\\d+)", // IDは数値のみを許可
+    name: "ユーザ詳細",
+    component: () => import("../views/users/Show.vue"),
+    props: (route) => ({ id: Number(route.params.id) }),
+  },
+  {
+    path: "/test",
+    name: "テスト",
+    component: () => import("../views/Test.vue"),
+    meta: {
+      requireAuth: true,
+    },
+  },
 ];
 
 const router = new VueRouter({

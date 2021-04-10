@@ -105,6 +105,21 @@ export default Vue.extend({
         link: "/base-stats-ranking",
       },
       {
+        name: "ユーザー一覧",
+        icon: "mdi-account-group",
+        link: "/users",
+      },
+      {
+        name: "チップを送る",
+        icon: "mdi-gift",
+        link: "/send-tip",
+      },
+      {
+        name: "テスト",
+        icon: "mdi-cog",
+        link: "/test",
+      },
+      {
         name: "利用規約",
         icon: "mdi-comment-alert",
         link: "/privacy-policy",
@@ -125,6 +140,11 @@ export default Vue.extend({
         name: "お問い合わせ",
         icon: "mdi-email",
         link: "https://pokemonit.com/otoiawase/",
+      },
+      {
+        name: "設定",
+        icon: "mdi-cog",
+        link: "/send-tip",
       },
     ],
   }),

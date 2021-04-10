@@ -1,0 +1,54 @@
+<template>
+  <v-card>
+    <v-card-title>
+      ユーザー一覧
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table :headers="headers" :items="users" :search="search">
+      <!-- v-slotを使うことで、nameにリンクを設定する -->
+      <template v-slot:[`item.name`]="{ item }">
+        <router-link :to="`/users/${item.id}`">
+          {{ item.name }}
+        </router-link>
+      </template>
+    </v-data-table>
+  </v-card>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+import axios from "axios";
+
+export default Vue.extend({
+  data: () => ({
+    users: [],
+    pokemons: [],
+    search: "",
+    headers: [
+      {
+        text: "ID",
+        sortable: false,
+        value: "id",
+      },
+      { text: "ユーザー名", sortable: false, value: "name" },
+    ],
+  }),
+  created() {
+    axios
+      .get("/users")
+      .then((response) => {
+        this.users = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+});
+</script>
