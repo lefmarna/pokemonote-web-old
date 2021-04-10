@@ -265,20 +265,20 @@ button {
 }
 
 // ハートの背景をCSSで設計する
-#app {
-  background-color: #e3f2fd;
-  background-image: linear-gradient(135deg, $heart1 0.85em, transparent 0),
-    linear-gradient(-135deg, $heart1 0.85em, transparent 0),
-    radial-gradient(circle at 7.4em 7.4em, $heart1 0.85em, transparent 0.85em),
-    radial-gradient(circle at 0.56em 7.4em, $heart1 0.85em, transparent 0.85em),
-    linear-gradient(135deg, #90caf9 0.85em, transparent 0),
-    linear-gradient(-135deg, $heart2 0.85em, transparent 0),
-    radial-gradient(circle at 7.4em 7.4em, $heart2 0.85em, transparent 0.85em),
-    radial-gradient(circle at 0.56em 7.4em, $heart2 0.85em, transparent 0.85em);
-  background-position: 0 4em, 0 4em, 0 -4em, 0 -4em, 4em 0, 4em 0, 4em 0, 4em 0;
-  background-size: 8em 8em;
-  background-repeat: repeat;
-}
+// #app {
+//   background-color: #e3f2fd;
+//   background-image: linear-gradient(135deg, $heart1 0.85em, transparent 0),
+//     linear-gradient(-135deg, $heart1 0.85em, transparent 0),
+//     radial-gradient(circle at 7.4em 7.4em, $heart1 0.85em, transparent 0.85em),
+//     radial-gradient(circle at 0.56em 7.4em, $heart1 0.85em, transparent 0.85em),
+//     linear-gradient(135deg, #90caf9 0.85em, transparent 0),
+//     linear-gradient(-135deg, $heart2 0.85em, transparent 0),
+//     radial-gradient(circle at 7.4em 7.4em, $heart2 0.85em, transparent 0.85em),
+//     radial-gradient(circle at 0.56em 7.4em, $heart2 0.85em, transparent 0.85em);
+//   background-position: 0 4em, 0 4em, 0 -4em, 0 -4em, 4em 0, 4em 0, 4em 0, 4em 0;
+//   background-size: 8em 8em;
+//   background-repeat: repeat;
+// }
 
 // リボン風の見出しを作る
 h2 {
