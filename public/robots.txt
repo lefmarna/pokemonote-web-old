@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /privacy-policy
 
-Sitemap: https://app.pokemonit.com/sitemap.xml
+Sitemap: https://pokemonote.com/sitemap.xml
