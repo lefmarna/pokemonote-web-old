@@ -427,10 +427,10 @@ export default Vue.extend({
     },
     // 種族値の合計値を計算する
     totalBaseStats(): number {
+      // reduce を使うと型が unknown になってしまうため、計算時にNumber関数を使って計算している
       return Object.values(this.currentPokemon.stats).reduce(
-        (sum: number, stat: number) => {
-          // 空白の箇所が存在すると、数値が連結された表示になってしまうため、0以上の整数であるかどうかをチェックしてから加算する処理を記載した
-          sum += stat;
+        (sum: number, stat) => {
+          sum += Number(stat);
           return sum;
         },
         0

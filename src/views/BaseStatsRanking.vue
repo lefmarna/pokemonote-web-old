@@ -141,33 +141,33 @@ export default Vue.extend({
       // 『メガシンカ』にチェックがついていないときは表示させない
       if (!this.displayAttributePokemons.mega) {
         pokemonList = pokemonList.filter(
-          (pokemonData) =>
+          (pokemonData: any) =>
             !pokemonData.attributes.some((attr) => attr == "mega")
         );
       }
       // 『伝説』にチェックがついていないときは表示させない
       if (!this.displayAttributePokemons.legendary) {
         pokemonList = pokemonList.filter(
-          (pokemonData) =>
+          (pokemonData: any) =>
             !pokemonData.attributes.some((attr) => attr == "legendary")
         );
       }
       // 『幻』にチェックがついていないときは表示させない
       if (!this.displayAttributePokemons.mythical) {
         pokemonList = pokemonList.filter(
-          (pokemonData) =>
+          (pokemonData: any) =>
             !pokemonData.attributes.some((attr) => attr == "mythical")
         );
       }
       // 『剣盾に登場しないポケモン』にチェックがついていないときは表示させない
       if (!this.displayAttributePokemons.NotInPokedex) {
         pokemonList = pokemonList.filter(
-          (pokemonData) =>
+          (pokemonData: any) =>
             !pokemonData.attributes.some((attr) => attr == "NotInPokedex")
         );
       }
       // 全てのオブジェクトで合計(total)を計算する
-      pokemonList = pokemonList.map((array) => {
+      pokemonList = pokemonList.map((array: any) => {
         // statsの各数値のみを抽出し、配列に格納する
         const stats = Object.values(array.stats);
         // 配列の要素数が変わってしまうため、後ろから順に削除していく必要がある
@@ -181,8 +181,8 @@ export default Vue.extend({
           stats.splice(1, 1);
         }
         // 配列の中の整数を全て合計して返す
-        array.total = stats.reduce((sum: number, value: number) => {
-          sum += value;
+        array.total = stats.reduce((sum: number, value) => {
+          sum += Number(value);
           return sum;
         }, 0);
         return array;

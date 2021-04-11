@@ -3,7 +3,9 @@
     "target": "esnext",
     "module": "esnext",
     "strict": true,
-    "strictNullChecks": false, // Nullを警告しない
+    "noImplicitAny": false, // any型をエラーにしない
+    "noImplicitThis": false, // thisがanyでもエラーにしない
+    "strictNullChecks": false, // nullをエラーにしない
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
