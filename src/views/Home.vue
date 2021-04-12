@@ -2,7 +2,7 @@
   <div>
     <div class="jumbotron title py-sm-16 py-8 px-3 text-center">
       <h1 class="mt-4 mb-2 white--text font-weight-bold">
-        ポケモニット アプリ
+        ポケモノート
       </h1>
       <p class="white--text subtitle-1">
         ポケモンをより楽しむためのWebアプリ
@@ -209,11 +209,11 @@
         <v-col cols="12">
           <div class="contents">
             <h2 class="headline font-weight-bold ma-2 mb-3 text-center">
-              ポケモニット アプリについて
+              ポケモノートについて
             </h2>
             <div class="px-2">
               <p>
-                『ポケモニット アプリ』は、ポケモンの攻略ブログ『<a
+                『ポケモノート』は、ポケモンの攻略ブログ『<a
                   href="https://pokemonit.com/"
                   target="_blank"
                   rel="noopener noreferrer"

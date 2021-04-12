@@ -3,7 +3,7 @@
     <v-navigation-drawer v-model="drawer" app>
       <v-container>
         <v-list-item>
-          ポケモニット アプリ
+          ポケモノート
         </v-list-item>
         <v-divider></v-divider>
         <v-list dense nav>
@@ -41,7 +41,7 @@
         </v-list>
         <v-divider />
         <v-list class="bottomFooter__copyright">
-          © Copyright 2020 ポケモニット.
+          © Copyright 2021 ポケモノート.
         </v-list>
       </v-container>
     </v-navigation-drawer>
@@ -51,7 +51,7 @@
       <v-app-bar-nav-icon @click="drawer = !drawer" />
       <div class="d-flex align-center">
         <v-img
-          alt="ポケモニット アプリ"
+          alt="ポケモノート"
           class="shrink mr-2"
           contain
           src="./assets/lefmarna.png"
@@ -59,7 +59,7 @@
           width="40"
         />
       </div>
-      <v-toolbar-title>ポケモニット アプリ</v-toolbar-title>
+      <v-toolbar-title>ポケモノート</v-toolbar-title>
       <v-spacer />
       <!-- ヘッダー右側 -->
       <v-toolbar-items v-if="accessToken && client && uid">
@@ -127,21 +127,6 @@ export default Vue.extend({
     ],
     otherMenuLists: [
       {
-        name: "ポケモニット（ブログ）",
-        icon: "mdi-wordpress",
-        link: "https://pokemonit.com/",
-      },
-      {
-        name: "Twitter",
-        icon: "mdi-twitter",
-        link: "https://twitter.com/lefmarna/",
-      },
-      {
-        name: "お問い合わせ",
-        icon: "mdi-email",
-        link: "https://pokemonit.com/otoiawase/",
-      },
-      {
         name: "設定",
         icon: "mdi-cog",
         link: "/send-tip",
@@ -180,9 +165,9 @@ export default Vue.extend({
         "meta[name='twitter:title'], meta[property='og:title']"
       );
       // titleが存在する場合は書き換え、存在しない場合はデフォルトに設定
-      let rewriteTitle = "ポケモニット アプリ";
+      let rewriteTitle = "ポケモノート";
       if (meta.title) {
-        rewriteTitle = meta.title + " | ポケモニット アプリ";
+        rewriteTitle = meta.title + " | ポケモノート";
       }
       for (let i = 0, len = currentTitle.length; i < len; i++) {
         currentTitle[i].setAttribute("content", rewriteTitle);
@@ -201,7 +186,7 @@ export default Vue.extend({
         for (let i = 0, len = currentDesc.length; i < len; i++) {
           currentDesc[i].setAttribute(
             "content",
-            "ポケモンの攻略ブログ『ポケモニット』の管理人である『レフマーナ』の自作アプリ集です。ポケモン剣盾に対応した、ステータス計算機や素早さ計算機、種族値ランキングといったWebアプリを公開しています。『シンプルで高機能』なツールにこだわって制作していますので、是非お試しください。"
+            "ポケモンのステータスを計算・管理するためのWebアプリ『ポケモノート』へようこそ！ 素早さ計算機や剣盾に対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。"
           );
         }
       }
