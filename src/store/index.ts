@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import router from "@/router";
 import axios from "axios";
+import pokemons from "./pokemons";
 
 Vue.use(Vuex);
 
@@ -12,91 +13,12 @@ export default new Vuex.Store({
     accessToken: null,
     client: null,
     uid: null,
-
-    // ポケモン関連のパラメータ
-    currentPokemon: {
-      no: 645,
-      name: "ランドロス(霊獣)",
-      form: "れいじゅうフォルム",
-      evolutions: [],
-      types: ["じめん", "ひこう"],
-      abilities: ["いかく"],
-      hiddenAbilities: [],
-      stats: {
-        hp: 89,
-        attack: 145,
-        defence: 90,
-        spAttack: 105,
-        spDefence: 80,
-        speed: 91,
-      },
-    },
-    lv: 50,
-    currentNature: {
-      name: "がんばりや",
-      stats: {
-        hp: 1.0,
-        attack: 1.0,
-        defence: 1.0,
-        spAttack: 1.0,
-        spDefence: 1.0,
-        speed: 1.0,
-      },
-    },
-    stats: [
-      {
-        en: "hp",
-        ja: "ＨＰ",
-        abbreviation: "H",
-        individualValue: 31,
-        effortValue: null,
-      },
-      {
-        en: "attack",
-        ja: "こうげき",
-        abbreviation: "A",
-        individualValue: 31,
-        effortValue: null,
-      },
-      {
-        en: "defence",
-        ja: "ぼうぎょ",
-        abbreviation: "B",
-        individualValue: 31,
-        effortValue: null,
-      },
-      {
-        en: "spAttack",
-        ja: "とくこう",
-        abbreviation: "C",
-        individualValue: 31,
-        effortValue: null,
-      },
-      {
-        en: "spDefence",
-        ja: "とくぼう",
-        abbreviation: "D",
-        individualValue: 31,
-        effortValue: null,
-      },
-      {
-        en: "speed",
-        ja: "すばやさ",
-        abbreviation: "S",
-        individualValue: 31,
-        effortValue: null,
-      },
-    ],
   },
   getters: {
     userId: (state) => state.userId,
     accessToken: (state) => state.accessToken,
     client: (state) => state.client,
     uid: (state) => state.uid,
-    currentPokemon: (state) => state.currentPokemon,
-    currentNature: (state) => state.currentNature,
-    lv: (state) => state.lv,
-    stats: (state) => state.stats,
   },
   mutations: {
     updateUserId(state, userId) {
@@ -110,18 +32,6 @@ export default new Vuex.Store({
     },
     updateUid(state, uid) {
       state.uid = uid;
-    },
-    updateCurrentPokemon(state, selectedPokemon) {
-      state.currentPokemon = selectedPokemon;
-    },
-    updateCurrentNature(state, selectedNature) {
-      state.currentNature = selectedNature;
-    },
-    updateLv(state, value) {
-      state.lv = value;
-    },
-    updateStats(state, value) {
-      state.stats = value;
     },
   },
   actions: {
@@ -195,5 +105,8 @@ export default new Vuex.Store({
       localStorage.setItem("client", authData.client);
       localStorage.setItem("uid", authData.uid);
     },
+  },
+  modules: {
+    pokemons,
   },
 });
