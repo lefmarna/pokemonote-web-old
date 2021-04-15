@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const state = {
   currentPokemon: {
     no: 645,

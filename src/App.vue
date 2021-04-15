@@ -2,9 +2,7 @@
   <v-app>
     <v-navigation-drawer v-model="drawer" app>
       <v-container>
-        <v-list-item>
-          ポケモノート
-        </v-list-item>
+        <v-list-item>ポケモノート</v-list-item>
         <v-divider></v-divider>
         <v-list dense nav>
           <v-list-item
@@ -21,9 +19,7 @@
           </v-list-item>
         </v-list>
         <v-divider />
-        <v-list-item>
-          その他
-        </v-list-item>
+        <v-list-item>その他</v-list-item>
         <v-divider />
         <v-list dense nav>
           <v-list-item

@@ -50,9 +50,9 @@
                 <v-text-field
                   label="種族値"
                   placeholder="0"
-                  :value="
-                    `${stat.abbreviation}${currentPokemon.stats[stat.en]}`
-                  "
+                  :value="`${stat.abbreviation}${
+                    currentPokemon.stats[stat.en]
+                  }`"
                   disabled
                 ></v-text-field>
               </v-col>
@@ -190,10 +190,10 @@
               <p class="mb-2">
                 総合耐久：{{ physicalDurability + specialDurability }}
               </p>
-              <p class="mb-2" style="padding-left: 2em;">
+              <p class="mb-2" style="padding-left: 2em">
                 物理：{{ physicalDurability }}
               </p>
-              <p class="mb-0" style="padding-left: 2em;">
+              <p class="mb-0" style="padding-left: 2em">
                 特殊：{{ specialDurability }}
               </p>
             </v-col>

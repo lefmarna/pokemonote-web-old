@@ -34,7 +34,7 @@
       </v-col>
       <v-col>
         <v-data-table
-          style="border-top: thin solid rgba(0, 0, 0, 0.12);"
+          style="border-top: thin solid rgba(0, 0, 0, 0.12)"
           :headers="headers"
           :items="pokemonListInTotal"
           :items-per-page="10"

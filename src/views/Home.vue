@@ -1,12 +1,8 @@
 <template>
   <div>
     <div class="jumbotron title py-sm-16 py-8 px-3 text-center">
-      <h1 class="mt-4 mb-2 white--text font-weight-bold">
-        ポケモノート
-      </h1>
-      <p class="white--text subtitle-1">
-        ポケモンをより楽しむためのWebアプリ
-      </p>
+      <h1 class="mt-4 mb-2 white--text font-weight-bold">ポケモノート</h1>
+      <p class="white--text subtitle-1">ポケモンをより楽しむためのWebアプリ</p>
     </div>
     <v-container>
       <v-row class="d-flex my-sm-2">

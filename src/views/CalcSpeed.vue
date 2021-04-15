@@ -50,9 +50,7 @@
                 <v-text-field
                   label="種族値"
                   placeholder="0"
-                  :value="
-                    `${stats[5].abbreviation}${currentPokemon.stats['speed']}`
-                  "
+                  :value="`${stats[5].abbreviation}${currentPokemon.stats['speed']}`"
                   disabled
                 ></v-text-field>
               </v-col>
@@ -190,7 +188,7 @@
           v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs"
           vertical
         />
-        <v-simple-table style="width: 100%;">
+        <v-simple-table style="width: 100%">
           <thead>
             <tr>
               <th class="thead-align-center">ランク</th>
