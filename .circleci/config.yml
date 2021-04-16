@@ -12,13 +12,13 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - rails-demo-yarn-{{ checksum "yarn.lock" }}
-            - rails-demo-yarn-
+            - vue-demo-yarn-{{ checksum "yarn.lock" }}
+            - vue-demo-yarn-
       - run:
           name: "Yarn Install"
           command: yarn install --cache-folder ~/.cache/yarn
       - save_cache:
-          key: rails-demo-yarn-{{ checksum "yarn.lock" }}
+          key: vue-demo-yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
 
