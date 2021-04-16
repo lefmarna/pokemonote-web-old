@@ -13,9 +13,9 @@
     </v-card-title>
     <v-data-table :headers="headers" :items="users" :search="search">
       <!-- v-slotを使うことで、nameにリンクを設定する -->
-      <template v-slot:[`item.name`]="{ item }">
+      <template v-slot:[`item.nickname`]="{ item }">
         <router-link :to="`/users/${item.id}`">
-          {{ item.name }}
+          {{ item.username }}
         </router-link>
       </template>
     </v-data-table>
@@ -32,12 +32,9 @@ export default Vue.extend({
     pokemons: [],
     search: "",
     headers: [
-      {
-        text: "ID",
-        sortable: false,
-        value: "id",
-      },
-      { text: "ユーザー名", sortable: false, value: "name" },
+      { text: "ID", sortable: false, value: "id" },
+      { text: "ユーザー名", sortable: false, value: "username" },
+      { text: "表示名", sortable: false, value: "nickname" },
     ],
   }),
   created() {

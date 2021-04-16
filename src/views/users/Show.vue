@@ -1,10 +1,12 @@
 <template>
   <div>
+    <p v-if="user.image">{{ user.image }}</p>
     <p>ID：{{ user.id }}</p>
-    <p>名前：{{ user.name }}</p>
-    <router-link :to="`/users/${this.$store.getters.userId}`"
+    <p>ユーザー名：{{ user.username }}</p>
+    <p>表示名：{{ user.nickname }}</p>
+    <!-- <router-link :to="`/users/${this.$store.getters.userId}`"
       >マイページ</router-link
-    >
+    > -->
   </div>
 </template>
 
@@ -18,7 +20,6 @@ export default Vue.extend({
   }),
   props: { id: Number },
   created() {
-    // console.log(this.$route.params.id);
     axios
       .get(`/users/${this.$route.params.id}`)
       .then((response) => {

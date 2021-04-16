@@ -7,9 +7,14 @@
       <v-card-text>
         <v-form ref="form" lazy-validation>
           <v-text-field
-            v-model="name"
+            v-model="username"
             prepend-icon="mdi-account"
             label="ユーザー名"
+          />
+          <v-text-field
+            v-model="nickname"
+            prepend-icon="mdi-account"
+            label="表示名"
           />
           <v-text-field
             v-model="email"
@@ -52,7 +57,8 @@ import router from "@/router";
 import ErrorMeessages from "@/components/ErrorMessages.vue";
 
 export type DataType = {
-  name: string;
+  username: string;
+  nickname: string;
   email: string;
   password: string;
   password_confirmation: string;
@@ -65,7 +71,8 @@ export default {
     ErrorMeessages,
   },
   data: (): DataType => ({
-    name: "",
+    username: "",
+    nickname: "",
     email: "",
     password: "",
     password_confirmation: "",
@@ -75,13 +82,15 @@ export default {
     register(): void {
       axios
         .post("/auth", {
-          name: this.name,
+          username: this.username,
+          nickname: this.nickname,
           email: this.email,
           password: this.password,
           password_confirmation: this.password_confirmation,
         })
         .then((response) => {
           this.$store.dispatch("setAuthData", {
+            userId: response.data.data["id"],
             accessToken: response.headers["access-token"],
             client: response.headers["client"],
             uid: response.headers["uid"],
