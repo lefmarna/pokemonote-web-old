@@ -69,7 +69,13 @@ export default {
             client: response.headers["client"],
             uid: response.headers["uid"],
           });
-          router.push("/");
+          // 認証を求められてきた場合は元々の遷移先へ
+          if (this.$route.query.redirect) {
+            router.push(this.$route.query.redirect);
+            // そうでない場合はトップページへ
+          } else {
+            router.push("/");
+          }
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
