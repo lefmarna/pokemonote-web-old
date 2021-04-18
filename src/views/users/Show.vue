@@ -1,12 +1,11 @@
 <template>
   <div>
-    <p v-if="user.image">{{ user.image }}</p>
     <p>ID：{{ user.id }}</p>
     <p>ユーザー名：{{ user.username }}</p>
     <p>表示名：{{ user.nickname }}</p>
-    <!-- <router-link :to="`/users/${this.$store.getters.userId}`"
-      >マイページ</router-link
-    > -->
+    <v-avatar v-if="user.image" size="36px">
+      <img alt="アイコン" :src="user.image" />
+    </v-avatar>
   </div>
 </template>
 
