@@ -12,10 +12,10 @@
       ></v-text-field>
     </v-card-title>
     <v-data-table :headers="headers" :items="users" :search="search">
-      <!-- v-slotを使うことで、nameにリンクを設定する -->
+      <!-- v-slotを使うことで、nicknameにリンクを設定する -->
       <template v-slot:[`item.nickname`]="{ item }">
         <router-link :to="`/users/${item.id}`">
-          {{ item.username }}
+          {{ item.nickname }}
         </router-link>
       </template>
     </v-data-table>
