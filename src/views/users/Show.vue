@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>ID：{{ user.id }}</p>
+    <p>ID：{{ id }}</p>
     <p>ユーザー名：{{ user.username }}</p>
     <p>表示名：{{ user.nickname }}</p>
     <v-avatar v-if="user.image" size="36px">
@@ -18,15 +18,22 @@ export default Vue.extend({
     user: {},
   }),
   props: { id: Number },
-  created() {
-    axios
-      .get(`/users/${this.$route.params.id}`)
-      .then((response) => {
-        this.user = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  // コンポーネントの更新ではライフサイクルの初期化を行わないため、createdではなくwatchで監視している
+  watch: {
+    id: {
+      // immediate: true とすることで、初期描画時にもwatchが発火するようになる
+      immediate: true,
+      handler() {
+        axios
+          .get(`/users/${this.id}`)
+          .then((response) => {
+            this.user = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
+    },
   },
 });
 </script>
