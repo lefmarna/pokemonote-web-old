@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="user" v-if="user">
     <p>ID：{{ id }}</p>
     <p>ユーザー名：{{ user.username }}</p>
     <p>表示名：{{ user.nickname }}</p>
@@ -7,6 +7,7 @@
       <img alt="アイコン" :src="user.image" />
     </v-avatar>
   </div>
+  <div v-else>ユーザー情報を読み込んでいます...</div>
 </template>
 
 <script lang="ts">
