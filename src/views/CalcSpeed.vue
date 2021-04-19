@@ -42,15 +42,17 @@
                 :class="[
                   'justify-center',
                   {
-                    'text-danger': currentNature.stats['speed'] == 1.1,
-                    'text-primary': currentNature.stats['speed'] == 0.9,
+                    'text-danger':
+                      currentNature.attributes.stats['speed'] == 1.1,
+                    'text-primary':
+                      currentNature.attributes.stats['speed'] == 0.9,
                   },
                 ]"
               >
                 <v-text-field
                   label="種族値"
                   placeholder="0"
-                  :value="`${stats[5].abbreviation}${currentPokemon.stats['speed']}`"
+                  :value="`${stats[5].abbreviation}${currentPokemon.attributes.stats['speed']}`"
                   disabled
                 ></v-text-field>
               </v-col>
@@ -350,15 +352,18 @@ export default Vue.extend({
   computed: {
     // 将来的な拡張性を考慮して、ポケモン名や各種ステータスはVuexで管理している
     currentPokemon(): {
-      no: number;
-      name: string;
-      form: string;
-      evolutions: number[];
-      types: string[];
-      abilities: string[];
-      hiddenAbilities: string[];
-      stats: {
-        [key: string]: number;
+      attributes: {
+        no: number;
+        name: string;
+        form: string;
+        ranks: string[];
+        evolutions: number[];
+        types: string[];
+        abilities: string[];
+        hiddenAbilities: string[];
+        stats: {
+          [key: string]: number;
+        };
       };
     } {
       return this.$store.getters.currentPokemon;
@@ -455,14 +460,14 @@ export default Vue.extend({
       const effortValue = this.numberToInt(this.stats[5].effortValue);
       return Math.floor(
         (Math.floor(
-          ((this.currentPokemon.stats["speed"] * 2 +
+          ((this.currentPokemon.attributes.stats["speed"] * 2 +
             individualValue +
             Math.floor(effortValue / 4)) *
             lv) /
             100
         ) +
           5) *
-          this.currentNature.stats["speed"]
+          this.currentNature.attributes.stats["speed"]
       );
     },
     // 実数値から努力値の逆算を行う
@@ -471,13 +476,15 @@ export default Vue.extend({
       const lv = this.numberToInt(this.lv, 1);
       const individualValue = this.numberToInt(this.stats[5].individualValue);
       const effortValue = this.numberToInt(this.stats[5].effortValue);
-      const currentNatureStat = Number(this.currentNature.stats["speed"]);
+      const currentNatureStat = Number(
+        this.currentNature.attributes.stats["speed"]
+      );
       if (setValue % 11 === 10 && currentNatureStat === 1.1) {
         if (
           setValue >=
           Math.floor(
             (Math.floor(
-              ((this.currentPokemon.stats["speed"] * 2 +
+              ((this.currentPokemon.attributes.stats["speed"] * 2 +
                 individualValue +
                 Math.floor(effortValue / 4)) *
                 lv) /
@@ -499,7 +506,7 @@ export default Vue.extend({
       }
       setValue =
         (Math.ceil(((setValue - 5) * 100) / lv) -
-          this.currentPokemon.stats["speed"] * 2 -
+          this.currentPokemon.attributes.stats["speed"] * 2 -
           individualValue) *
         4;
       // 計算した値を代入する

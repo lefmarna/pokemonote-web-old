@@ -198,9 +198,9 @@ export default Vue.extend({
   },
   methods: {
     // ひらがなをすべてカタカナに変換し、一致する結果を返すフィルター
-    filterForSearch(item: { name: string }, queryText: string): boolean {
+    filterForSearch(item: any, queryText: string): boolean {
       // アイテム名のひらがなを全てカタカナに置き換える
-      const itemName = item.name.replace(/[ぁ-ん]/g, (t) =>
+      const itemName = item.attributes.name.replace(/[ぁ-ん]/g, (t) =>
         String.fromCharCode(t.charCodeAt(0) + 96)
       );
       // 入力されたひらがなを全てカタカナに、括弧やハイフンも検索元に合わせる形で置き換える

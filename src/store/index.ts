@@ -105,6 +105,17 @@ export default new Vuex.Store({
       localStorage.setItem("client", authData.client);
       localStorage.setItem("uid", authData.uid);
     },
+    getData({ commit }) {
+      axios
+        .get("/data")
+        .then((response) => {
+          commit("updatePokemonData", response.data.pokemonData);
+          commit("updateNatureData", response.data.natureData);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   modules: {
     pokemons,

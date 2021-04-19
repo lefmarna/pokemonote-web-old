@@ -1,33 +1,39 @@
 /* eslint-disable */
 
 const state = {
+  pokemonData: {},
+  natureData: {},
   currentPokemon: {
-    no: 645,
-    name: "ランドロス(霊獣)",
-    form: "れいじゅうフォルム",
-    evolutions: [],
-    types: ["じめん", "ひこう"],
-    abilities: ["いかく"],
-    hiddenAbilities: [],
-    stats: {
-      hp: 89,
-      attack: 145,
-      defence: 90,
-      spAttack: 105,
-      spDefence: 80,
-      speed: 91,
+    attributes: {
+      no: 645,
+      name: "ランドロス(霊獣)",
+      form: "れいじゅうフォルム",
+      evolutions: [],
+      types: ["じめん", "ひこう"],
+      abilities: ["いかく"],
+      hiddenAbilities: [],
+      stats: {
+        hp: 89,
+        attack: 145,
+        defence: 90,
+        spAttack: 105,
+        spDefence: 80,
+        speed: 91,
+      },
     },
   },
   lv: 50,
   currentNature: {
-    name: "がんばりや",
-    stats: {
-      hp: 1.0,
-      attack: 1.0,
-      defence: 1.0,
-      spAttack: 1.0,
-      spDefence: 1.0,
-      speed: 1.0,
+    attributes: {
+      name: "がんばりや",
+      stats: {
+        hp: 1.0,
+        attack: 1.0,
+        defence: 1.0,
+        spAttack: 1.0,
+        spDefence: 1.0,
+        speed: 1.0,
+      },
     },
   },
   stats: [
@@ -77,6 +83,8 @@ const state = {
 };
 
 const getters = {
+  pokemonData: (state) => state.pokemonData,
+  natureData: (state) => state.natureData,
   currentPokemon: (state) => state.currentPokemon,
   currentNature: (state) => state.currentNature,
   lv: (state) => state.lv,
@@ -84,6 +92,12 @@ const getters = {
 };
 
 const mutations = {
+  updatePokemonData(state, value) {
+    state.pokemonData = value;
+  },
+  updateNatureData(state, value) {
+    state.natureData = value;
+  },
   updateCurrentPokemon(state, selectedPokemon) {
     state.currentPokemon = selectedPokemon;
   },

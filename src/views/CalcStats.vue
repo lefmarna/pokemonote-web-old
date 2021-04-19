@@ -42,8 +42,10 @@
                 :class="[
                   'justify-center',
                   {
-                    'text-danger': currentNature.stats[stat.en] == 1.1,
-                    'text-primary': currentNature.stats[stat.en] == 0.9,
+                    'text-danger':
+                      currentNature.attributes.stats[stat.en] == 1.1,
+                    'text-primary':
+                      currentNature.attributes.stats[stat.en] == 0.9,
                   },
                 ]"
               >
@@ -51,7 +53,7 @@
                   label="種族値"
                   placeholder="0"
                   :value="`${stat.abbreviation}${
-                    currentPokemon.stats[stat.en]
+                    currentPokemon.attributes.stats[stat.en]
                   }`"
                   disabled
                 ></v-text-field>
@@ -208,7 +210,8 @@
                   label="しんかのきせき"
                   value="しんかのきせき"
                   :disabled="
-                    this.$store.getters.currentPokemon.evolutions.length == 0
+                    this.$store.getters.currentPokemon.attributes.evolutions
+                      .length == 0
                   "
                 ></v-radio>
               </v-radio-group>
@@ -302,15 +305,18 @@ export default Vue.extend({
   computed: {
     // 将来的な拡張性を考慮して、ポケモン名や各種ステータスはVuexで管理している
     currentPokemon(): {
-      no: number;
-      name: string;
-      form: string;
-      evolutions: number[];
-      types: string[];
-      abilities: string[];
-      hiddenAbilities: string[];
-      stats: {
-        [key: string]: number;
+      attributes: {
+        no: number;
+        name: string;
+        form: string;
+        ranks: string[];
+        evolutions: number[];
+        types: string[];
+        abilities: string[];
+        hiddenAbilities: string[];
+        stats: {
+          [key: string]: number;
+        };
       };
     } {
       return this.$store.getters.currentPokemon;
@@ -428,7 +434,7 @@ export default Vue.extend({
     // 種族値の合計値を計算する
     totalBaseStats(): number {
       // reduce を使うと型が unknown になってしまうため、計算時にNumber関数を使って計算している
-      return Object.values(this.currentPokemon.stats).reduce(
+      return Object.values(this.currentPokemon.attributes.stats).reduce(
         (sum: number, stat) => {
           sum += Number(stat);
           return sum;
@@ -474,7 +480,7 @@ export default Vue.extend({
       const defence = this.numberToInt(this.defence);
       if (
         this.itemGroup == "しんかのきせき" &&
-        this.currentPokemon.evolutions.length
+        this.currentPokemon.attributes.evolutions.length
       ) {
         return hp * Math.floor(defence * 1.5);
       } else {
@@ -487,7 +493,7 @@ export default Vue.extend({
       const spDefence = this.numberToInt(this.spDefence);
       if (
         (this.itemGroup == "しんかのきせき" &&
-          this.currentPokemon.evolutions.length) ||
+          this.currentPokemon.attributes.evolutions.length) ||
         this.itemGroup == "とつげきチョッキ"
       ) {
         return hp * Math.floor(spDefence * 1.5);
@@ -652,12 +658,12 @@ export default Vue.extend({
         effortValue = this.numberToInt(this.stats[index].effortValue);
       }
       if (statsName == "hp") {
-        if (this.currentPokemon.name == "ヌケニン") {
+        if (this.currentPokemon.attributes.name == "ヌケニン") {
           return 1;
         } else {
           return (
             Math.floor(
-              ((this.currentPokemon.stats[statsName] * 2 +
+              ((this.currentPokemon.attributes.stats[statsName] * 2 +
                 individualValue +
                 Math.floor(effortValue / 4)) *
                 lv) /
@@ -670,14 +676,14 @@ export default Vue.extend({
       } else {
         return Math.floor(
           (Math.floor(
-            ((this.currentPokemon.stats[statsName] * 2 +
+            ((this.currentPokemon.attributes.stats[statsName] * 2 +
               individualValue +
               Math.floor(effortValue / 4)) *
               lv) /
               100
           ) +
             5) *
-            this.currentNature.stats[statsName]
+            this.currentNature.attributes.stats[statsName]
         );
       }
     },
@@ -692,19 +698,21 @@ export default Vue.extend({
       if (statsName == "hp") {
         setValue =
           (Math.ceil(((setValue - lv - 10) * 100) / lv) -
-            this.currentPokemon.stats.hp * 2 -
+            this.currentPokemon.attributes.stats.hp * 2 -
             individualValue) *
           4;
         // HP以外の計算では、性格補正を修正してから努力値の逆算を行う必要がある
       } else {
         const effortValue = this.numberToInt(this.stats[index].effortValue);
-        const currentNatureStat = Number(this.currentNature.stats[statsName]);
+        const currentNatureStat = Number(
+          this.currentNature.attributes.stats[statsName]
+        );
         if (setValue % 11 === 10 && currentNatureStat === 1.1) {
           if (
             setValue >=
             Math.floor(
               (Math.floor(
-                ((this.currentPokemon.stats[statsName] * 2 +
+                ((this.currentPokemon.attributes.stats[statsName] * 2 +
                   individualValue +
                   Math.floor(effortValue / 4)) *
                   lv) /
@@ -726,7 +734,7 @@ export default Vue.extend({
         }
         setValue =
           (Math.ceil(((setValue - 5) * 100) / lv) -
-            this.currentPokemon.stats[statsName] * 2 -
+            this.currentPokemon.attributes.stats[statsName] * 2 -
             individualValue) *
           4;
       }
@@ -753,7 +761,7 @@ export default Vue.extend({
       }
 
       // 各行に出力する初期値を設定
-      const line1 = `${this.$store.getters.currentPokemon.name} ${this.currentNature.name}`; // １行目にはポケモン名と性格を表示させている
+      const line1 = `${this.$store.getters.currentPokemon.attributes.name} ${this.currentNature.attributes.name}`; // １行目にはポケモン名と性格を表示させている
       let line2 = "";
       const line3 = `${realNumbers[0]}-${realNumbers[1]}-${realNumbers[2]}-${realNumbers[3]}-${realNumbers[4]}-${realNumbers[5]}`;
       let line4 = "";
@@ -815,7 +823,7 @@ export default Vue.extend({
         line5 += "(チョッキ)";
       } else if (
         this.itemGroup == "しんかのきせき" &&
-        this.currentPokemon.evolutions.length
+        this.currentPokemon.attributes.evolutions.length
       ) {
         line5 += "(輝石)";
       }
@@ -899,7 +907,7 @@ export default Vue.extend({
           // 持ち物込での耐久値を求める
           if (
             this.itemGroup == "しんかのきせき" &&
-            this.currentPokemon.evolutions.length
+            this.currentPokemon.attributes.evolutions.length
           ) {
             tmpDefenceInItem = Math.floor(tmpDefence * 1.5);
             tmpSpDefenceInItem = Math.floor(tmpSpDefence * 1.5);

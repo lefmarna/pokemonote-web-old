@@ -25,6 +25,9 @@ Vue.component("Title", Title);
 // 最初の読み込み時に自動でログインする
 store.dispatch("autoLogin");
 
+// 各種データをサーバーから取得する
+store.dispatch("getData");
+
 new Vue({
   router,
   store,

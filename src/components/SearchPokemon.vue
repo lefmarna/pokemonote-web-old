@@ -1,7 +1,7 @@
 <template>
   <v-autocomplete
-    :items="pokemonList"
-    item-text="name"
+    :items="pokemonData"
+    item-text="attributes.name"
     label="ポケモン名"
     :filter="filterForSearch"
     v-model="currentPokemon"
@@ -16,13 +16,26 @@
 <script lang="ts">
 import Vue from "vue";
 import filterForSearch from "@/mixins/filterForSearch";
-import PokemonData from "@/components/pokemon_data.json";
 
 export default Vue.extend({
   mixins: [filterForSearch],
   computed: {
-    pokemonList() {
-      return PokemonData; // ポケモンのデータはjsonファイルにまとめてあるため、そちらから取得する
+    pokemonData(): {
+      attributes: {
+        no: number;
+        name: string;
+        form: string;
+        ranks: string[];
+        evolutions: number[];
+        types: string[];
+        abilities: string[];
+        hiddenAbilities: string[];
+        stats: {
+          [key: string]: number;
+        };
+      };
+    } {
+      return this.$store.getters.pokemonData;
     },
     currentPokemon: {
       get() {
