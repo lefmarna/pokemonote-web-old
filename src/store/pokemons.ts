@@ -1,8 +1,10 @@
 /* eslint-disable */
 
 const state = {
+  // サーバーから取得する
   pokemonData: {},
   natureData: {},
+  // 初期値を用意しておく
   currentPokemon: {
     attributes: {
       no: 645,
@@ -36,6 +38,7 @@ const state = {
       },
     },
   },
+  // 各種ステータス
   stats: [
     {
       en: "hp",
