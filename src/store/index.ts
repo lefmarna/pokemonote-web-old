@@ -109,8 +109,17 @@ export default new Vuex.Store({
       axios
         .get("/data")
         .then((response) => {
-          commit("updatePokemonData", response.data.pokemonData);
-          commit("updateNatureData", response.data.natureData);
+          const data = response.data;
+          commit("updatePokemonData", data.pokemonData);
+          commit("updateNatureData", data.natureData);
+          commit(
+            "updateSpeedItems",
+            data.speed_items.map((items: any) => items.attributes)
+          );
+          commit(
+            "updateSpeedAbilities",
+            data.speed_abilities.map((abilities: any) => abilities.attributes)
+          );
         })
         .catch((error) => {
           console.log(error);

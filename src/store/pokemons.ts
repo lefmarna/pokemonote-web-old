@@ -2,8 +2,10 @@
 
 const state = {
   // サーバーから取得する
-  pokemonData: {},
-  natureData: {},
+  pokemonData: [],
+  natureData: [],
+  speedItems: [],
+  speedAbilities: [],
   // 初期値を用意しておく
   currentPokemon: {
     attributes: {
@@ -88,6 +90,8 @@ const state = {
 const getters = {
   pokemonData: (state) => state.pokemonData,
   natureData: (state) => state.natureData,
+  speedItems: (state) => state.speedItems,
+  speedAbilities: (state) => state.speedAbilities,
   currentPokemon: (state) => state.currentPokemon,
   currentNature: (state) => state.currentNature,
   lv: (state) => state.lv,
@@ -100,6 +104,12 @@ const mutations = {
   },
   updateNatureData(state, value) {
     state.natureData = value;
+  },
+  updateSpeedItems(state, value) {
+    state.speedItems = value;
+  },
+  updateSpeedAbilities(state, value) {
+    state.speedAbilities = value;
   },
   updateCurrentPokemon(state, selectedPokemon) {
     state.currentPokemon = selectedPokemon;

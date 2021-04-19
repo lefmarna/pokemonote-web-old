@@ -138,7 +138,7 @@
               <div>
                 <v-select
                   v-model="selectItem"
-                  :items="items"
+                  :items="speedItems"
                   item-text="name"
                   item-value="value"
                   label="道具"
@@ -147,7 +147,7 @@
               <div>
                 <v-select
                   v-model="selectAbility"
-                  :items="abilities"
+                  :items="speedAbilities"
                   item-text="name"
                   item-value="value"
                   label="特性"
@@ -313,14 +313,6 @@ export type DataType = {
   option1: boolean;
   selectItem: number;
   selectAbility: number;
-  items: {
-    name: string;
-    value: number;
-  }[];
-  abilities: {
-    name: string;
-    value: number;
-  }[];
 };
 
 export default Vue.extend({
@@ -336,18 +328,6 @@ export default Vue.extend({
     option1: false,
     selectItem: 10,
     selectAbility: 10,
-    items: [
-      { name: "スピードパウダー (×2)", value: 20 },
-      { name: "こだわりスカーフ (×1.5)", value: 15 },
-      { name: "--- 道具を選択 ---", value: 10 },
-      { name: "くろいてっきゅう (×0.5)", value: 5 },
-    ],
-    abilities: [
-      { name: "すいすい・ようりょくそ (×2)", value: 20 },
-      { name: "はやあし・かるわざ (×2)", value: 2 },
-      { name: "--- 特性を選択 ---", value: 10 },
-      { name: "スロースタート (×0.5)", value: 5 },
-    ],
   }),
   computed: {
     // 将来的な拡張性を考慮して、ポケモン名や各種ステータスはVuexで管理している
@@ -414,6 +394,21 @@ export default Vue.extend({
       set(value: number) {
         this.setSpeed(value);
       },
+    },
+    speedItems(): {
+      id: number;
+      name: string;
+      value: number;
+    }[] {
+      return this.$store.getters.speedItems;
+    },
+    speedAbilities(): {
+      id: number;
+      name: string;
+      value: number;
+      magnification: number;
+    }[] {
+      return this.$store.getters.speedAbilities;
     },
   },
   methods: {
