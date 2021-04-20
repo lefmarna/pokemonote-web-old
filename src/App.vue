@@ -108,7 +108,7 @@ export default Vue.extend({
       },
       {
         name: "チップを送る",
-        icon: "mdi-gift",
+        icon: "mdi-heart",
         link: "/send-tip",
       },
       {
