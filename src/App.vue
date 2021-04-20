@@ -2,7 +2,7 @@
   <v-app>
     <v-navigation-drawer v-model="drawer" app>
       <v-container>
-        <v-list-item>ポケモノート</v-list-item>
+        <v-list-item>Menu</v-list-item>
         <v-divider></v-divider>
         <v-list dense nav>
           <v-list-item
@@ -37,7 +37,7 @@
         </v-list>
         <v-divider />
         <v-list class="bottomFooter__copyright">
-          © Copyright 2021 ポケモノート.
+          © Copyright 2021 Pokemonote.
         </v-list>
       </v-container>
     </v-navigation-drawer>
@@ -45,17 +45,18 @@
     <v-app-bar app color="primary" dark>
       <!-- ヘッダー左側 -->
       <v-app-bar-nav-icon @click="drawer = !drawer" />
-      <div class="d-flex align-center">
-        <v-img
-          alt="ポケモノート"
-          class="shrink mr-2"
-          contain
-          src="./assets/lefmarna.png"
-          transition="scale-transition"
-          width="40"
-        />
-      </div>
-      <v-toolbar-title>ポケモノート</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link to="/"
+          ><v-img
+            alt="Pokemonote"
+            class="shrink mt-2"
+            contain
+            src="@/assets/logo.png"
+            transition="scale-transition"
+            max-height="81"
+            max-width="286"
+        /></router-link>
+      </v-toolbar-title>
       <v-spacer />
       <!-- ヘッダー右側 -->
       <v-toolbar-items v-if="accessToken && client && uid">
@@ -107,7 +108,7 @@ export default Vue.extend({
       },
       {
         name: "チップを送る",
-        icon: "mdi-gift",
+        icon: "mdi-heart",
         link: "/send-tip",
       },
       {
@@ -161,9 +162,9 @@ export default Vue.extend({
         "meta[name='twitter:title'], meta[property='og:title']"
       );
       // titleが存在する場合は書き換え、存在しない場合はデフォルトに設定
-      let rewriteTitle = "ポケモノート";
+      let rewriteTitle = "Pokemonote";
       if (meta.title) {
-        rewriteTitle = meta.title + " | ポケモノート";
+        rewriteTitle = meta.title + " | Pokemonote";
       }
       for (let i = 0, len = currentTitle.length; i < len; i++) {
         currentTitle[i].setAttribute("content", rewriteTitle);
@@ -182,7 +183,7 @@ export default Vue.extend({
         for (let i = 0, len = currentDesc.length; i < len; i++) {
           currentDesc[i].setAttribute(
             "content",
-            "ポケモンのステータスを計算・管理するためのWebアプリ『ポケモノート』へようこそ！ 素早さ計算機や剣盾に対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。"
+            "ポケモンのステータスを計算・管理するためのWebアプリ『Pokemonote』へようこそ！ 素早さ計算機や剣盾に対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。"
           );
         }
       }
