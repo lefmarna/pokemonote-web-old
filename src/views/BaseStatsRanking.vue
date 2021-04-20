@@ -75,20 +75,18 @@ export default Vue.extend({
   }),
   computed: {
     pokemonList(): {
-      attributes: {
-        no: number;
-        name: string;
-        form: string;
-        ranks: string[];
-        evolutions: number[];
-        types: string[];
-        abilities: string[];
-        hiddenAbilities: string[];
-        stats: {
-          [key: string]: number;
-        };
-        total?: number;
+      no: number;
+      name: string;
+      form: string;
+      ranks: string[];
+      evolutions: number[];
+      types: string[];
+      abilities: string[];
+      hiddenAbilities: string[];
+      stats: {
+        [key: string]: number;
       };
+      total?: number;
     }[] {
       return this.$store.getters.pokemonData;
     },
@@ -146,40 +144,34 @@ export default Vue.extend({
       if (!this.displayRankPokemons.mega) {
         pokemonList = pokemonList.filter(
           (pokemonData: any) =>
-            !pokemonData.attributes.ranks.some((rank: string) => rank == "mega")
+            !pokemonData.ranks.some((rank: string) => rank == "mega")
         );
       }
       // 『伝説』にチェックがついていないときは表示させない
       if (!this.displayRankPokemons.legendary) {
         pokemonList = pokemonList.filter(
           (pokemonData: any) =>
-            !pokemonData.attributes.ranks.some(
-              (rank: string) => rank == "legendary"
-            )
+            !pokemonData.ranks.some((rank: string) => rank == "legendary")
         );
       }
       // 『幻』にチェックがついていないときは表示させない
       if (!this.displayRankPokemons.mythical) {
         pokemonList = pokemonList.filter(
           (pokemonData: any) =>
-            !pokemonData.attributes.ranks.some(
-              (rank: string) => rank == "mythical"
-            )
+            !pokemonData.ranks.some((rank: string) => rank == "mythical")
         );
       }
       // 『剣盾に登場しないポケモン』にチェックがついていないときは表示させない
       if (!this.displayRankPokemons.NotInPokedex) {
         pokemonList = pokemonList.filter(
           (pokemonData: any) =>
-            !pokemonData.attributes.ranks.some(
-              (rank: string) => rank == "NotInPokedex"
-            )
+            !pokemonData.ranks.some((rank: string) => rank == "NotInPokedex")
         );
       }
       // 全てのオブジェクトで合計(total)を計算する
       pokemonList = pokemonList.map((array: any) => {
         // statsの各数値のみを抽出し、配列に格納する
-        const stats = Object.values(array.attributes.stats);
+        const stats = Object.values(array.stats);
         // 配列の要素数が変わってしまうため、後ろから順に削除していく必要がある
         if (removeStats.speed) {
           stats.splice(5, 1);
@@ -191,14 +183,13 @@ export default Vue.extend({
           stats.splice(1, 1);
         }
         // 配列の中の整数を全て合計して返す
-        array.attributes.total = stats.reduce((sum: number, value) => {
+        array.total = stats.reduce((sum: number, value) => {
           sum += Number(value);
           return sum;
         }, 0);
         return array;
       });
-      // data-listで表示するため、attributesから取り出す必要がある
-      return pokemonList.map((pokemon: any) => pokemon.attributes);
+      return pokemonList;
     },
   },
   methods: {

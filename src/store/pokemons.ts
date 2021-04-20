@@ -9,22 +9,20 @@ const state = {
   speedAbilities: [],
   // 初期値を用意しておく
   currentPokemon: {
-    attributes: {
-      no: 645,
-      name: "ランドロス(霊獣)",
-      form: "れいじゅうフォルム",
-      evolutions: [],
-      types: ["じめん", "ひこう"],
-      abilities: ["いかく"],
-      hiddenAbilities: [],
-      stats: {
-        hp: 89,
-        attack: 145,
-        defence: 90,
-        spAttack: 105,
-        spDefence: 80,
-        speed: 91,
-      },
+    no: 645,
+    name: "ランドロス(霊獣)",
+    form: "れいじゅうフォルム",
+    evolutions: [],
+    types: ["じめん", "ひこう"],
+    abilities: ["いかく"],
+    hiddenAbilities: [],
+    stats: {
+      hp: 89,
+      attack: 145,
+      defence: 90,
+      spAttack: 105,
+      spDefence: 80,
+      speed: 91,
     },
   },
   lv: 50,
@@ -131,7 +129,11 @@ const actions = {
       .get("/data")
       .then((response) => {
         const data = response.data;
-        commit("updatePokemonData", data.pokemonData);
+        // ActiveHashで作成したデータはattributesの中に格納される仕様のため、mapメソッドを使い取り出してあげる必要がある
+        commit(
+          "updatePokemonData",
+          data.pokemonData.map((pokemonData: any) => pokemonData.attributes)
+        );
         commit(
           "updateNatureData",
           data.natureData.map((natureData: any) => natureData.attributes)

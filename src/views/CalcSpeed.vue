@@ -54,7 +54,7 @@
                 <v-text-field
                   label="種族値"
                   placeholder="0"
-                  :value="`${stats[5].abbreviation}${currentPokemon.attributes.stats['speed']}`"
+                  :value="`${stats[5].abbreviation}${currentPokemon.stats['speed']}`"
                   disabled
                 ></v-text-field>
               </v-col>
@@ -341,18 +341,16 @@ export default Vue.extend({
   computed: {
     // 将来的な拡張性を考慮して、ポケモン名や各種ステータスはVuexで管理している
     currentPokemon(): {
-      attributes: {
-        no: number;
-        name: string;
-        form: string;
-        ranks: string[];
-        evolutions: number[];
-        types: string[];
-        abilities: string[];
-        hiddenAbilities: string[];
-        stats: {
-          [key: string]: number;
-        };
+      no: number;
+      name: string;
+      form: string;
+      ranks: string[];
+      evolutions: number[];
+      types: string[];
+      abilities: string[];
+      hiddenAbilities: string[];
+      stats: {
+        [key: string]: number;
       };
     } {
       return this.$store.getters.currentPokemon;
@@ -465,7 +463,7 @@ export default Vue.extend({
       const effortValue = this.numberToInt(this.stats[5].effortValue);
       return Math.floor(
         (Math.floor(
-          ((this.currentPokemon.attributes.stats["speed"] * 2 +
+          ((this.currentPokemon.stats["speed"] * 2 +
             individualValue +
             Math.floor(effortValue / 4)) *
             lv) /
@@ -487,7 +485,7 @@ export default Vue.extend({
           setValue >=
           Math.floor(
             (Math.floor(
-              ((this.currentPokemon.attributes.stats["speed"] * 2 +
+              ((this.currentPokemon.stats["speed"] * 2 +
                 individualValue +
                 Math.floor(effortValue / 4)) *
                 lv) /
@@ -509,7 +507,7 @@ export default Vue.extend({
       }
       setValue =
         (Math.ceil(((setValue - 5) * 100) / lv) -
-          this.currentPokemon.attributes.stats["speed"] * 2 -
+          this.currentPokemon.stats["speed"] * 2 -
           individualValue) *
         4;
       // 計算した値を代入する

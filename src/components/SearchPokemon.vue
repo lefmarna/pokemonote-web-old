@@ -1,7 +1,7 @@
 <template>
   <v-autocomplete
     :items="pokemonData"
-    item-text="attributes.name"
+    item-text="name"
     label="ポケモン名"
     :filter="filterForSearch"
     v-model="currentPokemon"
@@ -21,18 +21,16 @@ export default Vue.extend({
   mixins: [filterForSearch],
   computed: {
     pokemonData(): {
-      attributes: {
-        no: number;
-        name: string;
-        form: string;
-        ranks: string[];
-        evolutions: number[];
-        types: string[];
-        abilities: string[];
-        hiddenAbilities: string[];
-        stats: {
-          [key: string]: number;
-        };
+      no: number;
+      name: string;
+      form: string;
+      ranks: string[];
+      evolutions: number[];
+      types: string[];
+      abilities: string[];
+      hiddenAbilities: string[];
+      stats: {
+        [key: string]: number;
       };
     } {
       return this.$store.getters.pokemonData;
