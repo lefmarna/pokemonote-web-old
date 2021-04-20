@@ -1,4 +1,5 @@
 /* eslint-disable */
+import axios from "axios";
 
 const state = {
   // サーバーから取得する
@@ -28,16 +29,15 @@ const state = {
   },
   lv: 50,
   currentNature: {
-    attributes: {
-      name: "がんばりや",
-      stats: {
-        hp: 1.0,
-        attack: 1.0,
-        defence: 1.0,
-        spAttack: 1.0,
-        spDefence: 1.0,
-        speed: 1.0,
-      },
+    id: 0,
+    name: "がんばりや",
+    stats: {
+      hp: 1.0,
+      attack: 1.0,
+      defence: 1.0,
+      spAttack: 1.0,
+      spDefence: 1.0,
+      speed: 1.0,
     },
   },
   // 各種ステータス
@@ -125,8 +125,35 @@ const mutations = {
   },
 };
 
+const actions = {
+  getData({ commit }) {
+    axios
+      .get("/data")
+      .then((response) => {
+        const data = response.data;
+        commit("updatePokemonData", data.pokemonData);
+        commit(
+          "updateNatureData",
+          data.natureData.map((natureData: any) => natureData.attributes)
+        );
+        commit(
+          "updateSpeedItems",
+          data.speed_items.map((items: any) => items.attributes)
+        );
+        commit(
+          "updateSpeedAbilities",
+          data.speed_abilities.map((abilities: any) => abilities.attributes)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+};
+
 export default {
   state,
   getters,
   mutations,
+  actions,
 };

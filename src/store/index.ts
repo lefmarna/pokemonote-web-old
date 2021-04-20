@@ -105,26 +105,6 @@ export default new Vuex.Store({
       localStorage.setItem("client", authData.client);
       localStorage.setItem("uid", authData.uid);
     },
-    getData({ commit }) {
-      axios
-        .get("/data")
-        .then((response) => {
-          const data = response.data;
-          commit("updatePokemonData", data.pokemonData);
-          commit("updateNatureData", data.natureData);
-          commit(
-            "updateSpeedItems",
-            data.speed_items.map((items: any) => items.attributes)
-          );
-          commit(
-            "updateSpeedAbilities",
-            data.speed_abilities.map((abilities: any) => abilities.attributes)
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
   },
   modules: {
     pokemons,

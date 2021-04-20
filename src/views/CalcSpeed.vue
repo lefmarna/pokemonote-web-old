@@ -46,10 +46,8 @@
                 :class="[
                   'justify-center',
                   {
-                    'text-danger':
-                      currentNature.attributes.stats['speed'] == 1.1,
-                    'text-primary':
-                      currentNature.attributes.stats['speed'] == 0.9,
+                    'text-danger': currentNature.stats['speed'] == 1.1,
+                    'text-primary': currentNature.stats['speed'] == 0.9,
                   },
                 ]"
               >
@@ -360,6 +358,7 @@ export default Vue.extend({
       return this.$store.getters.currentPokemon;
     },
     currentNature(): {
+      id: number;
       name: string;
       stats: {
         [key: string]: number;
@@ -473,7 +472,7 @@ export default Vue.extend({
             100
         ) +
           5) *
-          this.currentNature.attributes.stats["speed"]
+          this.currentNature.stats["speed"]
       );
     },
     // 実数値から努力値の逆算を行う
@@ -482,9 +481,7 @@ export default Vue.extend({
       const lv = this.numberToInt(this.lv, 1);
       const individualValue = this.numberToInt(this.stats[5].individualValue);
       const effortValue = this.numberToInt(this.stats[5].effortValue);
-      const currentNatureStat = Number(
-        this.currentNature.attributes.stats["speed"]
-      );
+      const currentNatureStat = Number(this.currentNature.stats["speed"]);
       if (setValue % 11 === 10 && currentNatureStat === 1.1) {
         if (
           setValue >=

@@ -1,7 +1,7 @@
 <template>
   <v-autocomplete
     :items="natureData"
-    item-text="attributes.name"
+    item-text="name"
     label="性格"
     :filter="filterForSearch"
     v-model="currentNature"
@@ -19,14 +19,10 @@ export default Vue.extend({
   mixins: [filterForSearch],
   computed: {
     natureData(): {
+      id: number;
       name: string;
       stats: {
-        hp: number;
-        attack: number;
-        defence: number;
-        spAttack: number;
-        spDefence: number;
-        speed: number;
+        [key: string]: number;
       };
     }[] {
       return this.$store.getters.natureData;
@@ -34,6 +30,7 @@ export default Vue.extend({
     currentNature: {
       get(): {
         currentNature: {
+          id: number;
           name: string;
           stats: {
             [key: string]: number;

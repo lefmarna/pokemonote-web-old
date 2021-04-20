@@ -42,10 +42,8 @@
                 :class="[
                   'justify-center',
                   {
-                    'text-danger':
-                      currentNature.attributes.stats[stat.en] == 1.1,
-                    'text-primary':
-                      currentNature.attributes.stats[stat.en] == 0.9,
+                    'text-danger': currentNature.stats[stat.en] == 1.1,
+                    'text-primary': currentNature.stats[stat.en] == 0.9,
                   },
                 ]"
               >
@@ -322,6 +320,7 @@ export default Vue.extend({
       return this.$store.getters.currentPokemon;
     },
     currentNature(): {
+      id: number;
       name: string;
       stats: {
         [key: string]: number;
@@ -683,7 +682,7 @@ export default Vue.extend({
               100
           ) +
             5) *
-            this.currentNature.attributes.stats[statsName]
+            this.currentNature.stats[statsName]
         );
       }
     },
@@ -704,9 +703,7 @@ export default Vue.extend({
         // HP以外の計算では、性格補正を修正してから努力値の逆算を行う必要がある
       } else {
         const effortValue = this.numberToInt(this.stats[index].effortValue);
-        const currentNatureStat = Number(
-          this.currentNature.attributes.stats[statsName]
-        );
+        const currentNatureStat = Number(this.currentNature.stats[statsName]);
         if (setValue % 11 === 10 && currentNatureStat === 1.1) {
           if (
             setValue >=
@@ -761,7 +758,7 @@ export default Vue.extend({
       }
 
       // 各行に出力する初期値を設定
-      const line1 = `${this.$store.getters.currentPokemon.attributes.name} ${this.currentNature.attributes.name}`; // １行目にはポケモン名と性格を表示させている
+      const line1 = `${this.$store.getters.currentPokemon.attributes.name} ${this.currentNature.name}`; // １行目にはポケモン名と性格を表示させている
       let line2 = "";
       const line3 = `${realNumbers[0]}-${realNumbers[1]}-${realNumbers[2]}-${realNumbers[3]}-${realNumbers[4]}-${realNumbers[5]}`;
       let line4 = "";
