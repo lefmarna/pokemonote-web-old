@@ -305,6 +305,7 @@ export default Vue.extend({
       no: number;
       name: string;
       form: string;
+      ranks: string[];
       evolutions: number[];
       types: string[];
       abilities: string[];
@@ -316,6 +317,7 @@ export default Vue.extend({
       return this.$store.getters.currentPokemon;
     },
     currentNature(): {
+      id: number;
       name: string;
       stats: {
         [key: string]: number;

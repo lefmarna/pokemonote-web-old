@@ -1,6 +1,13 @@
 /* eslint-disable */
+import axios from "axios";
 
 const state = {
+  // サーバーから取得する
+  pokemonData: [],
+  natureData: [],
+  speedItems: [],
+  speedAbilities: [],
+  // 初期値を用意しておく
   currentPokemon: {
     no: 645,
     name: "ランドロス(霊獣)",
@@ -20,6 +27,7 @@ const state = {
   },
   lv: 50,
   currentNature: {
+    id: 0,
     name: "がんばりや",
     stats: {
       hp: 1.0,
@@ -30,6 +38,7 @@ const state = {
       speed: 1.0,
     },
   },
+  // 各種ステータス
   stats: [
     {
       en: "hp",
@@ -77,6 +86,10 @@ const state = {
 };
 
 const getters = {
+  pokemonData: (state) => state.pokemonData,
+  natureData: (state) => state.natureData,
+  speedItems: (state) => state.speedItems,
+  speedAbilities: (state) => state.speedAbilities,
   currentPokemon: (state) => state.currentPokemon,
   currentNature: (state) => state.currentNature,
   lv: (state) => state.lv,
@@ -84,6 +97,18 @@ const getters = {
 };
 
 const mutations = {
+  updatePokemonData(state, value) {
+    state.pokemonData = value;
+  },
+  updateNatureData(state, value) {
+    state.natureData = value;
+  },
+  updateSpeedItems(state, value) {
+    state.speedItems = value;
+  },
+  updateSpeedAbilities(state, value) {
+    state.speedAbilities = value;
+  },
   updateCurrentPokemon(state, selectedPokemon) {
     state.currentPokemon = selectedPokemon;
   },
@@ -98,8 +123,39 @@ const mutations = {
   },
 };
 
+const actions = {
+  getData({ commit }) {
+    axios
+      .get("/data")
+      .then((response) => {
+        const data = response.data;
+        // ActiveHashで作成したデータはattributesの中に格納される仕様のため、mapメソッドを使い取り出してあげる必要がある
+        commit(
+          "updatePokemonData",
+          data.pokemonData.map((pokemonData: any) => pokemonData.attributes)
+        );
+        commit(
+          "updateNatureData",
+          data.natureData.map((natureData: any) => natureData.attributes)
+        );
+        commit(
+          "updateSpeedItems",
+          data.speed_items.map((items: any) => items.attributes)
+        );
+        commit(
+          "updateSpeedAbilities",
+          data.speed_abilities.map((abilities: any) => abilities.attributes)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+};
+
 export default {
   state,
   getters,
   mutations,
+  actions,
 };

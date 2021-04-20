@@ -6,6 +6,7 @@
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
           <SearchPokemon />
           <v-row>
+            <!-- レベル -->
             <v-col cols="4" class="d-flex">
               <div>
                 <v-text-field
@@ -30,13 +31,16 @@
                 />
               </div>
             </v-col>
+            <!-- 性格 -->
             <v-col cols="8">
               <SearchNature />
             </v-col>
           </v-row>
           <v-divider />
+          <!-- ステータス -->
           <div class="statsTable">
             <v-row>
+              <!-- 種族値 -->
               <v-col
                 cols="2"
                 :class="[
@@ -54,6 +58,7 @@
                   disabled
                 ></v-text-field>
               </v-col>
+              <!-- 個体値 -->
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
@@ -79,6 +84,7 @@
                   />
                 </div>
               </v-col>
+              <!-- 努力値 -->
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
@@ -104,6 +110,7 @@
                   />
                 </div>
               </v-col>
+              <!-- 実数値 -->
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
@@ -131,27 +138,30 @@
             </v-row>
           </div>
           <v-divider />
+          <!-- 道具 -->
           <div class="px-0 pt-3">
             <div>
               <div>
                 <v-select
                   v-model="selectItem"
-                  :items="items"
+                  :items="speedItems"
                   item-text="name"
                   item-value="value"
                   label="道具"
                 ></v-select>
               </div>
+              <!-- 特性 -->
               <div>
                 <v-select
                   v-model="selectAbility"
-                  :items="abilities"
+                  :items="speedAbilities"
                   item-text="name"
                   item-value="value"
                   label="特性"
                 ></v-select>
               </div>
             </div>
+            <!-- 状態 -->
             <div class="d-flex pa-3">
               <v-checkbox
                 label="おいかぜ (×2.0)"
@@ -188,6 +198,7 @@
           v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs"
           vertical
         />
+        <!-- 素早さのリスト -->
         <v-simple-table style="width: 100%">
           <thead>
             <tr>
@@ -311,14 +322,6 @@ export type DataType = {
   option1: boolean;
   selectItem: number;
   selectAbility: number;
-  items: {
-    name: string;
-    value: number;
-  }[];
-  abilities: {
-    name: string;
-    value: number;
-  }[];
 };
 
 export default Vue.extend({
@@ -334,18 +337,6 @@ export default Vue.extend({
     option1: false,
     selectItem: 10,
     selectAbility: 10,
-    items: [
-      { name: "スピードパウダー (×2)", value: 20 },
-      { name: "こだわりスカーフ (×1.5)", value: 15 },
-      { name: "--- 道具を選択 ---", value: 10 },
-      { name: "くろいてっきゅう (×0.5)", value: 5 },
-    ],
-    abilities: [
-      { name: "すいすい・ようりょくそ (×2)", value: 20 },
-      { name: "はやあし・かるわざ (×2)", value: 2 },
-      { name: "--- 特性を選択 ---", value: 10 },
-      { name: "スロースタート (×0.5)", value: 5 },
-    ],
   }),
   computed: {
     // 将来的な拡張性を考慮して、ポケモン名や各種ステータスはVuexで管理している
@@ -353,6 +344,7 @@ export default Vue.extend({
       no: number;
       name: string;
       form: string;
+      ranks: string[];
       evolutions: number[];
       types: string[];
       abilities: string[];
@@ -364,6 +356,7 @@ export default Vue.extend({
       return this.$store.getters.currentPokemon;
     },
     currentNature(): {
+      id: number;
       name: string;
       stats: {
         [key: string]: number;
@@ -409,6 +402,21 @@ export default Vue.extend({
       set(value: number) {
         this.setSpeed(value);
       },
+    },
+    speedItems(): {
+      id: number;
+      name: string;
+      value: number;
+    }[] {
+      return this.$store.getters.speedItems;
+    },
+    speedAbilities(): {
+      id: number;
+      name: string;
+      value: number;
+      magnification: number;
+    }[] {
+      return this.$store.getters.speedAbilities;
     },
   },
   methods: {

@@ -6,11 +6,11 @@
         <p>【特別なポケモンを表示する】</p>
         <div class="d-flex">
           <v-checkbox
-            v-for="attribute in attributesCheckboxes"
-            :key="attribute.value"
-            :input-value="displayAttributePokemons[attribute.value]"
-            @change="attributeChange(attribute.value)"
-            :label="attribute.text"
+            v-for="rank in ranksCheckboxes"
+            :key="rank.value"
+            :input-value="displayRankPokemons[rank.value]"
+            @change="rankChange(rank.value)"
+            :label="rank.text"
             class="pr-2 mt-0"
             dense
           ></v-checkbox>
@@ -51,30 +51,16 @@
 
 <script lang="ts">
 import Vue from "vue";
-import PokemonData from "@/components/pokemon_data.json";
 
 export type DataType = {
-  pokemonList: {
-    no: number;
-    name: string;
-    form: string;
-    attributes: string[];
-    evolutions: number[];
-    types: string[];
-    abilities: string[];
-    hiddenAbilities: string[];
-    stats: { [key: string]: number };
-    total?: number;
-  }[];
-  displayAttributePokemons: { [key: string]: boolean };
+  displayRankPokemons: { [key: string]: boolean };
   removeStats: { [key: string]: boolean };
 };
 
 export default Vue.extend({
   data: (): DataType => ({
-    pokemonList: PokemonData, // ポケモンのデータはjsonファイルにまとめてあるため、そちらから取得する
     // 【特別なポケモンを表示する】
-    displayAttributePokemons: {
+    displayRankPokemons: {
       legendary: false,
       mythical: false,
       mega: false,
@@ -88,9 +74,25 @@ export default Vue.extend({
     },
   }),
   computed: {
+    pokemonList(): {
+      no: number;
+      name: string;
+      form: string;
+      ranks: string[];
+      evolutions: number[];
+      types: string[];
+      abilities: string[];
+      hiddenAbilities: string[];
+      stats: {
+        [key: string]: number;
+      };
+      total?: number;
+    }[] {
+      return this.$store.getters.pokemonData;
+    },
     /* ループによる処理を可能にするために、チェックボックスとテキストを対応づけている */
     // 【特別なポケモンを表示する】
-    attributesCheckboxes(): { [key: string]: string }[] {
+    ranksCheckboxes(): { [key: string]: string }[] {
       return [
         { text: "伝説", value: "legendary" },
         { text: "幻", value: "mythical" },
@@ -139,31 +141,31 @@ export default Vue.extend({
       const removeStats = this.removeStats;
 
       // 『メガシンカ』にチェックがついていないときは表示させない
-      if (!this.displayAttributePokemons.mega) {
+      if (!this.displayRankPokemons.mega) {
         pokemonList = pokemonList.filter(
           (pokemonData: any) =>
-            !pokemonData.attributes.some((attr) => attr == "mega")
+            !pokemonData.ranks.some((rank: string) => rank == "mega")
         );
       }
       // 『伝説』にチェックがついていないときは表示させない
-      if (!this.displayAttributePokemons.legendary) {
+      if (!this.displayRankPokemons.legendary) {
         pokemonList = pokemonList.filter(
           (pokemonData: any) =>
-            !pokemonData.attributes.some((attr) => attr == "legendary")
+            !pokemonData.ranks.some((rank: string) => rank == "legendary")
         );
       }
       // 『幻』にチェックがついていないときは表示させない
-      if (!this.displayAttributePokemons.mythical) {
+      if (!this.displayRankPokemons.mythical) {
         pokemonList = pokemonList.filter(
           (pokemonData: any) =>
-            !pokemonData.attributes.some((attr) => attr == "mythical")
+            !pokemonData.ranks.some((rank: string) => rank == "mythical")
         );
       }
       // 『剣盾に登場しないポケモン』にチェックがついていないときは表示させない
-      if (!this.displayAttributePokemons.NotInPokedex) {
+      if (!this.displayRankPokemons.NotInPokedex) {
         pokemonList = pokemonList.filter(
           (pokemonData: any) =>
-            !pokemonData.attributes.some((attr) => attr == "NotInPokedex")
+            !pokemonData.ranks.some((rank: string) => rank == "NotInPokedex")
         );
       }
       // 全てのオブジェクトで合計(total)を計算する
@@ -192,11 +194,11 @@ export default Vue.extend({
   },
   methods: {
     // 【特別なポケモンを表示する】のオンオフを切り替える
-    attributeChange(value: string): void {
+    rankChange(value: string): void {
       this.$set(
-        this.displayAttributePokemons,
+        this.displayRankPokemons,
         value,
-        !this.displayAttributePokemons[value]
+        !this.displayRankPokemons[value]
       );
     },
     // 【除外するステータス】のオンオフを切り替える
