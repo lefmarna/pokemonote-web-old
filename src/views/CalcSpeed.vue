@@ -6,6 +6,7 @@
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
           <SearchPokemon />
           <v-row>
+            <!-- レベル -->
             <v-col cols="4" class="d-flex">
               <div>
                 <v-text-field
@@ -30,13 +31,16 @@
                 />
               </div>
             </v-col>
+            <!-- 性格 -->
             <v-col cols="8">
               <SearchNature />
             </v-col>
           </v-row>
           <v-divider />
+          <!-- ステータス -->
           <div class="statsTable">
             <v-row>
+              <!-- 種族値 -->
               <v-col
                 cols="2"
                 :class="[
@@ -56,6 +60,7 @@
                   disabled
                 ></v-text-field>
               </v-col>
+              <!-- 個体値 -->
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
@@ -81,6 +86,7 @@
                   />
                 </div>
               </v-col>
+              <!-- 努力値 -->
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
@@ -106,6 +112,7 @@
                   />
                 </div>
               </v-col>
+              <!-- 実数値 -->
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
@@ -133,6 +140,7 @@
             </v-row>
           </div>
           <v-divider />
+          <!-- 道具 -->
           <div class="px-0 pt-3">
             <div>
               <div>
@@ -144,6 +152,7 @@
                   label="道具"
                 ></v-select>
               </div>
+              <!-- 特性 -->
               <div>
                 <v-select
                   v-model="selectAbility"
@@ -154,6 +163,7 @@
                 ></v-select>
               </div>
             </div>
+            <!-- 状態 -->
             <div class="d-flex pa-3">
               <v-checkbox
                 label="おいかぜ (×2.0)"
@@ -190,6 +200,7 @@
           v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs"
           vertical
         />
+        <!-- 素早さのリスト -->
         <v-simple-table style="width: 100%">
           <thead>
             <tr>
