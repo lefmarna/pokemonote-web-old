@@ -3,7 +3,7 @@
     <div class="jumbotron">
       <v-img
         alt="Pokemonote ポケモンをもっと楽しく！"
-        class="shrink top_image"
+        class="shrink"
         src="@/assets/pokemonote.jpg"
         transition="scale-transition"
         max-height="492"
