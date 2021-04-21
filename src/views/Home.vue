@@ -1,8 +1,14 @@
 <template>
   <div>
-    <div class="jumbotron title py-sm-16 py-8 px-3 text-center">
-      <h1 class="mt-4 mb-2 white--text font-weight-bold">Pokemonote</h1>
-      <p class="white--text subtitle-1">ポケモンをもっと楽しもう！</p>
+    <div class="jumbotron">
+      <v-img
+        alt="Pokemonote ポケモンをもっと楽しく！"
+        class="shrink top_image"
+        src="@/assets/pokemonote.jpg"
+        transition="scale-transition"
+        max-height="492"
+        min-height="164"
+      />
     </div>
     <v-container>
       <v-row class="d-flex my-sm-2">
@@ -234,11 +240,6 @@
 </template>
 
 <style lang="scss" scoped>
-.jumbotron {
-  background: url(../assets/top.jpg) center no-repeat;
-  background-size: cover;
-}
-
 .sosyal {
   margin: 50px auto;
   list-style: none;
