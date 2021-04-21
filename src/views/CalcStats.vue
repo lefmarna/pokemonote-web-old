@@ -2,10 +2,13 @@
   <v-container class="contents">
     <Title text="ステータス計算機（ポケモン剣盾）" />
     <v-row no-gutters>
+      <!-- 左ここから -->
       <v-col cols="12" md="6" class="d-flex">
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
+          <!-- ポケモン名 -->
           <SearchPokemon />
           <v-row>
+            <!-- レベル -->
             <v-col cols="4" class="d-flex">
               <div>
                 <v-text-field
@@ -30,6 +33,7 @@
                 />
               </div>
             </v-col>
+            <!-- 性格 -->
             <v-col cols="8">
               <SearchNature />
             </v-col>
@@ -37,6 +41,7 @@
           <v-divider />
           <div class="statsTable">
             <v-row v-for="(stat, index) in stats" :key="stat.en">
+              <!-- 種族値 -->
               <v-col
                 cols="2"
                 :class="[
@@ -56,6 +61,7 @@
                   disabled
                 ></v-text-field>
               </v-col>
+              <!-- 個体値 -->
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
@@ -81,6 +87,7 @@
                   />
                 </div>
               </v-col>
+              <!-- 努力値 -->
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
@@ -106,6 +113,7 @@
                   />
                 </div>
               </v-col>
+              <!-- 実数値 -->
               <v-col class="d-flex justify-center">
                 <div>
                   <!-- 努力値が自動更新されることによって実数値の入力を妨げてしまうため、実数値はinputではなくchangeで発火させている
@@ -179,6 +187,8 @@
           <v-divider v-if="$vuetify.breakpoint.xs" />
         </v-container>
       </v-col>
+      <!-- 左ここまで -->
+      <!-- 右ここから -->
       <v-col cols="12" md="6" class="d-flex">
         <v-divider
           v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs"
