@@ -159,8 +159,6 @@
               </v-col>
             </v-row>
           </div>
-          <!-- スマホ画面のみ下線を表示 -->
-          <!-- <v-divider v-if="$vuetify.breakpoint.xs" /> -->
         </v-container>
       </v-col>
       <!-- 左ここまで -->
@@ -250,6 +248,7 @@
           <v-row>
             <v-col class="py-0">
               <v-textarea
+                v-model="description"
                 outlined
                 rows="5"
                 shaped
@@ -270,7 +269,9 @@
               >
             </v-col>
             <v-col class="text-center">
-              <v-btn color="primary" elevation="3" large>投稿する</v-btn>
+              <v-btn color="primary" elevation="3" @click="postPokemon" large
+                >投稿する</v-btn
+              >
             </v-col>
           </v-row>
         </v-container>
@@ -286,6 +287,7 @@ import SearchPokemon from "@/components/SearchPokemon.vue";
 import SearchNature from "@/components/SearchNature.vue";
 import calculator from "@/mixins/calculator";
 import pokemonParams from "@/mixins/pokemonParams";
+import axios from "axios";
 
 export type DataType = {
   calcAreas: string[];
@@ -294,6 +296,7 @@ export type DataType = {
   selectDefenceEnhancement: number;
   selectSpDefenceEnhancement: number;
   calcStyle: string;
+  description: string;
 };
 
 export default Vue.extend({
@@ -310,6 +313,7 @@ export default Vue.extend({
     selectDefenceEnhancement: 1,
     selectSpDefenceEnhancement: 1,
     calcStyle: "balance",
+    description: "",
   }),
   computed: {
     // 各種ステータスの計算（methodsで引数を指定すれば、同じ計算を1箇所にまとめることもできるが、パフォーマンスの高いcomputedを使いたいため、あえて個別に計算している）
@@ -775,6 +779,36 @@ export default Vue.extend({
       this.hp = resultHp;
       this.defence = resultDefence;
       this.spDefence = resultSpDefence;
+    },
+    // ポケモンのデータを投稿する
+    postPokemon(): void {
+      axios
+        .post("/pokemons", {
+          pokemon: {
+            pokemon_data_id: this.currentPokemon.id,
+            nature_data_id: this.currentNature.id,
+            lv: this.lv,
+            hp_iv: this.stats[0].individualValue,
+            hp_ev: this.stats[0].effortValue,
+            attack_iv: this.stats[1].individualValue,
+            attack_ev: this.stats[1].effortValue,
+            defence_iv: this.stats[2].individualValue,
+            defence_ev: this.stats[2].effortValue,
+            sp_attack_iv: this.stats[3].individualValue,
+            sp_attack_ev: this.stats[3].effortValue,
+            sp_defence_iv: this.stats[4].individualValue,
+            sp_defence_ev: this.stats[4].effortValue,
+            speed_iv: this.stats[5].individualValue,
+            speed_ev: this.stats[5].effortValue,
+            description: this.description,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 });
