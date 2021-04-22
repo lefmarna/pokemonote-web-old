@@ -15,13 +15,13 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: "/calc-stats",
-    name: "ステータス計算機",
-    component: () => import("../views/CalcStats.vue"),
+    path: "/pokemons/new",
+    name: "新規ポケモン投稿",
+    component: () => import("../views/pokemons/New.vue"),
     meta: {
-      title: "ステータス計算機（ポケモン剣盾）",
+      title: "新規ポケモン投稿（ポケモン剣盾『鎧の孤島』『冠の雪原』に対応）",
       desc:
-        "ポケモン剣盾（『鎧の孤島』『冠の雪原』）に対応しているステータスの計算機です。リアルタイムで計算が行われるため、計算ボタンを押す必要がないのが特徴です。個体値と努力値から実数値を求められるだけでなく、実数値から努力値の逆算にも対応している多機能な計算ツールとなっています。",
+        "ポケモンのステータスを計算して投稿できるアプリです。リアルタイムで計算が行われるため、個体値や努力値の変更を確認しながら計算できます。実数値から努力値の逆算にも対応、耐久調整を自動で行ってくれる機能も搭載しています。計算結果は投稿して、他の人とシェアしましょう！",
     },
   },
   {
@@ -93,6 +93,11 @@ const routes: Array<RouteConfig> = [
     name: "ユーザ詳細",
     component: () => import("../views/users/Show.vue"),
     props: (route) => ({ id: Number(route.params.id) }),
+  },
+  {
+    path: "/pokemons",
+    name: "ポケモン一覧",
+    component: () => import("../views/pokemons/Index.vue"),
   },
   {
     path: "/test",

@@ -24,6 +24,7 @@ const state = {
       spDefence: 80,
       speed: 91,
     },
+    id: 749,
   },
   lv: 50,
   currentNature: {

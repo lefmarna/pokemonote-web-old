@@ -1,11 +1,14 @@
 <template>
-  <v-container class="contents">
-    <Title text="ステータス計算機（ポケモン剣盾）" />
-    <v-row no-gutters>
+  <v-container>
+    <Title text="新規ポケモン投稿" />
+    <v-row>
+      <!-- 左ここから -->
       <v-col cols="12" md="6" class="d-flex">
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
+          <!-- ポケモン名 -->
           <SearchPokemon />
           <v-row>
+            <!-- レベル -->
             <v-col cols="4" class="d-flex">
               <div>
                 <v-text-field
@@ -30,13 +33,17 @@
                 />
               </div>
             </v-col>
+            <!-- 性格 -->
             <v-col cols="8">
               <SearchNature />
             </v-col>
           </v-row>
+          <!-- 下線 -->
           <v-divider />
+          <!-- ステータス一覧 -->
           <div class="statsTable">
             <v-row v-for="(stat, index) in stats" :key="stat.en">
+              <!-- 種族値 -->
               <v-col
                 cols="2"
                 :class="[
@@ -56,6 +63,7 @@
                   disabled
                 ></v-text-field>
               </v-col>
+              <!-- 個体値 -->
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
@@ -81,6 +89,7 @@
                   />
                 </div>
               </v-col>
+              <!-- 努力値 -->
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
@@ -106,6 +115,7 @@
                   />
                 </div>
               </v-col>
+              <!-- 実数値 -->
               <v-col class="d-flex justify-center">
                 <div>
                   <!-- 努力値が自動更新されることによって実数値の入力を妨げてしまうため、実数値はinputではなくchangeで発火させている
@@ -148,125 +158,121 @@
                 {{ totalStats }}
               </v-col>
             </v-row>
-            <v-row class="pb-3">
-              <v-col class="hiddenPower" align-self="center">
-                <p class="mb-0">めざパ：{{ hiddenPower }}</p>
-              </v-col>
-              <v-col align-self="center">
-                <v-btn
-                  color="danger"
-                  elevation="2"
-                  class="centered-input"
-                  outlined
-                  small
-                  @click.native="resetEffortValue"
-                  >努力値リセット</v-btn
-                >
-              </v-col>
-              <v-col align-self="center">
-                <v-btn
-                  color="primary"
-                  elevation="2"
-                  class="centered-input"
-                  outlined
-                  small
-                  @click.native="durabilityAdjustment"
-                  >耐久調整</v-btn
-                >
-              </v-col>
-            </v-row>
           </div>
-          <v-divider v-if="$vuetify.breakpoint.xs" />
         </v-container>
       </v-col>
+      <!-- 左ここまで -->
+      <!-- 右ここから -->
       <v-col cols="12" md="6" class="d-flex">
-        <v-divider
-          v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs"
-          vertical
-        />
         <v-container :class="$vuetify.breakpoint.xs ? 'pa-0' : ''">
           <v-row>
-            <v-col cols="6" class="py-0" align-self="center">
-              <p class="mb-2">
-                総合耐久：{{ physicalDurability + specialDurability }}
-              </p>
-              <p class="mb-2" style="padding-left: 2em">
-                物理：{{ physicalDurability }}
-              </p>
-              <p class="mb-0" style="padding-left: 2em">
-                特殊：{{ specialDurability }}
-              </p>
+            <v-col cols="6">
+              <v-card height="100%" shaped>
+                <v-card-title>耐久指数</v-card-title>
+                <v-card-text>
+                  <p class="mb-2">
+                    総合：{{ physicalDurability + specialDurability }}
+                  </p>
+                  <p class="mb-2">物理：{{ physicalDurability }}</p>
+                  <p class="mb-0">特殊：{{ specialDurability }}</p>
+                </v-card-text>
+              </v-card>
             </v-col>
-            <v-col cols="6" class="py-0" align-self="center">
-              <v-radio-group v-model="itemGroup">
-                <v-radio label="持ち物なし" value="持ち物なし"></v-radio>
-                <v-radio
-                  label="とつげきチョッキ"
-                  value="とつげきチョッキ"
-                ></v-radio>
-                <v-radio
-                  label="しんかのきせき"
-                  value="しんかのきせき"
-                  :disabled="
-                    this.$store.getters.currentPokemon.evolutions.length == 0
-                  "
-                ></v-radio>
-              </v-radio-group>
+            <v-col cols="6">
+              <v-card height="100%" shaped>
+                <v-card-title>その他</v-card-title>
+                <v-card-text>めざパ：{{ hiddenPower }} </v-card-text>
+              </v-card>
             </v-col>
           </v-row>
-          <v-divider />
-          <div class="d-flex justify-end align-center">
-            <v-checkbox
-              v-model="attackCheck"
-              label="A不問"
-              class="pr-3"
-              dense
-            ></v-checkbox>
-            <v-checkbox
-              v-model="spAttackCheck"
-              label="C不問"
-              class="pr-3"
-              dense
-            ></v-checkbox>
-          </div>
-          <!-- 保存場所は2つ作る -->
-          <v-row
-            v-for="(calcArea, index) in calcAreas"
-            :key="index"
-            id="resultArea"
-          >
+          <!-- 耐久調整-->
+          <v-row class="pb-2" align="start">
+            <v-col cols="12">
+              <v-card shaped>
+                <v-card-title>耐久調整</v-card-title>
+                <v-card-text>
+                  <v-row>
+                    <v-col cols="6" class="pb-0" align="center">
+                      <v-card-subtitle class="pa-0">倍率</v-card-subtitle>
+                      <v-select
+                        v-model="selectDefenceEnhancement"
+                        :items="defenceEnhancements"
+                        item-text="name"
+                        item-value="value"
+                        label="防御"
+                      ></v-select>
+                      <v-select
+                        v-model="selectSpDefenceEnhancement"
+                        :items="spDefenceEnhancements"
+                        item-text="name"
+                        item-value="value"
+                        label="特防"
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="6" class="pb-0" align="center">
+                      <v-card-subtitle class="pa-0"
+                        >計算スタイル</v-card-subtitle
+                      >
+                      <v-radio-group v-model="calcStyle">
+                        <v-radio
+                          label="バランス - HBD/(B+D)"
+                          value="balance"
+                        ></v-radio>
+                        <v-radio
+                          label="総合耐久 - H=B+D"
+                          value="performance"
+                          disabled
+                        ></v-radio>
+                      </v-radio-group>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+                <v-card-actions class="pt-0">
+                  <v-row>
+                    <v-col cols="12" class="pt-0" align="center">
+                      <v-btn
+                        color="primary"
+                        elevation="2"
+                        outlined
+                        @click.native="durabilityAdjustment"
+                        large
+                        >耐久調整を計算する</v-btn
+                      >
+                    </v-col>
+                  </v-row>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+          </v-row>
+          <!-- ポケモンの説明 -->
+          <v-row>
             <v-col class="py-0">
               <v-textarea
+                v-model="description"
                 outlined
                 rows="5"
-                :value="calcAreas[index]"
+                shaped
+                placeholder="ポケモンの説明（例：○○の××確定耐え）"
               ></v-textarea>
             </v-col>
-            <v-btn
-              class="saveButton"
-              absolute
-              small
-              color="primary"
-              right
-              @click="outputResult(index)"
-            >
-              保存する
-            </v-btn>
           </v-row>
-          <v-divider />
-          <v-row class="text-justify pa-3 px-3 body-1">
-            <p>【ステータス計算機について】</p>
-            <p>
-              ポケモンの各種ステータスをリアルタイムに計算するツールです。
-              <br />実数値から努力値の逆算にも対応しています。（個体値までは自動で変動しない仕様としています）
-            </p>
-            <p>
-              『ポケットモンスター
-              ソード・シールド』（ポケモン剣盾）に対応しています。ピカブイには対応しておりません。
-            </p>
-            <p>
-              『耐久調整』ボタンを押すと、余っている努力値から計算された理想的な配分を導き出すことができます。すでに耐久面に振られている努力値については、一度リセットされてから再計算されます。
-            </p>
+          <!-- 「努力値リセット」と「投稿する」のボタン -->
+          <v-row class="pb-2" align-content="center">
+            <v-col class="text-center">
+              <v-btn
+                color="danger"
+                elevation="2"
+                outlined
+                @click.native="resetEffortValue"
+                large
+                >努力値リセット</v-btn
+              >
+            </v-col>
+            <v-col class="text-center">
+              <v-btn color="primary" elevation="3" @click="postPokemon" large
+                >投稿する</v-btn
+              >
+            </v-col>
           </v-row>
         </v-container>
       </v-col>
@@ -279,12 +285,18 @@ import Vue from "vue";
 import CalcButton from "@/components/CalcButton.vue";
 import SearchPokemon from "@/components/SearchPokemon.vue";
 import SearchNature from "@/components/SearchNature.vue";
+import calculator from "@/mixins/calculator";
+import pokemonParams from "@/mixins/pokemonParams";
+import axios from "axios";
 
 export type DataType = {
-  itemGroup: string;
   calcAreas: string[];
   attackCheck: boolean;
   spAttackCheck: boolean;
+  selectDefenceEnhancement: number;
+  selectSpDefenceEnhancement: number;
+  calcStyle: string;
+  description: string;
 };
 
 export default Vue.extend({
@@ -293,69 +305,17 @@ export default Vue.extend({
     SearchPokemon,
     SearchNature,
   },
+  mixins: [calculator, pokemonParams],
   data: (): DataType => ({
-    itemGroup: "持ち物なし",
     calcAreas: ["", ""],
     attackCheck: false,
     spAttackCheck: false,
+    selectDefenceEnhancement: 1,
+    selectSpDefenceEnhancement: 1,
+    calcStyle: "balance",
+    description: "",
   }),
   computed: {
-    // 将来的な拡張性を考慮して、ポケモン名や各種ステータスはVuexで管理している
-    currentPokemon(): {
-      no: number;
-      name: string;
-      form: string;
-      ranks: string[];
-      evolutions: number[];
-      types: string[];
-      abilities: string[];
-      hiddenAbilities: string[];
-      stats: {
-        [key: string]: number;
-      };
-    } {
-      return this.$store.getters.currentPokemon;
-    },
-    currentNature(): {
-      id: number;
-      name: string;
-      stats: {
-        [key: string]: number;
-      };
-    } {
-      return this.$store.getters.currentNature;
-    },
-    lv: {
-      get(): number {
-        return this.$store.getters.lv;
-      },
-      set(value: number) {
-        // レベルの上限を100、下限を1とする
-        if (value > 100) {
-          value = 100;
-          // ここを「value < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されるため、UI的によろしくない。そこで、"0から始まる数値"と"負の数"を正規表現を用いて検出するようにし、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
-        } else if (/^0|^\.|^-/.test(String(value))) {
-          value = 1;
-          // 小数点以下を削除する（勝手に0が入ってしまうのを防ぐため、空白を明示的に除外している）
-        } else if (String(value) != "") {
-          value = Math.floor(value);
-        }
-        // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-        (this.$refs.lv as Vue & {
-          lazyValue: number;
-        }).lazyValue = value;
-        this.$store.commit("updateLv", value);
-      },
-    },
-    stats(): {
-      en: string;
-      ja: string;
-      abbreviation: string;
-      individualValue: number | null;
-      effortValue: number | null;
-    }[] {
-      return this.$store.getters.stats;
-    },
     // 各種ステータスの計算（methodsで引数を指定すれば、同じ計算を1箇所にまとめることもできるが、パフォーマンスの高いcomputedを使いたいため、あえて個別に計算している）
     hp: {
       get(): number {
@@ -474,28 +434,13 @@ export default Vue.extend({
     physicalDurability(): number {
       const hp = this.numberToInt(this.hp);
       const defence = this.numberToInt(this.defence);
-      if (
-        this.itemGroup == "しんかのきせき" &&
-        this.currentPokemon.evolutions.length
-      ) {
-        return hp * Math.floor(defence * 1.5);
-      } else {
-        return hp * defence;
-      }
+      return hp * Math.floor(defence * this.selectDefenceEnhancement);
     },
     // 特殊耐久指数を求める
     specialDurability(): number {
       const hp = this.numberToInt(this.hp);
       const spDefence = this.numberToInt(this.spDefence);
-      if (
-        (this.itemGroup == "しんかのきせき" &&
-          this.currentPokemon.evolutions.length) ||
-        this.itemGroup == "とつげきチョッキ"
-      ) {
-        return hp * Math.floor(spDefence * 1.5);
-      } else {
-        return hp * spDefence;
-      }
+      return hp * Math.floor(spDefence * this.selectSpDefenceEnhancement);
     },
     // めざめるパワーのタイプを求める
     hiddenPower(): string {
@@ -548,26 +493,28 @@ export default Vue.extend({
           return "あく";
       }
     },
+    defenceEnhancements(): {
+      name: string;
+      value: number;
+    }[] {
+      return [
+        { name: "2.0 - ファーコート等", value: 2.0 },
+        { name: "1.5 - ふくつのたて等", value: 1.5 },
+        { name: "1.0", value: 1.0 },
+      ];
+    },
+    spDefenceEnhancements(): {
+      name: string;
+      value: number;
+    }[] {
+      return [
+        { name: "2.0 - こおりのりんぷん等", value: 2.0 },
+        { name: "1.5 - とつげきチョッキ等", value: 1.5 },
+        { name: "1.0", value: 1.0 },
+      ];
+    },
   },
   methods: {
-    // 小数点を切り捨てる、また、nullや負の数には初期値を返していく
-    numberToInt(value: number, defaultValue = 0): number {
-      if (String(value) === "" || value < defaultValue) {
-        return defaultValue;
-      } else {
-        return Math.floor(value);
-      }
-    },
-    // 代入する値を検証して返す
-    valueVerification(value: number, max: number): number | null {
-      if (value > max) {
-        return max;
-      } else if (value <= 0) {
-        return null;
-      } else {
-        return Math.floor(value);
-      }
-    },
     // 努力値の更新
     updateEffortValue(value: number, statsName: string, index: number): void {
       value = this.valueVerification(value, 252);
@@ -741,99 +688,6 @@ export default Vue.extend({
         };
       })[index].lazyValue = this.getStats(statsName, index);
     },
-    // 計算結果を出力する
-    outputResult(index: number): void {
-      // 配列は『mutable』なオブジェクトなため、複製して別の変数に代入。不問箇所を*で表示したいため、String型も許可している。
-      const realNumbers: (string | number)[] = [...this.realNumbers];
-
-      // 不問の値を * で表示させる
-      if (this.attackCheck) {
-        realNumbers[1] = "*";
-      }
-      if (this.spAttackCheck) {
-        realNumbers[3] = "*";
-      }
-
-      // 各行に出力する初期値を設定
-      const line1 = `${this.$store.getters.currentPokemon.name} ${this.currentNature.name}`; // １行目にはポケモン名と性格を表示させている
-      let line2 = "";
-      const line3 = `${realNumbers[0]}-${realNumbers[1]}-${realNumbers[2]}-${realNumbers[3]}-${realNumbers[4]}-${realNumbers[5]}`;
-      let line4 = "";
-      let line5 = `${this.physicalDurability + this.specialDurability}-${
-        this.physicalDurability
-      }-${this.specialDurability}`;
-
-      /* 2行目 ここから */
-      // 努力値が振られている場合は()で囲み、そうでなければそのまま表示させる
-      // 努力値が252とそれ以外の箇所に分け、それぞれ配列に格納
-      const maxEv = this.stats.filter((stat) => stat.effortValue == 252);
-      const noMaxEv = this.stats.filter(
-        (stat) => stat.effortValue != 252 && stat.effortValue > 0
-      );
-      // 努力値が振られているなら()で囲む
-      for (let i = 0, len = this.stats.length; i < len; i++) {
-        if (i > 0) {
-          line2 += "-";
-        }
-        line2 += String(realNumbers[i]);
-        if (this.stats[i].effortValue > 0 && realNumbers[i] != "*") {
-          line2 += `(${this.stats[i].effortValue})`;
-        }
-      }
-      /* 2行目 ここまで */
-
-      /* 3行目は最初に代入済み */
-
-      /* 4行目 ここから */
-      // 252振りの箇所が2箇所以上あれば、それを1箇所にまとめて表示させる
-      if (maxEv.length >= 2) {
-        // 252振りの箇所は先に
-        for (let i = 0, len = maxEv.length; i < len; i++) {
-          line4 += `${maxEv[i].abbreviation}`;
-        }
-        line4 = line4 + "252";
-        // 252振りでない箇所は後ろに
-        for (let i = 0, len = noMaxEv.length; i < len; i++) {
-          if (noMaxEv[i].effortValue) {
-            line4 += ` ${noMaxEv[i].abbreviation}${noMaxEv[i].effortValue}`;
-          }
-        }
-        // 252振りの箇所が2箇所以上あれば、HABCDSの順に表示する
-      } else {
-        for (let i = 0, len = this.stats.length; i < len; i++) {
-          if (this.stats[i].effortValue > 0) {
-            if (line4) {
-              line4 += " ";
-            }
-            line4 += this.stats[i].abbreviation + this.stats[i].effortValue;
-          }
-        }
-      }
-      /* 4行目 ここまで */
-
-      /* 5行目 ここから*/
-      // 持ち物があれば、耐久指数の箇所に持ち物も出力する
-      if (this.itemGroup == "とつげきチョッキ") {
-        line5 += "(チョッキ)";
-      } else if (
-        this.itemGroup == "しんかのきせき" &&
-        this.currentPokemon.evolutions.length
-      ) {
-        line5 += "(輝石)";
-      }
-      /* 5行目 ここまで*/
-
-      // 努力値が振られているときは努力値(3, 4行目)も出力、無振りのときは努力値(3, 4行目)を出力しない
-      if (this.stats.some((stat) => stat.effortValue > 0)) {
-        this.calcAreas.splice(
-          index,
-          1,
-          `${line1}\n${line2}\n${line3}\n${line4}\n${line5}`
-        ); // dataプロパティの配列を変更する場合には、普通に代入するとリアクティブに変化しなくなってしまうため、spliceメソッドで明示的に置き換える必要がある
-      } else {
-        this.calcAreas.splice(index, 1, `${line1}\n${line2}\n${line5}`);
-      }
-    },
     // 努力値をリセットする
     resetEffortValue(): void {
       this.stats.forEach((stat) => {
@@ -859,9 +713,9 @@ export default Vue.extend({
       let tmpDefence = 0;
       let tmpSpDefence = 0;
 
-      // 実数値の計算は持ち物による補正込で行うが、代入する際には元の値を使うため、別の変数を用意することにした
-      let tmpDefenceInItem = 0;
-      let tmpSpDefenceInItem = 0;
+      // 実数値の計算は耐久補正込で行うが、代入する際には元の値を使うため、別の変数を用意することにした
+      let tmpDefenceEnhancement = 0;
+      let tmpSpDefenceEnhancement = 0;
 
       // 最終的に代入することになる実数値を格納しておくための変数
       let resultHp = 0;
@@ -898,25 +752,18 @@ export default Vue.extend({
           }
           tmpDefence = this.getStats("defence", 2, tmpDefenceEV); // 防御の努力値から防御の実数値を計算
 
-          // 持ち物込での耐久値を求める
-          if (
-            this.itemGroup == "しんかのきせき" &&
-            this.currentPokemon.evolutions.length
-          ) {
-            tmpDefenceInItem = Math.floor(tmpDefence * 1.5);
-            tmpSpDefenceInItem = Math.floor(tmpSpDefence * 1.5);
-          } else if (this.itemGroup == "とつげきチョッキ") {
-            tmpDefenceInItem = tmpDefence;
-            tmpSpDefenceInItem = Math.floor(tmpSpDefence * 1.5);
-          } else {
-            tmpDefenceInItem = tmpDefence;
-            tmpSpDefenceInItem = tmpSpDefence;
-          }
+          // 耐久補正込での耐久値を求める
+          tmpDefenceEnhancement = Math.floor(
+            tmpDefence * this.selectDefenceEnhancement
+          );
+          tmpSpDefenceEnhancement = Math.floor(
+            tmpSpDefence * this.selectSpDefenceEnhancement
+          );
 
           // 耐久指数を計算する
           newHBD =
-            (tmpHp * tmpDefenceInItem * tmpSpDefenceInItem) /
-            (tmpDefenceInItem + tmpSpDefenceInItem);
+            (tmpHp * tmpDefenceEnhancement * tmpSpDefenceEnhancement) /
+            (tmpDefenceEnhancement + tmpSpDefenceEnhancement);
           // 耐久指数が前回のものより大きければ更新、そうでなければ更新しない
           if (oldHBD < newHBD) {
             oldHBD = newHBD;
@@ -933,19 +780,36 @@ export default Vue.extend({
       this.defence = resultDefence;
       this.spDefence = resultSpDefence;
     },
+    // ポケモンのデータを投稿する
+    postPokemon(): void {
+      axios
+        .post("/pokemons", {
+          pokemon: {
+            pokemon_data_id: this.currentPokemon.id,
+            nature_data_id: this.currentNature.id,
+            lv: this.lv,
+            hp_iv: this.stats[0].individualValue,
+            hp_ev: this.stats[0].effortValue,
+            attack_iv: this.stats[1].individualValue,
+            attack_ev: this.stats[1].effortValue,
+            defence_iv: this.stats[2].individualValue,
+            defence_ev: this.stats[2].effortValue,
+            sp_attack_iv: this.stats[3].individualValue,
+            sp_attack_ev: this.stats[3].effortValue,
+            sp_defence_iv: this.stats[4].individualValue,
+            sp_defence_ev: this.stats[4].effortValue,
+            speed_iv: this.stats[5].individualValue,
+            speed_ev: this.stats[5].effortValue,
+            description: this.description,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 });
 </script>
-
-<style lang="scss" scoped>
-/* 『保存する』のボタンをテキストエリア内に埋め込む */
-#resultArea {
-  position: relative;
-  right: 0px;
-  bottom: 0.5px;
-}
-.saveButton {
-  right: 12px;
-  bottom: 30px;
-}
-</style>

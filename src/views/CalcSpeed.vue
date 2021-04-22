@@ -314,6 +314,8 @@ import Vue from "vue";
 import CalcButton from "@/components/CalcButton.vue";
 import SearchPokemon from "@/components/SearchPokemon.vue";
 import SearchNature from "@/components/SearchNature.vue";
+import calculator from "@/mixins/calculator";
+import pokemonParams from "@/mixins/pokemonParams";
 
 export type DataType = {
   tailwind: number;
@@ -330,6 +332,7 @@ export default Vue.extend({
     SearchPokemon,
     SearchNature,
   },
+  mixins: [calculator, pokemonParams],
   data: (): DataType => ({
     tailwind: 1,
     paralysis: 10,
@@ -339,62 +342,6 @@ export default Vue.extend({
     selectAbility: 10,
   }),
   computed: {
-    // 将来的な拡張性を考慮して、ポケモン名や各種ステータスはVuexで管理している
-    currentPokemon(): {
-      no: number;
-      name: string;
-      form: string;
-      ranks: string[];
-      evolutions: number[];
-      types: string[];
-      abilities: string[];
-      hiddenAbilities: string[];
-      stats: {
-        [key: string]: number;
-      };
-    } {
-      return this.$store.getters.currentPokemon;
-    },
-    currentNature(): {
-      id: number;
-      name: string;
-      stats: {
-        [key: string]: number;
-      };
-    } {
-      return this.$store.getters.currentNature;
-    },
-    lv: {
-      get(): number {
-        return this.$store.getters.lv;
-      },
-      set(value: number) {
-        // レベルの上限を100、下限を1とする
-        if (value > 100) {
-          value = 100;
-          // ここを「value < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されるため、UI的によろしくない。そこで、"0から始まる数値"と"負の数"を正規表現を用いて検出するようにし、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
-        } else if (/^0|^\.|^-/.test(String(value))) {
-          value = 1;
-          // 小数点以下を削除する（勝手に0が入ってしまうのを防ぐため、空白を明示的に除外している）
-        } else if (String(value) != "") {
-          value = Math.floor(value);
-        }
-        // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-        (this.$refs.lv as Vue & {
-          lazyValue: number;
-        }).lazyValue = value;
-        this.$store.commit("updateLv", value);
-      },
-    },
-    stats(): {
-      en: string;
-      ja: string;
-      abbreviation: string;
-      individualValue: number | null;
-      effortValue: number | null;
-    }[] {
-      return this.$store.getters.stats;
-    },
     speed: {
       get(): number {
         return this.getSpeed();
@@ -420,24 +367,6 @@ export default Vue.extend({
     },
   },
   methods: {
-    // 小数点を切り捨てる、また、nullや負の数には初期値を返していく
-    numberToInt(value: number, defaultValue = 0): number {
-      if (String(value) === "" || value < defaultValue) {
-        return defaultValue;
-      } else {
-        return Math.floor(value);
-      }
-    },
-    // 代入する値を検証して返す
-    valueVerification(value: number, max: number): number | null {
-      if (value > max) {
-        return max;
-      } else if (value <= 0) {
-        return null;
-      } else {
-        return Math.floor(value);
-      }
-    },
     // 努力値の更新
     updateSpeedEffortValue(value: number): void {
       value = this.valueVerification(value, 252);

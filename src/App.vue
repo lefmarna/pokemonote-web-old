@@ -87,9 +87,9 @@ export default Vue.extend({
         link: "/",
       },
       {
-        name: "ステータス計算機",
+        name: "新規ポケモン投稿",
         icon: "mdi-calculator",
-        link: "/calc-stats",
+        link: "/pokemons/new",
       },
       {
         name: "素早さ計算機",
@@ -246,22 +246,6 @@ button {
   touch-action: manipulation;
 }
 
-// ハートの背景をCSSで設計する
-// #app {
-//   background-color: #e3f2fd;
-//   background-image: linear-gradient(135deg, $heart1 0.85em, transparent 0),
-//     linear-gradient(-135deg, $heart1 0.85em, transparent 0),
-//     radial-gradient(circle at 7.4em 7.4em, $heart1 0.85em, transparent 0.85em),
-//     radial-gradient(circle at 0.56em 7.4em, $heart1 0.85em, transparent 0.85em),
-//     linear-gradient(135deg, #90caf9 0.85em, transparent 0),
-//     linear-gradient(-135deg, $heart2 0.85em, transparent 0),
-//     radial-gradient(circle at 7.4em 7.4em, $heart2 0.85em, transparent 0.85em),
-//     radial-gradient(circle at 0.56em 7.4em, $heart2 0.85em, transparent 0.85em);
-//   background-position: 0 4em, 0 4em, 0 -4em, 0 -4em, 4em 0, 4em 0, 4em 0, 4em 0;
-//   background-size: 8em 8em;
-//   background-repeat: repeat;
-// }
-
 // リボン風の見出しを作る
 h2 {
   position: relative;
@@ -309,7 +293,7 @@ h2:after {
 }
 .statsTable {
   /* ステータスの入力時にハイライトをつけて見やすくする */
-  .row:hover:not(:nth-last-child(-n + 2)) {
+  .row:hover:not(:nth-last-child(-n + 1)) {
     background-color: #eee;
   }
   // 文字の色を変えることで、性格補正を分かりやすく！
