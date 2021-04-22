@@ -87,9 +87,9 @@ export default Vue.extend({
         link: "/",
       },
       {
-        name: "ステータス計算機",
+        name: "新規ポケモン投稿",
         icon: "mdi-calculator",
-        link: "/calc-stats",
+        link: "/pokemons/new",
       },
       {
         name: "素早さ計算機",
