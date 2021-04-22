@@ -168,82 +168,109 @@
       <v-col cols="12" md="6" class="d-flex">
         <v-container :class="$vuetify.breakpoint.xs ? 'pa-0' : ''">
           <v-row>
-            <v-col cols="6" class="py-0" align-self="center">
-              <p class="mb-2">
-                総合耐久：{{ physicalDurability + specialDurability }}
-              </p>
-              <p class="mb-2" style="padding-left: 2em">
-                物理：{{ physicalDurability }}
-              </p>
-              <p class="mb-0" style="padding-left: 2em">
-                特殊：{{ specialDurability }}
-              </p>
+            <v-col cols="6">
+              <v-card height="100%" shaped>
+                <v-card-title>耐久指数</v-card-title>
+                <v-card-text>
+                  <p class="mb-2">
+                    総合：{{ physicalDurability + specialDurability }}
+                  </p>
+                  <p class="mb-2">物理：{{ physicalDurability }}</p>
+                  <p class="mb-0">特殊：{{ specialDurability }}</p>
+                </v-card-text>
+              </v-card>
             </v-col>
-            <v-col cols="6" class="hiddenPower py-0" align-self="center">
-              <p class="mb-0">めざめるパワー：{{ hiddenPower }}</p>
+            <v-col cols="6">
+              <v-card height="100%" shaped>
+                <v-card-title>その他</v-card-title>
+                <v-card-text>めざパ：{{ hiddenPower }} </v-card-text>
+              </v-card>
             </v-col>
           </v-row>
-          <!-- <v-divider /> -->
           <!-- 耐久調整-->
-          <v-row class="pb-3" align="start">
-            <v-col cols="4" class="mt-2" align="center">
-              <v-btn
-                color="primary"
-                elevation="2"
-                class="centered-input"
-                outlined
-                small
-                @click.native="durabilityAdjustment"
-                >耐久調整</v-btn
-              >
-            </v-col>
-            <v-col cols="8" align="center">
-              <v-row>
-                <v-col class="pb-3" align="right">
-                  <v-select
-                    v-model="selectDefenceEnhancement"
-                    :items="enhancements"
-                    item-text="name"
-                    item-value="value"
-                    label="防御"
-                  ></v-select>
-                </v-col>
-                <v-col class="pb-3" align="right">
-                  <v-select
-                    v-model="selectSpDefenceEnhancement"
-                    :items="enhancements"
-                    item-text="name"
-                    item-value="value"
-                    label="特防"
-                  ></v-select>
-                </v-col>
-              </v-row>
+          <v-row class="pb-2" align="start">
+            <v-col cols="12">
+              <v-card shaped>
+                <v-card-title>耐久調整</v-card-title>
+                <v-card-text>
+                  <v-row>
+                    <v-col cols="6" class="pb-0" align="center">
+                      <v-card-subtitle class="pa-0">倍率</v-card-subtitle>
+                      <v-select
+                        v-model="selectDefenceEnhancement"
+                        :items="defenceEnhancements"
+                        item-text="name"
+                        item-value="value"
+                        label="防御"
+                      ></v-select>
+                      <v-select
+                        v-model="selectSpDefenceEnhancement"
+                        :items="spDefenceEnhancements"
+                        item-text="name"
+                        item-value="value"
+                        label="特防"
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="6" class="pb-0" align="center">
+                      <v-card-subtitle class="pa-0"
+                        >計算スタイル</v-card-subtitle
+                      >
+                      <v-radio-group v-model="calcStyle">
+                        <v-radio
+                          label="バランス - HBD/(B+D)"
+                          value="balance"
+                        ></v-radio>
+                        <v-radio
+                          label="総合耐久 - H=B+D"
+                          value="performance"
+                          disabled
+                        ></v-radio>
+                      </v-radio-group>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+                <v-card-actions class="pt-0">
+                  <v-row>
+                    <v-col cols="12" class="pt-0" align="center">
+                      <v-btn
+                        color="primary"
+                        elevation="2"
+                        outlined
+                        @click.native="durabilityAdjustment"
+                        large
+                        >耐久調整を計算する</v-btn
+                      >
+                    </v-col>
+                  </v-row>
+                </v-card-actions>
+              </v-card>
             </v-col>
           </v-row>
-          <v-row>
-            <v-col align="left">
-              <v-btn
-                color="danger"
-                elevation="2"
-                class="centered-input"
-                outlined
-                small
-                @click.native="resetEffortValue"
-                >努力値リセット</v-btn
-              >
-            </v-col>
-            <v-col class="pb-3" align="right">
-              <v-btn color="primary" elevation="3" large>保存する</v-btn>
-            </v-col>
-          </v-row>
-          <!-- メモ欄 -->
+          <!-- ポケモンの説明 -->
           <v-row>
             <v-col class="py-0">
               <v-textarea
                 outlined
                 rows="5"
+                shaped
                 placeholder="ポケモンの説明（例：○○の××確定耐え）"
               ></v-textarea>
+            </v-col>
+          </v-row>
+          <!-- 「努力値リセット」と「投稿する」のボタン -->
+          <v-row class="pb-2" align-content="center">
+            <v-col class="text-center">
+              <v-btn
+                color="danger"
+                elevation="2"
+                outlined
+                @click.native="resetEffortValue"
+                large
+                >努力値リセット</v-btn
+              >
+            </v-col>
+            <v-col class="text-center">
+              <v-btn color="primary" elevation="3" large>投稿する</v-btn>
             </v-col>
           </v-row>
         </v-container>
@@ -266,6 +293,7 @@ export type DataType = {
   spAttackCheck: boolean;
   selectDefenceEnhancement: number;
   selectSpDefenceEnhancement: number;
+  calcStyle: string;
 };
 
 export default Vue.extend({
@@ -281,6 +309,7 @@ export default Vue.extend({
     spAttackCheck: false,
     selectDefenceEnhancement: 1,
     selectSpDefenceEnhancement: 1,
+    calcStyle: "balance",
   }),
   computed: {
     // 各種ステータスの計算（methodsで引数を指定すれば、同じ計算を1箇所にまとめることもできるが、パフォーマンスの高いcomputedを使いたいため、あえて個別に計算している）
@@ -460,13 +489,23 @@ export default Vue.extend({
           return "あく";
       }
     },
-    enhancements(): {
+    defenceEnhancements(): {
       name: string;
       value: number;
     }[] {
       return [
-        { name: "2.0", value: 2.0 },
-        { name: "1.5", value: 1.5 },
+        { name: "2.0 - ファーコート等", value: 2.0 },
+        { name: "1.5 - ふくつのたて等", value: 1.5 },
+        { name: "1.0", value: 1.0 },
+      ];
+    },
+    spDefenceEnhancements(): {
+      name: string;
+      value: number;
+    }[] {
+      return [
+        { name: "2.0 - こおりのりんぷん等", value: 2.0 },
+        { name: "1.5 - とつげきチョッキ等", value: 1.5 },
         { name: "1.0", value: 1.0 },
       ];
     },
