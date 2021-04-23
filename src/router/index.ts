@@ -95,6 +95,12 @@ const routes: Array<RouteConfig> = [
     props: (route) => ({ id: Number(route.params.id) }),
   },
   {
+    path: "/pokemons/:id(\\d+)", // IDは数値のみを許可
+    name: "ポケモン詳細",
+    component: () => import("../views/pokemons/Show.vue"),
+    props: (route) => ({ id: Number(route.params.id) }),
+  },
+  {
     path: "/pokemons",
     name: "ポケモン一覧",
     component: () => import("../views/pokemons/Index.vue"),
