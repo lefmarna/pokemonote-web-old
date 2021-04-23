@@ -351,14 +351,12 @@ export default Vue.extend({
       },
     },
     speedItems(): {
-      id: number;
       name: string;
       value: number;
     }[] {
       return this.$store.getters.speedItems;
     },
     speedAbilities(): {
-      id: number;
       name: string;
       value: number;
       magnification: number;

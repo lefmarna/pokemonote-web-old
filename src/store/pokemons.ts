@@ -12,6 +12,7 @@ const state = {
     no: 645,
     name: "ランドロス(霊獣)",
     form: "れいじゅうフォルム",
+    ranks: [],
     evolutions: [],
     types: ["じめん", "ひこう"],
     abilities: ["いかく"],
@@ -24,11 +25,9 @@ const state = {
       spDefence: 80,
       speed: 91,
     },
-    id: 749,
   },
   lv: 50,
   currentNature: {
-    id: 0,
     name: "がんばりや",
     stats: {
       hp: 1.0,
@@ -130,23 +129,10 @@ const actions = {
       .get("/data")
       .then((response) => {
         const data = response.data;
-        // ActiveHashで作成したデータはattributesの中に格納される仕様のため、mapメソッドを使い取り出してあげる必要がある
-        commit(
-          "updatePokemonData",
-          data.pokemonData.map((pokemonData: any) => pokemonData.attributes)
-        );
-        commit(
-          "updateNatureData",
-          data.natureData.map((natureData: any) => natureData.attributes)
-        );
-        commit(
-          "updateSpeedItems",
-          data.speed_items.map((items: any) => items.attributes)
-        );
-        commit(
-          "updateSpeedAbilities",
-          data.speed_abilities.map((abilities: any) => abilities.attributes)
-        );
+        commit("updatePokemonData", data.pokemonData);
+        commit("updateNatureData", data.natureData);
+        commit("updateSpeedItems", data.speed_items);
+        commit("updateSpeedAbilities", data.speed_abilities);
       })
       .catch((error) => {
         console.log(error);

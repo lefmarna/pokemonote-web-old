@@ -785,8 +785,8 @@ export default Vue.extend({
       axios
         .post("/pokemons", {
           pokemon: {
-            pokemon_data_id: this.currentPokemon.id,
-            nature_data_id: this.currentNature.id,
+            name: this.currentPokemon.name,
+            nature: this.currentNature.name,
             lv: this.lv,
             hp_iv: this.stats[0].individualValue,
             hp_ev: this.stats[0].effortValue,
