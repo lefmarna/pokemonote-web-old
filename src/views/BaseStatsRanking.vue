@@ -1,5 +1,5 @@
 <template>
-  <v-container class="contents">
+  <v-container>
     <Title text="種族値ランキング（ポケモン剣盾）" />
     <v-row>
       <v-col cols="12" md="6">
@@ -34,7 +34,6 @@
       </v-col>
       <v-col>
         <v-data-table
-          style="border-top: thin solid rgba(0, 0, 0, 0.12)"
           :headers="headers"
           :items="pokemonListInTotal"
           :items-per-page="10"
@@ -42,7 +41,6 @@
           sort-by="total"
           sort-desc
           must-sort
-          dense
         ></v-data-table>
       </v-col>
     </v-row>
