@@ -106,9 +106,9 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/pokemons/Index.vue"),
   },
   {
-    path: "/test",
-    name: "テスト",
-    component: () => import("../views/Test.vue"),
+    path: "/netlify",
+    name: "お問い合わせ",
+    component: () => import("../views/Netlify.vue"),
     meta: {
       requireAuth: true,
     },
