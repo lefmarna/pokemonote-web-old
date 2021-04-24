@@ -1,7 +1,7 @@
 <template>
-  <v-container class="contents">
+  <v-container>
     <Title text="素早さ計算機（ポケモン剣盾）" />
-    <v-row no-gutters>
+    <v-row>
       <v-col cols="12" md="6" class="d-flex">
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
           <SearchPokemon />

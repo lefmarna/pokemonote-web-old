@@ -19,6 +19,19 @@
           </v-list-item>
         </v-list>
         <v-divider />
+        <v-list-item>Tools</v-list-item>
+        <v-divider></v-divider>
+        <v-list dense nav>
+          <v-list-item v-for="tool in tools" :to="tool.link" :key="tool.name">
+            <v-list-item-icon>
+              <v-icon>{{ tool.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ tool.name }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-divider />
         <v-list-item>その他</v-list-item>
         <v-divider />
         <v-list dense nav>
@@ -67,7 +80,6 @@
         <v-btn text to="/registration">新規登録</v-btn>
       </v-toolbar-items>
     </v-app-bar>
-
     <v-main>
       <router-view />
     </v-main>
@@ -87,10 +99,22 @@ export default Vue.extend({
         link: "/",
       },
       {
-        name: "新規ポケモン投稿",
+        name: "ポケモンを投稿する",
         icon: "mdi-calculator",
         link: "/pokemons/new",
       },
+      {
+        name: "ユーザー一覧",
+        icon: "mdi-account-group",
+        link: "/users",
+      },
+      {
+        name: "ポケモン一覧",
+        icon: "mdi-pokemon-go",
+        link: "/pokemons",
+      },
+    ],
+    tools: [
       {
         name: "素早さ計算機",
         icon: "mdi-run-fast",
@@ -101,37 +125,27 @@ export default Vue.extend({
         icon: "mdi-finance",
         link: "/base-stats-ranking",
       },
-      {
-        name: "ユーザー一覧",
-        icon: "mdi-account-group",
-        link: "/users",
-      },
-      {
-        name: "ポケモン一覧",
-        icon: "mdi-account-group",
-        link: "/pokemons",
-      },
+    ],
+    otherMenuLists: [
       {
         name: "チップを送る",
         icon: "mdi-heart",
         link: "/send-tip",
       },
       {
-        name: "テスト",
-        icon: "mdi-cog",
-        link: "/test",
-      },
-      {
         name: "利用規約",
         icon: "mdi-comment-alert",
         link: "/privacy-policy",
       },
-    ],
-    otherMenuLists: [
+      {
+        name: "お問い合わせ",
+        icon: "mdi-email",
+        link: "/netlify",
+      },
       {
         name: "設定",
         icon: "mdi-cog",
-        link: "/send-tip",
+        link: "/settings",
       },
     ],
   }),
