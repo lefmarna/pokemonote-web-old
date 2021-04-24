@@ -89,10 +89,10 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/users/Index.vue"),
   },
   {
-    path: "/users/:id(\\d+)", // IDは数値のみを許可
+    path: "/users/:id",
     name: "ユーザ詳細",
     component: () => import("../views/users/Show.vue"),
-    props: (route) => ({ id: Number(route.params.id) }),
+    props: (route) => ({ id: route.params.id }),
   },
   {
     path: "/pokemons/:id(\\d+)", // IDは数値のみを許可

@@ -21,7 +21,7 @@ export default Vue.extend({
     user: [],
     pokemons: [],
   }),
-  props: { id: Number },
+  props: { id: String },
   components: {
     PokemonTable,
   },

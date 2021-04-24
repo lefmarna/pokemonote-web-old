@@ -20,7 +20,7 @@
       </template>
       <!-- v-slotを使うことで、ユーザー名にリンクを設定する -->
       <template v-slot:[`item.user.nickname`]="{ item }">
-        <router-link :to="`/users/${item.user_id}`">
+        <router-link :to="`/users/${item.user.username}`">
           {{ item.user.nickname }}
         </router-link>
       </template>

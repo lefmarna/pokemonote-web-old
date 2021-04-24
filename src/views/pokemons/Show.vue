@@ -2,7 +2,7 @@
   <div class="pokemon" v-if="pokemon">
     <p>ID：{{ id }}</p>
     <p>ポケモン名：{{ pokemon.name }}</p>
-    <p>表示名：{{ pokemon.user.nickname }}</p>
+    <!-- <p>表示名：{{ pokemon.user.nickname }}</p> -->
   </div>
   <div v-else>ポケモン情報を読み込んでいます...</div>
 </template>
