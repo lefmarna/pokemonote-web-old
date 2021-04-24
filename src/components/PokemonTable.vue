@@ -12,13 +12,20 @@
       ></v-text-field>
     </v-card-title>
     <v-data-table :headers="headers" :items="pokemonTable" :search="search">
-      <!-- v-slotを使うことで、ポケモン名にリンクを設定する -->
+      <!-- ステータスにコピペボタンを追加する -->
+      <template v-slot:[`item.stats`]="{ item }">
+        {{ item.stats }}
+        <v-icon small @click="writeToClipboard(item.stats)"
+          >mdi-content-copy</v-icon
+        >
+      </template>
+      <!-- ポケモン名にリンクを設定する -->
       <template v-slot:[`item.name`]="{ item }">
         <router-link :to="`/pokemons/${item.id}`">
           {{ item.name }}
         </router-link>
       </template>
-      <!-- v-slotを使うことで、ユーザー名にリンクを設定する -->
+      <!-- ユーザー名にリンクを設定する -->
       <template v-slot:[`item.user.nickname`]="{ item }">
         <router-link :to="`/users/${item.user.username}`">
           {{ item.user.nickname }}
@@ -87,6 +94,13 @@ export default Vue.extend({
         // statsというキーを作り、結果を代入
         pokemon.stats = result;
         return pokemon;
+      });
+    },
+  },
+  methods: {
+    writeToClipboard(clipText: string): void {
+      navigator.clipboard.writeText(clipText).catch((e) => {
+        console.error(e);
       });
     },
   },
