@@ -1,11 +1,8 @@
 <template>
   <div class="user" v-if="user">
-    <p>ID：{{ id }}</p>
-    <p>ユーザー名：{{ user.username }}</p>
-    <p>表示名：{{ user.nickname }}</p>
-    <v-avatar v-if="user.image" size="36px">
+    <!-- <v-avatar v-if="user.image" size="36px">
       <img alt="アイコン" :src="user.image" />
-    </v-avatar>
+    </v-avatar> -->
     <PokemonTable :title="`${user.nickname}さんの投稿`" :pokemons="pokemons" />
   </div>
   <div v-else>ユーザー情報を読み込んでいます...</div>
