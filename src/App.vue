@@ -107,6 +107,11 @@ export default Vue.extend({
         link: "/users",
       },
       {
+        name: "ポケモン一覧",
+        icon: "mdi-account-group",
+        link: "/pokemons",
+      },
+      {
         name: "チップを送る",
         icon: "mdi-heart",
         link: "/send-tip",

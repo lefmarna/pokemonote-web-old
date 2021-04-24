@@ -19,7 +19,6 @@ export default Vue.extend({
   mixins: [filterForSearch],
   computed: {
     natureData(): {
-      id: number;
       name: string;
       stats: {
         [key: string]: number;
@@ -30,7 +29,6 @@ export default Vue.extend({
     currentNature: {
       get(): {
         currentNature: {
-          id: number;
           name: string;
           stats: {
             [key: string]: number;

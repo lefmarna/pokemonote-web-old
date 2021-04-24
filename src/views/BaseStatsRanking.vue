@@ -86,7 +86,6 @@ export default Vue.extend({
       stats: {
         [key: string]: number;
       };
-      id: number;
       total?: number;
     }[] {
       return this.$store.getters.pokemonData;

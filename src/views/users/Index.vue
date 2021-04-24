@@ -14,7 +14,7 @@
     <v-data-table :headers="headers" :items="users" :search="search">
       <!-- v-slotを使うことで、nicknameにリンクを設定する -->
       <template v-slot:[`item.nickname`]="{ item }">
-        <router-link :to="`/users/${item.id}`">
+        <router-link :to="`/users/${item.username}`">
           {{ item.nickname }}
         </router-link>
       </template>
