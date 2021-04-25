@@ -29,7 +29,7 @@ const routes: Array<RouteConfig> = [
     name: "素早さ計算機",
     component: () => import("../views/CalcSpeed.vue"),
     meta: {
-      title: "素早さ計算機（ポケモン剣盾）",
+      title: "素早さ計算機（ポケモン剣盾『鎧の孤島』『冠の雪原』に対応）",
       desc:
         "ポケモン剣盾（『鎧の孤島』『冠の雪原』）に対応している素早さ計算機です。実数値を入力することで、追い風や麻痺、湿原といったあらゆる状態の素早さをリアルタイムに表示します。すいすいや葉緑素などの特性、スカーフや鉄球といった持ち物を含んだ計算にも対応している、高機能な素早さ計算ツールとなっています。",
     },
@@ -39,7 +39,7 @@ const routes: Array<RouteConfig> = [
     name: "種族値ランキング",
     component: () => import("../views/BaseStatsRanking.vue"),
     meta: {
-      title: "種族値ランキング（ポケモン剣盾）",
+      title: "種族値ランキング（ポケモン剣盾『鎧の孤島』『冠の雪原』に対応）",
       desc:
         "ポケモン剣盾の種族値ランキングです。攻撃や特攻、素早さを除いた実質種族値でのリストアップも可能です。伝説や幻のポケモンを表示するオプション、各種ステータスでソートする機能にも対応しています。準伝や600属の暴れる環境で、採用するポケモンに迷った際には、きっとこのツールが役立つことでしょう。",
     },
@@ -109,6 +109,11 @@ const routes: Array<RouteConfig> = [
     path: "/netlify",
     name: "お問い合わせ",
     component: () => import("../views/Netlify.vue"),
+  },
+  {
+    path: "/send-tip",
+    name: "チップを贈る",
+    component: () => import("../views/SendTip.vue"),
     meta: {
       requireAuth: true,
     },

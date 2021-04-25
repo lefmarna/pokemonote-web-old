@@ -17,11 +17,7 @@
     </p>
     <h3>お問い合わせされた個人情報を取得します</h3>
     <p>
-      当サイトでは<a
-        href="https://pokemonit.com/otoiawase/"
-        target="_blank"
-        rel="noopener noreferrer"
-        >お問い合わせフォーム</a
+      当サイトでは<router-link to="/netlify">お問い合わせフォーム</router-link
       >を設けています。
     </p>
     <p>
@@ -106,11 +102,8 @@
       訪問者ご本人からの個人情報の開示、訂正、追加、削除、利用停止のご希望の場合には、ご本人であることを確認させていただいた上、速やかに対応させていただきます。
     </p>
     <p>
-      上記を希望される場合は、<a
-        href="https://pokemonit.com/otoiawase/"
-        target="_blank"
-        rel="noopener noreferrer"
-        >お問い合わせフォーム</a
+      上記を希望される場合は、<router-link to="/netlify"
+        >お問い合わせフォーム</router-link
       >にてお問い合わせください。
     </p>
     <h2>個人情報の第三者への提供について</h2>
