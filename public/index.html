@@ -50,5 +50,11 @@
       >
     </noscript>
     <div id="app"></div>
+    <!-- NetlifyにForms機能を認識してもらうための記述 -->
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+    </form>
   </body>
 </html>
