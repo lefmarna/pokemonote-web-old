@@ -108,7 +108,12 @@ const routes: Array<RouteConfig> = [
   {
     path: "/netlify",
     name: "お問い合わせ",
-    component: () => import("../views/Netlify.vue"),
+    component: () => import("../views/netlify/Index.vue"),
+  },
+  {
+    path: "/thanks",
+    name: "送信成功",
+    component: () => import("../views/netlify/Thanks.vue"),
   },
   {
     path: "/send-tip",
