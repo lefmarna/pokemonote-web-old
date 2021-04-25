@@ -37,7 +37,7 @@
         <v-list dense nav>
           <v-list-item
             v-for="otherMenuList in otherMenuLists"
-            :href="otherMenuList.link"
+            :to="otherMenuList.link"
             :key="otherMenuList.name"
           >
             <v-list-item-icon>
@@ -128,7 +128,7 @@ export default Vue.extend({
     ],
     otherMenuLists: [
       {
-        name: "チップを送る",
+        name: "チップを贈る",
         icon: "mdi-heart",
         link: "/send-tip",
       },
