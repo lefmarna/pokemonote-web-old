@@ -19,6 +19,7 @@
 <script lang="ts">
 import Vue from "vue";
 import axios from "axios";
+import router from "@/router";
 
 export default Vue.extend({
   methods: {
@@ -31,6 +32,8 @@ export default Vue.extend({
     },
     handleSubmit() {
       const axiosConfig: any = {
+        // 本番環境でないと動作しないので、URLを環境変数に入れていない
+        baseURL: "https://pokemonote.com/",
         header: { "Content-Type": "application/x-www-form-urlencoded" },
       };
       axios.post(
@@ -38,7 +41,13 @@ export default Vue.extend({
         this.encode({
           "form-name": "contact",
           ...this.form,
-        }),
+        })
+          .then(() => {
+            router.push("/netlify/thanks");
+          })
+          .then(() => {
+            router.push("/");
+          }),
         axiosConfig
       );
     },
