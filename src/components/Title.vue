@@ -3,7 +3,7 @@
     <h1 class="title font-weight-bold my-2" id="title">
       {{ text }}
     </h1>
-    <v-divider />
+    <!-- <v-divider /> -->
   </div>
 </template>
 

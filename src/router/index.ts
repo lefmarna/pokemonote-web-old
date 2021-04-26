@@ -63,6 +63,9 @@ const routes: Array<RouteConfig> = [
     path: "/login",
     name: "ログイン",
     component: () => import("../views/Login.vue"),
+    meta: {
+      title: "ログイン",
+    },
     beforeEnter(to, from, next) {
       if (store.getters.accessToken) {
         next("/");
@@ -73,8 +76,11 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: "/registration",
-    name: "新規登録",
+    name: "アカウント作成",
     component: () => import("../views/Registration.vue"),
+    meta: {
+      title: "アカウント作成",
+    },
     beforeEnter(to, from, next) {
       if (store.getters.accessToken) {
         next("/");

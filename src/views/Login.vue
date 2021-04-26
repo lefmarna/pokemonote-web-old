@@ -1,13 +1,14 @@
 <template>
   <v-container>
-    <v-card width="400px" class="mx-auto mt-5">
+    <v-card max-width="540px" class="mx-auto mt-5">
       <v-card-title>
-        <h1 class="display-1">ログイン</h1>
+        <v-card-title class="mx-auto">Pokemonote - ログイン</v-card-title>
       </v-card-title>
       <v-card-text>
         <v-form ref="form" lazy-validation>
           <v-text-field
             v-model="email"
+            type="email"
             prepend-icon="mdi-email"
             label="メールアドレス"
           />
@@ -19,11 +20,7 @@
             type="password"
           />
           <v-card-actions>
-            <v-btn
-              @click="login"
-              color="light-green darken-1"
-              class="white--text"
-            >
+            <v-btn @click="login" class="mx-auto px-5" color="info" large>
               ログイン
             </v-btn>
           </v-card-actions>

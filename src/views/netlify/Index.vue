@@ -1,37 +1,46 @@
 <template>
   <v-container>
-    <Title text="お問い合わせ" />
     <form
       name="contact"
       netlify
       netlify-honeypot="bot-field"
       @submit.prevent="handleSubmit"
     >
-      <input type="hidden" name="form-name" value="contact" />
-      <v-text-field
-        type="text"
-        name="name"
-        v-model="name"
-        prepend-icon="mdi-account"
-        label="お名前"
-      />
-      <v-text-field
-        type="email"
-        name="email"
-        v-model="email"
-        prepend-icon="mdi-email"
-        label="メールアドレス"
-      />
-      <v-textarea
-        name="message"
-        outlined
-        v-model="message"
-        prepend-icon="mdi-card-text"
-        label="お問い合わせ内容"
-      ></v-textarea>
-      <div align="center">
-        <v-btn type="submit" color="info" large>送信する</v-btn>
-      </div>
+      <v-card max-width="540px" class="mx-auto mt-5">
+        <v-card-title>
+          <v-card-title class="mx-auto">Pokemonote - お問い合わせ</v-card-title>
+        </v-card-title>
+        <v-card-text>
+          <!-- Vueを使ってNetlifyのformを送るのに必要な記述 -->
+          <input type="hidden" name="form-name" value="contact" />
+          <v-text-field
+            type="text"
+            name="name"
+            v-model="name"
+            prepend-icon="mdi-account"
+            label="お名前"
+          />
+          <v-text-field
+            type="email"
+            name="email"
+            v-model="email"
+            prepend-icon="mdi-email"
+            label="メールアドレス"
+          />
+          <v-textarea
+            name="message"
+            outlined
+            v-model="message"
+            prepend-icon="mdi-card-text"
+            label="お問い合わせ内容"
+          ></v-textarea>
+          <v-card-actions>
+            <v-btn type="submit" class="mx-auto px-5" color="info" large
+              >送信する</v-btn
+            >
+          </v-card-actions>
+        </v-card-text>
+      </v-card>
     </form>
   </v-container>
 </template>

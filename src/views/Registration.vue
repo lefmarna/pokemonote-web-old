@@ -1,8 +1,8 @@
 <template>
   <v-container>
-    <v-card width="400px" class="mx-auto mt-5">
+    <v-card max-width="540px" class="mx-auto mt-5">
       <v-card-title>
-        <h1 class="display-1">新規登録</h1>
+        <v-card-title class="mx-auto">Pokemonote - アカウント作成</v-card-title>
       </v-card-title>
       <v-card-text>
         <v-form ref="form" id="form" lazy-validation>
@@ -15,17 +15,18 @@
             v-model="username"
             name="username"
             prepend-icon="mdi-account"
-            label="ユーザー名"
+            label="ユーザー名（URLに使用されます）"
           />
           <v-text-field
             v-model="nickname"
             name="nickname"
-            prepend-icon="mdi-account"
+            prepend-icon="mdi-account-outline"
             label="表示名"
           />
           <v-text-field
             v-model="email"
             name="email"
+            type="email"
             prepend-icon="mdi-email"
             label="メールアドレス"
           />
@@ -46,11 +47,7 @@
             type="password"
           />
           <v-card-actions>
-            <v-btn
-              @click="register"
-              color="light-green darken-1"
-              class="white--text"
-            >
+            <v-btn @click="register" class="mx-auto px-5" color="info" large>
               新規登録
             </v-btn>
           </v-card-actions>
