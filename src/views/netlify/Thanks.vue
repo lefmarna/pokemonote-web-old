@@ -1,8 +1,10 @@
 <template>
-  <div>
-    <h1>You're Awesome! Thank you for your submission!</h1>
-    <router-link to="/">
-      <button>Back to form</button>
-    </router-link>
-  </div>
+  <v-container>
+    <Title text="お問い合わせ" />
+    <p>
+      この度はお問い合わせいただきありがとうございます。<br />
+      メールを確認次第、ご連絡をさせていただきます。
+    </p>
+    <v-btn to="/">トップページへ戻る</v-btn>
+  </v-container>
 </template>
