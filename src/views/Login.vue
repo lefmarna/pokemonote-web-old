@@ -1,40 +1,25 @@
 <template>
-  <v-container>
-    <v-card max-width="540px" class="mx-auto mt-5">
-      <v-card-title>
-        <v-card-title class="mx-auto">Pokemonote - ログイン</v-card-title>
-      </v-card-title>
-      <v-card-text>
-        <v-form ref="form" lazy-validation>
-          <v-text-field
-            v-model="email"
-            type="email"
-            prepend-icon="mdi-email"
-            label="メールアドレス"
-          />
-          <v-text-field
-            v-model="password"
-            prepend-icon="mdi-lock"
-            append-icon="mdi-eye-off"
-            label="パスワード"
-            type="password"
-          />
-          <v-card-actions>
-            <v-btn @click="login" class="mx-auto px-5" color="info" large>
-              ログイン
-            </v-btn>
-          </v-card-actions>
-          <ErrorMeessages :errors="errors" />
-        </v-form>
-      </v-card-text>
-    </v-card>
-  </v-container>
+  <Form title="ログイン" buttonText="ログイン" :errors="errors" @submit="login">
+    <v-text-field
+      v-model="email"
+      type="email"
+      prepend-icon="mdi-email"
+      label="メールアドレス"
+    />
+    <v-text-field
+      v-model="password"
+      prepend-icon="mdi-lock"
+      append-icon="mdi-eye-off"
+      label="パスワード"
+      type="password"
+    />
+  </Form>
 </template>
 
 <script lang="ts">
 import axios from "axios";
 import router from "@/router";
-import ErrorMeessages from "@/components/ErrorMessages.vue";
+import Form from "@/components/Form.vue";
 
 export type DataType = {
   email: string;
@@ -45,7 +30,7 @@ export type DataType = {
 export default {
   name: "login",
   components: {
-    ErrorMeessages,
+    Form,
   },
   data: (): DataType => ({
     email: "",

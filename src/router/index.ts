@@ -115,6 +115,9 @@ const routes: Array<RouteConfig> = [
     path: "/netlify",
     name: "お問い合わせ",
     component: () => import("../views/netlify/Index.vue"),
+    meta: {
+      title: "お問い合わせ",
+    },
   },
   {
     path: "/netlify/thanks",

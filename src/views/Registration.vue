@@ -1,67 +1,58 @@
 <template>
-  <v-container>
-    <v-card max-width="540px" class="mx-auto mt-5">
-      <v-card-title>
-        <v-card-title class="mx-auto">Pokemonote - アカウント作成</v-card-title>
-      </v-card-title>
-      <v-card-text>
-        <v-form ref="form" id="form" lazy-validation>
-          <v-file-input
-            accept="image/jpeg, image/png"
-            name="image"
-            label="アイコン"
-          ></v-file-input>
-          <v-text-field
-            v-model="username"
-            name="username"
-            prepend-icon="mdi-account"
-            label="ユーザー名（URLに使用されます）"
-          />
-          <v-text-field
-            v-model="nickname"
-            name="nickname"
-            prepend-icon="mdi-account-outline"
-            label="表示名"
-          />
-          <v-text-field
-            v-model="email"
-            name="email"
-            type="email"
-            prepend-icon="mdi-email"
-            label="メールアドレス"
-          />
-          <v-text-field
-            v-model="password"
-            name="password"
-            prepend-icon="mdi-lock"
-            append-icon="mdi-eye-off"
-            label="パスワード"
-            type="password"
-          />
-          <v-text-field
-            v-model="password_confirmation"
-            name="password_confirmation"
-            prepend-icon="mdi-lock"
-            append-icon="mdi-eye-off"
-            label="パスワード確認"
-            type="password"
-          />
-          <v-card-actions>
-            <v-btn @click="register" class="mx-auto px-5" color="info" large>
-              新規登録
-            </v-btn>
-          </v-card-actions>
-          <ErrorMeessages :errors="errors" />
-        </v-form>
-      </v-card-text>
-    </v-card>
-  </v-container>
+  <Form
+    id="form"
+    title="アカウント作成"
+    buttonText="新規登録"
+    :errors="errors"
+    @submit="register"
+  >
+    <v-file-input
+      accept="image/jpeg, image/png"
+      name="image"
+      label="アイコン"
+    ></v-file-input>
+    <v-text-field
+      v-model="username"
+      name="username"
+      prepend-icon="mdi-account"
+      label="ユーザー名（URLに使用されます）"
+    />
+    <v-text-field
+      v-model="nickname"
+      name="nickname"
+      prepend-icon="mdi-account-outline"
+      label="表示名"
+    />
+    <v-text-field
+      v-model="email"
+      name="email"
+      type="email"
+      prepend-icon="mdi-email"
+      label="メールアドレス"
+    />
+    <v-text-field
+      v-model="password"
+      name="password"
+      prepend-icon="mdi-lock"
+      append-icon="mdi-eye-off"
+      label="パスワード"
+      type="password"
+    />
+    <v-text-field
+      v-model="password_confirmation"
+      name="password_confirmation"
+      prepend-icon="mdi-lock"
+      append-icon="mdi-eye-off"
+      label="パスワード確認"
+      type="password"
+    />
+  </Form>
 </template>
 
 <script lang="ts">
 import axios from "axios";
 import router from "@/router";
-import ErrorMeessages from "@/components/ErrorMessages.vue";
+import Form from "@/components/Form.vue";
 
 export type DataType = {
   image: any;
@@ -76,7 +67,7 @@ export type DataType = {
 export default {
   name: "register",
   components: {
-    ErrorMeessages,
+    Form,
   },
   data: (): DataType => ({
     image: "",
