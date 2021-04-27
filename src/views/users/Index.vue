@@ -41,7 +41,7 @@ export default Vue.extend({
     axios
       .get("/users")
       .then((response) => {
-        this.users = response.data;
+        this.users = response.data.users;
       })
       .catch((error) => {
         console.log(error);

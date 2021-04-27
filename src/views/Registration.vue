@@ -87,7 +87,7 @@ export default {
         .post("/auth", formData)
         .then((response) => {
           this.$store.dispatch("setAuthData", {
-            userId: response.data.data["id"],
+            userName: response.data.data["username"],
             accessToken: response.headers["access-token"],
             client: response.headers["client"],
             uid: response.headers["uid"],

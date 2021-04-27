@@ -19,7 +19,7 @@ export default Vue.extend({
       .get("/pokemons")
       .then((response) => {
         // 努力値と実数値は1行にまとめる
-        this.pokemons = response.data;
+        this.pokemons = response.data.pokemons;
       })
       .catch((error) => {
         console.log(error);

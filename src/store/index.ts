@@ -9,20 +9,20 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     // ログイン認証に必要なパラメータ
-    userId: null,
+    userName: null,
     accessToken: null,
     client: null,
     uid: null,
   },
   getters: {
-    userId: (state) => state.userId,
+    userName: (state) => state.userName,
     accessToken: (state) => state.accessToken,
     client: (state) => state.client,
     uid: (state) => state.uid,
   },
   mutations: {
-    updateUserId(state, userId) {
-      state.userId = userId;
+    updateUserName(state, userName) {
+      state.userName = userName;
     },
     updateAccessToken(state, accessToken) {
       state.accessToken = accessToken;
@@ -44,7 +44,7 @@ export default new Vuex.Store({
       const expiryTimeMs = Number(localStorage.getItem("expiryTimeMs"));
       // ログインから2週間経っている場合、ログイン情報を削除する
       if (now.getTime() >= expiryTimeMs) {
-        localStorage.removeItem("userId");
+        localStorage.removeItem("userName");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("client");
         localStorage.removeItem("uid");
@@ -56,7 +56,7 @@ export default new Vuex.Store({
           dispatch("logout");
         }, expiresInMs);
         // ログインから2週間経っていない場合、ログイン情報をVuexに保存する
-        commit("updateUserId", localStorage.getItem("userId"));
+        commit("updateUserName", localStorage.getItem("userName"));
         commit("updateAccessToken", accessToken);
         commit("updateClient", localStorage.getItem("client"));
         commit("updateUid", localStorage.getItem("uid"));
@@ -70,12 +70,12 @@ export default new Vuex.Store({
     },
     logout({ commit }) {
       // Vuexから認証情報を削除する
-      commit("updateUserId", null);
+      commit("updateUserName", null);
       commit("updateAccessToken", null);
       commit("updateClient", null);
       commit("updateUid", null);
       // ローカルストレージから認証情報を削除する
-      localStorage.removeItem("userId");
+      localStorage.removeItem("userName");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("client");
       localStorage.removeItem("uid");
@@ -89,7 +89,7 @@ export default new Vuex.Store({
       const expiryTimeMs: number = now.getTime() + 1209600000;
       localStorage.setItem("expiryTimeMs", String(expiryTimeMs)); // String型でないとローカルストレージに保存できない
       // Vuexに認証情報を保存する
-      commit("updateUserId", authData.userId);
+      commit("updateUserName", authData.userName);
       commit("updateAccessToken", authData.accessToken);
       commit("updateClient", authData.client);
       commit("updateUid", authData.uid);
@@ -100,7 +100,7 @@ export default new Vuex.Store({
         ["client"]: authData.client,
       };
       // ローカルストレージに認証情報を保存する（次回以降の自動ログインに使用する）
-      localStorage.setItem("userId", authData.userId);
+      localStorage.setItem("userName", authData.userName);
       localStorage.setItem("accessToken", authData.accessToken);
       localStorage.setItem("client", authData.client);
       localStorage.setItem("uid", authData.uid);

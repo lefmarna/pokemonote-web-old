@@ -31,9 +31,9 @@ export default Vue.extend({
         axios
           .get(`/users/${this.id}`)
           .then((response) => {
-            this.user = JSON.parse(response.data.user);
+            this.user = response.data.user;
             this.user.image = response.data.image;
-            this.pokemons = JSON.parse(response.data.pokemons);
+            this.pokemons = response.data.pokemons;
           })
           .catch((error) => {
             console.log(error);
