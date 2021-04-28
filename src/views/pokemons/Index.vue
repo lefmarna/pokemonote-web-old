@@ -7,8 +7,12 @@ import Vue from "vue";
 import axios from "axios";
 import PokemonTable from "@/components/PokemonTable.vue";
 
+export type DataType = {
+  pokemons: [];
+};
+
 export default Vue.extend({
-  data: () => ({
+  data: (): DataType => ({
     pokemons: [],
   }),
   components: {

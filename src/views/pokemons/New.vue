@@ -290,9 +290,6 @@ import pokemonParams from "@/mixins/pokemonParams";
 import axios from "axios";
 
 export type DataType = {
-  calcAreas: string[];
-  attackCheck: boolean;
-  spAttackCheck: boolean;
   selectDefenceEnhancement: number;
   selectSpDefenceEnhancement: number;
   calcStyle: string;
@@ -307,9 +304,6 @@ export default Vue.extend({
   },
   mixins: [calculator, pokemonParams],
   data: (): DataType => ({
-    calcAreas: ["", ""],
-    attackCheck: false,
-    spAttackCheck: false,
     selectDefenceEnhancement: 1,
     selectSpDefenceEnhancement: 1,
     calcStyle: "balance",

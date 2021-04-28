@@ -11,9 +11,13 @@
 import Vue from "vue";
 import axios from "axios";
 
+export type DataType = {
+  pokemon: any;
+};
+
 export default Vue.extend({
-  data: () => ({
-    pokemon: [],
+  data: (): DataType => ({
+    pokemon: "",
   }),
   props: { id: Number },
   // コンポーネントの更新ではライフサイクルの初期化を行わないため、createdではなくwatchで監視している

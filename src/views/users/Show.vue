@@ -13,9 +13,14 @@ import Vue from "vue";
 import axios from "axios";
 import PokemonTable from "@/components/PokemonTable.vue";
 
+export type DataType = {
+  user: any;
+  pokemons: [];
+};
+
 export default Vue.extend({
-  data: () => ({
-    user: [],
+  data: (): DataType => ({
+    user: "",
     pokemons: [],
   }),
   props: { id: String },
