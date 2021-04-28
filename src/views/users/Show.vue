@@ -3,7 +3,7 @@
     <!-- <v-avatar v-if="user.image" size="36px">
       <img alt="アイコン" :src="user.image" />
     </v-avatar> -->
-    <PokemonTable :title="`${user.nickname}さんの投稿`" :pokemons="pokemons" />
+    <PokemonTable :title="title" :pokemons="pokemons" />
   </div>
   <div v-else>ユーザー情報を読み込んでいます...</div>
 </template>
@@ -26,6 +26,15 @@ export default Vue.extend({
   props: { id: String },
   components: {
     PokemonTable,
+  },
+  computed: {
+    title(): string {
+      if (this.$store.getters.userName == this.user.username) {
+        return "マイページ";
+      } else {
+        return `${this.user.nickname}さんの投稿`;
+      }
+    },
   },
   // コンポーネントの更新ではライフサイクルの初期化を行わないため、createdではなくwatchで監視している
   watch: {
