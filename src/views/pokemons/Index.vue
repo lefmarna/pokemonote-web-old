@@ -22,8 +22,15 @@ export default Vue.extend({
     axios
       .get("/pokemons")
       .then((response) => {
-        // 努力値と実数値は1行にまとめる
-        this.pokemons = response.data.pokemons;
+        let pokemons = response.data.pokemons;
+        const userName = this.$store.getters.userName;
+        // 自分の投稿は表示させない
+        if (userName) {
+          pokemons = pokemons.filter(
+            (pokemon: any) => pokemon.user.username != userName
+          );
+        }
+        this.pokemons = pokemons;
       })
       .catch((error) => {
         console.log(error);
