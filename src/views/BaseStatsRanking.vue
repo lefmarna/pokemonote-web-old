@@ -36,7 +36,8 @@
         <v-data-table
           :headers="headers"
           :items="pokemonListInTotal"
-          :items-per-page="10"
+          :items-per-page="20"
+          :footer-props="{ itemsPerPageOptions: [20, 50, 100, -1] }"
           class="elevation-1"
           sort-by="total"
           sort-desc

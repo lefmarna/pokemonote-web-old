@@ -11,7 +11,13 @@
         hide-details
       ></v-text-field>
     </v-card-title>
-    <v-data-table :headers="headers" :items="pokemonTable" :search="search">
+    <!-- key属性を付与することで、状態が変わったときにレンダリングを可能にする -->
+    <v-data-table
+      :headers="headers"
+      :items="pokemonTable"
+      :search="search"
+      :key="tableKey"
+    >
       <!-- ステータスにコピペボタンを追加する -->
       <template v-slot:[`item.stats`]="{ item }">
         {{ item.stats }}
@@ -25,11 +31,20 @@
           {{ item.name }}
         </router-link>
       </template>
-      <!-- ユーザー名にリンクを設定する -->
       <template v-slot:[`item.user.nickname`]="{ item }">
-        <router-link :to="`/users/${item.user.username}`">
-          {{ item.user.nickname }}
-        </router-link>
+        <!-- マイページのときは、編集・削除ボタンを表示する -->
+        <div v-if="item.user.username == userName">
+          <v-icon @click="editItem(item)"> mdi-pencil </v-icon>
+          <v-icon @click="deleteItem(item.id)" class="ml-3">
+            mdi-delete
+          </v-icon>
+        </div>
+        <!-- マイページでないときは、ユーザー名にリンクを設定する -->
+        <div v-else>
+          <router-link :to="`/users/${item.user.username}`">
+            {{ item.user.nickname }}
+          </router-link>
+        </div>
       </template>
     </v-data-table>
   </v-card>
@@ -37,23 +52,35 @@
 
 <script lang="ts">
 import Vue from "vue";
+import router from "@/router";
+import axios from "axios";
 
 export default Vue.extend({
   data: () => ({
     search: "",
-    headers: [
-      { text: "ポケモン名", sortable: false, value: "name" },
-      { text: "レベル", sortable: false, value: "lv" },
-      { text: "性格", sortable: false, value: "nature" },
-      { text: "ステータス", sortable: false, value: "stats" },
-      { text: "投稿者", sortable: false, value: "user.nickname" },
-    ],
+    tableKey: 0,
   }),
   props: {
     title: String,
     pokemons: Array,
   },
   computed: {
+    userName(): string {
+      return this.$store.getters.userName;
+    },
+    headers() {
+      let tableHeader = [
+        { text: "ポケモン名", sortable: false, value: "name" },
+        { text: "レベル", sortable: false, value: "lv" },
+        { text: "性格", sortable: false, value: "nature" },
+        { text: "ステータス", sortable: false, value: "stats" },
+        { text: "投稿者", sortable: false, value: "user.nickname" },
+      ];
+      if (this.title == "マイページ") {
+        tableHeader[4].text = "編集・削除";
+      }
+      return tableHeader;
+    },
     pokemonTable(): any {
       // 努力値と実数値は1行にまとめる
       return this.pokemons.map((pokemon: any) => {
@@ -102,6 +129,26 @@ export default Vue.extend({
       navigator.clipboard.writeText(clipText).catch((e) => {
         console.error(e);
       });
+    },
+    editItem(item: any): void {
+      console.log(item);
+    },
+    deleteItem(id: number): void {
+      axios
+        .delete(`/pokemons/${id}`)
+        .then(() => {
+          // 削除するポケモンのデータを探す
+          const deletePokemon = this.pokemonTable.findIndex(
+            (pokemon: any) => pokemon.id == id
+          );
+          // 配列から要素を削除
+          this.pokemonTable.splice(deletePokemon, 1);
+          // keyの値を変更することで、再レンダリングさせる
+          this.tableKey++;
+        })
+        .catch(() => {
+          router.push("/");
+        });
     },
   },
 });

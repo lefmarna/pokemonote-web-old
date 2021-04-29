@@ -8,7 +8,7 @@
   >
     <v-file-input
       accept="image/jpeg, image/png"
-      name="image"
+      name="icon"
       label="アイコン"
     ></v-file-input>
     <v-text-field
@@ -93,6 +93,7 @@ export default {
             uid: response.headers["uid"],
           });
           router.push("/");
+          this.$store.dispatch("notice");
         })
         .catch((error) => {
           this.errors = error.response.data.errors.full_messages;

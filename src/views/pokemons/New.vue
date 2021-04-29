@@ -1,5 +1,12 @@
 <template>
   <v-container>
+    <v-alert v-if="!isLogin" outlined type="warning" border="left">
+      計算結果の保存には、<router-link
+        class="text-decoration-none login-alert"
+        to="/login?redirect=/pokemons/new"
+        >ログイン</router-link
+      >が必要です。
+    </v-alert>
     <Title text="新規ポケモン投稿" />
     <v-row>
       <!-- 左ここから -->
@@ -269,7 +276,12 @@
               >
             </v-col>
             <v-col class="text-center">
-              <v-btn color="primary" elevation="3" @click="postPokemon" large
+              <v-btn
+                color="primary"
+                elevation="3"
+                @click="postPokemon"
+                :disabled="!isLogin"
+                large
                 >投稿する</v-btn
               >
             </v-col>
@@ -288,11 +300,9 @@ import SearchNature from "@/components/SearchNature.vue";
 import calculator from "@/mixins/calculator";
 import pokemonParams from "@/mixins/pokemonParams";
 import axios from "axios";
+import router from "@/router";
 
 export type DataType = {
-  calcAreas: string[];
-  attackCheck: boolean;
-  spAttackCheck: boolean;
   selectDefenceEnhancement: number;
   selectSpDefenceEnhancement: number;
   calcStyle: string;
@@ -307,15 +317,15 @@ export default Vue.extend({
   },
   mixins: [calculator, pokemonParams],
   data: (): DataType => ({
-    calcAreas: ["", ""],
-    attackCheck: false,
-    spAttackCheck: false,
     selectDefenceEnhancement: 1,
     selectSpDefenceEnhancement: 1,
     calcStyle: "balance",
     description: "",
   }),
   computed: {
+    isLogin() {
+      return this.$store.getters.accessToken;
+    },
     // 各種ステータスの計算（methodsで引数を指定すれば、同じ計算を1箇所にまとめることもできるが、パフォーマンスの高いcomputedを使いたいため、あえて個別に計算している）
     hp: {
       get(): number {
@@ -810,7 +820,7 @@ export default Vue.extend({
           },
         })
         .then((response) => {
-          console.log(response);
+          router.push(`/pokemons/${response.data.id}`);
         })
         .catch((error) => {
           console.log(error);
@@ -819,3 +829,9 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.login-alert {
+  color: #fb8c00;
+}
+</style>

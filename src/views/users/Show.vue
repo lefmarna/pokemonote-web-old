@@ -1,9 +1,9 @@
 <template>
   <div class="user" v-if="user">
-    <!-- <v-avatar v-if="user.image" size="36px">
-      <img alt="アイコン" :src="user.image" />
+    <!-- <v-avatar v-if="user.icon" size="36px">
+      <img alt="アイコン" :src="user.icon" />
     </v-avatar> -->
-    <PokemonTable :title="`${user.nickname}さんの投稿`" :pokemons="pokemons" />
+    <PokemonTable :title="title" :pokemons="pokemons" />
   </div>
   <div v-else>ユーザー情報を読み込んでいます...</div>
 </template>
@@ -13,14 +13,28 @@ import Vue from "vue";
 import axios from "axios";
 import PokemonTable from "@/components/PokemonTable.vue";
 
+export type DataType = {
+  user: any;
+  pokemons: [];
+};
+
 export default Vue.extend({
-  data: () => ({
-    user: [],
+  data: (): DataType => ({
+    user: "",
     pokemons: [],
   }),
   props: { id: String },
   components: {
     PokemonTable,
+  },
+  computed: {
+    title(): string {
+      if (this.$store.getters.userName == this.user.username) {
+        return "マイページ";
+      } else {
+        return `${this.user.nickname}さんの投稿`;
+      }
+    },
   },
   // コンポーネントの更新ではライフサイクルの初期化を行わないため、createdではなくwatchで監視している
   watch: {
@@ -32,7 +46,7 @@ export default Vue.extend({
           .get(`/users/${this.id}`)
           .then((response) => {
             this.user = response.data.user;
-            this.user.image = response.data.image;
+            this.user.icon = response.data.icon;
             this.pokemons = response.data.pokemons;
           })
           .catch((error) => {
