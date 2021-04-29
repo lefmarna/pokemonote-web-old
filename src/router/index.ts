@@ -107,6 +107,15 @@ const routes: Array<RouteConfig> = [
     props: (route) => ({ id: Number(route.params.id) }),
   },
   {
+    path: "/pokemons/:id(\\d+)/edit", // IDは数値のみを許可
+    name: "ポケモン編集",
+    component: () => import("../views/pokemons/Edit.vue"),
+    props: (route) => ({ id: Number(route.params.id) }),
+    meta: {
+      requireAuth: true,
+    },
+  },
+  {
     path: "/pokemons",
     name: "ポケモン一覧",
     component: () => import("../views/pokemons/Index.vue"),
