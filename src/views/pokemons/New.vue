@@ -300,6 +300,7 @@ import SearchNature from "@/components/SearchNature.vue";
 import calculator from "@/mixins/calculator";
 import pokemonParams from "@/mixins/pokemonParams";
 import axios from "axios";
+import router from "@/router";
 
 export type DataType = {
   selectDefenceEnhancement: number;
@@ -819,7 +820,7 @@ export default Vue.extend({
           },
         })
         .then((response) => {
-          console.log(response);
+          router.push(`/pokemons/${response.data.id}`);
         })
         .catch((error) => {
           console.log(error);
