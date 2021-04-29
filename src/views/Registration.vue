@@ -93,6 +93,7 @@ export default {
             uid: response.headers["uid"],
           });
           router.push("/");
+          this.$store.dispatch("notice");
         })
         .catch((error) => {
           this.errors = error.response.data.errors.full_messages;

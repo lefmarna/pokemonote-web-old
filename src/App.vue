@@ -81,6 +81,7 @@
       </v-toolbar-items>
     </v-app-bar>
     <v-main>
+      <Alert id="notice" />
       <router-view />
     </v-main>
   </v-app>
@@ -88,8 +89,12 @@
 
 <script lang="ts">
 import Vue from "vue";
+import Alert from "@/components/Alert.vue";
 
 export default Vue.extend({
+  components: {
+    Alert,
+  },
   data: () => ({
     drawer: null,
     siteMenuLists: [
@@ -374,5 +379,10 @@ h2:after {
       font-size: 82%;
     }
   }
+}
+
+#notice {
+  position: absolute !important;
+  z-index: 100 !important;
 }
 </style>

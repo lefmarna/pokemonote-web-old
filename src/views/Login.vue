@@ -58,6 +58,7 @@ export default {
           } else {
             router.push("/");
           }
+          this.$store.dispatch("notice");
         })
         .catch((error) => {
           this.errors = error.response.data.errors;

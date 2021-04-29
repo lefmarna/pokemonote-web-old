@@ -8,6 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    notice: false,
     // ログイン認証に必要なパラメータ
     userName: null,
     accessToken: null,
@@ -15,12 +16,16 @@ export default new Vuex.Store({
     uid: null,
   },
   getters: {
+    notice: (state) => state.notice,
     userName: (state) => state.userName,
     accessToken: (state) => state.accessToken,
     client: (state) => state.client,
     uid: (state) => state.uid,
   },
   mutations: {
+    updateNotice(state, notice) {
+      state.notice = notice;
+    },
     updateUserName(state, userName) {
       state.userName = userName;
     },
@@ -104,6 +109,13 @@ export default new Vuex.Store({
       localStorage.setItem("accessToken", authData.accessToken);
       localStorage.setItem("client", authData.client);
       localStorage.setItem("uid", authData.uid);
+    },
+    notice({ commit }) {
+      commit("updateNotice", true);
+      // setTimeoutで3000ms後にshowをfalseにする
+      setTimeout(() => {
+        commit("updateNotice", false);
+      }, 2250);
     },
   },
   modules: {
