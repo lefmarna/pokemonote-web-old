@@ -9,6 +9,7 @@
             v-for="siteMenuList in siteMenuLists"
             :to="siteMenuList.link"
             :key="siteMenuList.name"
+            exact
           >
             <v-list-item-icon>
               <v-icon>{{ siteMenuList.icon }}</v-icon>
