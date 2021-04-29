@@ -1,7 +1,7 @@
 <template>
   <div class="user" v-if="user">
-    <!-- <v-avatar v-if="user.image" size="36px">
-      <img alt="アイコン" :src="user.image" />
+    <!-- <v-avatar v-if="user.icon" size="36px">
+      <img alt="アイコン" :src="user.icon" />
     </v-avatar> -->
     <PokemonTable :title="title" :pokemons="pokemons" />
   </div>
@@ -46,7 +46,7 @@ export default Vue.extend({
           .get(`/users/${this.id}`)
           .then((response) => {
             this.user = response.data.user;
-            this.user.image = response.data.image;
+            this.user.icon = response.data.icon;
             this.pokemons = response.data.pokemons;
           })
           .catch((error) => {

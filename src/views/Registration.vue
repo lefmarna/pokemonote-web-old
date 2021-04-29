@@ -8,7 +8,7 @@
   >
     <v-file-input
       accept="image/jpeg, image/png"
-      name="image"
+      name="icon"
       label="アイコン"
     ></v-file-input>
     <v-text-field
