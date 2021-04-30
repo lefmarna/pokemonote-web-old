@@ -137,9 +137,9 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/netlify/Thanks.vue"),
   },
   {
-    path: "/send-tip",
+    path: "/give-tip",
     name: "チップを贈る",
-    component: () => import("../views/SendTip.vue"),
+    component: () => import("../views/GiveTip.vue"),
     meta: {
       requireAuth: true,
     },
