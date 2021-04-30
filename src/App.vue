@@ -115,7 +115,7 @@ export default Vue.extend({
         link: "/users",
       },
       {
-        name: "ポケモン一覧",
+        name: "みんなの投稿",
         icon: "mdi-pokemon-go",
         link: "/pokemons",
       },
@@ -274,11 +274,11 @@ button {
 // リボン風の見出しを作る
 h2 {
   position: relative;
-  background: #ffcce5;
-  box-shadow: 0px 0px 0px 5px #ffcce5;
-  border: dashed 2px white;
+  background: $primary;
+  box-shadow: 0px 0px 0px 5px $primary;
+  border: dashed 2px #dee2e6;
   padding: 0.4em 0.5em;
-  color: #454545;
+  color: white;
 }
 h2:after {
   position: absolute;
@@ -287,17 +287,11 @@ h2:after {
   top: -7px;
   border-width: 0 0 15px 15px;
   border-style: solid;
-  border-color: #fff #fff #ffb8da;
+  border-color: #fff #fff darken($primary, 10%);
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
 }
 
 // 各要素の背景色や枠線など、基本となるスタイルを定義
-.contents {
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-  border-radius: 0.3rem !important;
-  border: 1px solid #dee2e6 !important;
-  background-color: #fff !important;
-}
 
 // テーブルの奇数行に背景色をつける
 .v-data-table td {
@@ -382,6 +376,7 @@ h2:after {
   }
 }
 
+// アラート
 #notice {
   position: absolute !important;
   z-index: 100 !important;

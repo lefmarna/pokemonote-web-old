@@ -117,8 +117,11 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: "/pokemons",
-    name: "ポケモン一覧",
+    name: "ポケモン",
     component: () => import("../views/pokemons/Index.vue"),
+    meta: {
+      title: "みんなの投稿",
+    },
   },
   {
     path: "/netlify",
