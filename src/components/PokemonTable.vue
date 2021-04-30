@@ -131,7 +131,11 @@ export default Vue.extend({
       });
     },
     editItem(item: any): void {
-      console.log(item);
+      if (item.user.username == this.$store.getters.userName) {
+        router.push(`/pokemons/${item.id}/edit`);
+      } else {
+        router.push("/");
+      }
     },
     deleteItem(id: number): void {
       axios

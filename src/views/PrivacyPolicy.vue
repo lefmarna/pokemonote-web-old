@@ -1,5 +1,5 @@
 <template>
-  <v-container class="contents my-0 px-sm-4">
+  <v-container class="my-0 px-sm-4">
     <h1 class="font-weight-bold text-center">利用規約</h1>
     <p>
       本利用規約は、<router-link to="/">Pokemonote</router-link
@@ -24,9 +24,9 @@
       訪問者がお問い合わせフォームから問い合わせをされた際に入力された、以下の個人情報を取得します。
     </p>
     <ul>
-      <li>お問い合わせフォームに入力された名前（HN）</li>
+      <li>お問い合わせフォームに入力されたお名前</li>
       <li>お問い合わせフォームに入力されたメールアドレス</li>
-      <li>お問い合わせフォームに入力されたお問合せ内容</li>
+      <li>お問い合わせフォームに入力されたお問い合わせ内容</li>
     </ul>
     <h4>利用目的について</h4>
     <p>
@@ -220,7 +220,7 @@ li {
 h3 {
   padding: 15px;
   color: #191919;
-  border-left: solid 4px #ffb8da;
+  border-left: solid 4px #1976d2;
   border-bottom: solid 1px #d8d8d8;
 }
 
@@ -243,8 +243,8 @@ h4 {
 h4::after {
   background: repeating-linear-gradient(
     -45deg,
-    #ffb8da,
-    #ffb8da 2px,
+    #1976d2,
+    #1976d2 2px,
     #d8d8d8 2px,
     #d8d8d8 4px
   );

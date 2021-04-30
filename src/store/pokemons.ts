@@ -7,6 +7,7 @@ const state = {
   natureData: [],
   speedItems: [],
   speedAbilities: [],
+  popularityRanking: [],
   // 初期値を用意しておく
   currentPokemon: {
     no: 645,
@@ -90,6 +91,7 @@ const getters = {
   natureData: (state) => state.natureData,
   speedItems: (state) => state.speedItems,
   speedAbilities: (state) => state.speedAbilities,
+  popularityRanking: (state) => state.popularityRanking,
   currentPokemon: (state) => state.currentPokemon,
   currentNature: (state) => state.currentNature,
   lv: (state) => state.lv,
@@ -108,6 +110,9 @@ const mutations = {
   },
   updateSpeedAbilities(state, value) {
     state.speedAbilities = value;
+  },
+  updatePopularityRanking(state, value) {
+    state.popularityRanking = value;
   },
   updateCurrentPokemon(state, selectedPokemon) {
     state.currentPokemon = selectedPokemon;
@@ -131,8 +136,9 @@ const actions = {
         const data = response.data;
         commit("updatePokemonData", data.pokemonData);
         commit("updateNatureData", data.natureData);
-        commit("updateSpeedItems", data.speed_items);
-        commit("updateSpeedAbilities", data.speed_abilities);
+        commit("updateSpeedItems", data.speedItems);
+        commit("updateSpeedAbilities", data.speedAbilities);
+        commit("updatePopularityRanking", data.popularityRanking);
       })
       .catch((error) => {
         console.log(error);
