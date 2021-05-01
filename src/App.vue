@@ -136,7 +136,7 @@ export default Vue.extend({
       {
         name: "チップを贈る",
         icon: "mdi-heart",
-        link: "/send-tip",
+        link: "/give-tip",
       },
       {
         name: "利用規約",

@@ -139,6 +139,7 @@ const actions = {
         commit("updateSpeedItems", data.speedItems);
         commit("updateSpeedAbilities", data.speedAbilities);
         commit("updatePopularityRanking", data.popularityRanking);
+        commit("updateGifts", data.gifts);
       })
       .catch((error) => {
         console.log(error);

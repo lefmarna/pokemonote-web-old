@@ -1,5 +1,6 @@
 User-agent: *
 Disallow: /privacy-policy
 Disallow: /netlify/
+Disallow: /give-tip/
 
 Sitemap: https://pokemonote.com/sitemap.xml

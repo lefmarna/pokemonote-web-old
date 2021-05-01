@@ -359,7 +359,6 @@ export default Vue.extend({
     speedAbilities(): {
       name: string;
       value: number;
-      magnification: number;
     }[] {
       return this.$store.getters.speedAbilities;
     },
