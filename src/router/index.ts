@@ -139,8 +139,18 @@ const routes: Array<RouteConfig> = [
   {
     path: "/give-tip",
     name: "チップを贈る",
-    component: () => import("../views/GiveTip.vue"),
+    component: () => import("../views/giveTip/Index.vue"),
     meta: {
+      title: "チップを贈る",
+      requireAuth: true,
+    },
+  },
+  {
+    path: "/give-tip/thanks",
+    name: "応援ありがとう",
+    component: () => import("../views/giveTip/Thanks.vue"),
+    meta: {
+      title: "応援ありがとう",
       requireAuth: true,
     },
   },
