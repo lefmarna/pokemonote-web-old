@@ -22,7 +22,7 @@
           <!-- ログイン時のみマイページを表示する -->
           <v-list-item
             v-if="this.userName"
-            :to="`users/${this.userName}`"
+            :to="`/users/${this.userName}`"
             exact
           >
             <v-list-item-icon>
