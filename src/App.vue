@@ -2,6 +2,7 @@
   <v-app>
     <v-navigation-drawer v-model="drawer" app>
       <v-container>
+        <v-divider />
         <v-list-item>Menu</v-list-item>
         <v-divider></v-divider>
         <v-list dense nav>
@@ -18,10 +19,23 @@
               <v-list-item-title>{{ siteMenuList.name }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <!-- ログイン時のみマイページを表示する -->
+          <v-list-item
+            v-if="this.userName"
+            :to="`users/${this.userName}`"
+            exact
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>マイページ</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
         <v-divider />
         <v-list-item>Tools</v-list-item>
-        <v-divider></v-divider>
+        <v-divider />
         <v-list dense nav>
           <v-list-item v-for="tool in tools" :to="tool.link" :key="tool.name">
             <v-list-item-icon>
@@ -33,11 +47,11 @@
           </v-list-item>
         </v-list>
         <v-divider />
-        <v-list-item>その他</v-list-item>
+        <v-list-item>Others</v-list-item>
         <v-divider />
         <v-list dense nav>
           <v-list-item
-            v-for="otherMenuList in otherMenuLists"
+            v-for="otherMenuList in otherMenuListsFiltered"
             :to="otherMenuList.link"
             :key="otherMenuList.name"
           >
@@ -137,6 +151,7 @@ export default Vue.extend({
         name: "チップを贈る",
         icon: "mdi-heart",
         link: "/give-tip",
+        requireAuth: true,
       },
       {
         name: "利用規約",
@@ -152,6 +167,7 @@ export default Vue.extend({
         name: "設定",
         icon: "mdi-cog",
         link: "/settings",
+        requireAuth: true,
       },
     ],
   }),
@@ -164,6 +180,23 @@ export default Vue.extend({
     },
     uid() {
       return this.$store.getters.uid;
+    },
+    userName() {
+      return this.$store.getters.userName;
+    },
+    otherMenuListsFiltered() {
+      if (this.$store.getters.accessToken) {
+        return this.otherMenuLists;
+      } else {
+        return this.otherMenuLists.filter(
+          (otherMenu: {
+            name: string;
+            icon: string;
+            link: string;
+            requireAuth: boolean;
+          }) => otherMenu.requireAuth != true
+        );
+      }
     },
   },
   mounted() {
