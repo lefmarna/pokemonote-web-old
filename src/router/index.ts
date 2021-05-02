@@ -154,6 +154,15 @@ const routes: Array<RouteConfig> = [
       requireAuth: true,
     },
   },
+  {
+    path: "/settings",
+    name: "設定",
+    component: () => import("../views/Settings.vue"),
+    meta: {
+      title: "設定",
+      requireAuth: true,
+    },
+  },
 ];
 
 const router = new VueRouter({
