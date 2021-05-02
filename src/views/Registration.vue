@@ -6,11 +6,11 @@
     :errors="errors"
     @submit="register"
   >
-    <v-file-input
+    <!-- <v-file-input
       accept="image/jpeg, image/png"
       name="icon"
       label="アイコン"
-    ></v-file-input>
+    ></v-file-input> -->
     <v-text-field
       v-model="username"
       name="username"
