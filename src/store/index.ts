@@ -3,13 +3,13 @@ import Vuex from "vuex";
 import router from "@/router";
 import axios from "axios";
 import pokemons from "./pokemons";
+import data from "./data";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     notice: false,
-    gifts: [],
     // ログイン認証に必要なパラメータ
     userName: null,
     accessToken: null,
@@ -18,7 +18,6 @@ export default new Vuex.Store({
   },
   getters: {
     notice: (state) => state.notice,
-    gifts: (state) => state.gifts,
     userName: (state) => state.userName,
     accessToken: (state) => state.accessToken,
     client: (state) => state.client,
@@ -27,9 +26,6 @@ export default new Vuex.Store({
   mutations: {
     updateNotice(state, notice) {
       state.notice = notice;
-    },
-    updateGifts(state, gifts) {
-      state.gifts = gifts;
     },
     updateUserName(state, userName) {
       state.userName = userName;
@@ -125,5 +121,6 @@ export default new Vuex.Store({
   },
   modules: {
     pokemons,
+    data,
   },
 });
