@@ -16,12 +16,7 @@
       name="username"
       prepend-icon="mdi-account"
       label="ユーザー名（URLに使用されます）"
-      :rules="[
-        rules.required,
-        rules.usernameRules.minlength,
-        rules.usernameRules.maxlength,
-        rules.usernameRules.validates,
-      ]"
+      :rules="[rules.required, rules.username]"
       counter
     />
     <v-text-field
@@ -93,15 +88,11 @@ export default {
         const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return pattern.test(value) || "メールアドレスは有効ではありません";
       },
-      usernameRules: {
-        minlength: (value: string) =>
-          value.length >= 3 || "ユーザー名は3文字以上で入力してください",
-        maxlength: (value: string) =>
-          value.length <= 25 || "ユーザー名は25文字以内で入力してください",
-        validates: (value: string) => {
-          const pattern = /^[a-z\d]*$/i;
-          return pattern.test(value) || "ユーザー名は不正な値です";
-        },
+      username: (value: string) => {
+        const pattern = /^[a-z\d]{3,25}$/i;
+        return (
+          pattern.test(value) || "ユーザー名は、英数3〜25文字で入力してください"
+        );
       },
     },
   }),
