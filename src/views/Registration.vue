@@ -16,6 +16,13 @@
       name="username"
       prepend-icon="mdi-account"
       label="ユーザー名（URLに使用されます）"
+      :rules="[
+        rules.required,
+        rules.usernameRules.minlength,
+        rules.usernameRules.maxlength,
+        rules.usernameRules.validates,
+      ]"
+      counter
     />
     <v-text-field
       v-model="nickname"
@@ -29,6 +36,8 @@
       type="email"
       prepend-icon="mdi-email"
       label="メールアドレス"
+      persistent-hint
+      :rules="[rules.required, rules.email]"
     />
     <v-text-field
       v-model="password"
@@ -62,6 +71,7 @@ export type DataType = {
   password: string;
   password_confirmation: string;
   errors: string[];
+  rules: any;
 };
 
 export default {
@@ -77,6 +87,23 @@ export default {
     password: "",
     password_confirmation: "",
     errors: [],
+    rules: {
+      required: (value: any) => !!value || "この項目は必須です",
+      email: (value: string) => {
+        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return pattern.test(value) || "メールアドレスは有効ではありません";
+      },
+      usernameRules: {
+        minlength: (value: string) =>
+          value.length >= 3 || "ユーザー名は3文字以上で入力してください",
+        maxlength: (value: string) =>
+          value.length <= 25 || "ユーザー名は25文字以内で入力してください",
+        validates: (value: string) => {
+          const pattern = /^[a-z\d]*$/i;
+          return pattern.test(value) || "ユーザー名は不正な値です";
+        },
+      },
+    },
   }),
   methods: {
     register(): void {
