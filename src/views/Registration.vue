@@ -16,6 +16,7 @@
       name="username"
       prepend-icon="mdi-account"
       label="ユーザー名（URLに使用されます）"
+      placeholder="英数3〜25文字で入力してください"
       :rules="[rules.required, rules.username]"
       counter
     />
@@ -24,6 +25,7 @@
       name="nickname"
       prepend-icon="mdi-account-outline"
       label="表示名"
+      :rules="[rules.required]"
     />
     <v-text-field
       v-model="email"
@@ -31,7 +33,6 @@
       type="email"
       prepend-icon="mdi-email"
       label="メールアドレス"
-      persistent-hint
       :rules="[rules.required, rules.email]"
     />
     <v-text-field
@@ -41,6 +42,7 @@
       append-icon="mdi-eye-off"
       label="パスワード"
       type="password"
+      :rules="[rules.required, rules.password]"
     />
     <v-text-field
       v-model="password_confirmation"
@@ -49,6 +51,7 @@
       append-icon="mdi-eye-off"
       label="パスワード確認"
       type="password"
+      :rules="[rules.required, rules.password]"
     />
   </Form>
 </template>
@@ -84,14 +87,21 @@ export default {
     errors: [],
     rules: {
       required: (value: any) => !!value || "この項目は必須です",
-      email: (value: string) => {
-        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return pattern.test(value) || "メールアドレスは有効ではありません";
-      },
       username: (value: string) => {
         const pattern = /^[a-z\d]{3,25}$/i;
         return (
           pattern.test(value) || "ユーザー名は、英数3〜25文字で入力してください"
+        );
+      },
+      email: (value: string) => {
+        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return pattern.test(value) || "メールアドレスは有効ではありません";
+      },
+      password: (value: string) => {
+        const pattern = /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{6,128}$/i;
+        return (
+          pattern.test(value) ||
+          "パスワードは、英数それぞれ1種類以上含む、6〜128文字で入力してください"
         );
       },
     },
