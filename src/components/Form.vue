@@ -45,7 +45,9 @@ export default Vue.extend({
   },
   methods: {
     submit() {
-      this.$emit("submit");
+      if (this.$refs.form.validate()) {
+        this.$emit("submit");
+      }
     },
   },
 });
