@@ -39,18 +39,20 @@
       v-model="password"
       name="password"
       prepend-icon="mdi-lock"
-      append-icon="mdi-eye-off"
       label="パスワード"
-      type="password"
+      :append-icon="passwordToggle.icon"
+      :type="passwordToggle.type"
+      @click:append="passwordShow = !passwordShow"
       :rules="[rules.required, rules.password]"
     />
     <v-text-field
       v-model="password_confirmation"
       name="password_confirmation"
       prepend-icon="mdi-lock"
-      append-icon="mdi-eye-off"
       label="パスワード確認"
-      type="password"
+      :append-icon="passwordConfirmationToggle.icon"
+      :type="passwordConfirmationToggle.type"
+      @click:append="passwordConfirmationShow = !passwordConfirmationShow"
       :rules="[rules.required, rules.password]"
     />
   </Form>
@@ -68,6 +70,8 @@ export type DataType = {
   email: string;
   password: string;
   password_confirmation: string;
+  passwordShow: boolean;
+  passwordConfirmationShow: boolean;
   errors: string[];
   rules: any;
 };
@@ -84,6 +88,8 @@ export default {
     email: "",
     password: "",
     password_confirmation: "",
+    passwordShow: false,
+    passwordConfirmationShow: false,
     errors: [],
     rules: {
       required: (value: any) => !!value || "この項目は必須です",
@@ -106,7 +112,20 @@ export default {
       },
     },
   }),
+  computed: {
+    passwordToggle(): any {
+      return this.toggleShow(this.passwordShow);
+    },
+    passwordConfirmationToggle(): any {
+      return this.toggleShow(this.passwordConfirmationShow);
+    },
+  },
   methods: {
+    toggleShow(toggleItem: boolean): { icon: string; type: string } {
+      const icon = toggleItem ? "mdi-eye" : "mdi-eye-off";
+      const type = toggleItem ? "text" : "password";
+      return { icon, type };
+    },
     register(): void {
       // 画像のデータはformDataを介さないと送れない
       const form: any = document.getElementById("form");
