@@ -287,9 +287,9 @@
 
 <script lang="ts">
 import Vue from "vue";
-import CalcButton from "@/components/CalcButton.vue";
-import SearchPokemon from "@/components/SearchPokemon.vue";
-import SearchNature from "@/components/SearchNature.vue";
+import CalcButton from "@/components/molecules/CalcButton.vue";
+import SearchPokemon from "@/components/molecules/SearchPokemon.vue";
+import SearchNature from "@/components/molecules/SearchNature.vue";
 import calculator from "@/mixins/calculator";
 import pokemonParams from "@/mixins/pokemonParams";
 import axios from "axios";

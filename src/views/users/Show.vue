@@ -11,7 +11,7 @@
 <script lang="ts">
 import Vue from "vue";
 import axios from "axios";
-import PokemonTable from "@/components/PokemonTable.vue";
+import PokemonTable from "@/components/templates/PokemonTable.vue";
 
 export type DataType = {
   user: any;

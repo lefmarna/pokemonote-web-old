@@ -104,7 +104,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Alert from "@/components/Alert.vue";
+import Alert from "@/components/organisms/Alert.vue";
 
 export default Vue.extend({
   components: {
