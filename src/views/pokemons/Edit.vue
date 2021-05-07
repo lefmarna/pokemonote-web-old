@@ -307,7 +307,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import CalcButton from "@/components/CalcButton.vue";
+import CalcButton from "@/components/molecules/CalcButton.vue";
 import calculator from "@/mixins/calculator";
 import axios from "axios";
 import router from "@/router";

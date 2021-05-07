@@ -19,7 +19,7 @@
 <script lang="ts">
 import axios from "axios";
 import router from "@/router";
-import Form from "@/components/Form.vue";
+import Form from "@/components/templates/Form.vue";
 
 export type DataType = {
   email: string;

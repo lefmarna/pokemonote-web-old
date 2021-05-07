@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import CalcStats from "@/components/CalcStats.vue";
+import CalcStats from "@/components/templates/CalcStats.vue";
 
 export default Vue.extend({
   components: {

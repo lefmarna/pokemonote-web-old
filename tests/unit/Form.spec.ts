@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import Form from "@/components/Form.vue";
+import Form from "@/components/templates/Form.vue";
 
 describe("CalcButtonの正常系テスト", () => {
   it("タイトルを表示する", () => {
