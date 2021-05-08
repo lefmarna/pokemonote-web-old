@@ -1,11 +1,12 @@
 <template>
   <v-text-field
-    v-model="email"
     :name="name"
     :label="label"
     prepend-icon="mdi-email"
     type="email"
     :rules="[rules.required, rules.email]"
+    :value="email"
+    @input="$emit('update:email', $event)"
   />
 </template>
 
@@ -25,22 +26,15 @@ export default {
     },
   }),
   props: {
-    name: String,
+    email: {
+      type: String,
+      default: "",
+    },
     label: {
       type: String,
       default: "メールアドレス",
     },
-  },
-  computed: {
-    email: {
-      get(): string {
-        return this.value;
-      },
-      // 'input'にすることで、v-modelで発火させる
-      set(value: string): void {
-        this.$emit("input", value);
-      },
-    },
+    name: String,
   },
 };
 </script>
