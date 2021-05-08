@@ -27,33 +27,12 @@
       label="表示名"
       :rules="[rules.required]"
     />
-    <v-text-field
-      v-model="email"
-      name="email"
-      type="email"
-      prepend-icon="mdi-email"
-      label="メールアドレス"
-      :rules="[rules.required, rules.email]"
-    />
-    <v-text-field
-      v-model="password"
-      name="password"
-      prepend-icon="mdi-lock"
-      label="パスワード"
-      :append-icon="passwordToggle.icon"
-      :type="passwordToggle.type"
-      @click:append="passwordShow = !passwordShow"
-      :rules="[rules.required, rules.password]"
-    />
-    <v-text-field
+    <EmailField v-model="email" name="email" />
+    <PasswordField v-model="password" name="password" />
+    <PasswordField
       v-model="password_confirmation"
       name="password_confirmation"
-      prepend-icon="mdi-lock"
       label="パスワード確認"
-      :append-icon="passwordConfirmationToggle.icon"
-      :type="passwordConfirmationToggle.type"
-      @click:append="passwordConfirmationShow = !passwordConfirmationShow"
-      :rules="[rules.required, rules.password]"
     />
   </Form>
 </template>
@@ -62,6 +41,8 @@
 import axios from "axios";
 import router from "@/router";
 import Form from "@/components/templates/Form.vue";
+import EmailField from "@/components/molecules/EmailField.vue";
+import PasswordField from "@/components/molecules/PasswordField.vue";
 
 export type DataType = {
   image: any;
@@ -70,8 +51,6 @@ export type DataType = {
   email: string;
   password: string;
   password_confirmation: string;
-  passwordShow: boolean;
-  passwordConfirmationShow: boolean;
   errors: string[];
   rules: any;
 };
@@ -80,6 +59,8 @@ export default {
   name: "register",
   components: {
     Form,
+    EmailField,
+    PasswordField,
   },
   data: (): DataType => ({
     image: "",
@@ -88,8 +69,6 @@ export default {
     email: "",
     password: "",
     password_confirmation: "",
-    passwordShow: false,
-    passwordConfirmationShow: false,
     errors: [],
     rules: {
       required: (value: any) => !!value || "この項目は必須です",
@@ -99,33 +78,9 @@ export default {
           pattern.test(value) || "ユーザー名は、英数3〜25文字で入力してください"
         );
       },
-      email: (value: string) => {
-        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return pattern.test(value) || "メールアドレスは有効ではありません";
-      },
-      password: (value: string) => {
-        const pattern = /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{6,128}$/i;
-        return (
-          pattern.test(value) ||
-          "パスワードは、英数それぞれ1種類以上含む、6〜128文字で入力してください"
-        );
-      },
     },
   }),
-  computed: {
-    passwordToggle(): any {
-      return this.toggleShow(this.passwordShow);
-    },
-    passwordConfirmationToggle(): any {
-      return this.toggleShow(this.passwordConfirmationShow);
-    },
-  },
   methods: {
-    toggleShow(toggleItem: boolean): { icon: string; type: string } {
-      const icon = toggleItem ? "mdi-eye" : "mdi-eye-off";
-      const type = toggleItem ? "text" : "password";
-      return { icon, type };
-    },
     register(): void {
       // 画像のデータはformDataを介さないと送れない
       const form: any = document.getElementById("form");

@@ -1,18 +1,7 @@
 <template>
   <Form title="ログイン" buttonText="ログイン" :errors="errors" @submit="login">
-    <v-text-field
-      v-model="email"
-      type="email"
-      prepend-icon="mdi-email"
-      label="メールアドレス"
-    />
-    <v-text-field
-      v-model="password"
-      prepend-icon="mdi-lock"
-      append-icon="mdi-eye-off"
-      label="パスワード"
-      type="password"
-    />
+    <EmailField v-model="email" />
+    <PasswordField v-model="password" />
   </Form>
 </template>
 
@@ -20,6 +9,8 @@
 import axios from "axios";
 import router from "@/router";
 import Form from "@/components/templates/Form.vue";
+import EmailField from "@/components/molecules/EmailField.vue";
+import PasswordField from "@/components/molecules/PasswordField.vue";
 
 export type DataType = {
   email: string;
@@ -31,6 +22,8 @@ export default {
   name: "login",
   components: {
     Form,
+    EmailField,
+    PasswordField,
   },
   data: (): DataType => ({
     email: "",
