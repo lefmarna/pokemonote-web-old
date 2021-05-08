@@ -27,14 +27,7 @@
       label="表示名"
       :rules="[rules.required]"
     />
-    <v-text-field
-      v-model="email"
-      name="email"
-      type="email"
-      prepend-icon="mdi-email"
-      label="メールアドレス"
-      :rules="[rules.required, rules.email]"
-    />
+    <EmailField v-model="email" name="email" />
     <PasswordField v-model="password" name="password" />
     <PasswordField
       v-model="password_confirmation"
@@ -48,6 +41,7 @@
 import axios from "axios";
 import router from "@/router";
 import Form from "@/components/templates/Form.vue";
+import EmailField from "@/components/molecules/EmailField.vue";
 import PasswordField from "@/components/molecules/PasswordField.vue";
 
 export type DataType = {
@@ -65,6 +59,7 @@ export default {
   name: "register",
   components: {
     Form,
+    EmailField,
     PasswordField,
   },
   data: (): DataType => ({
@@ -82,10 +77,6 @@ export default {
         return (
           pattern.test(value) || "ユーザー名は、英数3〜25文字で入力してください"
         );
-      },
-      email: (value: string) => {
-        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return pattern.test(value) || "メールアドレスは有効ではありません";
       },
     },
   }),
