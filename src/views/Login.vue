@@ -6,13 +6,7 @@
       prepend-icon="mdi-email"
       label="メールアドレス"
     />
-    <v-text-field
-      v-model="password"
-      prepend-icon="mdi-lock"
-      append-icon="mdi-eye-off"
-      label="パスワード"
-      type="password"
-    />
+    <PasswordField v-model="password" />
   </Form>
 </template>
 
@@ -20,6 +14,7 @@
 import axios from "axios";
 import router from "@/router";
 import Form from "@/components/templates/Form.vue";
+import PasswordField from "@/components/molecules/PasswordField.vue";
 
 export type DataType = {
   email: string;
@@ -31,6 +26,7 @@ export default {
   name: "login",
   components: {
     Form,
+    PasswordField,
   },
   data: (): DataType => ({
     email: "",
