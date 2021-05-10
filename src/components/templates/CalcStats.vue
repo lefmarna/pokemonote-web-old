@@ -6,7 +6,11 @@
       <v-col cols="12" md="6" class="d-flex">
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
           <!-- ポケモン名 -->
-          <SearchPokemon />
+          <SearchPokemon
+            :currentPokemon="currentPokemon"
+            :value="currentPokemon"
+            @update="$emit('update:currentPokemon', $event)"
+          />
           <v-row>
             <!-- レベル -->
             <v-col cols="4" class="d-flex">

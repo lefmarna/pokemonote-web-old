@@ -18,27 +18,13 @@
 import Vue from "vue";
 import filterForSearch from "@/mixins/filterForSearch";
 
-export type DataType = {
-  currentPokemon: {
-    no?: number;
-    name?: string;
-    form?: string;
-    ranks?: string[];
-    evolutions?: number[];
-    types?: string[];
-    abilities?: string[];
-    hiddenAbilities?: string[];
-    stats?: {
-      [key: string]: number;
-    };
-  };
-};
-
 export default Vue.extend({
   mixins: [filterForSearch],
-  data: (): DataType => ({
-    currentPokemon: {},
-  }),
+  props: {
+    currentPokemon: {
+      type: Object,
+    },
+  },
   computed: {
     pokemonData(): {
       no: number;
@@ -57,9 +43,21 @@ export default Vue.extend({
     },
   },
   methods: {
-    updateCurrentPokemon($event) {
+    updateCurrentPokemon($event: {
+      no: number;
+      name: string;
+      form: string;
+      ranks: string[];
+      evolutions: number[];
+      types: string[];
+      abilities: string[];
+      hiddenAbilities: string[];
+      stats: {
+        [key: string]: number;
+      };
+    }) {
       if ($event) {
-        this.$emit("update:currentPokemon", $event);
+        this.$emit("update", $event);
       }
       (document.activeElement as HTMLElement).blur(); // ポケモンを更新後、フォーカスを外す
     },
