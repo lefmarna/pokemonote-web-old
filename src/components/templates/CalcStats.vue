@@ -7,7 +7,7 @@
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
           <!-- ポケモン名 -->
           <SearchPokemon
-            :currentPokemon.sync="currentPokemon"
+            :currentPokemon="currentPokemon"
             @update="$emit('updatePokemon', $event)"
           />
           <v-row>

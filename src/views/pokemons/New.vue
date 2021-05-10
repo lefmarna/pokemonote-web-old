@@ -8,7 +8,7 @@
       >が必要です。
     </v-alert>
     <CalcStats
-      :currentPokemon.sync="currentPokemon"
+      :currentPokemon="currentPokemon"
       @updatePokemon="updateCurrentPokemon"
       :currentNature.sync="currentNature"
       :stats.sync="stats"
