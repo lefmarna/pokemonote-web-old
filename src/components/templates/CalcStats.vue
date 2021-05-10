@@ -7,9 +7,8 @@
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
           <!-- ポケモン名 -->
           <SearchPokemon
-            :currentPokemon="currentPokemon"
-            :value="currentPokemon"
-            @update="$emit('update:currentPokemon', $event)"
+            :currentPokemon.sync="currentPokemon"
+            @update="$emit('updatePokemon', $event)"
           />
           <v-row>
             <!-- レベル -->
@@ -295,7 +294,6 @@ import CalcButton from "@/components/molecules/CalcButton.vue";
 import SearchPokemon from "@/components/molecules/SearchPokemon.vue";
 import SearchNature from "@/components/molecules/SearchNature.vue";
 import calculator from "@/mixins/calculator";
-import pokemonParams from "@/mixins/pokemonParams";
 import axios from "axios";
 import router from "@/router";
 
@@ -304,6 +302,14 @@ export type DataType = {
   selectSpDefenceEnhancement: number;
   calcStyle: string;
   description: string;
+  currentNature: any;
+  stats: {
+    en: string;
+    ja: string;
+    abbreviation: string;
+    individualValue: number | null;
+    effortValue: number | null;
+  }[];
 };
 
 export default Vue.extend({
@@ -312,16 +318,99 @@ export default Vue.extend({
     SearchPokemon,
     SearchNature,
   },
-  mixins: [calculator, pokemonParams],
+  mixins: [calculator],
+  props: {
+    currentPokemon: {
+      type: Object,
+    },
+  },
   data: (): DataType => ({
     selectDefenceEnhancement: 1,
     selectSpDefenceEnhancement: 1,
     calcStyle: "balance",
     description: "",
+    // 初期値を入れておかないとエラーになる
+    currentNature: {
+      name: "がんばりや",
+      stats: {
+        hp: 1.0,
+        attack: 1.0,
+        defence: 1.0,
+        spAttack: 1.0,
+        spDefence: 1.0,
+        speed: 1.0,
+      },
+    },
+    stats: [
+      {
+        en: "hp",
+        ja: "ＨＰ",
+        abbreviation: "H",
+        individualValue: 31,
+        effortValue: null,
+      },
+      {
+        en: "attack",
+        ja: "こうげき",
+        abbreviation: "A",
+        individualValue: 31,
+        effortValue: null,
+      },
+      {
+        en: "defence",
+        ja: "ぼうぎょ",
+        abbreviation: "B",
+        individualValue: 31,
+        effortValue: null,
+      },
+      {
+        en: "spAttack",
+        ja: "とくこう",
+        abbreviation: "C",
+        individualValue: 31,
+        effortValue: null,
+      },
+      {
+        en: "spDefence",
+        ja: "とくぼう",
+        abbreviation: "D",
+        individualValue: 31,
+        effortValue: null,
+      },
+      {
+        en: "speed",
+        ja: "すばやさ",
+        abbreviation: "S",
+        individualValue: 31,
+        effortValue: null,
+      },
+    ],
   }),
   computed: {
     isLogin(): boolean {
       return Boolean(this.$store.getters.accessToken);
+    },
+    lv: {
+      get(): number {
+        return this.$store.getters.lv;
+      },
+      set(value: number) {
+        // レベルの上限を100、下限を1とする
+        if (value > 100) {
+          value = 100;
+          // ここを「value < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されるため、UI的によろしくない。そこで、"0から始まる数値"と"負の数"を正規表現を用いて検出するようにし、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
+        } else if (/^0|^\.|^-/.test(String(value))) {
+          value = 1;
+          // 小数点以下を削除する（勝手に0が入ってしまうのを防ぐため、空白を明示的に除外している）
+        } else if (String(value) != "") {
+          value = Math.floor(value);
+        }
+        // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
+        (this.$refs.lv as Vue & {
+          lazyValue: number;
+        }).lazyValue = value;
+        this.$store.commit("updateLv", value);
+      },
     },
     // 各種ステータスの計算（methodsで引数を指定すれば、同じ計算を1箇所にまとめることもできるが、パフォーマンスの高いcomputedを使いたいため、あえて個別に計算している）
     hp: {

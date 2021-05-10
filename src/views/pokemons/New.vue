@@ -7,21 +7,33 @@
         >ログイン</router-link
       >が必要です。
     </v-alert>
-    <CalcStats />
+    <CalcStats
+      :currentPokemon.sync="currentPokemon"
+      @updatePokemon="updateCurrentPokemon"
+      :currentNature.sync="currentNature"
+      :stats.sync="stats"
+    />
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import CalcStats from "@/components/templates/CalcStats.vue";
+import pokemonParams from "@/mixins/pokemonParams";
 
 export default Vue.extend({
   components: {
     CalcStats,
   },
+  mixins: [pokemonParams],
   computed: {
     isLogin(): boolean {
       return Boolean(this.$store.getters.accessToken);
+    },
+  },
+  methods: {
+    updateCurrentPokemon($event): void {
+      this.$store.commit("updateCurrentPokemon", $event);
     },
   },
 });

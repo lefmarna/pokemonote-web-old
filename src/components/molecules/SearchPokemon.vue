@@ -56,10 +56,11 @@ export default Vue.extend({
         [key: string]: number;
       };
     }) {
+      // 全消し(clearable)を利用する場合、ポケモンの情報がなくなってしまうと不具合が発生するため、入力情報がない場合は更新させないようにした
       if ($event) {
         this.$emit("update", $event);
+        (document.activeElement as HTMLElement).blur(); // ポケモンを更新後、フォーカスを外す
       }
-      (document.activeElement as HTMLElement).blur(); // ポケモンを更新後、フォーカスを外す
     },
   },
 });
