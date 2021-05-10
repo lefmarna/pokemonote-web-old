@@ -294,6 +294,7 @@ import CalcButton from "@/components/molecules/CalcButton.vue";
 import SearchPokemon from "@/components/molecules/SearchPokemon.vue";
 import SearchNature from "@/components/molecules/SearchNature.vue";
 import calculator from "@/mixins/calculator";
+import { CurrentPokemon } from "@/types/currentPokemon";
 import axios from "axios";
 import router from "@/router";
 
@@ -321,7 +322,7 @@ export default Vue.extend({
   mixins: [calculator],
   props: {
     currentPokemon: {
-      type: Object,
+      type: Object as Vue.PropType<CurrentPokemon>,
     },
   },
   data: (): DataType => ({
