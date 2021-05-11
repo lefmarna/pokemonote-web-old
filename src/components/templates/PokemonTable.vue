@@ -86,25 +86,9 @@ export default Vue.extend({
       return this.pokemons.map((pokemon: any) => {
         let result = "";
 
-        // 努力値
-        const effortValues = [
-          pokemon.hp_ev,
-          pokemon.attack_ev,
-          pokemon.defence_ev,
-          pokemon.sp_attack_ev,
-          pokemon.sp_defence_ev,
-          pokemon.speed_ev,
-        ];
-
-        // 実数値
-        const realNumbers = [
-          pokemon.hp,
-          pokemon.attack,
-          pokemon.defence,
-          pokemon.sp_attack,
-          pokemon.sp_defence,
-          pokemon.speed,
-        ];
+        // 努力値と実数値は何度か呼び出すため、定数に格納して使っている
+        const effortValues = pokemon.effortValues;
+        const realNumbers = pokemon.realNumbers;
 
         for (let i = 0, len = effortValues.length; i < len; i++) {
           // HPの前にはハイフンをつけない
