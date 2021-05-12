@@ -38,7 +38,10 @@
             </v-col>
             <!-- 性格 -->
             <v-col cols="8">
-              <SearchNature />
+              <SearchNature
+                :currentNature="currentNature"
+                @update="$emit('update:currentNature', $event)"
+              />
             </v-col>
           </v-row>
           <!-- 下線 -->
@@ -303,7 +306,6 @@ export type DataType = {
   selectSpDefenceEnhancement: number;
   calcStyle: string;
   description: string;
-  currentNature: any;
   stats: {
     en: string;
     ja: string;
@@ -324,6 +326,9 @@ export default Vue.extend({
     currentPokemon: {
       type: Object as Vue.PropType<CurrentPokemon>,
     },
+    currentNature: {
+      type: Object,
+    },
   },
   data: (): DataType => ({
     selectDefenceEnhancement: 1,
@@ -331,17 +336,6 @@ export default Vue.extend({
     calcStyle: "balance",
     description: "",
     // 初期値を入れておかないとエラーになる
-    currentNature: {
-      name: "がんばりや",
-      stats: {
-        hp: 1.0,
-        attack: 1.0,
-        defence: 1.0,
-        spAttack: 1.0,
-        spDefence: 1.0,
-        speed: 1.0,
-      },
-    },
     stats: [
       {
         en: "hp",

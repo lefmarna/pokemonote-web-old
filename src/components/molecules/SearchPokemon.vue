@@ -55,7 +55,7 @@ export default Vue.extend({
       stats: {
         [key: string]: number;
       };
-    }) {
+    }): void {
       // 全消し(clearable)を利用する場合、ポケモンの情報がなくなってしまうと不具合が発生するため、入力情報がない場合は更新させないようにした
       if ($event) {
         this.$emit("update", $event);

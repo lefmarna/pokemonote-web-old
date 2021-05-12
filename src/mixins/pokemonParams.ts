@@ -22,13 +22,18 @@ export default Vue.extend({
         this.$store.commit("updateCurrentPokemon", value);
       },
     },
-    currentNature(): {
-      name: string;
-      stats: {
-        [key: string]: number;
-      };
-    } {
-      return this.$store.getters.currentNature;
+    currentNature: {
+      get(): {
+        name: string;
+        stats: {
+          [key: string]: number;
+        };
+      } {
+        return this.$store.getters.currentNature;
+      },
+      set(value): void {
+        this.$store.commit("updateCurrentNature", value);
+      },
     },
     lv: {
       get(): number {
