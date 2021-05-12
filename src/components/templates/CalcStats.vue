@@ -8,7 +8,7 @@
           <!-- ポケモン名 -->
           <SearchPokemon
             :currentPokemon="currentPokemon"
-            @update="$emit('updatePokemon', $event)"
+            @update="$emit('update:currentPokemon', $event)"
           />
           <v-row>
             <!-- レベル -->

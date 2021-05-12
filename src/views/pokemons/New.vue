@@ -8,8 +8,7 @@
       >が必要です。
     </v-alert>
     <CalcStats
-      :currentPokemon="currentPokemon"
-      @updatePokemon="updateCurrentPokemon"
+      :currentPokemon.sync="currentPokemon"
       :currentNature.sync="currentNature"
       :stats.sync="stats"
     />
@@ -29,11 +28,6 @@ export default Vue.extend({
   computed: {
     isLogin(): boolean {
       return Boolean(this.$store.getters.accessToken);
-    },
-  },
-  methods: {
-    updateCurrentPokemon($event): void {
-      this.$store.commit("updateCurrentPokemon", $event);
     },
   },
 });

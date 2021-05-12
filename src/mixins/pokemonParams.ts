@@ -2,20 +2,25 @@ import Vue from "vue";
 
 export default Vue.extend({
   computed: {
-    currentPokemon(): {
-      no: number;
-      name: string;
-      form: string;
-      ranks: string[];
-      evolutions: number[];
-      types: string[];
-      abilities: string[];
-      hiddenAbilities: string[];
-      stats: {
-        [key: string]: number;
-      };
-    } {
-      return this.$store.getters.currentPokemon;
+    currentPokemon: {
+      get(): {
+        no: number;
+        name: string;
+        form: string;
+        ranks: string[];
+        evolutions: number[];
+        types: string[];
+        abilities: string[];
+        hiddenAbilities: string[];
+        stats: {
+          [key: string]: number;
+        };
+      } {
+        return this.$store.getters.currentPokemon;
+      },
+      set(value): void {
+        this.$store.commit("updateCurrentPokemon", value);
+      },
     },
     currentNature(): {
       name: string;
