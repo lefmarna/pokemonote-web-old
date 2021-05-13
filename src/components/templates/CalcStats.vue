@@ -1,12 +1,15 @@
 <template>
   <v-container>
-    <Title text="新規ポケモン投稿" />
+    <Title :text="title" />
     <v-row>
       <!-- 左ここから -->
       <v-col cols="12" md="6" class="d-flex">
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
           <!-- ポケモン名 -->
-          <SearchPokemon />
+          <SearchPokemon
+            :currentPokemon="currentPokemon"
+            @update="$emit('update:currentPokemon', $event)"
+          />
           <v-row>
             <!-- レベル -->
             <v-col cols="4" class="d-flex">
@@ -16,26 +19,30 @@
                   type="number"
                   label="レベル"
                   placeholder="1"
-                  v-model="lv"
+                  :value="lv"
+                  @input="updateLv($event)"
                 ></v-text-field>
               </div>
               <div>
                 <CalcButton
                   buttonText="100"
                   class="mb-1 btn-min-sm"
-                  @click.native="lv = 100"
+                  @click.native="$emit('update:lv', 100)"
                 />
                 <br />
                 <CalcButton
                   buttonText="50"
                   class="btn-min-sm"
-                  @click.native="lv = 50"
+                  @click.native="$emit('update:lv', 50)"
                 />
               </div>
             </v-col>
             <!-- 性格 -->
             <v-col cols="8">
-              <SearchNature />
+              <SearchNature
+                :currentNature="currentNature"
+                @update="$emit('update:currentNature', $event)"
+              />
             </v-col>
           </v-row>
           <!-- 下線 -->
@@ -272,10 +279,10 @@
               <v-btn
                 color="primary"
                 elevation="3"
-                @click="postPokemon"
+                @click="emitPokemon"
                 :disabled="!isLogin"
                 large
-                >投稿する</v-btn
+                >{{ buttonText }}</v-btn
               >
             </v-col>
           </v-row>
@@ -291,9 +298,7 @@ import CalcButton from "@/components/molecules/CalcButton.vue";
 import SearchPokemon from "@/components/molecules/SearchPokemon.vue";
 import SearchNature from "@/components/molecules/SearchNature.vue";
 import calculator from "@/mixins/calculator";
-import pokemonParams from "@/mixins/pokemonParams";
-import axios from "axios";
-import router from "@/router";
+import { CurrentPokemon } from "@/types/currentPokemon";
 
 export type DataType = {
   selectDefenceEnhancement: number;
@@ -308,7 +313,29 @@ export default Vue.extend({
     SearchPokemon,
     SearchNature,
   },
-  mixins: [calculator, pokemonParams],
+  mixins: [calculator],
+  props: {
+    title: {
+      type: String,
+    },
+    buttonText: {
+      type: String,
+    },
+    currentPokemon: {
+      type: Object as Vue.PropType<CurrentPokemon>,
+    },
+    currentNature: {
+      type: Object,
+    },
+    lv: {
+      // String型を許可しないと null のとき怒られる
+      type: [Number, String],
+      default: "",
+    },
+    stats: {
+      type: Array,
+    },
+  },
   data: (): DataType => ({
     selectDefenceEnhancement: 1,
     selectSpDefenceEnhancement: 1,
@@ -518,6 +545,23 @@ export default Vue.extend({
     },
   },
   methods: {
+    updateLv(value: number | null) {
+      // レベルの上限を100、下限を1とする
+      if (value > 100) {
+        value = 100;
+        // ここを「value < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されるため、UI的によろしくない。そこで、"0から始まる数値"と"負の数"を正規表現を用いて検出するようにし、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
+      } else if (/^0|^\.|^-/.test(String(value))) {
+        value = 1;
+        // 小数点以下を削除する（勝手に0が入ってしまうのを防ぐため、空白を明示的に除外している）
+      } else if (String(value) != "") {
+        value = Math.floor(value);
+      }
+      // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
+      (this.$refs.lv as Vue & {
+        lazyValue: number;
+      }).lazyValue = value;
+      this.$emit("update:lv", value);
+    },
     // 努力値の更新
     updateEffortValue(value: number, statsName: string, index: number): void {
       value = this.valueVerification(value, 252);
@@ -783,41 +827,35 @@ export default Vue.extend({
       this.defence = resultDefence;
       this.spDefence = resultSpDefence;
     },
-    // ポケモンのデータを投稿する
-    postPokemon(): void {
-      axios
-        .post("/pokemons", {
-          pokemon: {
-            name: this.currentPokemon.name,
-            nature: this.currentNature.name,
-            lv: this.lv,
-            hp_iv: this.stats[0].individualValue,
-            hp_ev: this.stats[0].effortValue,
-            hp: this.hp,
-            attack_iv: this.stats[1].individualValue,
-            attack_ev: this.stats[1].effortValue,
-            attack: this.attack,
-            defence_iv: this.stats[2].individualValue,
-            defence_ev: this.stats[2].effortValue,
-            defence: this.defence,
-            sp_attack_iv: this.stats[3].individualValue,
-            sp_attack_ev: this.stats[3].effortValue,
-            sp_attack: this.spAttack,
-            sp_defence_iv: this.stats[4].individualValue,
-            sp_defence_ev: this.stats[4].effortValue,
-            sp_defence: this.spDefence,
-            speed_iv: this.stats[5].individualValue,
-            speed_ev: this.stats[5].effortValue,
-            speed: this.speed,
-            description: this.description,
-          },
-        })
-        .then((response) => {
-          router.push(`/pokemons/${response.data.id}`);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    // ポケモンのデータを親に渡す
+    emitPokemon(): void {
+      const params = {
+        pokemon: {
+          name: this.currentPokemon.name,
+          nature: this.currentNature.name,
+          lv: this.lv,
+          hp_iv: this.stats[0].individualValue,
+          hp_ev: this.stats[0].effortValue,
+          hp: this.hp,
+          attack_iv: this.stats[1].individualValue,
+          attack_ev: this.stats[1].effortValue,
+          attack: this.attack,
+          defence_iv: this.stats[2].individualValue,
+          defence_ev: this.stats[2].effortValue,
+          defence: this.defence,
+          sp_attack_iv: this.stats[3].individualValue,
+          sp_attack_ev: this.stats[3].effortValue,
+          sp_attack: this.spAttack,
+          sp_defence_iv: this.stats[4].individualValue,
+          sp_defence_ev: this.stats[4].effortValue,
+          sp_defence: this.spDefence,
+          speed_iv: this.stats[5].individualValue,
+          speed_ev: this.stats[5].effortValue,
+          speed: this.speed,
+          description: this.description,
+        },
+      };
+      this.$emit("submit", params);
     },
   },
 });

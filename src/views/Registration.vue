@@ -27,10 +27,10 @@
       label="表示名"
       :rules="[rules.required]"
     />
-    <EmailField v-model="email" name="email" />
-    <PasswordField v-model="password" name="password" />
+    <EmailField :email.sync="email" name="email" />
+    <PasswordField :password.sync="password" name="password" />
     <PasswordField
-      v-model="password_confirmation"
+      :password.sync="password_confirmation"
       name="password_confirmation"
       label="パスワード確認"
     />

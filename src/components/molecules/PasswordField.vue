@@ -1,6 +1,5 @@
 <template>
   <v-text-field
-    v-model="password"
     :name="name"
     :label="label"
     prepend-icon="mdi-lock"
@@ -8,6 +7,8 @@
     :type="togglePassword.type"
     @click:append="isShow = !isShow"
     :rules="[rules.required, rules.password]"
+    :value="password"
+    @input="$emit('update:password', $event)"
   />
 </template>
 
@@ -32,26 +33,21 @@ export default {
     },
   }),
   props: {
-    name: String,
+    password: {
+      type: String,
+      default: "",
+    },
     label: {
       type: String,
       default: "パスワード",
     },
+    name: String,
   },
   computed: {
     togglePassword(): any {
       const icon = this.isShow ? "mdi-eye" : "mdi-eye-off";
       const type = this.isShow ? "text" : "password";
       return { icon, type };
-    },
-    password: {
-      get(): string {
-        return this.value;
-      },
-      // 'input'にすることで、v-modelで発火させる
-      set(value: string): void {
-        this.$emit("input", value);
-      },
     },
   },
 };

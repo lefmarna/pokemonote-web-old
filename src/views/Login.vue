@@ -1,7 +1,7 @@
 <template>
   <Form title="ログイン" buttonText="ログイン" :errors="errors" @submit="login">
-    <EmailField v-model="email" />
-    <PasswordField v-model="password" />
+    <EmailField :email.sync="email" />
+    <PasswordField :password.sync="password" />
   </Form>
 </template>
 

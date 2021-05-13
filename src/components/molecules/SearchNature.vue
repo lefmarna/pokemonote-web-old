@@ -4,10 +4,11 @@
     item-text="name"
     label="性格"
     :filter="filterForSearch"
-    v-model="currentNature"
     no-data-text="性格が見つかりません。"
     auto-select-first
     return-object
+    :value="currentNature"
+    @input="updateCurrentNature"
   ></v-autocomplete>
 </template>
 
@@ -17,6 +18,11 @@ import filterForSearch from "@/mixins/filterForSearch";
 
 export default Vue.extend({
   mixins: [filterForSearch],
+  props: {
+    currentNature: {
+      type: Object,
+    },
+  },
   computed: {
     natureData(): {
       name: string;
@@ -26,21 +32,18 @@ export default Vue.extend({
     }[] {
       return this.$store.getters.natureData;
     },
-    currentNature: {
-      get(): {
-        currentNature: {
-          name: string;
-          stats: {
-            [key: string]: number;
-          };
-        };
-      } {
-        return this.$store.getters.currentNature;
-      },
-      set(selectedNature): void {
-        this.$store.commit("updateCurrentNature", selectedNature);
+  },
+  methods: {
+    updateCurrentNature($event: {
+      name: string;
+      stats: {
+        [key: string]: number;
+      };
+    }): void {
+      if ($event) {
+        this.$emit("update", $event);
         (document.activeElement as HTMLElement).blur(); // 性格を更新後、フォーカスを外す
-      },
+      }
     },
   },
 });
