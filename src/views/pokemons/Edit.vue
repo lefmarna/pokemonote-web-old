@@ -1,14 +1,12 @@
 <template>
-  <v-container>
-    <CalcStats
-      title="ポケモン編集"
-      :currentPokemon.sync="currentPokemon"
-      :currentNature.sync="currentNature"
-      :lv.sync="lv"
-      :stats.sync="stats"
-      @submit="updatePokemon"
-    />
-  </v-container>
+  <CalcStats
+    title="ポケモン編集"
+    :currentPokemon.sync="currentPokemon"
+    :currentNature.sync="currentNature"
+    :lv.sync="lv"
+    :stats.sync="stats"
+    @submit="updatePokemon"
+  />
 </template>
 
 <script lang="ts">

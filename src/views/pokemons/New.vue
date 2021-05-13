@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <v-alert v-if="!isLogin" outlined type="warning" border="left">
       計算結果の保存には、<router-link
         class="text-decoration-none login-alert"
@@ -16,7 +16,7 @@
       :isLogin="isLogin"
       @submit="postPokemon"
     />
-  </v-container>
+  </div>
 </template>
 
 <script lang="ts">
