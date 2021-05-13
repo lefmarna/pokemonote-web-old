@@ -282,7 +282,7 @@
                 @click="emitPokemon"
                 :disabled="!isLogin"
                 large
-                >投稿する</v-btn
+                >{{ buttonText }}</v-btn
               >
             </v-col>
           </v-row>
@@ -316,6 +316,9 @@ export default Vue.extend({
   mixins: [calculator],
   props: {
     title: {
+      type: String,
+    },
+    buttonText: {
       type: String,
     },
     isLogin: {

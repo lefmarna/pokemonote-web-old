@@ -9,6 +9,7 @@
     </v-alert>
     <CalcStats
       title="新規ポケモン投稿"
+      buttonText="投稿する"
       :currentPokemon.sync="currentPokemon"
       :currentNature.sync="currentNature"
       :lv.sync="lv"

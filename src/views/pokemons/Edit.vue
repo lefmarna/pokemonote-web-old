@@ -1,6 +1,7 @@
 <template>
   <CalcStats
     title="ポケモン編集"
+    buttonText="更新する"
     :currentPokemon.sync="currentPokemon"
     :currentNature.sync="currentNature"
     :lv.sync="lv"
