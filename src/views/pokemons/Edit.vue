@@ -18,7 +18,6 @@ import axios from "axios";
 import router from "@/router";
 
 export type DataType = {
-  response: any;
   currentPokemon: {
     no: number;
     name: string;
@@ -53,7 +52,6 @@ export default Vue.extend({
     CalcStats,
   },
   data: (): DataType => ({
-    response: "",
     currentPokemon: {
       no: 645,
       name: "ランドロス(霊獣)",
@@ -180,7 +178,6 @@ export default Vue.extend({
           .get(`/pokemons/${this.id}/edit`)
           .then((response) => {
             const data = response.data;
-            this.response = data;
             this.currentPokemon = this.pokemonData.find(
               (pokemon) => pokemon.name == data.name
             );
