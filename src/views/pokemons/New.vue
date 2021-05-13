@@ -8,6 +8,7 @@
       >が必要です。
     </v-alert>
     <CalcStats
+      title="新規ポケモン投稿"
       :currentPokemon.sync="currentPokemon"
       :currentNature.sync="currentNature"
       :lv.sync="lv"

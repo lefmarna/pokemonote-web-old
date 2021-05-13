@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <Title text="新規ポケモン投稿" />
+    <Title :text="title" />
     <v-row>
       <!-- 左ここから -->
       <v-col cols="12" md="6" class="d-flex">
@@ -315,6 +315,13 @@ export default Vue.extend({
   },
   mixins: [calculator],
   props: {
+    title: {
+      type: String,
+    },
+    isLogin: {
+      type: Boolean,
+      default: true,
+    },
     currentPokemon: {
       type: Object as Vue.PropType<CurrentPokemon>,
     },
@@ -328,9 +335,6 @@ export default Vue.extend({
     },
     stats: {
       type: Array,
-    },
-    isLogin: {
-      type: Boolean,
     },
   },
   data: (): DataType => ({
