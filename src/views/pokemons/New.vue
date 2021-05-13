@@ -12,6 +12,7 @@
       :currentNature.sync="currentNature"
       :lv.sync="lv"
       :stats.sync="stats"
+      :isLogin="isLogin"
     />
   </v-container>
 </template>

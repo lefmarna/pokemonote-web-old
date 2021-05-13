@@ -331,6 +331,9 @@ export default Vue.extend({
     stats: {
       type: Array,
     },
+    isLogin: {
+      type: Boolean,
+    },
   },
   data: (): DataType => ({
     selectDefenceEnhancement: 1,
@@ -339,9 +342,6 @@ export default Vue.extend({
     description: "",
   }),
   computed: {
-    isLogin(): boolean {
-      return Boolean(this.$store.getters.accessToken);
-    },
     // 各種ステータスの計算（methodsで引数を指定すれば、同じ計算を1箇所にまとめることもできるが、パフォーマンスの高いcomputedを使いたいため、あえて個別に計算している）
     hp: {
       get(): number {
