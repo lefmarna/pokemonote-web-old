@@ -321,10 +321,6 @@ export default Vue.extend({
     buttonText: {
       type: String,
     },
-    isLogin: {
-      type: Boolean,
-      default: true,
-    },
     currentPokemon: {
       type: Object as Vue.PropType<CurrentPokemon>,
     },
@@ -347,6 +343,9 @@ export default Vue.extend({
     description: "",
   }),
   computed: {
+    isLogin(): boolean {
+      return Boolean(this.$store.getters.accessToken);
+    },
     // 各種ステータスの計算（methodsで引数を指定すれば、同じ計算を1箇所にまとめることもできるが、パフォーマンスの高いcomputedを使いたいため、あえて個別に計算している）
     hp: {
       get(): number {
