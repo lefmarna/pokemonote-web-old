@@ -307,13 +307,6 @@ export type DataType = {
   selectSpDefenceEnhancement: number;
   calcStyle: string;
   description: string;
-  stats: {
-    en: string;
-    ja: string;
-    abbreviation: string;
-    individualValue: number | null;
-    effortValue: number | null;
-  }[];
 };
 
 export default Vue.extend({
@@ -335,57 +328,15 @@ export default Vue.extend({
       type: [Number, String],
       default: "",
     },
+    stats: {
+      type: Array,
+    },
   },
   data: (): DataType => ({
     selectDefenceEnhancement: 1,
     selectSpDefenceEnhancement: 1,
     calcStyle: "balance",
     description: "",
-    // 初期値を入れておかないとエラーになる
-    stats: [
-      {
-        en: "hp",
-        ja: "ＨＰ",
-        abbreviation: "H",
-        individualValue: 31,
-        effortValue: null,
-      },
-      {
-        en: "attack",
-        ja: "こうげき",
-        abbreviation: "A",
-        individualValue: 31,
-        effortValue: null,
-      },
-      {
-        en: "defence",
-        ja: "ぼうぎょ",
-        abbreviation: "B",
-        individualValue: 31,
-        effortValue: null,
-      },
-      {
-        en: "spAttack",
-        ja: "とくこう",
-        abbreviation: "C",
-        individualValue: 31,
-        effortValue: null,
-      },
-      {
-        en: "spDefence",
-        ja: "とくぼう",
-        abbreviation: "D",
-        individualValue: 31,
-        effortValue: null,
-      },
-      {
-        en: "speed",
-        ja: "すばやさ",
-        abbreviation: "S",
-        individualValue: 31,
-        effortValue: null,
-      },
-    ],
   }),
   computed: {
     isLogin(): boolean {
