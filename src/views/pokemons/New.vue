@@ -37,7 +37,6 @@ export default Vue.extend({
   },
   methods: {
     postPokemon(params): void {
-      console.log(params);
       axios
         .post("/pokemons", params)
         .then((response) => {

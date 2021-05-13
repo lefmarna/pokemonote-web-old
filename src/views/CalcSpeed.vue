@@ -4,7 +4,10 @@
     <v-row>
       <v-col cols="12" md="6" class="d-flex">
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
-          <SearchPokemon />
+          <SearchPokemon
+            :currentPokemon="currentPokemon"
+            @update="currentPokemon = $event"
+          />
           <v-row>
             <!-- レベル -->
             <v-col cols="4" class="d-flex">
@@ -33,7 +36,10 @@
             </v-col>
             <!-- 性格 -->
             <v-col cols="8">
-              <SearchNature />
+              <SearchNature
+                :currentNature="currentNature"
+                @update="currentNature = $event"
+              />
             </v-col>
           </v-row>
           <v-divider />
