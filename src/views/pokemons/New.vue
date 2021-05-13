@@ -10,6 +10,7 @@
     <CalcStats
       :currentPokemon.sync="currentPokemon"
       :currentNature.sync="currentNature"
+      :lv.sync="lv"
       :stats.sync="stats"
     />
   </v-container>
