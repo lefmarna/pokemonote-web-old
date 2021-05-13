@@ -13,6 +13,7 @@
       :lv.sync="lv"
       :stats.sync="stats"
       :isLogin="isLogin"
+      @submit="postPokemon"
     />
   </v-container>
 </template>
@@ -21,6 +22,8 @@
 import Vue from "vue";
 import CalcStats from "@/components/templates/CalcStats.vue";
 import pokemonParams from "@/mixins/pokemonParams";
+import axios from "axios";
+import router from "@/router";
 
 export default Vue.extend({
   components: {
@@ -30,6 +33,19 @@ export default Vue.extend({
   computed: {
     isLogin(): boolean {
       return Boolean(this.$store.getters.accessToken);
+    },
+  },
+  methods: {
+    postPokemon(params): void {
+      console.log(params);
+      axios
+        .post("/pokemons", params)
+        .then((response) => {
+          router.push(`/pokemons/${response.data.id}`);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 });

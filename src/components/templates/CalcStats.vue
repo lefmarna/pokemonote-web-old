@@ -279,7 +279,7 @@
               <v-btn
                 color="primary"
                 elevation="3"
-                @click="postPokemon"
+                @click="emitPokemon"
                 :disabled="!isLogin"
                 large
                 >投稿する</v-btn
@@ -299,8 +299,6 @@ import SearchPokemon from "@/components/molecules/SearchPokemon.vue";
 import SearchNature from "@/components/molecules/SearchNature.vue";
 import calculator from "@/mixins/calculator";
 import { CurrentPokemon } from "@/types/currentPokemon";
-import axios from "axios";
-import router from "@/router";
 
 export type DataType = {
   selectDefenceEnhancement: number;
@@ -823,41 +821,35 @@ export default Vue.extend({
       this.defence = resultDefence;
       this.spDefence = resultSpDefence;
     },
-    // ポケモンのデータを投稿する
-    postPokemon(): void {
-      axios
-        .post("/pokemons", {
-          pokemon: {
-            name: this.currentPokemon.name,
-            nature: this.currentNature.name,
-            lv: this.lv,
-            hp_iv: this.stats[0].individualValue,
-            hp_ev: this.stats[0].effortValue,
-            hp: this.hp,
-            attack_iv: this.stats[1].individualValue,
-            attack_ev: this.stats[1].effortValue,
-            attack: this.attack,
-            defence_iv: this.stats[2].individualValue,
-            defence_ev: this.stats[2].effortValue,
-            defence: this.defence,
-            sp_attack_iv: this.stats[3].individualValue,
-            sp_attack_ev: this.stats[3].effortValue,
-            sp_attack: this.spAttack,
-            sp_defence_iv: this.stats[4].individualValue,
-            sp_defence_ev: this.stats[4].effortValue,
-            sp_defence: this.spDefence,
-            speed_iv: this.stats[5].individualValue,
-            speed_ev: this.stats[5].effortValue,
-            speed: this.speed,
-            description: this.description,
-          },
-        })
-        .then((response) => {
-          router.push(`/pokemons/${response.data.id}`);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    // ポケモンのデータを親に渡す
+    emitPokemon(): void {
+      const params = {
+        pokemon: {
+          name: this.currentPokemon.name,
+          nature: this.currentNature.name,
+          lv: this.lv,
+          hp_iv: this.stats[0].individualValue,
+          hp_ev: this.stats[0].effortValue,
+          hp: this.hp,
+          attack_iv: this.stats[1].individualValue,
+          attack_ev: this.stats[1].effortValue,
+          attack: this.attack,
+          defence_iv: this.stats[2].individualValue,
+          defence_ev: this.stats[2].effortValue,
+          defence: this.defence,
+          sp_attack_iv: this.stats[3].individualValue,
+          sp_attack_ev: this.stats[3].effortValue,
+          sp_attack: this.spAttack,
+          sp_defence_iv: this.stats[4].individualValue,
+          sp_defence_ev: this.stats[4].effortValue,
+          sp_defence: this.spDefence,
+          speed_iv: this.stats[5].individualValue,
+          speed_ev: this.stats[5].effortValue,
+          speed: this.speed,
+          description: this.description,
+        },
+      };
+      this.$emit("submit", params);
     },
   },
 });
