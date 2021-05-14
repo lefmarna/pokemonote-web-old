@@ -24,10 +24,10 @@ export default {
     rules: {
       required: (value: any) => !!value || "この項目は必須です",
       password: (value: string) => {
-        const pattern = /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{6,128}$/i;
+        const pattern = /^(?=.*?[a-z])(?=.*?\d)[a-z\d!@#$%^&*]{8,64}$/i;
         return (
           pattern.test(value) ||
-          "パスワードは、英数それぞれ1種類以上含む、6〜128文字で入力してください"
+          "パスワードは、英数それぞれ1種類以上含む、8〜64文字で入力してください"
         );
       },
     },
