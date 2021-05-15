@@ -323,14 +323,14 @@ import SearchNature from "@/components/molecules/SearchNature.vue";
 import calculator from "@/mixins/calculator";
 import pokemonParams from "@/mixins/pokemonParams";
 
-export type DataType = {
+export interface DataType {
   tailwind: number;
   paralysis: number;
   swamp: number;
   option1: boolean;
   selectItem: number;
   selectAbility: number;
-};
+}
 
 export default Vue.extend({
   components: {

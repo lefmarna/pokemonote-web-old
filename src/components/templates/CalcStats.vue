@@ -300,12 +300,12 @@ import SearchNature from "@/components/molecules/SearchNature.vue";
 import calculator from "@/mixins/calculator";
 import { CurrentPokemon } from "@/types/currentPokemon";
 
-export type DataType = {
+export interface DataType {
   selectDefenceEnhancement: number;
   selectSpDefenceEnhancement: number;
   calcStyle: string;
   description: string;
-};
+}
 
 export default Vue.extend({
   components: {

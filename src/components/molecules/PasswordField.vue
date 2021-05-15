@@ -13,10 +13,10 @@
 </template>
 
 <script lang="ts">
-export type DataType = {
+export interface DataType {
   isShow: boolean;
   rules: any;
-};
+}
 
 export default {
   data: (): DataType => ({

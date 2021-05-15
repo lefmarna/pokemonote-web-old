@@ -49,9 +49,9 @@ import Vue from "vue";
 import axios from "axios";
 import router from "@/router";
 
-export type DataType = {
+export interface DataType {
   pokemon: any;
-};
+}
 
 export default Vue.extend({
   data: (): DataType => ({

@@ -7,9 +7,9 @@ import Vue from "vue";
 import axios from "axios";
 import PokemonTable from "@/components/templates/PokemonTable.vue";
 
-export type DataType = {
+export interface DataType {
   pokemons: [];
-};
+}
 
 export default Vue.extend({
   data: (): DataType => ({

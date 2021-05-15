@@ -59,7 +59,7 @@ import router from "@/router";
 import Form from "@/components/templates/Form.vue";
 
 // カード情報はString型で渡す必要がある
-export type DataType = {
+export interface DataType {
   price: number | null;
   number: string;
   cvc: string;
@@ -67,7 +67,7 @@ export type DataType = {
   exp_year: string;
   token: string;
   errors: string[];
-};
+}
 
 // Payjpに型を指定しないとエラーになる
 declare global {

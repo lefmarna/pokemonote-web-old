@@ -44,7 +44,7 @@ import Form from "@/components/templates/Form.vue";
 import EmailField from "@/components/molecules/EmailField.vue";
 import PasswordField from "@/components/molecules/PasswordField.vue";
 
-export type DataType = {
+export interface DataType {
   image: any;
   username: string;
   nickname: string;
@@ -53,7 +53,7 @@ export type DataType = {
   password_confirmation: string;
   errors: string[];
   rules: any;
-};
+}
 
 export default {
   name: "register",
