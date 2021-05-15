@@ -3,13 +3,16 @@ import CalcStats from "@/components/templates/CalcStats.vue";
 import Vuex from "vuex";
 import store from "@/store";
 import Vuetify from "vuetify";
+import { Pokemon } from "@/types/pokemon";
+import { Nature } from "@/types/nature";
+import { Stat } from "@/types/stat";
 
 describe("CalcButtonの正常系テスト", () => {
   const localVue = createLocalVue();
   localVue.use(Vuex);
 
   // propsで渡すデータを用意
-  const currentPokemon = {
+  const currentPokemon: Pokemon = {
     no: 682,
     name: "シュシュプ",
     form: "",
@@ -27,7 +30,7 @@ describe("CalcButtonの正常系テスト", () => {
       speed: 23,
     },
   };
-  const currentNature = {
+  const currentNature: Nature = {
     name: "おだやか",
     stats: {
       hp: 1.0,
@@ -38,8 +41,8 @@ describe("CalcButtonの正常系テスト", () => {
       speed: 1.0,
     },
   };
-  const lv = 50;
-  const stats = [
+  const lv: number | null = 50;
+  const stats: Stat[] = [
     {
       en: "hp",
       ja: "ＨＰ",

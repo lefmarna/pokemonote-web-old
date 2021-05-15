@@ -1,21 +1,12 @@
 import Vue from "vue";
+import { Pokemon } from "@/types/pokemon";
+import { Nature } from "@/types/nature";
+import { Stat } from "@/types/stat";
 
 export default Vue.extend({
   computed: {
     currentPokemon: {
-      get(): {
-        no: number;
-        name: string;
-        form: string;
-        ranks: string[];
-        evolutions: number[];
-        types: string[];
-        abilities: string[];
-        hiddenAbilities: string[];
-        stats: {
-          [key: string]: number;
-        };
-      } {
+      get(): Pokemon {
         return this.$store.getters.currentPokemon;
       },
       set(value): void {
@@ -23,12 +14,7 @@ export default Vue.extend({
       },
     },
     currentNature: {
-      get(): {
-        name: string;
-        stats: {
-          [key: string]: number;
-        };
-      } {
+      get(): Nature {
         return this.$store.getters.currentNature;
       },
       set(value): void {
@@ -43,13 +29,7 @@ export default Vue.extend({
         this.$store.commit("updateLv", value);
       },
     },
-    stats(): {
-      en: string;
-      ja: string;
-      abbreviation: string;
-      individualValue: number | null;
-      effortValue: number | null;
-    }[] {
+    stats(): Stat[] {
       return this.$store.getters.stats;
     },
   },

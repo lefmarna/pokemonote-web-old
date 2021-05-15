@@ -48,6 +48,7 @@
 import Vue from "vue";
 import axios from "axios";
 import router from "@/router";
+import { Pokemon } from "@/types/pokemon";
 
 export interface DataType {
   pokemon: any;
@@ -60,7 +61,7 @@ export default Vue.extend({
   computed: {
     // ポケモンの詳細情報をVuexから取得する
     pokemonDetails() {
-      const pokemonData = this.$store.getters.pokemonData;
+      const pokemonData: Pokemon[] = this.$store.getters.pokemonData;
       return pokemonData.find((pokemon) => pokemon.name == this.pokemon.name);
     },
     userName() {

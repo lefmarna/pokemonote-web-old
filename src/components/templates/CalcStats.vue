@@ -298,7 +298,9 @@ import CalcButton from "@/components/molecules/CalcButton.vue";
 import SearchPokemon from "@/components/molecules/SearchPokemon.vue";
 import SearchNature from "@/components/molecules/SearchNature.vue";
 import calculator from "@/mixins/calculator";
-import { CurrentPokemon } from "@/types/currentPokemon";
+import { Pokemon } from "@/types/pokemon";
+import { Nature } from "@/types/nature";
+import { Stat } from "@/types/stat";
 
 export interface DataType {
   selectDefenceEnhancement: number;
@@ -322,10 +324,10 @@ export default Vue.extend({
       type: String,
     },
     currentPokemon: {
-      type: Object as Vue.PropType<CurrentPokemon>,
+      type: Object as Vue.PropType<Pokemon>,
     },
     currentNature: {
-      type: Object,
+      type: Object as Vue.PropType<Nature>,
     },
     lv: {
       // String型を許可しないと null のとき怒られる
@@ -333,7 +335,7 @@ export default Vue.extend({
       default: "",
     },
     stats: {
-      type: Array,
+      type: Array as Vue.PropType<Stat[]>,
     },
   },
   data: (): DataType => ({

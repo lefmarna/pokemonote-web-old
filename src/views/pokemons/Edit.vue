@@ -15,36 +15,16 @@ import Vue from "vue";
 import CalcStats from "@/components/templates/CalcStats.vue";
 import axios from "axios";
 import router from "@/router";
+import { Pokemon } from "@/types/pokemon";
+import { Nature } from "@/types/nature";
+import { Stat } from "@/types/stat";
 
-export type DataType = {
-  currentPokemon: {
-    no: number;
-    name: string;
-    form: string;
-    ranks: string[];
-    evolutions: number[];
-    types: string[];
-    abilities: string[];
-    hiddenAbilities: string[];
-    stats: {
-      [key: string]: number;
-    };
-  };
-  currentNature: {
-    name: string;
-    stats: {
-      [key: string]: number;
-    };
-  };
+export interface DataType {
+  currentPokemon: Pokemon;
+  currentNature: Nature;
   lv: number;
-  stats: {
-    en: string;
-    ja: string;
-    abbreviation: string;
-    individualValue: number | null;
-    effortValue: number | null;
-  }[];
-};
+  stats: Stat[];
+}
 
 export default Vue.extend({
   components: {
@@ -130,27 +110,10 @@ export default Vue.extend({
     isLogin(): boolean {
       return Boolean(this.$store.getters.accessToken);
     },
-    pokemonData(): {
-      no: number;
-      name: string;
-      form: string;
-      ranks: string[];
-      evolutions: number[];
-      types: string[];
-      abilities: string[];
-      hiddenAbilities: string[];
-      stats: {
-        [key: string]: number;
-      };
-    } {
+    pokemonData(): Pokemon[] {
       return this.$store.getters.pokemonData;
     },
-    natureData(): {
-      name: string;
-      stats: {
-        [key: string]: number;
-      };
-    }[] {
+    natureData(): Nature[] {
       return this.$store.getters.natureData;
     },
   },
@@ -178,10 +141,10 @@ export default Vue.extend({
           .then((response) => {
             const data = response.data;
             this.currentPokemon = this.pokemonData.find(
-              (pokemon) => pokemon.name == data.name
+              (pokemon: Pokemon) => pokemon.name == data.name
             );
             this.currentNature = this.$store.getters.natureData.find(
-              (nature) => nature.name == data.nature
+              (nature: Nature) => nature.name == data.nature
             );
             this.lv = data.lv;
             const individualValues: number[] = [
@@ -200,7 +163,7 @@ export default Vue.extend({
               data.sp_defence_ev,
               data.speed_ev,
             ];
-            this.stats.map((stat: any, index: number) => {
+            this.stats.map((stat: Stat, index: number) => {
               stat.individualValue = individualValues[index];
               stat.effortValue = effortValues[index];
             });
