@@ -2,7 +2,7 @@
   <v-autocomplete
     :items="items"
     item-text="name"
-    :label="itemName"
+    :label="label"
     :filter="filterForSearch"
     :no-data-text="`${itemName}が見つかりません。`"
     :clearable="clearable"
@@ -19,7 +19,10 @@ import Vue from "vue";
 export default Vue.extend({
   props: {
     items: {
-      type: Object,
+      type: Array,
+    },
+    label: {
+      type: String,
     },
     itemName: {
       type: String,
