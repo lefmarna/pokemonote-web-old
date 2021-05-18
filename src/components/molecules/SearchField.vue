@@ -37,7 +37,7 @@ export default Vue.extend({
   },
   computed: {
     // ローマ字の変換表
-    $_romanConversionTable() {
+    romanConversionTable() {
       return {
         a: "ア",
         i: "イ",
@@ -251,21 +251,21 @@ export default Vue.extend({
         .replace(/[（]/g, "(")
         .replace(/[）]/g, ")");
       // 入力されたローマ字を全てカタカナに書き換える
-      katakana = this.$_convertRomanToKana(katakana);
+      katakana = this.convertRomanToKana(katakana);
       // 部分一致でフィルタリングする
       return (itemName || "").indexOf(katakana) > -1;
     },
     // ローマ字をカタカナに変換する関数
-    $_convertRomanToKana(queryText: string) {
+    convertRomanToKana(queryText: string) {
       const LowerCaseText = queryText.toLowerCase(); // 大文字を小文字に変更
       let result = ""; // result：最終的に返すテキストを格納していく変数
       let tmp = ""; // tmp：子音のみが入力されている状態など、カタカナに変換できない場合に一時的に格納しておくための変数
-      let node: any = this.$_romanConversionTable; // eslint-disable-line
+      let node: any = this.romanConversionTable; // eslint-disable-line
       const push = (char: string, toRoot = true) => {
         result += char;
         tmp = "";
         if (toRoot) {
-          node = this.$_romanConversionTable;
+          node = this.romanConversionTable;
         }
       };
       for (let i = 0, len = LowerCaseText.length; i < len; i++) {
@@ -288,8 +288,8 @@ export default Vue.extend({
             push(prev === "n" ? "ン" : "ッ", false);
           }
           if (
-            node !== this.$_romanConversionTable &&
-            char in this.$_romanConversionTable
+            node !== this.romanConversionTable &&
+            char in this.romanConversionTable
           ) {
             // 今のノードがルート以外だった場合、仕切り直してチェックする
             push(tmp);
