@@ -157,6 +157,13 @@ describe("CalcButtonの正常系テスト", () => {
     expect(wrapper.vm.stats[3].effortValue).toBe(60);
     expect(wrapper.vm.stats[4].effortValue).toBe(80);
     expect(wrapper.vm.stats[5].effortValue).toBe(100);
+    // 実数値
+    expect(wrapper.vm.hp).toBe(160);
+    expect(wrapper.vm.attack).toBe(60);
+    expect(wrapper.vm.defence).toBe(72);
+    expect(wrapper.vm.spAttack).toBe(90);
+    expect(wrapper.vm.spDefence).toBe(99);
+    expect(wrapper.vm.speed).toBe(45);
     // ステータスの合計
     expect(wrapper.vm.totalBaseStats).toBe(341);
     expect(wrapper.vm.totalIv).toBe(105);
@@ -186,6 +193,13 @@ describe("CalcButtonの正常系テスト", () => {
     expect(wrapper.vm.stats[3].effortValue).toBe(60);
     expect(wrapper.vm.stats[4].effortValue).toBe(80);
     expect(wrapper.vm.stats[5].effortValue).toBe(100);
+    // 実数値
+    expect(wrapper.vm.hp).toBe(160);
+    expect(wrapper.vm.attack).toBe(70);
+    expect(wrapper.vm.defence).toBe(72);
+    expect(wrapper.vm.spAttack).toBe(90);
+    expect(wrapper.vm.spDefence).toBe(99);
+    expect(wrapper.vm.speed).toBe(45);
     // ステータスの合計
     expect(wrapper.vm.totalBaseStats).toBe(341);
     expect(wrapper.vm.totalIv).toBe(105);
@@ -215,6 +229,13 @@ describe("CalcButtonの正常系テスト", () => {
     expect(wrapper.vm.stats[3].effortValue).toBe(60);
     expect(wrapper.vm.stats[4].effortValue).toBe(80);
     expect(wrapper.vm.stats[5].effortValue).toBe(100);
+    // 実数値
+    expect(wrapper.vm.hp).toBe(160);
+    expect(wrapper.vm.attack).toBe(70);
+    expect(wrapper.vm.defence).toBe(70);
+    expect(wrapper.vm.spAttack).toBe(90);
+    expect(wrapper.vm.spDefence).toBe(99);
+    expect(wrapper.vm.speed).toBe(45);
     // ステータスの合計
     expect(wrapper.vm.totalBaseStats).toBe(341);
     expect(wrapper.vm.totalIv).toBe(105);
@@ -244,6 +265,13 @@ describe("CalcButtonの正常系テスト", () => {
     expect(wrapper.vm.stats[3].effortValue).toBe(16);
     expect(wrapper.vm.stats[4].effortValue).toBe(80);
     expect(wrapper.vm.stats[5].effortValue).toBe(100);
+    // 実数値
+    expect(wrapper.vm.hp).toBe(160);
+    expect(wrapper.vm.attack).toBe(70);
+    expect(wrapper.vm.defence).toBe(70);
+    expect(wrapper.vm.spAttack).toBe(85);
+    expect(wrapper.vm.spDefence).toBe(99);
+    expect(wrapper.vm.speed).toBe(45);
     // ステータスの合計
     expect(wrapper.vm.totalBaseStats).toBe(341);
     expect(wrapper.vm.totalIv).toBe(105);
@@ -273,6 +301,13 @@ describe("CalcButtonの正常系テスト", () => {
     expect(wrapper.vm.stats[3].effortValue).toBe(16);
     expect(wrapper.vm.stats[4].effortValue).toBe(128);
     expect(wrapper.vm.stats[5].effortValue).toBe(100);
+    // 実数値
+    expect(wrapper.vm.hp).toBe(160);
+    expect(wrapper.vm.attack).toBe(70);
+    expect(wrapper.vm.defence).toBe(70);
+    expect(wrapper.vm.spAttack).toBe(85);
+    expect(wrapper.vm.spDefence).toBe(105);
+    expect(wrapper.vm.speed).toBe(45);
     // ステータスの合計
     expect(wrapper.vm.totalBaseStats).toBe(341);
     expect(wrapper.vm.totalIv).toBe(105);
@@ -302,6 +337,13 @@ describe("CalcButtonの正常系テスト", () => {
     expect(wrapper.vm.stats[3].effortValue).toBe(16);
     expect(wrapper.vm.stats[4].effortValue).toBe(128);
     expect(wrapper.vm.stats[5].effortValue).toBe(48);
+    // 実数値
+    expect(wrapper.vm.hp).toBe(160);
+    expect(wrapper.vm.attack).toBe(70);
+    expect(wrapper.vm.defence).toBe(70);
+    expect(wrapper.vm.spAttack).toBe(85);
+    expect(wrapper.vm.spDefence).toBe(105);
+    expect(wrapper.vm.speed).toBe(39);
     // ステータスの合計
     expect(wrapper.vm.totalBaseStats).toBe(341);
     expect(wrapper.vm.totalIv).toBe(105);
