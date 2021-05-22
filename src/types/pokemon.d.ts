@@ -1,4 +1,4 @@
-export interface CurrentPokemon {
+export interface Pokemon {
   no: number;
   name: string;
   form: string;

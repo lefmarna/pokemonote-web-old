@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts">
-export type DataType = {
+export interface DataType {
   rules: any;
-};
+}
 
 export default {
   data: (): DataType => ({

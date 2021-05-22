@@ -12,11 +12,11 @@ import Form from "@/components/templates/Form.vue";
 import EmailField from "@/components/molecules/EmailField.vue";
 import PasswordField from "@/components/molecules/PasswordField.vue";
 
-export type DataType = {
+export interface DataType {
   email: string;
   password: string;
   errors: string[];
-};
+}
 
 export default {
   name: "login",

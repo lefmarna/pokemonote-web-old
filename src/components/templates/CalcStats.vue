@@ -6,8 +6,12 @@
       <v-col cols="12" md="6" class="d-flex">
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
           <!-- ポケモン名 -->
-          <SearchPokemon
-            :currentPokemon="currentPokemon"
+          <SearchField
+            :items="pokemonData"
+            label="ポケモン名"
+            itemName="ポケモン"
+            :clearable="true"
+            :selectItem="currentPokemon"
             @update="$emit('update:currentPokemon', $event)"
           />
           <v-row>
@@ -39,8 +43,11 @@
             </v-col>
             <!-- 性格 -->
             <v-col cols="8">
-              <SearchNature
-                :currentNature="currentNature"
+              <SearchField
+                :items="natureData"
+                label="性格"
+                itemName="性格"
+                :selectItem="currentNature"
                 @update="$emit('update:currentNature', $event)"
               />
             </v-col>
@@ -295,23 +302,23 @@
 <script lang="ts">
 import Vue from "vue";
 import CalcButton from "@/components/molecules/CalcButton.vue";
-import SearchPokemon from "@/components/molecules/SearchPokemon.vue";
-import SearchNature from "@/components/molecules/SearchNature.vue";
+import SearchField from "@/components/molecules/SearchField.vue";
 import calculator from "@/mixins/calculator";
-import { CurrentPokemon } from "@/types/currentPokemon";
+import { Pokemon } from "@/types/pokemon";
+import { Nature } from "@/types/nature";
+import { Stat } from "@/types/stat";
 
-export type DataType = {
+export interface DataType {
   selectDefenceEnhancement: number;
   selectSpDefenceEnhancement: number;
   calcStyle: string;
   description: string;
-};
+}
 
 export default Vue.extend({
   components: {
     CalcButton,
-    SearchPokemon,
-    SearchNature,
+    SearchField,
   },
   mixins: [calculator],
   props: {
@@ -322,10 +329,10 @@ export default Vue.extend({
       type: String,
     },
     currentPokemon: {
-      type: Object as Vue.PropType<CurrentPokemon>,
+      type: Object as Vue.PropType<Pokemon>,
     },
     currentNature: {
-      type: Object,
+      type: Object as Vue.PropType<Nature>,
     },
     lv: {
       // String型を許可しないと null のとき怒られる
@@ -333,7 +340,7 @@ export default Vue.extend({
       default: "",
     },
     stats: {
-      type: Array,
+      type: Array as Vue.PropType<Stat[]>,
     },
   },
   data: (): DataType => ({
@@ -343,6 +350,12 @@ export default Vue.extend({
     description: "",
   }),
   computed: {
+    pokemonData(): Pokemon[] {
+      return this.$store.getters.pokemonData;
+    },
+    natureData(): Nature[] {
+      return this.$store.getters.natureData;
+    },
     isLogin(): boolean {
       return Boolean(this.$store.getters.accessToken);
     },

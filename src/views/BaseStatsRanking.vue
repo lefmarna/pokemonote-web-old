@@ -51,10 +51,10 @@
 <script lang="ts">
 import Vue from "vue";
 
-export type DataType = {
+export interface DataType {
   displayRankPokemons: { [key: string]: boolean };
   removeStats: { [key: string]: boolean };
-};
+}
 
 export default Vue.extend({
   data: (): DataType => ({
