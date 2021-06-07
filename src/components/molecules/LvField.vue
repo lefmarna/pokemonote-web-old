@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="4" class="d-flex">
+  <div class="d-flex">
     <div>
       <v-text-field
         ref="lv"
@@ -23,7 +23,7 @@
         @click.native="$emit('update', 50)"
       />
     </div>
-  </v-col>
+  </div>
 </template>
 
 <script lang="ts">

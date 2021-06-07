@@ -16,7 +16,9 @@
           />
           <v-row>
             <!-- レベル -->
-            <LvField :lv="lv" @update="$emit('update:lv', $event)" />
+            <v-col cols="4">
+              <LvField :lv="lv" @update="$emit('update:lv', $event)" />
+            </v-col>
             <!-- 性格 -->
             <v-col cols="8">
               <SearchField
