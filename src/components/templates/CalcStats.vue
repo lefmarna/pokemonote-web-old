@@ -281,7 +281,7 @@
 import Vue from "vue";
 import CalcButton from "@/components/molecules/CalcButton.vue";
 import SearchField from "@/components/molecules/SearchField.vue";
-import LvField from "@/components/molecules/LvField.vue";
+import LvField from "@/components/organisms/LvField.vue";
 import calculator from "@/mixins/calculator";
 import { Pokemon } from "@/types/pokemon";
 import { Nature } from "@/types/nature";
