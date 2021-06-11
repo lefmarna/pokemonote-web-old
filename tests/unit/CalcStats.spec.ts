@@ -584,4 +584,42 @@ describe("CalcButtonの正常系テスト", () => {
     // その他
     expect(wrapper.html()).toContain("めざパ：ひこう");
   });
+
+  it("「ＨＰ」の努力値を変更したとき、各種値が正しく更新されること", async () => {
+    await (() => {
+      wrapper.vm.stats[0].effortValue = 100;
+    })();
+    // 個体値
+    expect(wrapper.vm.stats[0].individualValue).toBe(5);
+    expect(wrapper.vm.stats[1].individualValue).toBe(25);
+    expect(wrapper.vm.stats[2].individualValue).toBe(15);
+    expect(wrapper.vm.stats[3].individualValue).toBe(10);
+    expect(wrapper.vm.stats[4].individualValue).toBe(30);
+    expect(wrapper.vm.stats[5].individualValue).toBe(20);
+    // 努力値
+    expect(wrapper.vm.stats[0].effortValue).toBe(100);
+    expect(wrapper.vm.stats[1].effortValue).toBe(108);
+    expect(wrapper.vm.stats[2].effortValue).toBe(20);
+    expect(wrapper.vm.stats[3].effortValue).toBe(16);
+    expect(wrapper.vm.stats[4].effortValue).toBe(128);
+    expect(wrapper.vm.stats[5].effortValue).toBe(48);
+    // 実数値
+    expect(wrapper.vm.hp).toBe(153);
+    expect(wrapper.vm.attack).toBe(74);
+    expect(wrapper.vm.defence).toBe(75);
+    expect(wrapper.vm.spAttack).toBe(75);
+    expect(wrapper.vm.spDefence).toBe(111);
+    expect(wrapper.vm.speed).toBe(44);
+    // ステータスの合計
+    expect(wrapper.vm.totalBaseStats).toBe(341);
+    expect(wrapper.vm.totalIv).toBe(105);
+    expect(wrapper.vm.totalEv).toBe(420);
+    expect(wrapper.vm.totalStats).toBe(532);
+    // 耐久指数
+    expect(wrapper.html()).toContain("総合：28458");
+    expect(wrapper.html()).toContain("物理：11475");
+    expect(wrapper.html()).toContain("特殊：16983");
+    // その他
+    expect(wrapper.html()).toContain("めざパ：ひこう");
+  });
 });
