@@ -16,30 +16,8 @@
           />
           <v-row>
             <!-- レベル -->
-            <v-col cols="4" class="d-flex">
-              <div>
-                <v-text-field
-                  ref="lv"
-                  type="number"
-                  label="レベル"
-                  placeholder="1"
-                  :value="lv"
-                  @input="updateLv($event)"
-                ></v-text-field>
-              </div>
-              <div>
-                <CalcButton
-                  buttonText="100"
-                  class="mb-1 btn-min-sm"
-                  @click.native="$emit('update:lv', 100)"
-                />
-                <br />
-                <CalcButton
-                  buttonText="50"
-                  class="btn-min-sm"
-                  @click.native="$emit('update:lv', 50)"
-                />
-              </div>
+            <v-col cols="4">
+              <LvField :lv="lv" @update="$emit('update:lv', $event)" />
             </v-col>
             <!-- 性格 -->
             <v-col cols="8">
@@ -303,6 +281,7 @@
 import Vue from "vue";
 import CalcButton from "@/components/molecules/CalcButton.vue";
 import SearchField from "@/components/molecules/SearchField.vue";
+import LvField from "@/components/organisms/LvField.vue";
 import calculator from "@/mixins/calculator";
 import { Pokemon } from "@/types/pokemon";
 import { Nature } from "@/types/nature";
@@ -319,6 +298,7 @@ export default Vue.extend({
   components: {
     CalcButton,
     SearchField,
+    LvField,
   },
   mixins: [calculator],
   props: {
@@ -558,23 +538,6 @@ export default Vue.extend({
     },
   },
   methods: {
-    updateLv(value: number | null) {
-      // レベルの上限を100、下限を1とする
-      if (value > 100) {
-        value = 100;
-        // ここを「value < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されるため、UI的によろしくない。そこで、"0から始まる数値"と"負の数"を正規表現を用いて検出するようにし、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
-      } else if (/^0|^\.|^-/.test(String(value))) {
-        value = 1;
-        // 小数点以下を削除する（勝手に0が入ってしまうのを防ぐため、空白を明示的に除外している）
-      } else if (String(value) != "") {
-        value = Math.floor(value);
-      }
-      // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-      (this.$refs.lv as Vue & {
-        lazyValue: number;
-      }).lazyValue = value;
-      this.$emit("update:lv", value);
-    },
     // 努力値の更新
     updateEffortValue(value: number, statsName: string, index: number): void {
       value = this.valueVerification(value, 252);
