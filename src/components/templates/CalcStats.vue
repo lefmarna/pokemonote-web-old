@@ -5,31 +5,14 @@
       <!-- 左ここから -->
       <v-col cols="12" md="6" class="d-flex">
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
-          <!-- ポケモン名 -->
-          <SearchField
-            :items="pokemonData"
-            label="ポケモン名"
-            itemName="ポケモン"
-            :clearable="true"
-            :selectItem="currentPokemon"
-            @update="$emit('update:currentPokemon', $event)"
+          <PokemonParams
+            :currentPokemon="currentPokemon"
+            :currentNature="currentNature"
+            :lv="lv"
+            @updatePokemon="$emit('update:currentPokemon', $event)"
+            @updateNature="$emit('update:currentNature', $event)"
+            @updateLv="$emit('update:lv', $event)"
           />
-          <v-row>
-            <!-- レベル -->
-            <v-col cols="4">
-              <LvField :lv="lv" @update="$emit('update:lv', $event)" />
-            </v-col>
-            <!-- 性格 -->
-            <v-col cols="8">
-              <SearchField
-                :items="natureData"
-                label="性格"
-                itemName="性格"
-                :selectItem="currentNature"
-                @update="$emit('update:currentNature', $event)"
-              />
-            </v-col>
-          </v-row>
           <!-- 下線 -->
           <v-divider />
           <!-- ステータス一覧 -->
@@ -280,9 +263,8 @@
 <script lang="ts">
 import Vue from "vue";
 import CalcButton from "@/components/molecules/CalcButton.vue";
-import SearchField from "@/components/molecules/SearchField.vue";
-import LvField from "@/components/organisms/LvField.vue";
 import calculator from "@/mixins/calculator";
+import PokemonParams from "@/components/organisms/PokemonParams.vue";
 import { Pokemon } from "@/types/pokemon";
 import { Nature } from "@/types/nature";
 import { Stat } from "@/types/stat";
@@ -297,8 +279,7 @@ export interface DataType {
 export default Vue.extend({
   components: {
     CalcButton,
-    SearchField,
-    LvField,
+    PokemonParams,
   },
   mixins: [calculator],
   props: {
@@ -330,12 +311,6 @@ export default Vue.extend({
     description: "",
   }),
   computed: {
-    pokemonData(): Pokemon[] {
-      return this.$store.getters.pokemonData;
-    },
-    natureData(): Nature[] {
-      return this.$store.getters.natureData;
-    },
     isLogin(): boolean {
       return Boolean(this.$store.getters.accessToken);
     },
