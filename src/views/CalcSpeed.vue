@@ -4,51 +4,15 @@
     <v-row>
       <v-col cols="12" md="6" class="d-flex">
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
-          <SearchField
-            :items="pokemonData"
-            label="ポケモン名"
-            itemName="ポケモン"
-            :clearable="true"
-            :selectItem="currentPokemon"
-            @update="currentPokemon = $event"
+          <PokemonParams
+            :currentPokemon="currentPokemon"
+            :currentNature="currentNature"
+            :lv="lv"
+            @updatePokemon="currentPokemon = $event"
+            @updateNature="currentNature = $event"
+            @updateLv="lv = $event"
           />
-          <v-row>
-            <!-- レベル -->
-            <v-col cols="4" class="d-flex">
-              <div>
-                <v-text-field
-                  ref="lv"
-                  type="number"
-                  label="レベル"
-                  placeholder="1"
-                  v-model.trim.number="lv"
-                ></v-text-field>
-              </div>
-              <div>
-                <CalcButton
-                  buttonText="100"
-                  class="mb-1 btn-min-sm"
-                  @click.native="lv = 100"
-                />
-                <br />
-                <CalcButton
-                  buttonText="50"
-                  class="btn-min-sm"
-                  @click.native="lv = 50"
-                />
-              </div>
-            </v-col>
-            <!-- 性格 -->
-            <v-col cols="8">
-              <SearchField
-                :items="natureData"
-                label="性格"
-                itemName="性格"
-                :selectItem="currentNature"
-                @update="currentNature = $event"
-              />
-            </v-col>
-          </v-row>
+          <!-- 下線 -->
           <v-divider />
           <!-- ステータス -->
           <div class="statsTable">
@@ -325,8 +289,8 @@
 <script lang="ts">
 import Vue from "vue";
 import CalcButton from "@/components/molecules/CalcButton.vue";
-import SearchField from "@/components/molecules/SearchField.vue";
 import calculator from "@/mixins/calculator";
+import PokemonParams from "@/components/organisms/PokemonParams.vue";
 import pokemonParams from "@/mixins/pokemonParams";
 import { Pokemon } from "@/types/pokemon";
 import { Nature } from "@/types/nature";
@@ -343,7 +307,7 @@ export interface DataType {
 export default Vue.extend({
   components: {
     CalcButton,
-    SearchField,
+    PokemonParams,
   },
   mixins: [calculator, pokemonParams],
   data: (): DataType => ({
