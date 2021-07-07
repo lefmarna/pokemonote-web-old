@@ -9,7 +9,7 @@
         label="Search"
         single-line
         hide-details
-      ></v-text-field>
+      />
     </v-card-title>
     <!-- key属性を付与することで、状態が変わったときにレンダリングを可能にする -->
     <v-data-table

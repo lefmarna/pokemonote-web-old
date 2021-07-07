@@ -22,6 +22,7 @@
       prepend-icon="mdi-credit-card"
       label="カード番号"
       type="text"
+      persistent-placeholder
     />
     <v-row>
       <v-col>
@@ -31,6 +32,7 @@
           label="月"
           type="text"
           placeholder="例)3"
+          persistent-placeholder
         />
       </v-col>
       <v-col>
@@ -40,6 +42,7 @@
           label="年"
           type="text"
           placeholder="例)24"
+          persistent-placeholder
         />
       </v-col>
     </v-row>
@@ -48,6 +51,7 @@
       prepend-icon="mdi-lock"
       label="セキュリティコード"
       type="text"
+      persistent-placeholder
     />
   </Form>
 </template>

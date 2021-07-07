@@ -8,7 +8,8 @@
         placeholder="1"
         :value="lv"
         @input="updateLv($event)"
-      ></v-text-field>
+        persistent-placeholder
+      />
     </div>
     <div>
       <CalcButton

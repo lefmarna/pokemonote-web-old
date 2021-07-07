@@ -7,6 +7,7 @@
     :rules="[rules.required, rules.email]"
     :value="email"
     @input="$emit('update:email', $event)"
+    persistent-placeholder
   />
 </template>
 

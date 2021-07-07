@@ -36,7 +36,8 @@
                     currentPokemon.stats[stat.en]
                   }`"
                   disabled
-                ></v-text-field>
+                  persistent-placeholder
+                />
               </v-col>
               <!-- 個体値 -->
               <v-col class="d-flex justify-center">
@@ -48,7 +49,8 @@
                     placeholder="0"
                     :value="stats[index].individualValue"
                     @input="updateIndividualValue($event, stat.en, index)"
-                  ></v-text-field>
+                    persistent-placeholder
+                  />
                 </div>
                 <div>
                   <CalcButton
@@ -74,7 +76,8 @@
                     placeholder="0"
                     :value="stats[index].effortValue"
                     @input="updateEffortValue($event, stat.en, index)"
-                  ></v-text-field>
+                    persistent-placeholder
+                  />
                 </div>
                 <div>
                   <CalcButton
@@ -101,7 +104,8 @@
                     :label="stats[index].ja"
                     :value="realNumbers[index]"
                     @change="setStats($event, stat.en, index)"
-                  ></v-text-field>
+                    persistent-placeholder
+                  />
                 </div>
                 <div>
                   <CalcButton

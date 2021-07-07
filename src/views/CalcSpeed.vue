@@ -33,7 +33,8 @@
                   placeholder="0"
                   :value="`${stats[5].abbreviation}${currentPokemon.stats['speed']}`"
                   disabled
-                ></v-text-field>
+                  persistent-placeholder
+                />
               </v-col>
               <!-- 個体値 -->
               <v-col class="d-flex justify-center">
@@ -45,7 +46,8 @@
                     placeholder="0"
                     :value="stats[5].individualValue"
                     @input="updateSpeedIndividualValue($event)"
-                  ></v-text-field>
+                    persistent-placeholder
+                  />
                 </div>
                 <div>
                   <CalcButton
@@ -71,7 +73,8 @@
                     placeholder="0"
                     :value="stats[5].effortValue"
                     @input="updateSpeedEffortValue($event)"
-                  ></v-text-field>
+                    persistent-placeholder
+                  />
                 </div>
                 <div>
                   <CalcButton
@@ -96,7 +99,8 @@
                     :label="stats[5].ja"
                     :value="speed"
                     @change="setSpeed($event)"
-                  ></v-text-field>
+                    persistent-placeholder
+                  />
                 </div>
                 <div>
                   <CalcButton

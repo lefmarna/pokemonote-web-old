@@ -19,6 +19,7 @@
       placeholder="英数3〜25文字で入力してください"
       :rules="[rules.required, rules.username]"
       counter
+      persistent-placeholder
     />
     <v-text-field
       v-model="nickname"
@@ -26,6 +27,7 @@
       prepend-icon="mdi-account-outline"
       label="表示名"
       :rules="[rules.required]"
+      persistent-placeholder
     />
     <EmailField :email.sync="email" name="email" />
     <PasswordField :password.sync="password" name="password" />
