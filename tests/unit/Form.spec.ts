@@ -1,4 +1,5 @@
 import { mount } from "@vue/test-utils";
+import { shallowMount } from "@vue/test-utils";
 import Form from "@/components/templates/Form.vue";
 
 describe("CalcButtonの正常系テスト", () => {
@@ -20,7 +21,7 @@ describe("CalcButtonの正常系テスト", () => {
 
   it("エラーメッセージを表示する", () => {
     const errors = ["エラー1", "エラー2", "エラー3"];
-    const wrapper = mount(Form, {
+    const wrapper = shallowMount(Form, {
       propsData: { errors },
     });
     errors.map((error) => {
