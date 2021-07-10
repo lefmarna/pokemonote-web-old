@@ -31,6 +31,7 @@
           label="月"
           type="text"
           placeholder="例)3"
+          persistent-placeholder
         />
       </v-col>
       <v-col>
@@ -40,6 +41,7 @@
           label="年"
           type="text"
           placeholder="例)24"
+          persistent-placeholder
         />
       </v-col>
     </v-row>

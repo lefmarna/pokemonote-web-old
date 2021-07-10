@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container :class="!isLogin ? '' : 'py-0'">
     <v-alert v-if="!isLogin" outlined type="warning" border="left">
       {{ alertTitle }}には、<router-link
         class="text-decoration-none login-alert"

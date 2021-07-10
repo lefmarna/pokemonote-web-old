@@ -13,8 +13,6 @@
             @updateNature="$emit('update:currentNature', $event)"
             @updateLv="$emit('update:lv', $event)"
           />
-          <!-- 下線 -->
-          <v-divider />
           <!-- ステータス一覧 -->
           <div class="statsTable">
             <v-row v-for="(stat, index) in stats" :key="stat.en">
@@ -36,7 +34,8 @@
                     currentPokemon.stats[stat.en]
                   }`"
                   disabled
-                ></v-text-field>
+                  persistent-placeholder
+                />
               </v-col>
               <!-- 個体値 -->
               <v-col class="d-flex justify-center">
@@ -48,7 +47,8 @@
                     placeholder="0"
                     :value="stats[index].individualValue"
                     @input="updateIndividualValue($event, stat.en, index)"
-                  ></v-text-field>
+                    persistent-placeholder
+                  />
                 </div>
                 <div>
                   <CalcButton
@@ -74,7 +74,8 @@
                     placeholder="0"
                     :value="stats[index].effortValue"
                     @input="updateEffortValue($event, stat.en, index)"
-                  ></v-text-field>
+                    persistent-placeholder
+                  />
                 </div>
                 <div>
                   <CalcButton
@@ -101,7 +102,8 @@
                     :label="stats[index].ja"
                     :value="realNumbers[index]"
                     @change="setStats($event, stat.en, index)"
-                  ></v-text-field>
+                    persistent-placeholder
+                  />
                 </div>
                 <div>
                   <CalcButton
@@ -202,9 +204,9 @@
                     </v-col>
                   </v-row>
                 </v-card-text>
-                <v-card-actions class="pt-0">
-                  <v-row>
-                    <v-col cols="12" class="pt-0" align="center">
+                <v-card-actions>
+                  <v-row class="mb-0">
+                    <v-col cols="12" align="center">
                       <v-btn
                         color="primary"
                         elevation="2"
@@ -517,11 +519,13 @@ export default Vue.extend({
     updateEffortValue(value: number, statsName: string, index: number): void {
       value = this.valueVerification(value, 252);
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-      (this.$refs.effortValue as Vue & {
-        [key: number]: {
-          lazyValue: number;
-        };
-      })[index].lazyValue = value;
+      (
+        this.$refs.effortValue as Vue & {
+          [key: number]: {
+            lazyValue: number;
+          };
+        }
+      )[index].lazyValue = value;
       this.stats[index].effortValue = value;
     },
     // 個体値の更新
@@ -532,11 +536,13 @@ export default Vue.extend({
     ): void {
       value = this.valueVerification(value, 31);
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-      (this.$refs.individualValue as Vue & {
-        [key: number]: {
-          lazyValue: number;
-        };
-      })[index].lazyValue = value;
+      (
+        this.$refs.individualValue as Vue & {
+          [key: number]: {
+            lazyValue: number;
+          };
+        }
+      )[index].lazyValue = value;
       this.stats[index].individualValue = value;
     },
     // 実数値を+1するボタンを設置
@@ -680,11 +686,13 @@ export default Vue.extend({
       // 【共通の処理】計算した値を代入する
       setValue = this.valueVerification(setValue, 252);
       this.stats[index].effortValue = setValue;
-      (this.$refs.realNumbers as Vue & {
-        [key: number]: {
-          lazyValue: number;
-        };
-      })[index].lazyValue = this.getStats(statsName, index);
+      (
+        this.$refs.realNumbers as Vue & {
+          [key: number]: {
+            lazyValue: number;
+          };
+        }
+      )[index].lazyValue = this.getStats(statsName, index);
     },
     // 努力値をリセットする
     resetEffortValue(): void {

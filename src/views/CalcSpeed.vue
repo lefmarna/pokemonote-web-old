@@ -12,8 +12,6 @@
             @updateNature="currentNature = $event"
             @updateLv="lv = $event"
           />
-          <!-- 下線 -->
-          <v-divider />
           <!-- ステータス -->
           <div class="statsTable">
             <v-row>
@@ -33,7 +31,8 @@
                   placeholder="0"
                   :value="`${stats[5].abbreviation}${currentPokemon.stats['speed']}`"
                   disabled
-                ></v-text-field>
+                  persistent-placeholder
+                />
               </v-col>
               <!-- 個体値 -->
               <v-col class="d-flex justify-center">
@@ -45,7 +44,8 @@
                     placeholder="0"
                     :value="stats[5].individualValue"
                     @input="updateSpeedIndividualValue($event)"
-                  ></v-text-field>
+                    persistent-placeholder
+                  />
                 </div>
                 <div>
                   <CalcButton
@@ -71,7 +71,8 @@
                     placeholder="0"
                     :value="stats[5].effortValue"
                     @input="updateSpeedEffortValue($event)"
-                  ></v-text-field>
+                    persistent-placeholder
+                  />
                 </div>
                 <div>
                   <CalcButton
@@ -96,7 +97,8 @@
                     :label="stats[5].ja"
                     :value="speed"
                     @change="setSpeed($event)"
-                  ></v-text-field>
+                    persistent-placeholder
+                  />
                 </div>
                 <div>
                   <CalcButton
@@ -114,7 +116,6 @@
               </v-col>
             </v-row>
           </div>
-          <v-divider />
           <!-- 道具 -->
           <div class="px-0 pt-3">
             <div>
@@ -351,18 +352,22 @@ export default Vue.extend({
     updateSpeedEffortValue(value: number): void {
       value = this.valueVerification(value, 252);
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-      (this.$refs.speedEffortValue as Vue & {
-        lazyValue: number;
-      }).lazyValue = value;
+      (
+        this.$refs.speedEffortValue as Vue & {
+          lazyValue: number;
+        }
+      ).lazyValue = value;
       this.stats[5].effortValue = value;
     },
     // 個体値の更新
     updateSpeedIndividualValue(value: number): void {
       value = this.valueVerification(value, 31);
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-      (this.$refs.speedIndividualValue as Vue & {
-        lazyValue: number;
-      }).lazyValue = value;
+      (
+        this.$refs.speedIndividualValue as Vue & {
+          lazyValue: number;
+        }
+      ).lazyValue = value;
       this.stats[5].individualValue = value;
     },
     // 実数値を計算して返す
@@ -422,9 +427,11 @@ export default Vue.extend({
       // 計算した値を代入する
       setValue = this.valueVerification(setValue, 252);
       this.stats[5].effortValue = setValue;
-      (this.$refs.speed as Vue & {
-        lazyValue: number;
-      }).lazyValue = this.getSpeed();
+      (
+        this.$refs.speed as Vue & {
+          lazyValue: number;
+        }
+      ).lazyValue = this.getSpeed();
     },
     // 素早さリストに表示する値を計算する
     calcSpeed(rank: number) {

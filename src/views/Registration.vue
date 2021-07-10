@@ -19,6 +19,7 @@
       placeholder="英数3〜25文字で入力してください"
       :rules="[rules.required, rules.username]"
       counter
+      persistent-placeholder
     />
     <v-text-field
       v-model="nickname"
