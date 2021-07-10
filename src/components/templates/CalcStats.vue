@@ -13,8 +13,6 @@
             @updateNature="$emit('update:currentNature', $event)"
             @updateLv="$emit('update:lv', $event)"
           />
-          <!-- 下線 -->
-          <v-divider />
           <!-- ステータス一覧 -->
           <div class="statsTable">
             <v-row v-for="(stat, index) in stats" :key="stat.en">
@@ -206,9 +204,9 @@
                     </v-col>
                   </v-row>
                 </v-card-text>
-                <v-card-actions class="pt-0">
-                  <v-row>
-                    <v-col cols="12" class="pt-0" align="center">
+                <v-card-actions>
+                  <v-row class="mb-0">
+                    <v-col cols="12" align="center">
                       <v-btn
                         color="primary"
                         elevation="2"

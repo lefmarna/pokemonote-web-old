@@ -12,8 +12,6 @@
             @updateNature="currentNature = $event"
             @updateLv="lv = $event"
           />
-          <!-- 下線 -->
-          <v-divider />
           <!-- ステータス -->
           <div class="statsTable">
             <v-row>
@@ -118,7 +116,6 @@
               </v-col>
             </v-row>
           </div>
-          <v-divider />
           <!-- 道具 -->
           <div class="px-0 pt-3">
             <div>
