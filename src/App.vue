@@ -344,6 +344,7 @@ h2:after {
   min-width: 3em !important;
 }
 .statsTable {
+  margin-top: 12px;
   /* ステータスの入力時にハイライトをつけて見やすくする */
   .row:hover:not(:nth-last-child(-n + 1)) {
     background-color: #eee;
