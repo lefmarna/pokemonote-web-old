@@ -56,9 +56,11 @@ export default Vue.extend({
         value = Math.floor(value);
       }
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-      (this.$refs.lv as Vue & {
-        lazyValue: number;
-      }).lazyValue = value;
+      (
+        this.$refs.lv as Vue & {
+          lazyValue: number;
+        }
+      ).lazyValue = value;
       this.$emit("update", value);
     },
   },

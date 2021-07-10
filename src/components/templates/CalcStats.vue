@@ -519,11 +519,13 @@ export default Vue.extend({
     updateEffortValue(value: number, statsName: string, index: number): void {
       value = this.valueVerification(value, 252);
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-      (this.$refs.effortValue as Vue & {
-        [key: number]: {
-          lazyValue: number;
-        };
-      })[index].lazyValue = value;
+      (
+        this.$refs.effortValue as Vue & {
+          [key: number]: {
+            lazyValue: number;
+          };
+        }
+      )[index].lazyValue = value;
       this.stats[index].effortValue = value;
     },
     // 個体値の更新
@@ -534,11 +536,13 @@ export default Vue.extend({
     ): void {
       value = this.valueVerification(value, 31);
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-      (this.$refs.individualValue as Vue & {
-        [key: number]: {
-          lazyValue: number;
-        };
-      })[index].lazyValue = value;
+      (
+        this.$refs.individualValue as Vue & {
+          [key: number]: {
+            lazyValue: number;
+          };
+        }
+      )[index].lazyValue = value;
       this.stats[index].individualValue = value;
     },
     // 実数値を+1するボタンを設置
@@ -682,11 +686,13 @@ export default Vue.extend({
       // 【共通の処理】計算した値を代入する
       setValue = this.valueVerification(setValue, 252);
       this.stats[index].effortValue = setValue;
-      (this.$refs.realNumbers as Vue & {
-        [key: number]: {
-          lazyValue: number;
-        };
-      })[index].lazyValue = this.getStats(statsName, index);
+      (
+        this.$refs.realNumbers as Vue & {
+          [key: number]: {
+            lazyValue: number;
+          };
+        }
+      )[index].lazyValue = this.getStats(statsName, index);
     },
     // 努力値をリセットする
     resetEffortValue(): void {
