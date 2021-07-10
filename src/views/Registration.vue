@@ -27,7 +27,6 @@
       prepend-icon="mdi-account-outline"
       label="表示名"
       :rules="[rules.required]"
-      persistent-placeholder
     />
     <EmailField :email.sync="email" name="email" />
     <PasswordField :password.sync="password" name="password" />

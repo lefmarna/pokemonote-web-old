@@ -9,7 +9,6 @@
     :rules="[rules.required, rules.password]"
     :value="password"
     @input="$emit('update:password', $event)"
-    persistent-placeholder
   />
 </template>
 

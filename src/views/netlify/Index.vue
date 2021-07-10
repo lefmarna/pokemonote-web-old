@@ -19,7 +19,6 @@
             v-model="name"
             prepend-icon="mdi-account"
             label="お名前"
-            persistent-placeholder
           />
           <v-text-field
             type="email"
@@ -27,7 +26,6 @@
             v-model="email"
             prepend-icon="mdi-email"
             label="メールアドレス"
-            persistent-placeholder
           />
           <v-textarea
             name="message"

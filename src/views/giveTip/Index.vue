@@ -22,7 +22,6 @@
       prepend-icon="mdi-credit-card"
       label="カード番号"
       type="text"
-      persistent-placeholder
     />
     <v-row>
       <v-col>
@@ -51,7 +50,6 @@
       prepend-icon="mdi-lock"
       label="セキュリティコード"
       type="text"
-      persistent-placeholder
     />
   </Form>
 </template>
