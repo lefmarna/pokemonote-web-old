@@ -63,7 +63,7 @@ const routes: Array<RouteConfig> = [
       title: "ログイン",
     },
     beforeEnter(to, from, next) {
-      if (store.getters.accessToken) {
+      if (store.getters.authUser.id && store.getters.authUser.name) {
         next("/");
       } else {
         next();
@@ -71,14 +71,14 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: "/registration",
+    path: "/register",
     name: "アカウント作成",
-    component: () => import("../views/Registration.vue"),
+    component: () => import("../views/Register.vue"),
     meta: {
       title: "アカウント作成",
     },
     beforeEnter(to, from, next) {
-      if (store.getters.accessToken) {
+      if (store.getters.authUser.id && store.getters.authUser.name) {
         next("/");
       } else {
         next();
@@ -170,7 +170,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   // ログイン認証が必要なルートがあるかを確認
   if (to.matched.some((record) => record.meta.requireAuth)) {
-    if (!store.getters.accessToken) {
+    if (!(store.getters.authUser.id || store.getters.authUser.name)) {
       // 認証していなければログインページにリダイレクト
       next({
         path: "/login",

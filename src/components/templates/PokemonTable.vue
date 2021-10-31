@@ -17,6 +17,8 @@
       :items="pokemonTable"
       :search="search"
       :key="tableKey"
+      :loading="!pokemons.length"
+      loading-text="Now Loading..."
     >
       <!-- ステータスにコピペボタンを追加する -->
       <template v-slot:[`item.stats`]="{ item }">
@@ -31,9 +33,9 @@
           {{ item.name }}
         </router-link>
       </template>
-      <template v-slot:[`item.user.nickname`]="{ item }">
+      <template v-slot:[`item.user.name`]="{ item }">
         <!-- マイページのときは、編集・削除ボタンを表示する -->
-        <div v-if="item.user.username == userName">
+        <div v-if="item.user.id == authUserId">
           <v-icon @click="editItem(item)"> mdi-pencil </v-icon>
           <v-icon @click="deleteItem(item.id)" class="ml-3">
             mdi-delete
@@ -41,8 +43,8 @@
         </div>
         <!-- マイページでないときは、ユーザー名にリンクを設定する -->
         <div v-else>
-          <router-link :to="`/users/${item.user.username}`">
-            {{ item.user.nickname }}
+          <router-link :to="`/users/${item.user.id}`">
+            {{ item.user.name }}
           </router-link>
         </div>
       </template>
@@ -65,8 +67,8 @@ export default Vue.extend({
     pokemons: Array,
   },
   computed: {
-    userName(): string {
-      return this.$store.getters.userName;
+    authUserId(): string {
+      return this.$store.getters.authUser.id;
     },
     headers() {
       let tableHeader = [
@@ -74,7 +76,7 @@ export default Vue.extend({
         { text: "レベル", sortable: false, value: "lv" },
         { text: "性格", sortable: false, value: "nature" },
         { text: "ステータス", sortable: false, value: "stats" },
-        { text: "投稿者", sortable: false, value: "user.nickname" },
+        { text: "投稿者", sortable: false, value: "user.name" },
       ];
       if (this.title == "マイページ") {
         tableHeader[4].text = "編集・削除";
@@ -82,30 +84,7 @@ export default Vue.extend({
       return tableHeader;
     },
     pokemonTable(): any {
-      // 努力値と実数値は1行にまとめる
-      return this.pokemons.map((pokemon: any) => {
-        let result = "";
-
-        // 努力値と実数値は何度か呼び出すため、定数に格納して使っている
-        const effortValues = pokemon.effortValues;
-        const realNumbers = pokemon.realNumbers;
-
-        for (let i = 0, len = effortValues.length; i < len; i++) {
-          // HPの前にはハイフンをつけない
-          if (i > 0) {
-            result += "-";
-          }
-          // 実数値を代入
-          result += String(realNumbers[i]);
-          // 努力値が振られていれば()で囲んで代入
-          if (effortValues[i] > 0 && realNumbers[i] != "*") {
-            result += `(${effortValues[i]})`;
-          }
-        }
-        // statsというキーを作り、結果を代入
-        pokemon.stats = result;
-        return pokemon;
-      });
+      return this.pokemons;
     },
   },
   methods: {
@@ -115,7 +94,7 @@ export default Vue.extend({
       });
     },
     editItem(item: any): void {
-      if (item.user.username == this.$store.getters.userName) {
+      if (item.user.id == this.authUserId) {
         router.push(`/pokemons/${item.id}/edit`);
       } else {
         router.push("/");

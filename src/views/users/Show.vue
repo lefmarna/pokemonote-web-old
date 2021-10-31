@@ -29,10 +29,10 @@ export default Vue.extend({
   },
   computed: {
     title(): string {
-      if (this.$store.getters.userName == this.user.username) {
+      if (this.$store.getters.authUser.id == this.user.id) {
         return "マイページ";
       } else {
-        return `${this.user.nickname}さんの投稿`;
+        return `${this.user.name}さんの投稿`;
       }
     },
   },
@@ -45,9 +45,10 @@ export default Vue.extend({
         axios
           .get(`/users/${this.id}`)
           .then((response) => {
-            this.user = response.data.user;
-            this.user.icon = response.data.icon;
-            this.pokemons = response.data.pokemons;
+            const data = response.data.data;
+            this.user = data.user;
+            // this.user.icon = response.data.icon;
+            this.pokemons = data.pokemons;
           })
           .catch((error) => {
             console.log(error);

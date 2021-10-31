@@ -250,7 +250,7 @@
                 color="primary"
                 elevation="3"
                 @click="emitPokemon"
-                :disabled="!isLogin"
+                :disabled="!$store.getters.isLogin"
                 large
                 >{{ buttonText }}</v-btn
               >
@@ -313,9 +313,6 @@ export default Vue.extend({
     description: "",
   }),
   computed: {
-    isLogin(): boolean {
-      return Boolean(this.$store.getters.accessToken);
-    },
     // 各種ステータスの計算（methodsで引数を指定すれば、同じ計算を1箇所にまとめることもできるが、パフォーマンスの高いcomputedを使いたいため、あえて個別に計算している）
     hp: {
       get(): number {
@@ -789,30 +786,29 @@ export default Vue.extend({
     // ポケモンのデータを親に渡す
     emitPokemon(): void {
       const params = {
-        pokemon: {
-          name: this.currentPokemon.name,
-          nature: this.currentNature.name,
-          lv: this.lv,
-          hp_iv: this.stats[0].individualValue,
-          hp_ev: this.stats[0].effortValue,
-          hp: this.hp,
-          attack_iv: this.stats[1].individualValue,
-          attack_ev: this.stats[1].effortValue,
-          attack: this.attack,
-          defence_iv: this.stats[2].individualValue,
-          defence_ev: this.stats[2].effortValue,
-          defence: this.defence,
-          sp_attack_iv: this.stats[3].individualValue,
-          sp_attack_ev: this.stats[3].effortValue,
-          sp_attack: this.spAttack,
-          sp_defence_iv: this.stats[4].individualValue,
-          sp_defence_ev: this.stats[4].effortValue,
-          sp_defence: this.spDefence,
-          speed_iv: this.stats[5].individualValue,
-          speed_ev: this.stats[5].effortValue,
-          speed: this.speed,
-          description: this.description,
-        },
+        name: this.currentPokemon.name,
+        nature: this.currentNature.name,
+        lv: this.lv,
+        hp_iv: this.stats[0].individualValue,
+        hp_ev: this.stats[0].effortValue,
+        hp: this.hp,
+        attack_iv: this.stats[1].individualValue,
+        attack_ev: this.stats[1].effortValue,
+        attack: this.attack,
+        defence_iv: this.stats[2].individualValue,
+        defence_ev: this.stats[2].effortValue,
+        defence: this.defence,
+        sp_attack_iv: this.stats[3].individualValue,
+        sp_attack_ev: this.stats[3].effortValue,
+        sp_attack: this.spAttack,
+        sp_defence_iv: this.stats[4].individualValue,
+        sp_defence_ev: this.stats[4].effortValue,
+        sp_defence: this.spDefence,
+        speed_iv: this.stats[5].individualValue,
+        speed_ev: this.stats[5].effortValue,
+        speed: this.speed,
+        description: this.description,
+        public_flg: 1,
       };
       this.$emit("submit", params);
     },
