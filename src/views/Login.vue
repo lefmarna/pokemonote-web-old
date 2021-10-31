@@ -40,7 +40,7 @@ export default {
           })
           .then((response) => {
             // Vuexに認証情報を保存する
-            this.$store.commit("updateAuthUser", response.data.data.auth_user);
+            this.$store.commit("updateAuthUser", response.data.data);
             // 認証を求められてきた場合は元々の遷移先へ
             if (this.$route.query.redirect) {
               router.push(this.$route.query.redirect);
