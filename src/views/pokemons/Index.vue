@@ -22,12 +22,12 @@ export default Vue.extend({
     axios
       .get("/pokemons")
       .then((response) => {
-        let pokemons = response.data.pokemons;
-        const userName = this.$store.getters.userName;
+        let pokemons = response.data.data;
+        const authUserId = this.$store.getters.authUser.id;
         // 自分の投稿は表示させない
-        if (userName) {
+        if (authUserId) {
           pokemons = pokemons.filter(
-            (pokemon: any) => pokemon.user.username != userName
+            (pokemon: any) => pokemon.user.id != authUserId
           );
         }
         this.pokemons = pokemons;

@@ -32,7 +32,7 @@ export default Vue.extend({
       axios
         .post("/pokemons", params)
         .then((response) => {
-          router.push(`/pokemons/${response.data.id}`);
+          router.push(`/pokemons/${response.data.data.id}`);
         })
         .catch((error) => {
           console.log(error);

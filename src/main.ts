@@ -23,11 +23,22 @@ Vue.config.productionTip = false;
 import Title from "@/components/molecules/Title.vue";
 Vue.component("Title", Title);
 
-// 最初の読み込み時に自動でログインする
-store.dispatch("autoLogin");
-
-// 各種データをサーバーから取得する
-store.dispatch("getData");
+// ログイン状態の確認、及び、各種データをサーバーから取得する
+axios
+  .get("/init")
+  .then((response) => {
+    const data = response.data.data;
+    store.commit("updateAuthUser", data.auth_user);
+    store.commit("updatePokemonData", data.pokemon_data);
+    store.commit("updateNatureData", data.nature_data);
+    store.commit("updateSpeedItems", data.speed_items);
+    store.commit("updateSpeedAbilities", data.speed_abilities);
+    // store.commit("updatePopularityRanking", data.popularityRanking);
+    store.commit("updateGifts", data.gifts);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 new Vue({
   router,

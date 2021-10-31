@@ -41,28 +41,8 @@ const mutations = {
   },
 };
 
-const actions = {
-  getData({ commit }) {
-    axios
-      .get("/data")
-      .then((response) => {
-        const data = response.data;
-        commit("updatePokemonData", data.pokemonData);
-        commit("updateNatureData", data.natureData);
-        commit("updateSpeedItems", data.speedItems);
-        commit("updateSpeedAbilities", data.speedAbilities);
-        commit("updatePopularityRanking", data.popularityRanking);
-        commit("updateGifts", data.gifts);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
-};
-
 export default {
   state,
   getters,
   mutations,
-  actions,
 };

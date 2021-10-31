@@ -1,6 +1,11 @@
 <template>
-  <v-container :class="!isLogin ? '' : 'py-0'">
-    <v-alert v-if="!isLogin" outlined type="warning" border="left">
+  <v-container :class="!$store.getters.isLogin ? '' : 'py-0'">
+    <v-alert
+      v-if="!$store.getters.isLogin"
+      outlined
+      type="warning"
+      border="left"
+    >
       {{ alertTitle }}には、<router-link
         class="text-decoration-none login-alert"
         :to="`/login?redirect=${$route.fullPath}`"
@@ -17,11 +22,6 @@ export default Vue.extend({
   props: {
     alertTitle: {
       type: String,
-    },
-  },
-  computed: {
-    isLogin(): boolean {
-      return Boolean(this.$store.getters.accessToken);
     },
   },
 });

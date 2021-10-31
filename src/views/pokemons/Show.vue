@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pokemon" v-if="pokemon">
+  <v-container class="pokemon" v-if="pokemon && pokemonDetails">
     ポケモンの詳細ページは、現在コンテンツの表示を調整中です。
     <v-row>No. {{ pokemonDetails.no }}</v-row>
     <v-row>{{ pokemonDetails.name }}</v-row>
@@ -24,9 +24,9 @@
 
     <!-- {{ pokemonDetails.types[0] }} -->
     {{ pokemonDetails }}
-    <!-- <p>表示名：{{ pokemon.user.nickname }}</p> -->
+    <!-- <p>表示名：{{ pokemon.user.name }}</p> -->
     <!-- マイページのときは、編集・削除ボタンを表示する -->
-    <v-row v-if="pokemon.user.username == userName">
+    <v-row v-if="pokemon.user.id == authUserId">
       <v-col align="center">
         <v-btn color="accent" @click="editItem(pokemon)">編集</v-btn>
       </v-col>
@@ -36,8 +36,8 @@
     </v-row>
     <!-- マイページでないときは、ユーザー名にリンクを設定する -->
     <div v-else>
-      投稿者：<router-link :to="`/users/${pokemon.user.username}`">
-        {{ pokemon.user.nickname }}
+      投稿者：<router-link :to="`/users/${pokemon.user.id}`">
+        {{ pokemon.user.name }}
       </router-link>
     </div>
   </v-container>
@@ -64,8 +64,8 @@ export default Vue.extend({
       const pokemonData: Pokemon[] = this.$store.getters.pokemonData;
       return pokemonData.find((pokemon) => pokemon.name == this.pokemon.name);
     },
-    userName() {
-      return this.$store.getters.userName;
+    authUserId() {
+      return this.$store.getters.authUser.id;
     },
   },
   props: { id: Number },
@@ -78,7 +78,7 @@ export default Vue.extend({
         axios
           .get(`/pokemons/${this.id}`)
           .then((response) => {
-            this.pokemon = response.data;
+            this.pokemon = response.data.data;
           })
           .catch((error) => {
             console.log(error);
@@ -88,7 +88,7 @@ export default Vue.extend({
   },
   methods: {
     editItem(item: any): void {
-      if (item.user.username == this.userName) {
+      if (item.user.id == this.authUserId) {
         router.push(`/pokemons/${item.id}/edit`);
       } else {
         router.push("/");
@@ -98,7 +98,7 @@ export default Vue.extend({
       axios
         .delete(`/pokemons/${id}`)
         .then(() => {
-          router.push(`/users/${this.userName}`);
+          router.push(`/users/${this.authUserId}`);
         })
         .catch(() => {
           router.push("/");

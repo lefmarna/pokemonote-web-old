@@ -107,9 +107,6 @@ export default Vue.extend({
     ],
   }),
   computed: {
-    isLogin(): boolean {
-      return Boolean(this.$store.getters.accessToken);
-    },
     pokemonData(): Pokemon[] {
       return this.$store.getters.pokemonData;
     },
@@ -139,7 +136,7 @@ export default Vue.extend({
         axios
           .get(`/pokemons/${this.id}/edit`)
           .then((response) => {
-            const data = response.data;
+            const data = response.data.data;
             this.currentPokemon = this.pokemonData.find(
               (pokemon: Pokemon) => pokemon.name == data.name
             );
@@ -147,25 +144,9 @@ export default Vue.extend({
               (nature: Nature) => nature.name == data.nature
             );
             this.lv = data.lv;
-            const individualValues: number[] = [
-              data.hp_iv,
-              data.attack_iv,
-              data.defence_iv,
-              data.sp_attack_iv,
-              data.sp_defence_iv,
-              data.speed_iv,
-            ];
-            const effortValues: number[] = [
-              data.hp_ev,
-              data.attack_ev,
-              data.defence_ev,
-              data.sp_attack_ev,
-              data.sp_defence_ev,
-              data.speed_ev,
-            ];
             this.stats.map((stat: Stat, index: number) => {
-              stat.individualValue = individualValues[index];
-              stat.effortValue = effortValues[index];
+              stat.individualValue = data.individualValues[index];
+              stat.effortValue = data.effortValues[index];
             });
           })
           .catch(() => {

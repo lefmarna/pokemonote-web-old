@@ -32,30 +32,28 @@ export default {
   }),
   methods: {
     login(): void {
-      axios
-        .post("/auth/sign_in", {
-          email: this.email,
-          password: this.password,
-        })
-        .then((response) => {
-          this.$store.dispatch("setAuthData", {
-            userName: response.data.data["username"],
-            accessToken: response.headers["access-token"],
-            client: response.headers["client"],
-            uid: response.headers["uid"],
+      axios.get("/csrf-cookie").then(() => {
+        axios
+          .post("/login", {
+            email: this.email,
+            password: this.password,
+          })
+          .then((response) => {
+            // Vuexに認証情報を保存する
+            this.$store.commit("updateAuthUser", response.data.data.auth_user);
+            // 認証を求められてきた場合は元々の遷移先へ
+            if (this.$route.query.redirect) {
+              router.push(this.$route.query.redirect);
+              // そうでない場合はトップページへ
+            } else {
+              router.push("/");
+            }
+            this.$store.dispatch("notice");
+          })
+          .catch((error) => {
+            console.log(error.response.data.errors);
           });
-          // 認証を求められてきた場合は元々の遷移先へ
-          if (this.$route.query.redirect) {
-            router.push(this.$route.query.redirect);
-            // そうでない場合はトップページへ
-          } else {
-            router.push("/");
-          }
-          this.$store.dispatch("notice");
-        })
-        .catch((error) => {
-          this.errors = error.response.data.errors;
-        });
+      });
     },
   },
 };

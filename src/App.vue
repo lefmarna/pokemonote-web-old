@@ -21,8 +21,8 @@
           </v-list-item>
           <!-- ログイン時のみマイページを表示する -->
           <v-list-item
-            v-if="this.userName"
-            :to="`/users/${this.userName}`"
+            v-if="$store.getters.isLogin"
+            :to="`/users/${this.authUserId}`"
             exact
           >
             <v-list-item-icon>
@@ -87,12 +87,12 @@
       </v-toolbar-title>
       <v-spacer />
       <!-- ヘッダー右側 -->
-      <v-toolbar-items v-if="accessToken && client && uid">
+      <v-toolbar-items v-if="$store.getters.isLogin">
         <v-btn text @click="logout">ログアウト</v-btn>
       </v-toolbar-items>
       <v-toolbar-items v-else>
         <v-btn text to="/login">ログイン</v-btn>
-        <v-btn text to="/registration">新規登録</v-btn>
+        <v-btn text to="/register">新規登録</v-btn>
       </v-toolbar-items>
     </v-app-bar>
     <v-main>
@@ -172,20 +172,11 @@ export default Vue.extend({
     ],
   }),
   computed: {
-    accessToken() {
-      return this.$store.getters.accessToken;
-    },
-    client() {
-      return this.$store.getters.client;
-    },
-    uid() {
-      return this.$store.getters.uid;
-    },
-    userName() {
-      return this.$store.getters.userName;
+    authUserId() {
+      return this.$store.getters.authUser.id;
     },
     otherMenuListsFiltered() {
-      if (this.$store.getters.accessToken) {
+      if (this.$store.getters.isLogin) {
         return this.otherMenuLists;
       } else {
         return this.otherMenuLists.filter(
