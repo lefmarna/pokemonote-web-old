@@ -95,7 +95,7 @@ export default {
         .post("/register", formData)
         .then((response) => {
           // Vuexに認証情報を保存する
-          this.$store.commit("updateAuthUser", response.data.data.auth_user);
+          this.$store.commit("updateAuthUser", response.data.data);
           router.push("/");
           this.$store.dispatch("notice");
         })

@@ -23,26 +23,29 @@ Vue.config.productionTip = false;
 import Title from "@/components/molecules/Title.vue";
 Vue.component("Title", Title);
 
-// ログイン状態の確認、及び、各種データをサーバーから取得する
-axios
-  .get("/init")
-  .then((response) => {
-    const data = response.data.data;
-    store.commit("updateAuthUser", data.auth_user);
-    store.commit("updatePokemonData", data.pokemon_data);
-    store.commit("updateNatureData", data.nature_data);
-    store.commit("updateSpeedItems", data.speed_items);
-    store.commit("updateSpeedAbilities", data.speed_abilities);
-    // store.commit("updatePopularityRanking", data.popularityRanking);
-    store.commit("updateGifts", data.gifts);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+(async () => {
+  // ログイン状態の確認、及び、各種データをサーバーから取得する
+  await axios
+    .get("/init")
+    .then((response) => {
+      const data = response.data.data;
+      store.commit("updateAuthUser", data.auth_user);
+      store.commit("updatePokemonData", data.pokemon_data);
+      store.commit("updateNatureData", data.nature_data);
+      store.commit("updateSpeedItems", data.speed_items);
+      store.commit("updateSpeedAbilities", data.speed_abilities);
+      // store.commit("updatePopularityRanking", data.popularityRanking);
+      store.commit("updateGifts", data.gifts);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
-new Vue({
-  router,
-  store,
-  vuetify,
-  render: (h) => h(App),
-}).$mount("#app");
+  // データを取得してからVueを読み込む
+  new Vue({
+    router,
+    store,
+    vuetify,
+    render: (h) => h(App),
+  }).$mount("#app");
+})();
