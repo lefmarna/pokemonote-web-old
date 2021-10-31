@@ -7,6 +7,7 @@ import axios from "axios";
 
 // axiosのデフォルトURLを指定すると、他の箇所で省略して書くことができる
 axios.defaults.baseURL = process.env.VUE_APP_API_SERVER;
+axios.defaults.withCredentials = true;
 
 // SPAでもGoogleアナリティクスを使うための設定
 import VueAnalytics from "vue-analytics";
