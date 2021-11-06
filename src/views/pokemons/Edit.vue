@@ -119,8 +119,8 @@ export default Vue.extend({
     updatePokemon(params): void {
       axios
         .patch(`/pokemons/${this.id}`, params)
-        .then((response) => {
-          router.push(`/pokemons/${response.data.id}`);
+        .then(() => {
+          router.push(`/pokemons/${this.id}`);
         })
         .catch(() => {
           router.push("/");

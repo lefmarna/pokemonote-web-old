@@ -808,7 +808,7 @@ export default Vue.extend({
         speed_ev: this.stats[5].effortValue,
         speed: this.speed,
         description: this.description,
-        public_flg: 1,
+        is_public: 1,
       };
       this.$emit("submit", params);
     },
