@@ -115,26 +115,26 @@ export default Vue.extend({
           this.token = response.id;
         }
         // 金額とトークン情報を送信する
-        axios
-          .post("/tips", {
-            tip: {
+        axios.get("/csrf-cookie").then(() => {
+          axios
+            .post("/tips", {
               price: this.price,
-            },
-            token: this.token,
-          })
-          .then(() => {
-            router.push("/give-tip/thanks");
-          })
-          .catch((error) => {
-            const errors: string[] = Object.keys(error.response.data);
-            this.errors = [];
-            if (errors.some((error) => error == "price")) {
-              this.errors.push("金額を入力してください");
-            }
-            if (errors.some((error) => error == "token")) {
-              this.errors.push("正しいカード情報を入力してください");
-            }
-          });
+              token: this.token,
+            })
+            .then(() => {
+              router.push("/give-tip/thanks");
+            })
+            .catch((error) => {
+              const errors: string[] = Object.keys(error.response.data);
+              this.errors = [];
+              if (errors.some((error) => error == "price")) {
+                this.errors.push("金額を入力してください");
+              }
+              if (errors.some((error) => error == "token")) {
+                this.errors.push("正しいカード情報を入力してください");
+              }
+            });
+        });
       });
     },
   },
