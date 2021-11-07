@@ -7,7 +7,7 @@ const state = {
   natureData: [],
   speedItems: [],
   speedAbilities: [],
-  popularityRanking: [],
+  ranking: [],
   gifts: [],
 };
 
@@ -16,7 +16,7 @@ const getters = {
   natureData: (state) => state.natureData,
   speedItems: (state) => state.speedItems,
   speedAbilities: (state) => state.speedAbilities,
-  popularityRanking: (state) => state.popularityRanking,
+  ranking: (state) => state.ranking,
   gifts: (state) => state.gifts,
 };
 
@@ -33,8 +33,8 @@ const mutations = {
   updateSpeedAbilities(state, value) {
     state.speedAbilities = value;
   },
-  updatePopularityRanking(state, value) {
-    state.popularityRanking = value;
+  updateRanking(state, value) {
+    state.ranking = value;
   },
   updateGifts(state, gifts) {
     state.gifts = gifts;

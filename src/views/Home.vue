@@ -17,12 +17,12 @@
             <h2 class="headline font-weight-bold ma-2 mb-3">人気のポケモン</h2>
             <v-list>
               <v-list-item
-                v-for="(item, index) in $store.getters.popularityRanking"
-                :key="index"
+                v-for="(item, index) in $store.getters.ranking"
+                :key="item.name"
               >
                 <v-list-item-content>
                   <v-list-item-title align="left"
-                    >{{ index + 1 }}位 {{ item }}</v-list-item-title
+                    >{{ index + 1 }}位 {{ item.name }}</v-list-item-title
                   >
                 </v-list-item-content>
               </v-list-item>
@@ -65,6 +65,18 @@
     </v-container>
   </div>
 </template>
+
+<script lang="ts">
+import axios from "axios";
+
+export default {
+  created() {
+    axios.get("/top").then((response) => {
+      this.$store.commit("updateRanking", response.data.data);
+    });
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 h3 {

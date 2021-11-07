@@ -34,7 +34,6 @@ Vue.component("Title", Title);
       store.commit("updateNatureData", data.nature_data);
       store.commit("updateSpeedItems", data.speed_items);
       store.commit("updateSpeedAbilities", data.speed_abilities);
-      // store.commit("updatePopularityRanking", data.popularityRanking);
       store.commit("updateGifts", data.gifts);
     })
     .catch((error) => {
