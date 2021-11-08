@@ -119,22 +119,17 @@ export default Vue.extend({
         link: "/",
       },
       {
-        name: "ポケモンを投稿する",
-        icon: "mdi-calculator",
-        link: "/pokemons/new",
-      },
-      {
-        name: "ユーザー一覧",
-        icon: "mdi-account-group",
-        link: "/users",
-      },
-      {
         name: "みんなの投稿",
         icon: "mdi-pokemon-go",
         link: "/pokemons",
       },
     ],
     tools: [
+      {
+        name: "ステータス計算機",
+        icon: "mdi-calculator",
+        link: "/calc-stats",
+      },
       {
         name: "素早さ計算機",
         icon: "mdi-run-fast",

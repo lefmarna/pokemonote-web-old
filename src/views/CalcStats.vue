@@ -2,7 +2,7 @@
   <div>
     <LoginAlert alertTitle="計算結果の保存" />
     <CalcStats
-      title="新規ポケモン投稿"
+      title="ステータス計算機"
       buttonText="投稿する"
       :currentPokemon.sync="currentPokemon"
       :currentNature.sync="currentNature"

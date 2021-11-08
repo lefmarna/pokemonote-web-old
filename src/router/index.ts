@@ -14,11 +14,11 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: "/pokemons/new",
-    name: "新規ポケモン投稿",
-    component: () => import("../views/pokemons/New.vue"),
+    path: "/calc-stats",
+    name: "ステータス計算機",
+    component: () => import("../views/CalcStats.vue"),
     meta: {
-      title: "新規ポケモン投稿（ポケモン剣盾『鎧の孤島』『冠の雪原』に対応）",
+      title: "ステータス計算機（ポケモン剣盾『鎧の孤島』『冠の雪原』に対応）",
       desc: "ポケモンのステータスを計算して投稿できるアプリです。リアルタイムで計算が行われるため、個体値や努力値の変更を確認しながら計算できます。実数値から努力値の逆算にも対応、耐久調整を自動で行ってくれる機能も搭載しています。計算結果は投稿して、他の人とシェアしましょう！",
     },
   },
@@ -84,11 +84,6 @@ const routes: Array<RouteConfig> = [
         next();
       }
     },
-  },
-  {
-    path: "/users",
-    name: "ユーザ一覧",
-    component: () => import("../views/users/Index.vue"),
   },
   {
     path: "/users/:id",
