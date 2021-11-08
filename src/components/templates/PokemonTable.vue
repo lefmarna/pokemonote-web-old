@@ -13,6 +13,7 @@
     </v-card-title>
     <!-- key属性を付与することで、状態が変わったときにレンダリングを可能にする -->
     <v-data-table
+      class="pokemon-table"
       :headers="headers"
       :items="pokemonTable"
       :search="search"
@@ -120,3 +121,14 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style lang="scss">
+.pokemon-table .v-data-table__mobile-table-row {
+  line-height: 2em;
+}
+
+.pokemon-table .v-data-table__mobile-row {
+  flex-direction: column;
+  align-items: flex-start;
+}
+</style>
