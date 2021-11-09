@@ -125,14 +125,12 @@ export default Vue.extend({
               router.push("/give-tip/thanks");
             })
             .catch((error) => {
-              const errors: string[] = Object.keys(error.response.data);
               this.errors = [];
-              if (errors.some((error) => error == "price")) {
-                this.errors.push("金額を入力してください");
-              }
-              if (errors.some((error) => error == "token")) {
-                this.errors.push("正しいカード情報を入力してください");
-              }
+              const errorsMessages: string[] = error.response.data.errors;
+              Object.values(errorsMessages).forEach((errorMessages) => {
+                this.errors.push(errorMessages[0]);
+                this.token = "";
+              });
             });
         });
       });
