@@ -100,7 +100,11 @@ export default {
           this.$store.dispatch("notice");
         })
         .catch((error) => {
-          this.errors = error.response.data.errors.full_messages;
+          this.errors = [];
+          const errorsMessages: string[] = error.response.data.errors;
+          Object.values(errorsMessages).forEach((errorMessages) => {
+            this.errors.push(errorMessages[0]);
+          });
         });
     },
   },
