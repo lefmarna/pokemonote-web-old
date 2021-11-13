@@ -12,14 +12,15 @@ export default new Vuex.Store({
     notice: false,
     // ログイン認証に必要なパラメータ
     authUser: {
-      id: "",
-      name: "",
+      username: "",
+      nickname: "",
     },
   },
   getters: {
     notice: (state) => state.notice,
     authUser: (state) => state.authUser,
-    isLogin: (state) => Boolean(state.authUser.id && state.authUser.name),
+    isLogin: (state) =>
+      Boolean(state.authUser.username && state.authUser.nickname),
   },
   mutations: {
     updateNotice(state, notice) {
@@ -36,8 +37,8 @@ export default new Vuex.Store({
         .then(() => {
           // Vuexから認証情報を削除する
           commit("updateAuthUser", {
-            id: "",
-            name: "",
+            username: "",
+            nickname: "",
           });
           // ログインページにリダイレクトする
           router.replace("/login");

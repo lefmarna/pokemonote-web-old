@@ -63,7 +63,7 @@ const routes: Array<RouteConfig> = [
       title: "ログイン",
     },
     beforeEnter(to, from, next) {
-      if (store.getters.authUser.id && store.getters.authUser.name) {
+      if (store.getters.authUser.username && store.getters.authUser.nickname) {
         next("/");
       } else {
         next();
@@ -78,7 +78,7 @@ const routes: Array<RouteConfig> = [
       title: "アカウント作成",
     },
     beforeEnter(to, from, next) {
-      if (store.getters.authUser.id && store.getters.authUser.name) {
+      if (store.getters.authUser.username && store.getters.authUser.nickname) {
         next("/");
       } else {
         next();
@@ -165,7 +165,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   // ログイン認証が必要なルートがあるかを確認
   if (to.matched.some((record) => record.meta.requireAuth)) {
-    if (!(store.getters.authUser.id || store.getters.authUser.name)) {
+    if (!(store.getters.authUser.username || store.getters.authUser.nickname)) {
       // 認証していなければログインページにリダイレクト
       next({
         path: "/login",

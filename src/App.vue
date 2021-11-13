@@ -22,7 +22,7 @@
           <!-- ログイン時のみマイページを表示する -->
           <v-list-item
             v-if="$store.getters.isLogin"
-            :to="`/users/${this.authUserId}`"
+            :to="`/users/${this.authUserName}`"
             exact
           >
             <v-list-item-icon>
@@ -167,8 +167,8 @@ export default Vue.extend({
     ],
   }),
   computed: {
-    authUserId() {
-      return this.$store.getters.authUser.id;
+    authUserName() {
+      return this.$store.getters.authUser.username;
     },
     otherMenuListsFiltered() {
       if (this.$store.getters.isLogin) {

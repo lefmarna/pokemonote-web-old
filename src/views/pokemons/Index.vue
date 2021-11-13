@@ -23,11 +23,11 @@ export default Vue.extend({
       .get("/pokemons")
       .then((response) => {
         let pokemons = response.data.data;
-        const authUserId = this.$store.getters.authUser.id;
+        const authUserName = this.$store.getters.authUser.username;
         // 自分の投稿は表示させない
-        if (authUserId) {
+        if (authUserName) {
           pokemons = pokemons.filter(
-            (pokemon: any) => pokemon.user.id != authUserId
+            (pokemon: any) => pokemon.user.username != authUserName
           );
         }
         this.pokemons = pokemons;
