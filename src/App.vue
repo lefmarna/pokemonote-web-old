@@ -156,7 +156,7 @@ export default Vue.extend({
       {
         name: "お問い合わせ",
         icon: "mdi-email",
-        link: "/netlify",
+        link: "/lefmarna_otoiawase",
       },
       {
         name: "設定",

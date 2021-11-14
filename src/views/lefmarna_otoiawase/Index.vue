@@ -58,7 +58,7 @@ export default Vue.extend({
           message: this.message,
         })
         .then(() => {
-          router.push("/netlify/thanks");
+          router.push("/lefmarna_otoiawase/thanks");
         })
         .catch(() => {
           router.push("/");
