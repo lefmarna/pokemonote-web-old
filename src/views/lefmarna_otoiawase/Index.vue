@@ -1,18 +1,11 @@
 <template>
   <v-container>
-    <form
-      name="contact"
-      netlify
-      netlify-honeypot="bot-field"
-      @submit.prevent="handleSubmit"
-    >
+    <form @submit.prevent="handleSubmit">
       <v-card max-width="540px" class="mx-auto mt-5">
         <v-card-title>
           <v-card-title class="mx-auto">Pokemonote - お問い合わせ</v-card-title>
         </v-card-title>
         <v-card-text>
-          <!-- Vueを使ってNetlifyのformを送るのに必要な記述 -->
-          <input type="hidden" name="form-name" value="contact" />
           <v-text-field
             type="text"
             name="name"
@@ -57,31 +50,15 @@ export default Vue.extend({
     message: "",
   }),
   methods: {
-    encode(data) {
-      return Object.keys(data)
-        .map(
-          (key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`
-        )
-        .join("&");
-    },
     handleSubmit() {
-      const axiosConfig: any = {
-        baseURL: "/",
-        header: { "Content-Type": "application/x-www-form-urlencoded" },
-      };
       axios
-        .post(
-          "/",
-          this.encode({
-            "form-name": "contact",
-            name: this.name,
-            email: this.email,
-            message: this.message,
-          }),
-          axiosConfig
-        )
+        .post("/lefmarna_otoiawase", {
+          name: this.name,
+          email: this.email,
+          message: this.message,
+        })
         .then(() => {
-          router.push("/netlify/thanks");
+          router.push("/lefmarna_otoiawase/thanks");
         })
         .catch(() => {
           router.push("/");

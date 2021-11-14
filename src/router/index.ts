@@ -115,17 +115,17 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: "/netlify",
+    path: "/lefmarna_otoiawase",
     name: "お問い合わせ",
-    component: () => import("../views/netlify/Index.vue"),
+    component: () => import("../views/lefmarna_otoiawase/Index.vue"),
     meta: {
       title: "お問い合わせ",
     },
   },
   {
-    path: "/netlify/thanks",
+    path: "/lefmarna_otoiawase/thanks",
     name: "送信成功",
-    component: () => import("../views/netlify/Thanks.vue"),
+    component: () => import("../views/lefmarna_otoiawase/Thanks.vue"),
   },
   {
     path: "/give-tip",
