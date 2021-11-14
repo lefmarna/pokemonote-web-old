@@ -26,7 +26,7 @@
     {{ pokemonDetails }}
     <!-- <p>表示名：{{ pokemon.user.name }}</p> -->
     <!-- マイページのときは、編集・削除ボタンを表示する -->
-    <v-row v-if="pokemon.user.id == authUserId">
+    <v-row v-if="pokemon.user.username == authUserName">
       <v-col align="center">
         <v-btn color="accent" @click="editItem(pokemon)">編集</v-btn>
       </v-col>
@@ -36,8 +36,8 @@
     </v-row>
     <!-- マイページでないときは、ユーザー名にリンクを設定する -->
     <div v-else>
-      投稿者：<router-link :to="`/users/${pokemon.user.id}`">
-        {{ pokemon.user.name }}
+      投稿者：<router-link :to="`/users/${pokemon.user.username}`">
+        {{ pokemon.user.nickname }}
       </router-link>
     </div>
   </v-container>
@@ -64,8 +64,8 @@ export default Vue.extend({
       const pokemonData: Pokemon[] = this.$store.getters.pokemonData;
       return pokemonData.find((pokemon) => pokemon.name == this.pokemon.name);
     },
-    authUserId() {
-      return this.$store.getters.authUser.id;
+    authUserName() {
+      return this.$store.getters.authUser.username;
     },
   },
   props: { id: Number },
@@ -88,7 +88,7 @@ export default Vue.extend({
   },
   methods: {
     editItem(item: any): void {
-      if (item.user.id == this.authUserId) {
+      if (item.user.username == this.authUserName) {
         router.push(`/pokemons/${item.id}/edit`);
       } else {
         router.push("/");
@@ -98,7 +98,7 @@ export default Vue.extend({
       axios
         .delete(`/pokemons/${id}`)
         .then(() => {
-          router.push(`/users/${this.authUserId}`);
+          router.push(`/users/${this.authUserName}`);
         })
         .catch(() => {
           router.push("/");

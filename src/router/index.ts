@@ -14,12 +14,12 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: "/pokemons/new",
-    name: "新規ポケモン投稿",
-    component: () => import("../views/pokemons/New.vue"),
+    path: "/calc-stats",
+    name: "ステータス計算機",
+    component: () => import("../views/CalcStats.vue"),
     meta: {
-      title: "新規ポケモン投稿（ポケモン剣盾『鎧の孤島』『冠の雪原』に対応）",
-      desc: "ポケモンのステータスを計算して投稿できるアプリです。リアルタイムで計算が行われるため、個体値や努力値の変更を確認しながら計算できます。実数値から努力値の逆算にも対応、耐久調整を自動で行ってくれる機能も搭載しています。計算結果は投稿して、他の人とシェアしましょう！",
+      title: "ステータス計算機（ポケモン剣盾、DPリメイク（BDSP）に対応）",
+      desc: "ポケモン剣盾、DPリメイク（BDSP）に対応したステータス計算機です。リアルタイムで計算が行われるため、個体値や努力値の変更を確認しながら計算できます。実数値から努力値の逆算にも対応、耐久調整を自動で行ってくれる機能も搭載しています。計算結果を投稿することで、あとから見返したり友達とシェアすることもできます！",
     },
   },
   {
@@ -27,8 +27,8 @@ const routes: Array<RouteConfig> = [
     name: "素早さ計算機",
     component: () => import("../views/CalcSpeed.vue"),
     meta: {
-      title: "素早さ計算機（ポケモン剣盾『鎧の孤島』『冠の雪原』に対応）",
-      desc: "ポケモン剣盾（『鎧の孤島』『冠の雪原』）に対応している素早さ計算機です。実数値を入力することで、追い風や麻痺、湿原といったあらゆる状態の素早さをリアルタイムに表示します。すいすいや葉緑素などの特性、スカーフや鉄球といった持ち物を含んだ計算にも対応している、高機能な素早さ計算ツールとなっています。",
+      title: "素早さ計算機（ポケモン剣盾、DPリメイク（BDSP）に対応）",
+      desc: "ポケモン剣盾、DPリメイク（BDSP）に対応している素早さ計算機です。実数値を入力することで、追い風や麻痺、湿原といったあらゆる状態の素早さをリアルタイムに表示します。すいすいや葉緑素などの特性、スカーフや鉄球といった持ち物を含んだ計算にも対応している、高機能な素早さ計算ツールとなっています。",
     },
   },
   {
@@ -63,7 +63,7 @@ const routes: Array<RouteConfig> = [
       title: "ログイン",
     },
     beforeEnter(to, from, next) {
-      if (store.getters.authUser.id && store.getters.authUser.name) {
+      if (store.getters.authUser.username && store.getters.authUser.nickname) {
         next("/");
       } else {
         next();
@@ -78,17 +78,12 @@ const routes: Array<RouteConfig> = [
       title: "アカウント作成",
     },
     beforeEnter(to, from, next) {
-      if (store.getters.authUser.id && store.getters.authUser.name) {
+      if (store.getters.authUser.username && store.getters.authUser.nickname) {
         next("/");
       } else {
         next();
       }
     },
-  },
-  {
-    path: "/users",
-    name: "ユーザ一覧",
-    component: () => import("../views/users/Index.vue"),
   },
   {
     path: "/users/:id",
@@ -170,7 +165,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   // ログイン認証が必要なルートがあるかを確認
   if (to.matched.some((record) => record.meta.requireAuth)) {
-    if (!(store.getters.authUser.id || store.getters.authUser.name)) {
+    if (!(store.getters.authUser.username || store.getters.authUser.nickname)) {
       // 認証していなければログインページにリダイレクト
       next({
         path: "/login",

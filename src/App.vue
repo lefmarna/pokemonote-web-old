@@ -22,7 +22,7 @@
           <!-- ログイン時のみマイページを表示する -->
           <v-list-item
             v-if="$store.getters.isLogin"
-            :to="`/users/${this.authUserId}`"
+            :to="`/users/${this.authUserName}`"
             exact
           >
             <v-list-item-icon>
@@ -119,22 +119,17 @@ export default Vue.extend({
         link: "/",
       },
       {
-        name: "ポケモンを投稿する",
-        icon: "mdi-calculator",
-        link: "/pokemons/new",
-      },
-      {
-        name: "ユーザー一覧",
-        icon: "mdi-account-group",
-        link: "/users",
-      },
-      {
         name: "みんなの投稿",
         icon: "mdi-pokemon-go",
         link: "/pokemons",
       },
     ],
     tools: [
+      {
+        name: "ステータス計算機",
+        icon: "mdi-calculator",
+        link: "/calc-stats",
+      },
       {
         name: "素早さ計算機",
         icon: "mdi-run-fast",
@@ -172,8 +167,8 @@ export default Vue.extend({
     ],
   }),
   computed: {
-    authUserId() {
-      return this.$store.getters.authUser.id;
+    authUserName() {
+      return this.$store.getters.authUser.username;
     },
     otherMenuListsFiltered() {
       if (this.$store.getters.isLogin) {

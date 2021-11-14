@@ -29,10 +29,10 @@ export default Vue.extend({
   },
   computed: {
     title(): string {
-      if (this.$store.getters.authUser.id == this.user.id) {
+      if (this.$store.getters.authUser.username === this.user.username) {
         return "マイページ";
       } else {
-        return `${this.user.name}さんの投稿`;
+        return `${this.user.nickname}さんの投稿`;
       }
     },
   },

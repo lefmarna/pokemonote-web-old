@@ -13,6 +13,7 @@
     </v-card-title>
     <!-- key属性を付与することで、状態が変わったときにレンダリングを可能にする -->
     <v-data-table
+      class="pokemon-table"
       :headers="headers"
       :items="pokemonTable"
       :search="search"
@@ -33,9 +34,9 @@
           {{ item.name }}
         </router-link>
       </template>
-      <template v-slot:[`item.user.name`]="{ item }">
+      <template v-slot:[`item.user.nickname`]="{ item }">
         <!-- マイページのときは、編集・削除ボタンを表示する -->
-        <div v-if="item.user.id == authUserId">
+        <div v-if="item.user.username == authUserName">
           <v-icon @click="editItem(item)"> mdi-pencil </v-icon>
           <v-icon @click="deleteItem(item.id)" class="ml-3">
             mdi-delete
@@ -43,8 +44,8 @@
         </div>
         <!-- マイページでないときは、ユーザー名にリンクを設定する -->
         <div v-else>
-          <router-link :to="`/users/${item.user.id}`">
-            {{ item.user.name }}
+          <router-link :to="`/users/${item.user.username}`">
+            {{ item.user.nickname }}
           </router-link>
         </div>
       </template>
@@ -67,8 +68,8 @@ export default Vue.extend({
     pokemons: Array,
   },
   computed: {
-    authUserId(): string {
-      return this.$store.getters.authUser.id;
+    authUserName(): string {
+      return this.$store.getters.authUser.username;
     },
     headers() {
       let tableHeader = [
@@ -76,7 +77,7 @@ export default Vue.extend({
         { text: "レベル", sortable: false, value: "lv" },
         { text: "性格", sortable: false, value: "nature" },
         { text: "ステータス", sortable: false, value: "stats" },
-        { text: "投稿者", sortable: false, value: "user.name" },
+        { text: "投稿者", sortable: false, value: "user.nickname" },
       ];
       if (this.title == "マイページ") {
         tableHeader[4].text = "編集・削除";
@@ -94,7 +95,7 @@ export default Vue.extend({
       });
     },
     editItem(item: any): void {
-      if (item.user.id == this.authUserId) {
+      if (item.user.username == this.authUserName) {
         router.push(`/pokemons/${item.id}/edit`);
       } else {
         router.push("/");
@@ -120,3 +121,14 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style lang="scss">
+.pokemon-table .v-data-table__mobile-table-row {
+  line-height: 2em;
+}
+
+.pokemon-table .v-data-table__mobile-row {
+  flex-direction: column;
+  align-items: flex-start;
+}
+</style>
