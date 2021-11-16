@@ -6,12 +6,12 @@
   <changefreq>daily</changefreq>
 </url>
 <url>
-  <loc>https://pokemonote.com/users</loc>
+  <loc>https://pokemonote.com/pokemons</loc>
   <priority>1.0</priority>
   <changefreq>daily</changefreq>
 </url>
 <url>
-  <loc>https://pokemonote.com/pokemons</loc>
+  <loc>https://pokemonote.com/calc-stats</loc>
   <priority>1.0</priority>
   <changefreq>daily</changefreq>
 </url>
