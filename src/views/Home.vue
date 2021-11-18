@@ -38,6 +38,12 @@
               <div class="px-2">
                 <div>
                   <h3>2021-04-30</h3>
+                  <p>『Pokemonote』プロトタイプを公開しました。</p>
+                </div>
+              </div>
+              <div class="px-2">
+                <div>
+                  <h3>2021-11-18</h3>
                   <p>『Pokemonote』α版を公開しました。</p>
                 </div>
               </div>
