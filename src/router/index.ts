@@ -86,6 +86,15 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
+    path: "/email/verify",
+    name: "メール確認",
+    component: () => import("../views/email/Verify.vue"),
+    meta: {
+      title: "メール確認",
+    },
+  },
+
+  {
     path: "/users/:id",
     name: "ユーザ詳細",
     component: () => import("../views/users/Show.vue"),
