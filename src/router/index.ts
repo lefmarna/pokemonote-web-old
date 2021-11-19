@@ -180,6 +180,11 @@ router.beforeEach((to, from, next) => {
         path: "/login",
         query: { redirect: to.fullPath },
       });
+    } else if (!store.getters.authUser.email_verified_at) {
+      next({
+        path: "/email/verify",
+        query: { redirect: to.fullPath },
+      });
     } else {
       next();
     }
