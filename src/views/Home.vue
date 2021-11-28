@@ -76,7 +76,7 @@
 import axios from "axios";
 
 export default {
-  created() {
+  created(): void {
     axios.get("/top").then((response) => {
       this.$store.commit("updateRanking", response.data.data);
     });
