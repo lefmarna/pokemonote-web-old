@@ -5,6 +5,10 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import axios from "axios";
 
+// CompositionAPIの導入
+import VueCompositionApi from "@vue/composition-api";
+Vue.use(VueCompositionApi);
+
 // axiosのデフォルトURLを指定すると、他の箇所で省略して書くことができる
 axios.defaults.baseURL = process.env.VUE_APP_API_SERVER;
 axios.defaults.withCredentials = true;
