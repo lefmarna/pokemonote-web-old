@@ -11,13 +11,17 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { computed, defineComponent } from "@vue/composition-api";
+import store from "@/store";
 
-export default Vue.extend({
-  computed: {
-    notice() {
-      return this.$store.getters.notice;
-    },
+export default defineComponent({
+  setup() {
+    const notice = computed(() => {
+      return store.getters.notice;
+    });
+    return {
+      notice,
+    };
   },
 });
 </script>

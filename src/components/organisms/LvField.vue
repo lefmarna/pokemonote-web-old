@@ -32,7 +32,6 @@ import Vue from "vue";
 import CalcButton from "@/components/molecules/CalcButton.vue";
 
 export default Vue.extend({
-  data: () => ({}),
   components: {
     CalcButton,
   },
@@ -40,6 +39,7 @@ export default Vue.extend({
     lv: {
       // String型を許可しないと null のとき怒られる
       type: [Number, String],
+      required: false,
       default: "",
     },
   },

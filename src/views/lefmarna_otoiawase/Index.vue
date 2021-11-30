@@ -39,23 +39,22 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent, ref } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
 
-export default Vue.extend({
-  data: () => ({
-    name: "",
-    email: "",
-    message: "",
-  }),
-  methods: {
-    handleSubmit() {
+export default defineComponent({
+  setup() {
+    const name = ref<string>();
+    const email = ref<string>();
+    const message = ref<string>();
+
+    const handleSubmit = () => {
       axios
         .post("/lefmarna_otoiawase", {
-          name: this.name,
-          email: this.email,
-          message: this.message,
+          name: name.value,
+          email: email.value,
+          message: message.value,
         })
         .then(() => {
           router.push("/lefmarna_otoiawase/thanks");
@@ -63,7 +62,14 @@ export default Vue.extend({
         .catch(() => {
           router.push("/");
         });
-    },
+    };
+
+    return {
+      name,
+      email,
+      message,
+      handleSubmit,
+    };
   },
 });
 </script>
