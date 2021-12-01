@@ -11,7 +11,6 @@
         hide-details
       />
     </v-card-title>
-    <!-- key属性を付与することで、状態が変わったときにレンダリングを可能にする -->
     <v-data-table
       class="pokemon-table"
       :headers="headers"
@@ -35,9 +34,9 @@
       </template>
       <template v-slot:[`item.user.nickname`]="{ item }">
         <!-- マイページのときは、編集・削除ボタンを表示する -->
-        <div v-if="item.user.username == authUserName">
-          <v-icon @click="editItem(item)"> mdi-pencil </v-icon>
-          <v-icon @click="deleteItem(item.id)" class="ml-3">
+        <div v-if="item.user.username === authUserName">
+          <v-icon @click="editPokemon(item)"> mdi-pencil </v-icon>
+          <v-icon @click="deletePokemon(item.id)" class="ml-3">
             mdi-delete
           </v-icon>
         </div>
@@ -53,14 +52,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "@vue/composition-api";
+import { computed, defineComponent, ref, PropType } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
 import store from "@/store";
+import { Pokemon } from "@/types/index";
 
 interface Props {
   title: string;
-  pokemons: [];
+  pokemons: Pokemon[];
 }
 
 export default defineComponent({
@@ -70,9 +70,9 @@ export default defineComponent({
       required: true,
     },
     pokemons: {
-      type: Array,
+      type: [] as PropType<Pokemon[]>,
       required: false,
-      default: [],
+      default: () => [],
     },
   },
   setup(props: Props) {
@@ -106,21 +106,21 @@ export default defineComponent({
       });
     };
 
-    const editItem = (item: any): void => {
-      if (item.user.username === authUserName.value) {
-        router.push(`/pokemons/${item.id}/edit`);
+    const editPokemon = (pokemon: Pokemon): void => {
+      if (pokemon.user.username === authUserName.value) {
+        router.push(`/pokemons/${pokemon.id}/edit`);
       } else {
         router.push("/");
       }
     };
 
-    const deleteItem = (id: number): void => {
+    const deletePokemon = (id: number): void => {
       axios
         .delete(`/pokemons/${id}`)
         .then(() => {
           // 削除するポケモンのデータを探す
           const deletePokemon = pokemonTable.value.findIndex(
-            (pokemon: any) => pokemon.id == id
+            (pokemon: Pokemon) => pokemon.id === id
           );
           // 配列から要素を削除
           pokemonTable.value.splice(deletePokemon, 1);
@@ -134,8 +134,8 @@ export default defineComponent({
       headers,
       pokemonTable,
       search,
-      deleteItem,
-      editItem,
+      deletePokemon,
+      editPokemon,
       writeToClipboard,
     };
   },
