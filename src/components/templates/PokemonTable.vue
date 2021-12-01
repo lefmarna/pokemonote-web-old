@@ -17,7 +17,6 @@
       :headers="headers"
       :items="pokemonTable"
       :search="search"
-      :key="tableKey"
       :loading="!pokemons.length"
       loading-text="Now Loading..."
     >
@@ -54,24 +53,36 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import router from "@/router";
+import { computed, defineComponent, ref } from "@vue/composition-api";
 import axios from "axios";
+import router from "@/router";
+import store from "@/store";
 
-export default Vue.extend({
-  data: () => ({
-    search: "",
-    tableKey: 0,
-  }),
+interface Props {
+  title: string;
+  pokemons: [];
+}
+
+export default defineComponent({
   props: {
-    title: String,
-    pokemons: Array,
-  },
-  computed: {
-    authUserName(): string {
-      return this.$store.getters.authUser.username;
+    title: {
+      type: String,
+      required: true,
     },
-    headers() {
+    pokemons: {
+      type: Array,
+      required: false,
+      default: [],
+    },
+  },
+  setup(props: Props) {
+    const search = ref<string>();
+
+    const authUserName = computed(() => {
+      return store.getters.authUser.username;
+    });
+
+    const headers = computed(() => {
       let tableHeader = [
         { text: "ポケモン名", sortable: false, value: "name" },
         { text: "レベル", sortable: false, value: "lv" },
@@ -79,45 +90,54 @@ export default Vue.extend({
         { text: "ステータス", sortable: false, value: "stats" },
         { text: "投稿者", sortable: false, value: "user.nickname" },
       ];
-      if (this.title == "マイページ") {
+      if (props.title === "マイページ") {
         tableHeader[4].text = "編集・削除";
       }
       return tableHeader;
-    },
-    pokemonTable(): any {
-      return this.pokemons;
-    },
-  },
-  methods: {
-    writeToClipboard(clipText: string): void {
+    });
+
+    const pokemonTable = computed(() => {
+      return props.pokemons;
+    });
+
+    const writeToClipboard = (clipText: string): void => {
       navigator.clipboard.writeText(clipText).catch((e) => {
         console.error(e);
       });
-    },
-    editItem(item: any): void {
-      if (item.user.username == this.authUserName) {
+    };
+
+    const editItem = (item: any): void => {
+      if (item.user.username === authUserName.value) {
         router.push(`/pokemons/${item.id}/edit`);
       } else {
         router.push("/");
       }
-    },
-    deleteItem(id: number): void {
+    };
+
+    const deleteItem = (id: number): void => {
       axios
         .delete(`/pokemons/${id}`)
         .then(() => {
           // 削除するポケモンのデータを探す
-          const deletePokemon = this.pokemonTable.findIndex(
+          const deletePokemon = pokemonTable.value.findIndex(
             (pokemon: any) => pokemon.id == id
           );
           // 配列から要素を削除
-          this.pokemonTable.splice(deletePokemon, 1);
-          // keyの値を変更することで、再レンダリングさせる
-          this.tableKey++;
+          pokemonTable.value.splice(deletePokemon, 1);
         })
         .catch(() => {
           router.push("/");
         });
-    },
+    };
+    return {
+      authUserName,
+      headers,
+      pokemonTable,
+      search,
+      deleteItem,
+      editItem,
+      writeToClipboard,
+    };
   },
 });
 </script>
