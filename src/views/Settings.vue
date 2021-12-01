@@ -3,28 +3,33 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import router from "@/router";
+import { computed, defineComponent } from "@vue/composition-api";
 import axios from "axios";
+import router from "@/router";
+import store from "@/store";
 
-export default Vue.extend({
-  computed: {
-    authUserName() {
-      return this.$store.getters.authUser.username;
-    },
-  },
-  methods: {
-    unsubscribe() {
-      axios.delete(`/users/${this.authUserName}`).then(() => {
+export default defineComponent({
+  setup() {
+    const authUserName = computed(() => {
+      return store.getters.authUser.username;
+    });
+
+    const unsubscribe = () => {
+      axios.delete(`/users/${authUserName.value}`).then(() => {
         // Vuexから認証情報を削除する
-        this.$store.commit("updateAuthUser", {
+        store.commit("updateAuthUser", {
           username: "",
           nickname: "",
         });
         // ログインページにリダイレクトする
         router.replace("/login");
       });
-    },
+    };
+
+    return {
+      authUserName,
+      unsubscribe,
+    };
   },
 });
 </script>
