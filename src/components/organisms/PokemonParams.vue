@@ -29,37 +29,47 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { computed, defineComponent, PropType } from "@vue/composition-api";
 import SearchField from "@/components/molecules/SearchField.vue";
 import LvField from "@/components/organisms/LvField.vue";
 import { Pokemon } from "@/types/pokemon";
 import { Nature } from "@/types/nature";
+import store from "@/store";
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     SearchField,
     LvField,
   },
-  computed: {
-    pokemonData(): Pokemon[] {
-      return this.$store.getters.pokemonData;
-    },
-    natureData(): Nature[] {
-      return this.$store.getters.natureData;
-    },
-  },
   props: {
     currentPokemon: {
-      type: Object as Vue.PropType<Pokemon>,
+      type: Object as PropType<Pokemon>,
+      required: false,
+      default: () => Object,
     },
     currentNature: {
-      type: Object as Vue.PropType<Nature>,
+      type: Object as PropType<Nature>,
+      required: false,
+      default: () => Object,
     },
     lv: {
       // String型を許可しないと null のとき怒られる
       type: [Number, String],
+      required: false,
       default: "",
     },
+  },
+  setup() {
+    const pokemonData = computed((): Pokemon[] => {
+      return store.getters.pokemonData;
+    });
+    const natureData = computed((): Nature[] => {
+      return store.getters.natureData;
+    });
+    return {
+      pokemonData,
+      natureData,
+    };
   },
 });
 </script>
