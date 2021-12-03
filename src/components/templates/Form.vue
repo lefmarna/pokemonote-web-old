@@ -50,7 +50,7 @@ export default defineComponent({
     errors: {
       type: Array,
       required: false,
-      default: [],
+      default: () => [],
     },
   },
   setup(_, { emit }) {

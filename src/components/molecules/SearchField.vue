@@ -39,7 +39,7 @@ export default defineComponent({
     selectItem: {
       type: Object,
       required: false,
-      default: Object,
+      default: () => Object,
     },
   },
   setup(_, { emit }) {
