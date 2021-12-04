@@ -11,27 +11,33 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import {
+  computed,
+  defineComponent,
+  reactive,
+  ref,
+  watch,
+} from "@vue/composition-api";
 import CalcStats from "@/components/templates/CalcStats.vue";
 import axios from "axios";
 import router from "@/router";
 import { Pokemon } from "@/types/pokemon";
 import { Nature } from "@/types/nature";
 import { Stat } from "@/types/stat";
+import store from "@/store";
 
-export interface DataType {
-  currentPokemon: Pokemon;
-  currentNature: Nature;
-  lv: number;
-  stats: Stat[];
-}
-
-export default Vue.extend({
+export default defineComponent({
   components: {
     CalcStats,
   },
-  data: (): DataType => ({
-    currentPokemon: {
+  props: {
+    id: {
+      type: Number,
+      required: true,
+    },
+  },
+  setup(props) {
+    const currentPokemon = ref<Pokemon>({
       no: 645,
       name: "ランドロス(霊獣)",
       form: "れいじゅうフォルム",
@@ -48,8 +54,9 @@ export default Vue.extend({
         spDefence: 80,
         speed: 91,
       },
-    },
-    currentNature: {
+    });
+
+    const currentNature = ref<Nature>({
       name: "がんばりや",
       stats: {
         hp: 1.0,
@@ -59,9 +66,11 @@ export default Vue.extend({
         spDefence: 1.0,
         speed: 1.0,
       },
-    },
-    lv: 50,
-    stats: [
+    });
+
+    const lv = ref(50);
+
+    const stats = reactive<Stat[]>([
       {
         en: "hp",
         ja: "ＨＰ",
@@ -104,47 +113,42 @@ export default Vue.extend({
         individualValue: 31,
         effortValue: null,
       },
-    ],
-  }),
-  computed: {
-    pokemonData(): Pokemon[] {
-      return this.$store.getters.pokemonData;
-    },
-    natureData(): Nature[] {
-      return this.$store.getters.natureData;
-    },
-  },
-  methods: {
-    // ポケモンのデータを投稿する
-    updatePokemon(params): void {
+    ]);
+
+    const pokemonData = computed((): Pokemon[] => {
+      return store.getters.pokemonData;
+    });
+
+    const natureDate = computed((): Nature[] => {
+      return store.getters.natureData;
+    });
+
+    const updatePokemon = (params): void => {
       axios
-        .patch(`/pokemons/${this.id}`, params)
+        .patch(`/pokemons/${props.id}`, params)
         .then(() => {
-          router.push(`/pokemons/${this.id}`);
+          router.push(`/pokemons/${props.id}`);
         })
         .catch(() => {
           router.push("/");
         });
-    },
-  },
-  props: { id: Number },
-  watch: {
-    id: {
-      // immediate: true とすることで、初期描画時にもwatchが発火するようになる
-      immediate: true,
-      handler() {
+    };
+
+    watch(
+      () => props.id,
+      (id) => {
         axios
-          .get(`/pokemons/${this.id}/edit`)
+          .get(`/pokemons/${id}/edit`)
           .then((response) => {
             const data = response.data.data;
-            this.currentPokemon = this.pokemonData.find(
+            currentPokemon.value = pokemonData.value.find(
               (pokemon: Pokemon) => pokemon.name == data.name
             );
-            this.currentNature = this.$store.getters.natureData.find(
+            currentNature.value = natureDate.value.find(
               (nature: Nature) => nature.name == data.nature
             );
-            this.lv = data.lv;
-            this.stats.map((stat: Stat, index: number) => {
+            lv.value = data.lv;
+            stats.forEach((stat: Stat, index: number) => {
               stat.individualValue = data.individualValues[index];
               stat.effortValue = data.effortValues[index];
             });
@@ -153,7 +157,15 @@ export default Vue.extend({
             router.push("/");
           });
       },
-    },
+      { immediate: true }
+    );
+    return {
+      currentPokemon,
+      currentNature,
+      lv,
+      stats,
+      updatePokemon,
+    };
   },
 });
 </script>
