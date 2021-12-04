@@ -8,6 +8,10 @@ export interface Pokemon {
   user: User;
 }
 
+export interface Ranking {
+  name: string;
+}
+
 export interface User {
   nickname: string;
   username: string;

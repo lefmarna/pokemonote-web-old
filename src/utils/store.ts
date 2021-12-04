@@ -1,6 +1,6 @@
 import { computed } from "@vue/composition-api";
 import store from "@/store";
-import { User } from "@/types/index";
+import { Ranking, User } from "@/types/index";
 
 export const authUserName = computed((): string => {
   return store.getters.authUser.username;
@@ -8,4 +8,8 @@ export const authUserName = computed((): string => {
 
 export const updateAuthUser = (user: User): void => {
   store.commit("updateAuthUser", user);
+};
+
+export const updateRanking = (ranking: Ranking[]): void => {
+  store.commit("updateRanking", ranking);
 };
