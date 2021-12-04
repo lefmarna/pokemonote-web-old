@@ -10,4 +10,5 @@ export interface Pokemon {
   stats: {
     [key: string]: number;
   };
+  total?: number;
 }
