@@ -19,6 +19,10 @@
       :loading="!pokemons.length"
       loading-text="Now Loading..."
     >
+      <!-- レベルがnullの場合、レベルを1として表示する -->
+      <template v-slot:[`item.lv`]="{ item }">
+        {{ formatLv(item.lv) }}
+      </template>
       <!-- ステータスにコピペボタンを追加する -->
       <template v-slot:[`item.stats`]="{ item }">
         {{ item.stats }}
@@ -106,6 +110,14 @@ export default defineComponent({
       });
     };
 
+    const formatLv = (lv: number | null): number => {
+      if (lv) {
+        return lv;
+      } else {
+        return 1;
+      }
+    };
+
     const editPokemon = (pokemon: Pokemon): void => {
       if (pokemon.user.username === authUserName.value) {
         router.push(`/pokemons/${pokemon.id}/edit`);
@@ -136,6 +148,7 @@ export default defineComponent({
       search,
       deletePokemon,
       editPokemon,
+      formatLv,
       writeToClipboard,
     };
   },
