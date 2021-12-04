@@ -43,12 +43,10 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "@vue/composition-api";
-import axios from "axios";
-import router from "@/router";
 import Form from "@/components/templates/Form.vue";
 import EmailField from "@/components/molecules/EmailField.vue";
 import PasswordField from "@/components/molecules/PasswordField.vue";
-import store from "@/store";
+import { login } from "@/utils/auth";
 
 export default defineComponent({
   components: {
@@ -63,11 +61,11 @@ export default defineComponent({
     const email = ref<string>("");
     const password = ref<string>("");
     const password_confirmation = ref<string>("");
-    const errors = ref<string[]>([]);
+    const errors = ref<string[]>();
 
     const rules = computed(() => {
       return {
-        required: (value: any) => !!value || "この項目は必須です",
+        required: (value: string) => !!value || "この項目は必須です",
         username: (value: string) => {
           const pattern = /^[a-z\d]{5,15}$/i;
           return pattern.test(value) || "英数5〜15文字で入力してください。";
@@ -81,25 +79,12 @@ export default defineComponent({
       };
     });
 
-    const register = (): void => {
+    const register = async (): Promise<void> => {
       // 画像のデータはformDataを介さないと送れない
       const form = document.getElementById("form") as HTMLFormElement;
       const formData = new FormData(form);
-      axios
-        .post("/register", formData)
-        .then((response) => {
-          // Vuexに認証情報を保存する
-          store.commit("updateAuthUser", response.data.data);
-          router.push("/");
-          store.dispatch("notice");
-        })
-        .catch((error) => {
-          errors.value = [];
-          const errorsMessages: string[] = error.response.data.errors;
-          Object.values(errorsMessages).forEach((errorMessages) => {
-            errors.value.push(errorMessages[0]);
-          });
-        });
+      const errorMessages = await login(formData, "post", "/register");
+      if (errorMessages) errors.value = errorMessages;
     };
 
     return {
