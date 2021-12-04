@@ -50,6 +50,7 @@ import axios from "axios";
 import router from "@/router";
 import { Pokemon } from "@/types/pokemon";
 import store from "@/store";
+import { authUserName } from "@/utils/store";
 
 export default defineComponent({
   props: {
@@ -65,10 +66,6 @@ export default defineComponent({
     const pokemonDetails = computed(() => {
       const pokemonData: Pokemon[] = store.getters.pokemonData;
       return pokemonData.find((data) => data.name === pokemon.value.name);
-    });
-
-    const authUserName = computed(() => {
-      return store.getters.authUser.username;
     });
 
     //  コンポーネントの更新ではライフサイクルの初期化を行わないため、watchで監視する形で実装している

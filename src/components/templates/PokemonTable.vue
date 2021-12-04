@@ -59,7 +59,7 @@
 import { computed, defineComponent, ref, PropType } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
-import store from "@/store";
+import { authUserName } from "@/utils/store";
 import { Pokemon } from "@/types/index";
 
 interface Props {
@@ -81,10 +81,6 @@ export default defineComponent({
   },
   setup(props: Props) {
     const search = ref<string>();
-
-    const authUserName = computed(() => {
-      return store.getters.authUser.username;
-    });
 
     const headers = computed(() => {
       let tableHeader = [
