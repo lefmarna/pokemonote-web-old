@@ -4,7 +4,7 @@ version: 2.1
 executors:
   default:
     docker:
-      - image: circleci/node:14.16.0
+      - image: circleci/node:16.13.0
 
 # 複数のjobで使うcommandはまとめておく
 commands:
