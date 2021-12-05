@@ -2,6 +2,10 @@ import { computed } from "@vue/composition-api";
 import store from "@/store";
 import { Nature, Pokemon, Ranking, Stat, User } from "@/types/index";
 
+export const authUser = computed(() => {
+  return store.getters.authUser;
+});
+
 export const authUserName = computed((): string => {
   return store.getters.authUser.username;
 });

@@ -1,30 +1,45 @@
 <template>
-  <Form title="メール確認" buttonText="メールを再送信する" @submit="resend">
-    メールをご確認ください。
-    もし確認用メールが送信されていない場合は、下記をクリックしてください。
+  <Form title="メール確認" buttonText="確認メールを再送信する" @submit="resend">
+    <p>
+      登録はまだ完了していません。<br />
+      メールに記載されたリンクをクリックして本登録を完了してください。
+    </p>
+    <p>
+      メールが届いていない場合、メールアドレスをご確認の上、「確認メールを再送信する」のボタンを押してください。
+    </p>
+    <EmailField :email.sync="email" name="email" />
   </Form>
 </template>
 
 <script lang="ts">
+import { defineComponent, ref } from "@vue/composition-api";
 import axios from "axios";
-import Vue from "vue";
+import EmailField from "@/components/molecules/EmailField.vue";
 import Form from "@/components/templates/Form.vue";
+import { authUser } from "@/utils/store";
 
-export default Vue.extend({
+export default defineComponent({
   components: {
+    EmailField,
     Form,
   },
-  methods: {
-    resend(): void {
-      axios
-        .post("/email/resend")
-        .then(() => {
-          alert("メールを再送信しました。");
-        })
-        .catch((error) => {
-          console.log(error.response.data.errors);
+  setup() {
+    const email = ref<string>(authUser.value.email);
+
+    const resend = async (): Promise<void> => {
+      try {
+        await axios.post("/email/resend", {
+          email: email.value,
         });
-    },
+        alert("メールを再送信しました。");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    return {
+      email,
+      resend,
+    };
   },
 });
 </script>
