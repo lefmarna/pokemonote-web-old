@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" lazy-validation>
+  <v-form ref="formRef" lazy-validation>
     <v-container>
       <v-card max-width="540px" class="mx-auto mt-5">
         <!-- タイトル -->
@@ -35,20 +35,35 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent, ref } from "@vue/composition-api";
 
-export default Vue.extend({
+export default defineComponent({
   props: {
-    title: String,
-    buttonText: String,
-    errors: Array,
-  },
-  methods: {
-    submit() {
-      if (this.$refs.form.validate()) {
-        this.$emit("submit");
-      }
+    title: {
+      type: String,
+      required: true,
     },
+    buttonText: {
+      type: String,
+      required: true,
+    },
+    errors: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
+  },
+  setup(_, { emit }) {
+    const formRef = ref<{ validate: () => boolean }>();
+    const submit = () => {
+      if (formRef.value.validate()) {
+        emit("submit");
+      }
+    };
+    return {
+      formRef,
+      submit,
+    };
   },
 });
 </script>

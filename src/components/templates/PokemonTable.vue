@@ -11,16 +11,18 @@
         hide-details
       />
     </v-card-title>
-    <!-- key属性を付与することで、状態が変わったときにレンダリングを可能にする -->
     <v-data-table
       class="pokemon-table"
       :headers="headers"
       :items="pokemonTable"
       :search="search"
-      :key="tableKey"
       :loading="!pokemons.length"
       loading-text="Now Loading..."
     >
+      <!-- レベルがnullの場合、レベルを1として表示する -->
+      <template v-slot:[`item.lv`]="{ item }">
+        {{ formatLv(item.lv) }}
+      </template>
       <!-- ステータスにコピペボタンを追加する -->
       <template v-slot:[`item.stats`]="{ item }">
         {{ item.stats }}
@@ -36,9 +38,9 @@
       </template>
       <template v-slot:[`item.user.nickname`]="{ item }">
         <!-- マイページのときは、編集・削除ボタンを表示する -->
-        <div v-if="item.user.username == authUserName">
-          <v-icon @click="editItem(item)"> mdi-pencil </v-icon>
-          <v-icon @click="deleteItem(item.id)" class="ml-3">
+        <div v-if="item.user.username === authUserName">
+          <v-icon @click="editPokemon(item)"> mdi-pencil </v-icon>
+          <v-icon @click="deletePokemon(item.id)" class="ml-3">
             mdi-delete
           </v-icon>
         </div>
@@ -54,24 +56,33 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import router from "@/router";
+import { computed, defineComponent, ref, PropType } from "@vue/composition-api";
 import axios from "axios";
+import router from "@/router";
+import { authUserName } from "@/utils/store";
+import { Pokemon } from "@/types/index";
 
-export default Vue.extend({
-  data: () => ({
-    search: "",
-    tableKey: 0,
-  }),
+interface Props {
+  title: string;
+  pokemons: Pokemon[];
+}
+
+export default defineComponent({
   props: {
-    title: String,
-    pokemons: Array,
-  },
-  computed: {
-    authUserName(): string {
-      return this.$store.getters.authUser.username;
+    title: {
+      type: String,
+      required: true,
     },
-    headers() {
+    pokemons: {
+      type: [] as PropType<Pokemon[]>,
+      required: false,
+      default: () => [],
+    },
+  },
+  setup(props: Props) {
+    const search = ref<string>();
+
+    const headers = computed(() => {
       let tableHeader = [
         { text: "ポケモン名", sortable: false, value: "name" },
         { text: "レベル", sortable: false, value: "lv" },
@@ -79,45 +90,63 @@ export default Vue.extend({
         { text: "ステータス", sortable: false, value: "stats" },
         { text: "投稿者", sortable: false, value: "user.nickname" },
       ];
-      if (this.title == "マイページ") {
+      if (props.title === "マイページ") {
         tableHeader[4].text = "編集・削除";
       }
       return tableHeader;
-    },
-    pokemonTable(): any {
-      return this.pokemons;
-    },
-  },
-  methods: {
-    writeToClipboard(clipText: string): void {
+    });
+
+    const pokemonTable = computed(() => {
+      return props.pokemons;
+    });
+
+    const writeToClipboard = (clipText: string): void => {
       navigator.clipboard.writeText(clipText).catch((e) => {
         console.error(e);
       });
-    },
-    editItem(item: any): void {
-      if (item.user.username == this.authUserName) {
-        router.push(`/pokemons/${item.id}/edit`);
+    };
+
+    const formatLv = (lv: number | null): number => {
+      if (lv) {
+        return lv;
+      } else {
+        return 1;
+      }
+    };
+
+    const editPokemon = (pokemon: Pokemon): void => {
+      if (pokemon.user.username === authUserName.value) {
+        router.push(`/pokemons/${pokemon.id}/edit`);
       } else {
         router.push("/");
       }
-    },
-    deleteItem(id: number): void {
+    };
+
+    const deletePokemon = (id: number): void => {
       axios
         .delete(`/pokemons/${id}`)
         .then(() => {
           // 削除するポケモンのデータを探す
-          const deletePokemon = this.pokemonTable.findIndex(
-            (pokemon: any) => pokemon.id == id
+          const deletePokemon = pokemonTable.value.findIndex(
+            (pokemon: Pokemon) => pokemon.id === id
           );
           // 配列から要素を削除
-          this.pokemonTable.splice(deletePokemon, 1);
-          // keyの値を変更することで、再レンダリングさせる
-          this.tableKey++;
+          pokemonTable.value.splice(deletePokemon, 1);
         })
         .catch(() => {
           router.push("/");
         });
-    },
+    };
+    return {
+      authUserName,
+      headers,
+      pokemonTable,
+      search,
+      deletePokemon,
+      editPokemon,
+      formatLv,
+      writeToClipboard,
+    };
   },
 });
 </script>

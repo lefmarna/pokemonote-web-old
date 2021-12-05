@@ -86,6 +86,15 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
+    path: "/email/verify",
+    name: "メール確認",
+    component: () => import("../views/email/Verify.vue"),
+    meta: {
+      title: "メール確認",
+    },
+  },
+
+  {
     path: "/users/:id",
     name: "ユーザ詳細",
     component: () => import("../views/users/Show.vue"),
@@ -169,6 +178,11 @@ router.beforeEach((to, from, next) => {
       // 認証していなければログインページにリダイレクト
       next({
         path: "/login",
+        query: { redirect: to.fullPath },
+      });
+    } else if (!store.getters.authUser.email_verified_at) {
+      next({
+        path: "/email/verify",
         query: { redirect: to.fullPath },
       });
     } else {

@@ -31,21 +31,18 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    logout({ commit }) {
-      axios
-        .post("/logout")
-        .then(() => {
-          // Vuexから認証情報を削除する
-          commit("updateAuthUser", {
-            username: "",
-            nickname: "",
-          });
-          // ログインページにリダイレクトする
-          router.replace("/login");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    async logout({ commit }) {
+      await axios.post("/logout").catch((error) => {
+        if (error.response.status !== 401) return;
+        console.log(error);
+      });
+      // Vuexから認証情報を削除する
+      commit("updateAuthUser", {
+        username: "",
+        nickname: "",
+      });
+      // ログインページにリダイレクトする
+      router.replace("/login");
     },
     notice({ commit }) {
       commit("updateNotice", true);

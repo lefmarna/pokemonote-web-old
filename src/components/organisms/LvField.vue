@@ -2,7 +2,7 @@
   <div class="d-flex">
     <div>
       <v-text-field
-        ref="lv"
+        ref="lvRef"
         type="number"
         label="レベル"
         placeholder="1"
@@ -28,11 +28,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import CalcButton from "@/components/molecules/CalcButton.vue";
+import { defineComponent, ref } from "@vue/composition-api";
 
-export default Vue.extend({
-  data: () => ({}),
+export default defineComponent({
   components: {
     CalcButton,
   },
@@ -40,11 +39,14 @@ export default Vue.extend({
     lv: {
       // String型を許可しないと null のとき怒られる
       type: [Number, String],
+      required: false,
       default: "",
     },
   },
-  methods: {
-    updateLv(value: number | null) {
+  setup(_, { emit }) {
+    const lvRef = ref<{ lazyValue: number }>();
+
+    const updateLv = (value: number | null) => {
       // レベルの上限を100、下限を1とする
       if (value > 100) {
         value = 100;
@@ -56,13 +58,14 @@ export default Vue.extend({
         value = Math.floor(value);
       }
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-      (
-        this.$refs.lv as Vue & {
-          lazyValue: number;
-        }
-      ).lazyValue = value;
-      this.$emit("update", value);
-    },
+      lvRef.value.lazyValue = value;
+      emit("update", value);
+    };
+
+    return {
+      lvRef,
+      updateLv,
+    };
   },
 });
 </script>

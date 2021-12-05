@@ -45,65 +45,71 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { computed, defineComponent, ref, watch } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
 import { Pokemon } from "@/types/pokemon";
+import store from "@/store";
+import { authUserName } from "@/utils/store";
 
-export interface DataType {
-  pokemon: any;
-}
-
-export default Vue.extend({
-  data: (): DataType => ({
-    pokemon: "",
-  }),
-  computed: {
-    // ポケモンの詳細情報をVuexから取得する
-    pokemonDetails() {
-      const pokemonData: Pokemon[] = this.$store.getters.pokemonData;
-      return pokemonData.find((pokemon) => pokemon.name == this.pokemon.name);
-    },
-    authUserName() {
-      return this.$store.getters.authUser.username;
+export default defineComponent({
+  props: {
+    id: {
+      type: Number,
+      required: true,
     },
   },
-  props: { id: Number },
-  // コンポーネントの更新ではライフサイクルの初期化を行わないため、createdではなくwatchで監視している
-  watch: {
-    id: {
-      // immediate: true とすることで、初期描画時にもwatchが発火するようになる
-      immediate: true,
-      handler() {
+  setup(props) {
+    const pokemon = ref();
+
+    // ポケモンの詳細情報をVuexから取得する
+    const pokemonDetails = computed(() => {
+      const pokemonData: Pokemon[] = store.getters.pokemonData;
+      return pokemonData.find((data) => data.name === pokemon.value.name);
+    });
+
+    //  コンポーネントの更新ではライフサイクルの初期化を行わないため、watchで監視する形で実装している
+    watch(
+      () => props.id,
+      (id) => {
         axios
-          .get(`/pokemons/${this.id}`)
+          .get(`/pokemons/${id}`)
           .then((response) => {
-            this.pokemon = response.data.data;
+            pokemon.value = response.data.data;
           })
           .catch((error) => {
             console.log(error);
           });
       },
-    },
-  },
-  methods: {
-    editItem(item: any): void {
-      if (item.user.username == this.authUserName) {
+      { immediate: true }
+    );
+
+    const editItem = (item: any): void => {
+      if (item.user.username === authUserName.value) {
         router.push(`/pokemons/${item.id}/edit`);
       } else {
         router.push("/");
       }
-    },
-    deleteItem(id: number): void {
+    };
+
+    const deleteItem = (id: number): void => {
       axios
         .delete(`/pokemons/${id}`)
         .then(() => {
-          router.push(`/users/${this.authUserName}`);
+          router.push(`/users/${authUserName.value}`);
         })
         .catch(() => {
           router.push("/");
         });
-    },
+    };
+
+    return {
+      authUserName,
+      pokemon,
+      pokemonDetails,
+      editItem,
+      deleteItem,
+    };
   },
 });
 </script>

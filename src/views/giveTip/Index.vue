@@ -55,21 +55,22 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  ref,
+} from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
 import Form from "@/components/templates/Form.vue";
+import store from "@/store";
 
-// カード情報はString型で渡す必要がある
-export interface DataType {
-  price: number | null;
-  number: string;
-  cvc: string;
-  exp_month: string;
-  exp_year: string;
-  token: string;
-  errors: string[];
+interface Gift {
+  name: string;
+  value: number;
 }
+[];
 
 // Payjpに型を指定しないとエラーになる
 declare global {
@@ -78,67 +79,74 @@ declare global {
   }
 }
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     Form,
   },
-  data: (): DataType => ({
-    price: 0,
-    number: "",
-    cvc: "",
-    exp_month: "",
-    exp_year: "",
-    token: "",
-    errors: [],
-  }),
-  computed: {
-    gifts(): {
-      name: string;
-      value: number;
-    }[] {
-      return this.$store.getters.gifts;
-    },
-  },
-  methods: {
-    giveTip(): void {
-      // カード情報を格納する
+  setup() {
+    // カード情報はString型で渡す必要がある
+    const price = ref<number | null>(0);
+    const number = ref<string>();
+    const cvc = ref<string>();
+    const exp_month = ref<string>();
+    const exp_year = ref<string>();
+    const token = ref<string>();
+    const errors = ref<string[]>();
+
+    const gifts = computed((): Gift => {
+      return store.getters.gifts;
+    });
+
+    const giveTip = (): void => {
+      /**
+       * 公開鍵を読み込む
+       */
+      onMounted(() => {
+        window.Payjp.setPublicKey(process.env.VUE_APP_PAYJP_PUBLIC_KEY);
+      });
+
       const card = {
-        number: this.number,
-        cvc: this.cvc,
-        exp_month: this.exp_month,
-        exp_year: `20${this.exp_year}`,
+        number: number.value,
+        cvc: cvc.value,
+        exp_month: exp_month.value,
+        exp_year: `20${exp_year.value}`,
       };
 
-      // カード情報からトークンを作成する
       window.Payjp.createToken(card, (status: number, response: any) => {
-        if (status == 200) {
-          this.token = response.id;
+        if (status === 200) {
+          token.value = response.id;
         }
         // 金額とトークン情報を送信する
         axios.get("/csrf-cookie").then(() => {
           axios
             .post("/tips", {
-              price: this.price,
-              token: this.token,
+              price: price.value,
+              token: token.value,
             })
             .then(() => {
               router.push("/give-tip/thanks");
             })
             .catch((error) => {
-              this.errors = [];
+              errors.value = [];
               const errorsMessages: string[] = error.response.data.errors;
               Object.values(errorsMessages).forEach((errorMessages) => {
-                this.errors.push(errorMessages[0]);
-                this.token = "";
+                errors.value.push(errorMessages[0]);
+                token.value = "";
               });
             });
         });
       });
-    },
-  },
-  // 公開鍵を読み込む
-  mounted(): void {
-    window.Payjp.setPublicKey(process.env.VUE_APP_PAYJP_PUBLIC_KEY);
+    };
+    return {
+      gifts,
+      errors,
+      price,
+      number,
+      exp_month,
+      exp_year,
+      cvc,
+      giveTip,
+    };
   },
 });
 </script>

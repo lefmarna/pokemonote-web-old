@@ -6,55 +6,62 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, ref } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
 import Form from "@/components/templates/Form.vue";
 import EmailField from "@/components/molecules/EmailField.vue";
 import PasswordField from "@/components/molecules/PasswordField.vue";
+import { RawLocation } from "vue-router";
+import { notice, updateAuthUser } from "@/utils/store";
+import { Login } from "@/types";
 
-export interface DataType {
-  email: string;
-  password: string;
-  errors: string[];
-}
-
-export default {
-  name: "login",
+export default defineComponent({
   components: {
     Form,
     EmailField,
     PasswordField,
   },
-  data: (): DataType => ({
-    email: "",
-    password: "",
-    errors: [],
-  }),
-  methods: {
-    login(): void {
-      axios.get("/csrf-cookie").then(() => {
-        axios
-          .post("/login", {
-            email: this.email,
-            password: this.password,
-          })
-          .then((response) => {
-            // Vuexに認証情報を保存する
-            this.$store.commit("updateAuthUser", response.data.data);
-            // 認証を求められてきた場合は元々の遷移先へ
-            if (this.$route.query.redirect) {
-              router.push(this.$route.query.redirect);
-              // そうでない場合はトップページへ
-            } else {
-              router.push("/");
-            }
-            this.$store.dispatch("notice");
-          })
-          .catch((error) => {
-            console.log(error.response.data.errors);
-          });
-      });
-    },
+  setup(_, context) {
+    // FIXME 非推奨の書き方なので、Vue3に移行したらuseRouteを使う形で書き直したい
+    const route = context.root.$route;
+
+    const email = ref("");
+    const password = ref("");
+    const errors = ref<string[]>();
+
+    const login = async (
+      params: FormData | Login,
+      method = "post",
+      path = "/login"
+    ): Promise<void | string[]> => {
+      // FIXME @/utils/auth.tsにまとめたい、Vue3に移行したらtsファイルでもroute.query.redirectがかけるようになるので、その際にまとめよう
+      try {
+        const response = await axios[method](path, params);
+        updateAuthUser(response.data.data);
+        if (route.query.redirect) {
+          router.push(route.query.redirect as RawLocation);
+          // そうでない場合はトップページへ
+        } else {
+          router.push("/");
+        }
+        notice();
+      } catch (error) {
+        if (!axios.isAxiosError(error)) return;
+        const errorMessages: string[] = [];
+        const errorsResponse: string[] = error.response.data.errors;
+        Object.values(errorsResponse).forEach((errorResponse) => {
+          errorMessages.push(errorResponse[0]);
+        });
+        return errorMessages;
+      }
+    };
+    return {
+      email,
+      errors,
+      password,
+      login,
+    };
   },
-};
+});
 </script>

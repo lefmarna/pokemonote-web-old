@@ -8,13 +8,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent, ref } from "@vue/composition-api";
 
-export interface DataType {
-  isLoading: boolean;
-}
-
-export default Vue.extend({
+export default defineComponent({
   props: {
     buttonText: {
       type: String,
@@ -22,15 +18,17 @@ export default Vue.extend({
       default: "送信",
     },
   },
-  data: (): DataType => ({
-    isLoading: false,
-  }),
-  methods: {
-    async submit() {
-      this.isLoading = true;
-      await this.$emit("submit");
-      this.isLoading = false;
-    },
+  setup(_, { emit }) {
+    const isLoading = ref(false);
+    const submit = () => {
+      isLoading.value = true;
+      emit("submit");
+      isLoading.value = false;
+    };
+    return {
+      isLoading,
+      submit,
+    };
   },
 });
 </script>

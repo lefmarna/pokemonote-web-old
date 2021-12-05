@@ -1,31 +1,26 @@
-import { mount } from "@vue/test-utils";
-import { shallowMount } from "@vue/test-utils";
+import { createLocalVue, shallowMount } from "@vue/test-utils";
+import VueCompositionApi from "@vue/composition-api";
 import Form from "@/components/templates/Form.vue";
 
+// localVueを使ってComposition APIを有効にする
+const localVue = createLocalVue();
+localVue.use(VueCompositionApi);
+
 describe("CalcButtonの正常系テスト", () => {
-  it("タイトルを表示する", () => {
+  it("propsの値が正しいこと", () => {
     const title = "タイトル";
-    const wrapper = mount(Form, {
-      propsData: { title },
-    });
-    expect(wrapper.text()).toBe(`Pokemonote - ${title}`);
-  });
-
-  it("ボタンを表示する", () => {
     const buttonText = "ボタン";
-    const wrapper = mount(Form, {
-      propsData: { buttonText },
-    });
-    expect(wrapper.find("button").text()).toBe(buttonText);
-  });
-
-  it("エラーメッセージを表示する", () => {
     const errors = ["エラー1", "エラー2", "エラー3"];
     const wrapper = shallowMount(Form, {
-      propsData: { errors },
+      localVue,
+      propsData: {
+        title: title,
+        buttonText: buttonText,
+        errors: errors,
+      },
     });
-    errors.map((error) => {
-      expect(wrapper.text()).toContain(error);
-    });
+    expect(wrapper.props().title).toBe(title);
+    expect(wrapper.props().buttonText).toBe(buttonText);
+    expect(wrapper.props().errors).toBe(errors);
   });
 });

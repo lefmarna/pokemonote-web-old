@@ -14,30 +14,39 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { computed, defineComponent } from "@vue/composition-api";
 
-export default Vue.extend({
+export default defineComponent({
   props: {
     items: {
-      type: Array,
+      type: [],
+      required: false,
+      default: [],
     },
     label: {
       type: String,
+      required: true,
     },
     itemName: {
       type: String,
+      required: true,
     },
     clearable: {
       type: Boolean,
+      required: false,
       default: false,
     },
     selectItem: {
       type: Object,
+      required: false,
+      default: () => Object,
     },
   },
-  computed: {
-    // ローマ字の変換表
-    romanConversionTable() {
+  setup(_, { emit }) {
+    /**
+     * ローマ字の変換表
+     */
+    const romanConversionTable = computed(() => {
       return {
         a: "ア",
         i: "イ",
@@ -228,20 +237,17 @@ export default Vue.extend({
           },
         },
       };
-    },
-  },
-  methods: {
-    // Itemが変更されたときに親のイベントを発火させる
-    updateItem($event: any): void {
-      if ($event) {
-        this.$emit("update", $event);
-        (document.activeElement as HTMLElement).blur(); // 性格を更新後、フォーカスを外す
-      }
-    },
-    // ひらがなをすべてカタカナに変換し、一致する結果を返すフィルター
-    filterForSearch(item: any, queryText: string): boolean {
+    });
+
+    /**
+     * ひらがなをすべてカタカナに変換し、一致する結果を返すフィルター
+     */
+    const filterForSearch = (
+      item: { [key: string]: any },
+      queryText: string
+    ): boolean => {
       // アイテム名のひらがなを全てカタカナに置き換える
-      const itemName = item.name.replace(/[ぁ-ん]/g, (t) =>
+      const itemName = item.name.replace(/[ぁ-ん]/g, (t: string) =>
         String.fromCharCode(t.charCodeAt(0) + 96)
       );
       // 入力されたひらがなを全てカタカナに、括弧やハイフンも検索元に合わせる形で置き換える
@@ -251,21 +257,24 @@ export default Vue.extend({
         .replace(/[（]/g, "(")
         .replace(/[）]/g, ")");
       // 入力されたローマ字を全てカタカナに書き換える
-      katakana = this.convertRomanToKana(katakana);
+      katakana = convertRomanToKana(katakana);
       // 部分一致でフィルタリングする
       return (itemName || "").indexOf(katakana) > -1;
-    },
-    // ローマ字をカタカナに変換する関数
-    convertRomanToKana(queryText: string) {
+    };
+
+    /**
+     * ローマ字をカタカナに変換する関数
+     */
+    const convertRomanToKana = (queryText: string) => {
       const LowerCaseText = queryText.toLowerCase(); // 大文字を小文字に変更
       let result = ""; // result：最終的に返すテキストを格納していく変数
       let tmp = ""; // tmp：子音のみが入力されている状態など、カタカナに変換できない場合に一時的に格納しておくための変数
-      let node: any = this.romanConversionTable; // eslint-disable-line
+      let node: { [key: string]: any } = romanConversionTable.value;
       const push = (char: string, toRoot = true) => {
         result += char;
         tmp = "";
         if (toRoot) {
-          node = this.romanConversionTable;
+          node = romanConversionTable.value;
         }
       };
       for (let i = 0, len = LowerCaseText.length; i < len; i++) {
@@ -288,8 +297,8 @@ export default Vue.extend({
             push(prev === "n" ? "ン" : "ッ", false);
           }
           if (
-            node !== this.romanConversionTable &&
-            char in this.romanConversionTable
+            node !== romanConversionTable.value &&
+            char in romanConversionTable.value
           ) {
             // 今のノードがルート以外だった場合、仕切り直してチェックする
             push(tmp);
@@ -302,7 +311,22 @@ export default Vue.extend({
       tmp = tmp.replace(/n$/, "ン"); // 末尾のnはンに変換する
       push(tmp);
       return result;
-    },
+    };
+
+    /**
+     * Itemが変更されたときに親のイベントを発火させる
+     */
+    const updateItem = ($event: any): void => {
+      if ($event) {
+        emit("update", $event);
+        (document.activeElement as HTMLElement).blur(); // 性格を更新後、フォーカスを外す
+      }
+    };
+
+    return {
+      filterForSearch,
+      updateItem,
+    };
   },
 });
 </script>

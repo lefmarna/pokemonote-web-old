@@ -73,15 +73,22 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "@vue/composition-api";
 import axios from "axios";
+import { updateRanking } from "@/utils/store";
 
-export default {
-  created() {
-    axios.get("/top").then((response) => {
-      this.$store.commit("updateRanking", response.data.data);
-    });
+export default defineComponent({
+  setup() {
+    (async () => {
+      try {
+        const response = await axios.get("/top");
+        updateRanking(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>

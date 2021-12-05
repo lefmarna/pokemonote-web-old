@@ -14,30 +14,34 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "@vue/composition-api";
 import LoginAlert from "@/components/molecules/LoginAlert.vue";
 import CalcStats from "@/components/templates/CalcStats.vue";
-import pokemonParams from "@/mixins/pokemonParams";
 import axios from "axios";
 import router from "@/router";
+import { currentNature, currentPokemon, lv, stats } from "@/utils/store";
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     LoginAlert,
     CalcStats,
   },
-  mixins: [pokemonParams],
-  methods: {
-    postPokemon(params): void {
-      axios
-        .post("/pokemons", params)
-        .then((response) => {
-          router.push(`/pokemons/${response.data.data.id}`);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+  setup() {
+    const postPokemon = async (params): Promise<void> => {
+      try {
+        const response = await axios.post("/pokemons", params);
+        router.push(`/pokemons/${response.data.data.id}`);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    return {
+      currentNature,
+      currentPokemon,
+      lv,
+      stats,
+      postPokemon,
+    };
   },
 });
 </script>
