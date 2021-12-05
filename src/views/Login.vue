@@ -12,8 +12,9 @@ import router from "@/router";
 import Form from "@/components/templates/Form.vue";
 import EmailField from "@/components/molecules/EmailField.vue";
 import PasswordField from "@/components/molecules/PasswordField.vue";
-import store from "@/store";
 import { RawLocation } from "vue-router";
+import { notice, updateAuthUser } from "@/utils/store";
+import { Login } from "@/types";
 
 export default defineComponent({
   components: {
@@ -22,35 +23,38 @@ export default defineComponent({
     PasswordField,
   },
   setup(_, context) {
+    // FIXME 非推奨の書き方なので、Vue3に移行したらuseRouteを使う形で書き直したい
     const route = context.root.$route;
 
     const email = ref("");
     const password = ref("");
     const errors = ref<string[]>();
 
-    const login = () => {
-      axios.get("/csrf-cookie").then(() => {
-        axios
-          .post("/login", {
-            email: email.value,
-            password: password.value,
-          })
-          .then((response) => {
-            // Vuexに認証情報を保存する
-            store.commit("updateAuthUser", response.data.data);
-            // 認証を求められてきた場合は元々の遷移先へ
-            if (route.query.redirect) {
-              router.push(route.query.redirect as RawLocation);
-              // そうでない場合はトップページへ
-            } else {
-              router.push("/");
-            }
-            store.dispatch("notice");
-          })
-          .catch((error) => {
-            console.log(error.response.data.errors);
-          });
-      });
+    const login = async (
+      params: FormData | Login,
+      method = "post",
+      path = "/login"
+    ): Promise<void | string[]> => {
+      // FIXME @/utils/auth.tsにまとめたい、Vue3に移行したらtsファイルでもroute.query.redirectがかけるようになるので、その際にまとめよう
+      try {
+        const response = await axios[method](path, params);
+        updateAuthUser(response.data.data);
+        if (route.query.redirect) {
+          router.push(route.query.redirect as RawLocation);
+          // そうでない場合はトップページへ
+        } else {
+          router.push("/");
+        }
+        notice();
+      } catch (error) {
+        if (!axios.isAxiosError(error)) return;
+        const errorMessages: string[] = [];
+        const errorsResponse: string[] = error.response.data.errors;
+        Object.values(errorsResponse).forEach((errorResponse) => {
+          errorMessages.push(errorResponse[0]);
+        });
+        return errorMessages;
+      }
     };
     return {
       email,
