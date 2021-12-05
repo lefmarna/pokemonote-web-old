@@ -1,6 +1,6 @@
 <template>
   <Form
-    id="form"
+    name="form"
     title="アカウント作成"
     buttonText="新規登録"
     :errors="errors"
@@ -81,7 +81,7 @@ export default defineComponent({
 
     const register = async (): Promise<void> => {
       // 画像のデータはformDataを介さないと送れない
-      const form = document.getElementById("form") as HTMLFormElement;
+      const form = document.forms.namedItem("form");
       const formData = new FormData(form);
       const errorMessages = await login(formData, "post", "/register");
       if (errorMessages) errors.value = errorMessages;
