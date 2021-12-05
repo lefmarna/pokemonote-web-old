@@ -6,55 +6,58 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, ref } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
 import Form from "@/components/templates/Form.vue";
 import EmailField from "@/components/molecules/EmailField.vue";
 import PasswordField from "@/components/molecules/PasswordField.vue";
+import store from "@/store";
+import { RawLocation } from "vue-router";
 
-export interface DataType {
-  email: string;
-  password: string;
-  errors: string[];
-}
-
-export default {
-  name: "login",
+export default defineComponent({
   components: {
     Form,
     EmailField,
     PasswordField,
   },
-  data: (): DataType => ({
-    email: "",
-    password: "",
-    errors: [],
-  }),
-  methods: {
-    login(): void {
+  setup(_, context) {
+    const route = context.root.$route;
+
+    const email = ref("");
+    const password = ref("");
+    const errors = ref<string[]>();
+
+    const login = () => {
       axios.get("/csrf-cookie").then(() => {
         axios
           .post("/login", {
-            email: this.email,
-            password: this.password,
+            email: email.value,
+            password: password.value,
           })
           .then((response) => {
             // Vuexに認証情報を保存する
-            this.$store.commit("updateAuthUser", response.data.data);
+            store.commit("updateAuthUser", response.data.data);
             // 認証を求められてきた場合は元々の遷移先へ
-            if (this.$route.query.redirect) {
-              router.push(this.$route.query.redirect);
+            if (route.query.redirect) {
+              router.push(route.query.redirect as RawLocation);
               // そうでない場合はトップページへ
             } else {
               router.push("/");
             }
-            this.$store.dispatch("notice");
+            store.dispatch("notice");
           })
           .catch((error) => {
             console.log(error.response.data.errors);
           });
       });
-    },
+    };
+    return {
+      email,
+      errors,
+      password,
+      login,
+    };
   },
-};
+});
 </script>
