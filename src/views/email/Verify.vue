@@ -13,6 +13,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "@vue/composition-api";
+import router from "@/router";
+import { RawLocation } from "vue-router";
 import axios from "axios";
 import EmailField from "@/components/molecules/EmailField.vue";
 import Form from "@/components/templates/Form.vue";
@@ -23,8 +25,18 @@ export default defineComponent({
     EmailField,
     Form,
   },
-  setup() {
+  setup(_, context) {
+    const route = context.root.$route;
+
     const email = ref<string>(authUser.value.email);
+
+    // FIXME Vue3に移行したらtsファイルでもroute.query.redirectがかけるようになるので、その際にまとめよう
+    if (route.query.redirect) {
+      router.push(route.query.redirect as RawLocation);
+      // そうでない場合はトップページへ
+    } else {
+      router.push("/");
+    }
 
     const resend = async (): Promise<void> => {
       try {

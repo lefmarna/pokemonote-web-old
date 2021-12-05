@@ -14,7 +14,6 @@ import EmailField from "@/components/molecules/EmailField.vue";
 import PasswordField from "@/components/molecules/PasswordField.vue";
 import { RawLocation } from "vue-router";
 import { notice, updateAuthUser } from "@/utils/store";
-import { Login } from "@/types";
 
 export default defineComponent({
   components: {
@@ -31,7 +30,7 @@ export default defineComponent({
     const errors = ref<string[]>();
 
     const login = async (
-      params: FormData | Login,
+      params = { email: email.value, password: password.value },
       method = "post",
       path = "/login"
     ): Promise<void | string[]> => {
