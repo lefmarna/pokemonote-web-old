@@ -25,6 +25,26 @@ export interface Pokemon {
   user: User;
 }
 
+export interface PokemonData {
+  no: number;
+  name: string;
+  form: string;
+  ranks: string[];
+  evolutions: number[];
+  types: string[];
+  abilities: string[];
+  hiddenAbilities: string[];
+  stats: {
+    hp: number;
+    attack: number;
+    defence: number;
+    spAttack: number;
+    spDefence: number;
+    speed: number;
+  };
+  total?: number;
+}
+
 export interface Ranking {
   name: string;
 }

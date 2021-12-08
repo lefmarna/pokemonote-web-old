@@ -1,6 +1,13 @@
 import { computed } from "@vue/composition-api";
 import store from "@/store";
-import { Nature, Pokemon, Ranking, Stat, User } from "@/types/index";
+import {
+  Nature,
+  Pokemon,
+  PokemonData,
+  Ranking,
+  Stat,
+  User,
+} from "@/types/index";
 
 export const authUser = computed(() => {
   return store.getters.authUser;
@@ -37,12 +44,20 @@ export const lv = computed({
   },
 });
 
+export const natureData = computed((): Nature[] => {
+  return store.getters.natureData;
+});
+
 export const notice = (): void => {
   store.commit("updateNotice", true);
   setTimeout(() => {
     store.commit("updateNotice", false);
   }, 2250);
 };
+
+export const pokemonData = computed((): PokemonData[] => {
+  return store.getters.pokemonData;
+});
 
 export const stats = computed((): Stat[] => {
   return store.getters.stats;

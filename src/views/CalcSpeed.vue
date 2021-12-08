@@ -92,7 +92,7 @@
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
-                    ref="speed"
+                    ref="speedRef"
                     type="number"
                     :label="stats[5].ja"
                     :value="speed"
@@ -288,121 +288,114 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { computed, defineComponent, ref } from "@vue/composition-api";
+import { numberToInt, valueVerification } from "@/utils/calc";
+import { currentNature, currentPokemon, lv, stats } from "@/utils/store";
 import CalcButton from "@/components/molecules/CalcButton.vue";
-import calculator from "@/mixins/calculator";
 import PokemonParams from "@/components/organisms/PokemonParams.vue";
-import pokemonParams from "@/mixins/pokemonParams";
-import { Pokemon } from "@/types/pokemon";
-import { Nature } from "@/types/nature";
+import store from "@/store";
 
-export interface DataType {
-  tailwind: number;
-  paralysis: number;
-  swamp: number;
-  option1: boolean;
-  selectItem: number;
-  selectAbility: number;
-}
-
-export default Vue.extend({
+export default defineComponent({
   components: {
     CalcButton,
     PokemonParams,
   },
-  mixins: [calculator, pokemonParams],
-  data: (): DataType => ({
-    tailwind: 1,
-    paralysis: 10,
-    swamp: 100,
-    option1: false,
-    selectItem: 10,
-    selectAbility: 10,
-  }),
-  computed: {
-    pokemonData(): Pokemon[] {
-      return this.$store.getters.pokemonData;
-    },
-    natureData(): Nature[] {
-      return this.$store.getters.natureData;
-    },
-    speed: {
-      get(): number {
-        return this.getSpeed();
-      },
-      set(value: number) {
-        this.setSpeed(value);
-      },
-    },
-    speedItems(): {
-      name: string;
-      value: number;
-    }[] {
-      return this.$store.getters.speedItems;
-    },
-    speedAbilities(): {
-      name: string;
-      value: number;
-    }[] {
-      return this.$store.getters.speedAbilities;
-    },
-  },
-  methods: {
-    // 努力値の更新
-    updateSpeedEffortValue(value: number): void {
-      value = this.valueVerification(value, 252);
+  setup() {
+    const speedRef = ref<{ lazyValue: number | string }>();
+    const speedIndividualValue = ref<{ lazyValue: number | string }>();
+    const speedEffortValue = ref<{ lazyValue: number | string }>();
+
+    const tailwind = ref(1);
+    const paralysis = ref(10);
+    const swamp = ref(100);
+    const option1 = ref(false);
+    const selectItem = ref(10);
+    const selectAbility = ref(10);
+
+    // const pokemonData
+    const speed = computed({
+      get: () => getSpeed(),
+      set: (value: number) => setSpeed(value),
+    });
+
+    const speedItems = computed(
+      (): {
+        name: string;
+        value: number;
+      }[] => {
+        return store.getters.speedItems;
+      }
+    );
+
+    const speedAbilities = computed(
+      (): {
+        name: string;
+        value: number;
+      }[] => {
+        return store.getters.speedAbilities;
+      }
+    );
+
+    /**
+     * 努力値の更新
+     */
+    const updateSpeedEffortValue = (value: number): void => {
+      value = valueVerification(value, 252);
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-      (
-        this.$refs.speedEffortValue as Vue & {
-          lazyValue: number;
-        }
-      ).lazyValue = value;
-      this.stats[5].effortValue = value;
-    },
-    // 個体値の更新
-    updateSpeedIndividualValue(value: number): void {
-      value = this.valueVerification(value, 31);
+
+      speedEffortValue.value.lazyValue = value;
+      stats[5].effortValue = value;
+    };
+
+    /**
+     * 個体値の更新
+     */
+    const updateSpeedIndividualValue = (value: number): void => {
+      value = valueVerification(value, 31);
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-      (
-        this.$refs.speedIndividualValue as Vue & {
-          lazyValue: number;
-        }
-      ).lazyValue = value;
-      this.stats[5].individualValue = value;
-    },
-    // 実数値を計算して返す
-    getSpeed(): number {
-      const lv = this.numberToInt(this.lv, 1);
-      const individualValue = this.numberToInt(this.stats[5].individualValue);
-      const effortValue = this.numberToInt(this.stats[5].effortValue);
+
+      speedIndividualValue.value.lazyValue = value;
+      stats[5].individualValue = value;
+    };
+
+    /**
+     * 実数値を計算して返す
+     */
+    const getSpeed = (): number => {
+      const formatLv = numberToInt(lv.value, 1);
+      const individualValue = numberToInt(stats[5].individualValue);
+      const effortValue = numberToInt(stats[5].effortValue);
       return Math.floor(
         (Math.floor(
-          ((this.currentPokemon.stats["speed"] * 2 +
+          ((currentPokemon.value.stats["speed"] * 2 +
             individualValue +
             Math.floor(effortValue / 4)) *
-            lv) /
+            formatLv) /
             100
         ) +
           5) *
-          this.currentNature.stats["speed"]
+          currentNature.value.stats["speed"]
       );
-    },
-    // 実数値から努力値の逆算を行う
-    setSpeed(event: number) {
+    };
+
+    /**
+     * 実数値から努力値の逆算を行う
+     */
+    const setSpeed = (event: number) => {
       let setValue = Number(event); // eventで取ってきたものはstring型になってしまうため、明示的にキャストの処理を記載している
-      const lv = this.numberToInt(this.lv, 1);
-      const individualValue = this.numberToInt(this.stats[5].individualValue);
-      const effortValue = this.numberToInt(this.stats[5].effortValue);
-      const currentNatureStat = Number(this.currentNature.stats["speed"]);
+      const formatLv = numberToInt(lv.value, 1);
+      const individualValue = numberToInt(stats[5].individualValue);
+      const effortValue = numberToInt(stats[5].effortValue);
+      const currentNatureStat = currentNature.value.stats["speed"];
       if (setValue % 11 === 10 && currentNatureStat === 1.1) {
         if (
           setValue >=
           Math.floor(
             (Math.floor(
-              ((this.currentPokemon.stats["speed"] * 2 +
+              ((currentPokemon.value.stats["speed"] * 2 +
                 individualValue +
                 Math.floor(effortValue / 4)) *
-                lv) /
+                formatLv) /
                 100
             ) +
               5) *
@@ -420,34 +413,35 @@ export default Vue.extend({
         setValue = Math.ceil(setValue / 0.9);
       }
       setValue =
-        (Math.ceil(((setValue - 5) * 100) / lv) -
-          this.currentPokemon.stats["speed"] * 2 -
+        (Math.ceil(((setValue - 5) * 100) / formatLv) -
+          currentPokemon.value.stats["speed"] * 2 -
           individualValue) *
         4;
       // 計算した値を代入する
-      setValue = this.valueVerification(setValue, 252);
-      this.stats[5].effortValue = setValue;
-      (
-        this.$refs.speed as Vue & {
-          lazyValue: number;
-        }
-      ).lazyValue = this.getSpeed();
-    },
-    // 素早さリストに表示する値を計算する
-    calcSpeed(rank: number) {
+      setValue = valueVerification(setValue, 252);
+      stats[5].effortValue = setValue;
+      speedRef.value.lazyValue = getSpeed();
+    };
+
+    /**
+     * 素早さリストに表示する値を計算する
+     */
+    const calcSpeed = (rank: number) => {
       // 特性が「はやあし・かるわざ」のときは計算の順番を変える
-      if (this.selectAbility == 2) {
+      if (selectAbility.value === 2) {
         return Math.floor(
           (Math.floor(
             (Math.floor(
-              (Math.floor((this.speed * rank) / 100) * this.selectItem) / 10
+              (Math.floor((Number(speedRef.value) * rank) / 100) *
+                selectItem.value) /
+                10
             ) *
-              this.paralysis) /
+              paralysis.value) /
               10
           ) *
             2 *
-            this.tailwind *
-            this.swamp) /
+            tailwind.value *
+            swamp.value) /
             100
         );
         // 特性がその他であれば通常通り計算する
@@ -456,21 +450,41 @@ export default Vue.extend({
           (Math.floor(
             (Math.floor(
               (Math.floor(
-                (Math.floor((this.speed * rank) / 100) * this.selectAbility) /
+                (Math.floor((Number(speedRef.value) * rank) / 100) *
+                  selectAbility.value) /
                   10
               ) *
-                this.selectItem) /
+                selectItem.value) /
                 10
             ) *
-              this.paralysis) /
+              paralysis.value) /
               10
           ) *
-            this.tailwind *
-            this.swamp) /
+            tailwind.value *
+            swamp.value) /
             100
         );
       }
-    },
+    };
+    return {
+      currentPokemon,
+      currentNature,
+      lv,
+      option1,
+      paralysis,
+      selectAbility,
+      selectItem,
+      speed,
+      speedAbilities,
+      speedItems,
+      speedRef,
+      swamp,
+      tailwind,
+      calcSpeed,
+      updateSpeedIndividualValue,
+      updateSpeedEffortValue,
+      setSpeed,
+    };
   },
 });
 </script>
