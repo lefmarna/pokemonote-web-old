@@ -192,9 +192,7 @@
             </tr>
             <tr v-if="option1">
               <td>+5</td>
-              <td>
-                {{ calcBaseSpeed(350) }} ({{ Math.floor(calcSpeed(350)) }})
-              </td>
+              <td>{{ calcBaseSpeed(350) }} ({{ calcSpeed(350) }})</td>
             </tr>
             <tr v-if="option1">
               <td>+4</td>
@@ -202,57 +200,43 @@
             </tr>
             <tr>
               <td>+3</td>
-              <td>
-                {{ calcBaseSpeed(250) }} ({{
-                  Math.floor(Math.floor(calcSpeed(250)))
-                }})
-              </td>
+              <td>{{ calcBaseSpeed(250) }} ({{ calcSpeed(250) }})</td>
             </tr>
             <tr>
               <td>+2</td>
-              <td>
-                {{ calcBaseSpeed(200) }} ({{
-                  Math.floor(Math.floor(calcSpeed(200)))
-                }})
-              </td>
+              <td>{{ calcBaseSpeed(200) }} ({{ calcSpeed(200) }})</td>
             </tr>
             <tr>
               <td>+1</td>
-              <td>
-                {{ calcBaseSpeed(150) }} ({{
-                  Math.floor(Math.floor(calcSpeed(150)))
-                }})
-              </td>
+              <td>{{ calcBaseSpeed(150) }} ({{ calcSpeed(150) }})</td>
             </tr>
             <tr>
               <td>±0</td>
-              <td>
-                {{ calcBaseSpeed(100) }} ({{ Math.floor(calcSpeed(100)) }})
-              </td>
+              <td>{{ calcBaseSpeed(100) }} ({{ calcSpeed(100) }})</td>
             </tr>
             <tr>
               <td>-1</td>
-              <td>{{ calcBaseSpeed(67) }} ({{ Math.floor(calcSpeed(67)) }})</td>
+              <td>{{ calcBaseSpeed(67) }} ({{ calcSpeed(67) }})</td>
             </tr>
             <tr>
               <td>-2</td>
-              <td>{{ calcBaseSpeed(50) }} ({{ Math.floor(calcSpeed(50)) }})</td>
+              <td>{{ calcBaseSpeed(50) }} ({{ calcSpeed(50) }})</td>
             </tr>
             <tr>
               <td>-3</td>
-              <td>{{ calcBaseSpeed(40) }} ({{ Math.floor(calcSpeed(40)) }})</td>
+              <td>{{ calcBaseSpeed(40) }} ({{ calcSpeed(40) }})</td>
             </tr>
             <tr v-if="option1">
               <td>-4</td>
-              <td>{{ calcBaseSpeed(33) }} ({{ Math.floor(calcSpeed(33)) }})</td>
+              <td>{{ calcBaseSpeed(33) }} ({{ calcSpeed(33) }})</td>
             </tr>
             <tr v-if="option1">
               <td>-5</td>
-              <td>{{ calcBaseSpeed(29) }} ({{ Math.floor(calcSpeed(29)) }})</td>
+              <td>{{ calcBaseSpeed(29) }} ({{ calcSpeed(29) }})</td>
             </tr>
             <tr v-if="option1">
               <td>-6</td>
-              <td>{{ calcBaseSpeed(25) }} ({{ Math.floor(calcSpeed(25)) }})</td>
+              <td>{{ calcBaseSpeed(25) }} ({{ calcSpeed(25) }})</td>
             </tr>
           </tbody>
         </v-simple-table>
@@ -314,8 +298,6 @@ export default defineComponent({
      */
     const updateSpeedEffortValue = (value: number): void => {
       value = valueVerification(value, 252);
-      // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-
       speedEffortValue.value.lazyValue = value;
       stats.value[5].effortValue = value;
     };
@@ -325,7 +307,6 @@ export default defineComponent({
      */
     const updateSpeedIndividualValue = (value: number): void => {
       value = valueVerification(value, 31);
-      // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
       speedIndividualValue.value.lazyValue = value;
       stats.value[5].individualValue = value;
     };
