@@ -344,7 +344,7 @@ export default defineComponent({
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
 
       speedEffortValue.value.lazyValue = value;
-      stats[5].effortValue = value;
+      stats.value[5].effortValue = value;
     };
 
     /**
@@ -355,7 +355,7 @@ export default defineComponent({
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
 
       speedIndividualValue.value.lazyValue = value;
-      stats[5].individualValue = value;
+      stats.value[5].individualValue = value;
     };
 
     /**
@@ -363,8 +363,8 @@ export default defineComponent({
      */
     const getSpeed = (): number => {
       const formatLv = numberToInt(lv.value, 1);
-      const individualValue = numberToInt(stats[5].individualValue);
-      const effortValue = numberToInt(stats[5].effortValue);
+      const individualValue = numberToInt(stats.value[5].individualValue);
+      const effortValue = numberToInt(stats.value[5].effortValue);
       return Math.floor(
         (Math.floor(
           ((currentPokemon.value.stats["speed"] * 2 +
@@ -384,8 +384,8 @@ export default defineComponent({
     const setSpeed = (event: number) => {
       let setValue = Number(event); // eventで取ってきたものはstring型になってしまうため、明示的にキャストの処理を記載している
       const formatLv = numberToInt(lv.value, 1);
-      const individualValue = numberToInt(stats[5].individualValue);
-      const effortValue = numberToInt(stats[5].effortValue);
+      const individualValue = numberToInt(stats.value[5].individualValue);
+      const effortValue = numberToInt(stats.value[5].effortValue);
       const currentNatureStat = currentNature.value.stats["speed"];
       if (setValue % 11 === 10 && currentNatureStat === 1.1) {
         if (
@@ -419,7 +419,7 @@ export default defineComponent({
         4;
       // 計算した値を代入する
       setValue = valueVerification(setValue, 252);
-      stats[5].effortValue = setValue;
+      stats.value[5].effortValue = setValue;
       speedRef.value.lazyValue = getSpeed();
     };
 
@@ -432,9 +432,7 @@ export default defineComponent({
         return Math.floor(
           (Math.floor(
             (Math.floor(
-              (Math.floor((Number(speedRef.value) * rank) / 100) *
-                selectItem.value) /
-                10
+              (Math.floor((speed.value * rank) / 100) * selectItem.value) / 10
             ) *
               paralysis.value) /
               10
@@ -450,8 +448,7 @@ export default defineComponent({
           (Math.floor(
             (Math.floor(
               (Math.floor(
-                (Math.floor((Number(speedRef.value) * rank) / 100) *
-                  selectAbility.value) /
+                (Math.floor((speed.value * rank) / 100) * selectAbility.value) /
                   10
               ) *
                 selectItem.value) /
@@ -478,6 +475,7 @@ export default defineComponent({
       speedAbilities,
       speedItems,
       speedRef,
+      stats,
       swamp,
       tailwind,
       calcSpeed,
