@@ -188,24 +188,22 @@
           <tbody align="center">
             <tr v-if="option1">
               <td>+6</td>
-              <td>{{ Math.floor(speed * 4) }} ({{ calcSpeed(400) }})</td>
+              <td>{{ calcBaseSpeed(400) }} ({{ calcSpeed(400) }})</td>
             </tr>
             <tr v-if="option1">
               <td>+5</td>
               <td>
-                {{ Math.floor((speed * 35) / 10) }} ({{
-                  Math.floor(calcSpeed(350))
-                }})
+                {{ calcBaseSpeed(350) }} ({{ Math.floor(calcSpeed(350)) }})
               </td>
             </tr>
             <tr v-if="option1">
               <td>+4</td>
-              <td>{{ Math.floor(speed * 3) }} ({{ calcSpeed(300) }})</td>
+              <td>{{ calcBaseSpeed(300) }} ({{ calcSpeed(300) }})</td>
             </tr>
             <tr>
               <td>+3</td>
               <td>
-                {{ Math.floor((speed * 25) / 10) }} ({{
+                {{ calcBaseSpeed(250) }} ({{
                   Math.floor(Math.floor(calcSpeed(250)))
                 }})
               </td>
@@ -213,7 +211,7 @@
             <tr>
               <td>+2</td>
               <td>
-                {{ Math.floor(speed * 2) }} ({{
+                {{ calcBaseSpeed(200) }} ({{
                   Math.floor(Math.floor(calcSpeed(200)))
                 }})
               </td>
@@ -221,7 +219,7 @@
             <tr>
               <td>+1</td>
               <td>
-                {{ Math.floor((speed * 15) / 10) }} ({{
+                {{ calcBaseSpeed(150) }} ({{
                   Math.floor(Math.floor(calcSpeed(150)))
                 }})
               </td>
@@ -229,56 +227,32 @@
             <tr>
               <td>±0</td>
               <td>
-                {{ Math.floor(speed) }} ({{ Math.floor(calcSpeed(100)) }})
+                {{ calcBaseSpeed(100) }} ({{ Math.floor(calcSpeed(100)) }})
               </td>
             </tr>
             <tr>
               <td>-1</td>
-              <td>
-                {{ Math.floor((speed * 67) / 100) }} ({{
-                  Math.floor(calcSpeed(67))
-                }})
-              </td>
+              <td>{{ calcBaseSpeed(67) }} ({{ Math.floor(calcSpeed(67)) }})</td>
             </tr>
             <tr>
               <td>-2</td>
-              <td>
-                {{ Math.floor((speed * 5) / 10) }} ({{
-                  Math.floor(calcSpeed(50))
-                }})
-              </td>
+              <td>{{ calcBaseSpeed(50) }} ({{ Math.floor(calcSpeed(50)) }})</td>
             </tr>
             <tr>
               <td>-3</td>
-              <td>
-                {{ Math.floor((speed * 4) / 10) }} ({{
-                  Math.floor(calcSpeed(40))
-                }})
-              </td>
+              <td>{{ calcBaseSpeed(40) }} ({{ Math.floor(calcSpeed(40)) }})</td>
             </tr>
             <tr v-if="option1">
               <td>-4</td>
-              <td>
-                {{ Math.floor((speed * 33) / 100) }} ({{
-                  Math.floor(calcSpeed(33))
-                }})
-              </td>
+              <td>{{ calcBaseSpeed(33) }} ({{ Math.floor(calcSpeed(33)) }})</td>
             </tr>
             <tr v-if="option1">
               <td>-5</td>
-              <td>
-                {{ Math.floor((speed * 29) / 100) }} ({{
-                  Math.floor(calcSpeed(29))
-                }})
-              </td>
+              <td>{{ calcBaseSpeed(29) }} ({{ Math.floor(calcSpeed(29)) }})</td>
             </tr>
             <tr v-if="option1">
               <td>-6</td>
-              <td>
-                {{ Math.floor((speed * 25) / 100) }} ({{
-                  Math.floor(calcSpeed(25))
-                }})
-              </td>
+              <td>{{ calcBaseSpeed(25) }} ({{ Math.floor(calcSpeed(25)) }})</td>
             </tr>
           </tbody>
         </v-simple-table>
@@ -312,7 +286,6 @@ export default defineComponent({
     const selectItem = ref(10);
     const selectAbility = ref(10);
 
-    // const pokemonData
     const speed = computed({
       get: () => getSpeed(),
       set: (value: number) => setSpeed(value),
@@ -353,7 +326,6 @@ export default defineComponent({
     const updateSpeedIndividualValue = (value: number): void => {
       value = valueVerification(value, 31);
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-
       speedIndividualValue.value.lazyValue = value;
       stats.value[5].individualValue = value;
     };
@@ -463,6 +435,11 @@ export default defineComponent({
         );
       }
     };
+
+    const calcBaseSpeed = (percent: number) => {
+      return Math.floor((speed.value * percent) / 100);
+    };
+
     return {
       currentPokemon,
       currentNature,
@@ -482,6 +459,7 @@ export default defineComponent({
       updateSpeedIndividualValue,
       updateSpeedEffortValue,
       setSpeed,
+      calcBaseSpeed,
     };
   },
 });
