@@ -398,14 +398,12 @@ export default defineComponent({
     /**
      * 素早さリストに表示する値を計算する
      */
-    const calcSpeed = (rank: number) => {
+    const calcSpeed = (percent: number) => {
       // 特性が「はやあし・かるわざ」のときは計算の順番を変える
       if (selectAbility.value === 2) {
         return Math.floor(
           (Math.floor(
-            (Math.floor(
-              (Math.floor((speed.value * rank) / 100) * selectItem.value) / 10
-            ) *
+            (Math.floor((calcBaseSpeed(percent) * selectItem.value) / 10) *
               paralysis.value) /
               10
           ) *
@@ -419,10 +417,7 @@ export default defineComponent({
         return Math.floor(
           (Math.floor(
             (Math.floor(
-              (Math.floor(
-                (Math.floor((speed.value * rank) / 100) * selectAbility.value) /
-                  10
-              ) *
+              (Math.floor((calcBaseSpeed(percent) * selectAbility.value) / 10) *
                 selectItem.value) /
                 10
             ) *
