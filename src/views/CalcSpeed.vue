@@ -21,8 +21,8 @@
                 :class="[
                   'justify-center',
                   {
-                    'text-danger': currentNature.stats['speed'] == 1.1,
-                    'text-primary': currentNature.stats['speed'] == 0.9,
+                    'text-danger': currentNature.stats['speed'] === 1.1,
+                    'text-primary': currentNature.stats['speed'] === 0.9,
                   },
                 ]"
               >
@@ -166,7 +166,7 @@
               />
             </div>
             <p>オプション</p>
-            <v-switch label="±4以上も表示する" v-model="option1" dense />
+            <v-switch label="±4以上も表示する" v-model="option" dense />
             <v-divider v-if="$vuetify.breakpoint.sm" />
           </div>
         </v-container>
@@ -186,57 +186,13 @@
           </thead>
           <!-- 浮動小数点数により誤差が生じるのを防ぐため、あらかじめ100倍した数値を引数に渡し、計算後の結果を1/100にして返すようにしている -->
           <tbody align="center">
-            <tr v-if="option1">
-              <td>+6</td>
-              <td>{{ calcBaseSpeed(400) }} ({{ calcSpeed(400) }})</td>
-            </tr>
-            <tr v-if="option1">
-              <td>+5</td>
-              <td>{{ calcBaseSpeed(350) }} ({{ calcSpeed(350) }})</td>
-            </tr>
-            <tr v-if="option1">
-              <td>+4</td>
-              <td>{{ calcBaseSpeed(300) }} ({{ calcSpeed(300) }})</td>
-            </tr>
-            <tr>
-              <td>+3</td>
-              <td>{{ calcBaseSpeed(250) }} ({{ calcSpeed(250) }})</td>
-            </tr>
-            <tr>
-              <td>+2</td>
-              <td>{{ calcBaseSpeed(200) }} ({{ calcSpeed(200) }})</td>
-            </tr>
-            <tr>
-              <td>+1</td>
-              <td>{{ calcBaseSpeed(150) }} ({{ calcSpeed(150) }})</td>
-            </tr>
-            <tr>
-              <td>±0</td>
-              <td>{{ calcBaseSpeed(100) }} ({{ calcSpeed(100) }})</td>
-            </tr>
-            <tr>
-              <td>-1</td>
-              <td>{{ calcBaseSpeed(67) }} ({{ calcSpeed(67) }})</td>
-            </tr>
-            <tr>
-              <td>-2</td>
-              <td>{{ calcBaseSpeed(50) }} ({{ calcSpeed(50) }})</td>
-            </tr>
-            <tr>
-              <td>-3</td>
-              <td>{{ calcBaseSpeed(40) }} ({{ calcSpeed(40) }})</td>
-            </tr>
-            <tr v-if="option1">
-              <td>-4</td>
-              <td>{{ calcBaseSpeed(33) }} ({{ calcSpeed(33) }})</td>
-            </tr>
-            <tr v-if="option1">
-              <td>-5</td>
-              <td>{{ calcBaseSpeed(29) }} ({{ calcSpeed(29) }})</td>
-            </tr>
-            <tr v-if="option1">
-              <td>-6</td>
-              <td>{{ calcBaseSpeed(25) }} ({{ calcSpeed(25) }})</td>
+            <tr v-for="rank in speedRanks" :key="rank.magnification">
+              <td>{{ rank.magnification }}</td>
+              <td>
+                {{ calcBaseSpeed(rank.percent) }} ({{
+                  calcSpeed(rank.percent)
+                }})
+              </td>
             </tr>
           </tbody>
         </v-simple-table>
@@ -262,11 +218,10 @@ export default defineComponent({
     const speedRef = ref<{ lazyValue: number | string }>();
     const speedIndividualValue = ref<{ lazyValue: number | string }>();
     const speedEffortValue = ref<{ lazyValue: number | string }>();
-
     const tailwind = ref(1);
     const paralysis = ref(10);
     const swamp = ref(100);
-    const option1 = ref(false);
+    const option = ref(false);
     const selectItem = ref(10);
     const selectAbility = ref(10);
 
@@ -292,6 +247,35 @@ export default defineComponent({
         return store.getters.speedAbilities;
       }
     );
+
+    const speedRanks = computed(() => {
+      if (option.value) {
+        return [
+          { magnification: "+6", percent: 400 },
+          { magnification: "+5", percent: 350 },
+          { magnification: "+4", percent: 300 },
+          { magnification: "+3", percent: 250 },
+          { magnification: "+2", percent: 200 },
+          { magnification: "+1", percent: 150 },
+          { magnification: "±0", percent: 100 },
+          { magnification: "-1", percent: 67 },
+          { magnification: "-2", percent: 50 },
+          { magnification: "-3", percent: 40 },
+          { magnification: "-4", percent: 33 },
+          { magnification: "-5", percent: 29 },
+          { magnification: "-6", percent: 25 },
+        ];
+      }
+      return [
+        { magnification: "+3", percent: 250 },
+        { magnification: "+2", percent: 200 },
+        { magnification: "+1", percent: 150 },
+        { magnification: "±0", percent: 100 },
+        { magnification: "-1", percent: 67 },
+        { magnification: "-2", percent: 50 },
+        { magnification: "-3", percent: 40 },
+      ];
+    });
 
     /**
      * 努力値の更新
@@ -420,13 +404,16 @@ export default defineComponent({
       currentPokemon,
       currentNature,
       lv,
-      option1,
+      option,
       paralysis,
       selectAbility,
       selectItem,
       speed,
       speedAbilities,
+      speedEffortValue,
+      speedIndividualValue,
       speedItems,
+      speedRanks,
       speedRef,
       stats,
       swamp,
