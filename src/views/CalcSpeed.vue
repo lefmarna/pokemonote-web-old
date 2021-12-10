@@ -122,7 +122,7 @@
               <div>
                 <v-select
                   v-model="selectItem"
-                  :items="speedItems"
+                  :items="SPEED_ITEMS"
                   item-text="name"
                   item-value="value"
                   label="道具"
@@ -132,7 +132,7 @@
               <div>
                 <v-select
                   v-model="selectAbility"
-                  :items="speedAbilities"
+                  :items="SPEED_ABILITIES"
                   item-text="name"
                   item-value="value"
                   label="特性"
@@ -186,8 +186,8 @@
           </thead>
           <!-- 浮動小数点数により誤差が生じるのを防ぐため、あらかじめ100倍した数値を引数に渡し、計算後の結果を1/100にして返すようにしている -->
           <tbody align="center">
-            <tr v-for="rank in speedRanks" :key="rank.magnification">
-              <td>{{ rank.magnification }}</td>
+            <tr v-for="rank in filteredRanks" :key="rank.id">
+              <td>{{ formatRank(rank.magnification) }}</td>
               <td>
                 {{ calcBaseSpeed(rank.percent) }} ({{
                   calcSpeed(rank.percent)
@@ -203,11 +203,11 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "@vue/composition-api";
-import { numberToInt, valueVerification } from "@/utils/calc";
-import { currentNature, currentPokemon, lv, stats } from "@/utils/store";
 import CalcButton from "@/components/molecules/CalcButton.vue";
 import PokemonParams from "@/components/organisms/PokemonParams.vue";
-import store from "@/store";
+import { numberToInt, valueVerification } from "@/utils/calc";
+import { RANKS, SPEED_ABILITIES, SPEED_ITEMS } from "@/utils/constants";
+import { currentNature, currentPokemon, lv, stats } from "@/utils/store";
 
 export default defineComponent({
   components: {
@@ -230,52 +230,16 @@ export default defineComponent({
       set: (value: number) => setSpeed(value),
     });
 
-    const speedItems = computed(
-      (): {
-        name: string;
-        value: number;
-      }[] => {
-        return store.getters.speedItems;
-      }
-    );
-
-    const speedAbilities = computed(
-      (): {
-        name: string;
-        value: number;
-      }[] => {
-        return store.getters.speedAbilities;
-      }
-    );
-
-    const speedRanks = computed(() => {
-      if (option.value) {
-        return [
-          { magnification: "+6", percent: 400 },
-          { magnification: "+5", percent: 350 },
-          { magnification: "+4", percent: 300 },
-          { magnification: "+3", percent: 250 },
-          { magnification: "+2", percent: 200 },
-          { magnification: "+1", percent: 150 },
-          { magnification: "±0", percent: 100 },
-          { magnification: "-1", percent: 67 },
-          { magnification: "-2", percent: 50 },
-          { magnification: "-3", percent: 40 },
-          { magnification: "-4", percent: 33 },
-          { magnification: "-5", percent: 29 },
-          { magnification: "-6", percent: 25 },
-        ];
-      }
-      return [
-        { magnification: "+3", percent: 250 },
-        { magnification: "+2", percent: 200 },
-        { magnification: "+1", percent: 150 },
-        { magnification: "±0", percent: 100 },
-        { magnification: "-1", percent: 67 },
-        { magnification: "-2", percent: 50 },
-        { magnification: "-3", percent: 40 },
-      ];
+    const filteredRanks = computed(() => {
+      if (option.value) return RANKS;
+      return RANKS.filter((rank) => Math.abs(rank.magnification) <= 3);
     });
+
+    const formatRank = (magnification: number): string => {
+      if (magnification > 0) return `+${magnification}`;
+      if (magnification === 0) return `±${magnification}`;
+      return String(magnification);
+    };
 
     /**
      * 努力値の更新
@@ -401,6 +365,8 @@ export default defineComponent({
     };
 
     return {
+      SPEED_ABILITIES,
+      SPEED_ITEMS,
       currentPokemon,
       currentNature,
       lv,
@@ -409,20 +375,19 @@ export default defineComponent({
       selectAbility,
       selectItem,
       speed,
-      speedAbilities,
       speedEffortValue,
       speedIndividualValue,
-      speedItems,
-      speedRanks,
+      filteredRanks,
       speedRef,
       stats,
       swamp,
       tailwind,
+      calcBaseSpeed,
       calcSpeed,
+      formatRank,
+      setSpeed,
       updateSpeedIndividualValue,
       updateSpeedEffortValue,
-      setSpeed,
-      calcBaseSpeed,
     };
   },
 });
