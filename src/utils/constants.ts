@@ -3,6 +3,15 @@ export const DEFAULT_LEVEL = 50;
 export const MAX_LEVEL = 100;
 export const MIN_LEVEL = 1;
 
+export const GIFTS = [
+  { id: 1, name: "--- 金額を選択 ---", value: 0 },
+  { id: 2, name: "120円", value: 120 },
+  { id: 3, name: "980円", value: 980 },
+  { id: 4, name: "2,820円", value: 2820 },
+  { id: 5, name: "5,740円", value: 5740 },
+  { id: 6, name: "10,000円", value: 10_000 },
+];
+
 export const RANKS = [
   { id: 1, magnification: 6, percent: 400 },
   { id: 2, magnification: 5, percent: 350 },

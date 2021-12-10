@@ -1,3 +1,10 @@
+export interface Card {
+  number: string;
+  cvc: string;
+  exp_month: string;
+  exp_year: string;
+}
+
 export interface Login {
   email: string;
   password: string;
@@ -55,6 +62,11 @@ export interface Stat {
   abbreviation: string;
   individualValue: number | null;
   effortValue: number | null;
+}
+
+export interface Tip {
+  price: number;
+  token: string;
 }
 
 export interface User {
