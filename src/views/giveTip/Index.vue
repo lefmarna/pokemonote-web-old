@@ -66,6 +66,7 @@ import axios, { AxiosError } from "axios";
 import router from "@/router";
 import Form from "@/components/templates/Form.vue";
 import { GIFTS } from "@/utils/constants";
+import { exceptionErrorToArray } from "@/utils/error";
 import { Card, Tip } from "@/types";
 
 // Payjpに型を指定しないとエラーになる
@@ -121,8 +122,7 @@ export default defineComponent({
           await axios.post("/tips", tip);
           router.push("/give-tip/thanks");
         } catch (error) {
-          if (!axios.isAxiosError(error)) return;
-          errors.value = errorResponseToArray(error.response.data.errors);
+          errors.value = exceptionErrorToArray(error);
           tip.token = "";
         }
       });
