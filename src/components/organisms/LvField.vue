@@ -32,6 +32,7 @@ import CalcButton from "@/components/molecules/CalcButton.vue";
 import { defineComponent, ref } from "@vue/composition-api";
 import { convertHalfWidthNumber } from "@/utils/calc";
 import { DEFAULT_LEVEL, MAX_LEVEL, MIN_LEVEL } from "@/utils/constants";
+import { LazyValue } from "@/types";
 
 export default defineComponent({
   components: {
@@ -46,7 +47,7 @@ export default defineComponent({
     },
   },
   setup(_, { emit }) {
-    const lvRef = ref<{ lazyValue: number | string }>();
+    const lvRef = ref<LazyValue>();
 
     const updateLv = (value: number | string) => {
       let formatValue: number | null = convertHalfWidthNumber(String(value));

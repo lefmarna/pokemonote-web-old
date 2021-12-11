@@ -41,7 +41,7 @@
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
-                    ref="individualValues"
+                    ref="individualValueRefs"
                     type="number"
                     label="個体値"
                     placeholder="0"
@@ -68,7 +68,7 @@
               <v-col class="d-flex justify-center">
                 <div>
                   <v-text-field
-                    ref="effortValues"
+                    ref="effortValueRefs"
                     type="number"
                     label="努力値"
                     placeholder="0"
@@ -97,7 +97,7 @@
                   <!-- 努力値が自動更新されることによって実数値の入力を妨げてしまうため、実数値はinputではなくchangeで発火させている
                   なお、Vuetifyではv-modelのlazy修飾子をサポートしていないため、:valueと@changeで分けて書く必要がある -->
                   <v-text-field
-                    ref="realNumber"
+                    ref="realNumberRefs"
                     type="number"
                     :label="stats[index].ja"
                     :value="realNumbers[index]"
@@ -274,6 +274,7 @@ import {
   DEFENCE_ENHANCEMENTS,
   SP_DEFENCE_ENHANCEMENTS,
 } from "@/utils/constants";
+import { LazyValue } from "@/types";
 
 export default defineComponent({
   components: {
@@ -314,9 +315,9 @@ export default defineComponent({
     const calcStyle = ref("balance");
     const description = ref("");
 
-    const effortValues = ref<{ lazyValue: number | string }[]>();
-    const individualValues = ref<{ lazyValue: number | string }[]>();
-    const realNumber = ref<{ lazyValue: number | string }[]>();
+    const effortValueRefs = ref<LazyValue[]>();
+    const individualValueRefs = ref<LazyValue[]>();
+    const realNumberRefs = ref<LazyValue[]>();
 
     // 各種ステータスの計算（methodsで引数を指定すれば、同じ計算を1箇所にまとめることもできるが、パフォーマンスの高いcomputedを使いたいため、あえて個別に計算している）
     const hp = computed({
@@ -506,7 +507,7 @@ export default defineComponent({
       index: number
     ): void => {
       const formatValue = valueVerification(value, 252);
-      effortValues.value[index].lazyValue = formatValue;
+      effortValueRefs.value[index].lazyValue = formatValue;
       props.stats[index].effortValue = formatValue;
     };
 
@@ -517,7 +518,7 @@ export default defineComponent({
       index: number
     ): void => {
       const formatValue = valueVerification(value, 31);
-      individualValues.value[index].lazyValue = formatValue;
+      individualValueRefs.value[index].lazyValue = formatValue;
       props.stats[index].individualValue = formatValue;
     };
 
@@ -667,7 +668,7 @@ export default defineComponent({
       setValue = valueVerification(setValue, 252);
       props.stats[index].effortValue = setValue;
 
-      realNumber.value[index].lazyValue = getStats(statsName, index);
+      realNumberRefs.value[index].lazyValue = getStats(statsName, index);
     };
 
     // 努力値をリセットする
@@ -798,11 +799,11 @@ export default defineComponent({
       SP_DEFENCE_ENHANCEMENTS,
       calcStyle,
       description,
-      effortValues,
+      effortValueRefs,
       hiddenPower,
-      individualValues,
+      individualValueRefs,
       physicalDurability,
-      realNumber,
+      realNumberRefs,
       realNumbers,
       selectDefenceEnhancement,
       selectSpDefenceEnhancement,

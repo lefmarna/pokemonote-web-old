@@ -5,6 +5,10 @@ export interface Card {
   exp_year: string;
 }
 
+export interface LazyValue {
+  lazyValue: number;
+}
+
 export interface Login {
   email: string;
   password: string;

@@ -208,6 +208,7 @@ import PokemonParams from "@/components/organisms/PokemonParams.vue";
 import { numberToInt, valueVerification } from "@/utils/calc";
 import { RANKS, SPEED_ABILITIES, SPEED_ITEMS } from "@/utils/constants";
 import { currentNature, currentPokemon, lv, stats } from "@/utils/store";
+import { LazyValue } from "@/types";
 
 export default defineComponent({
   components: {
@@ -215,9 +216,9 @@ export default defineComponent({
     PokemonParams,
   },
   setup() {
-    const speedRef = ref<{ lazyValue: number | string }>();
-    const speedIndividualValue = ref<{ lazyValue: number | string }>();
-    const speedEffortValue = ref<{ lazyValue: number | string }>();
+    const speedRef = ref<LazyValue>();
+    const speedIndividualValue = ref<LazyValue>();
+    const speedEffortValue = ref<LazyValue>();
     const tailwind = ref(1);
     const paralysis = ref(10);
     const swamp = ref(100);
