@@ -1,9 +1,9 @@
 import axios, { AxiosError } from "axios";
 
 /**
- * エラーメッセージ一覧
+ * エラーメッセージ一覧（エラーメッセージ）
  */
-export const EXCEPTION_ERROR_MESSAGE =
+const EXCEPTION_ERROR_MESSAGE =
   "システムエラーにより処理が失敗しました。時間を置いて再度お試しください。";
 
 /**
@@ -21,7 +21,15 @@ export const formatAxiosError = (errorsResponse: AxiosError): string[] => {
 /**
  * try/catchのcatch内で使用。エラーメッセージを配列にして返す。
  */
-export const exceptionErrorToArray = (error: unknown): string[] => {
-  if (!axios.isAxiosError(error)) return [EXCEPTION_ERROR_MESSAGE];
+export const exceptionErrorToArray = (
+  error: unknown,
+  expectedStatusCodes: number[] = []
+): string[] => {
+  if (
+    !axios.isAxiosError(error) ||
+    (expectedStatusCodes.length &&
+      !expectedStatusCodes.includes(error.response.status))
+  )
+    return [EXCEPTION_ERROR_MESSAGE];
   return formatAxiosError(error.response.data.errors);
 };

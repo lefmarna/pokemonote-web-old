@@ -62,10 +62,15 @@ import {
   reactive,
   ref,
 } from "@vue/composition-api";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import router from "@/router";
 import Form from "@/components/templates/Form.vue";
-import { GIFTS } from "@/utils/constants";
+import {
+  GIFTS,
+  HTTP_OK,
+  HTTP_PAYMENT_REQUIRED,
+  HTTP_UNPROCESSABLE_ENTITY,
+} from "@/utils/constants";
 import { exceptionErrorToArray } from "@/utils/error";
 import { Card, Tip } from "@/types";
 
@@ -103,29 +108,26 @@ export default defineComponent({
       window.Payjp.setPublicKey(process.env.VUE_APP_PAYJP_PUBLIC_KEY);
     });
 
-    const errorResponseToArray = (errorsResponse: AxiosError) => {
-      const errorList: string[] = [];
-      if (!errorsResponse) return errorList;
-      Object.values(errorsResponse).forEach((errors) => {
-        errorList.push(errors[0]);
-      });
-      return errorList;
-    };
-
     const giveTip = (): void => {
-      window.Payjp.createToken(card, async (status: number, response: any) => {
-        if (status === 200) {
-          tip.token = response.id;
-        }
+      window.Payjp.createToken(
+        card,
+        async (status: number, response: { id: string }) => {
+          if (status === HTTP_OK) {
+            tip.token = response.id;
+          }
 
-        try {
-          await axios.post("/tips", tip);
-          router.push("/give-tip/thanks");
-        } catch (error) {
-          errors.value = exceptionErrorToArray(error);
-          tip.token = "";
+          try {
+            await axios.post("/tips", tip);
+            router.push("/give-tip/thanks");
+          } catch (error) {
+            errors.value = exceptionErrorToArray(error, [
+              HTTP_PAYMENT_REQUIRED,
+              HTTP_UNPROCESSABLE_ENTITY,
+            ]);
+            tip.token = "";
+          }
         }
-      });
+      );
     };
     return {
       GIFTS,
