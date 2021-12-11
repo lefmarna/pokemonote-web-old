@@ -1,5 +1,5 @@
 <template>
-  <CalcStats
+  <CalcStatsTemplate
     title="ポケモン編集"
     buttonText="更新する"
     :currentPokemon.sync="currentPokemon"
@@ -18,7 +18,7 @@ import {
   ref,
   watch,
 } from "@vue/composition-api";
-import CalcStats from "@/components/templates/CalcStats.vue";
+import CalcStatsTemplate from "@/components/templates/CalcStatsTemplate.vue";
 import axios from "axios";
 import router from "@/router";
 import { Pokemon } from "@/types/pokemon";
@@ -28,7 +28,7 @@ import store from "@/store";
 
 export default defineComponent({
   components: {
-    CalcStats,
+    CalcStatsTemplate,
   },
   props: {
     id: {

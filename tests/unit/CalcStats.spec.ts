@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils";
-import CalcStats from "@/components/templates/CalcStats.vue";
+import CalcStatsTemplate from "@/components/templates/CalcStatsTemplate.vue";
 import Vuex from "vuex";
 import store from "@/store";
 import Vuetify from "vuetify";
@@ -12,6 +12,8 @@ describe("CalcButtonの正常系テスト", () => {
   localVue.use(Vuex);
 
   // propsで渡すデータを用意
+  const title = "タイトル";
+  const buttonText = "送信";
   const currentPokemon: Pokemon = {
     no: 682,
     name: "シュシュプ",
@@ -95,11 +97,13 @@ describe("CalcButtonの正常系テスト", () => {
   beforeEach(() => {
     vuetify = new Vuetify();
 
-    wrapper = shallowMount(CalcStats, {
+    wrapper = shallowMount(CalcStatsTemplate, {
       store,
       localVue,
       vuetify,
       propsData: {
+        title,
+        buttonText,
         currentPokemon,
         currentNature,
         lv,
