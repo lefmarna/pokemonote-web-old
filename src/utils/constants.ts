@@ -4,12 +4,12 @@ export const MAX_LEVEL = 100;
 export const MIN_LEVEL = 1;
 
 export const GIFTS = [
-  { id: 1, name: "--- 金額を選択 ---", value: 0 },
-  { id: 2, name: "120円", value: 120 },
-  { id: 3, name: "980円", value: 980 },
-  { id: 4, name: "2,820円", value: 2820 },
-  { id: 5, name: "5,740円", value: 5740 },
-  { id: 6, name: "10,000円", value: 10_000 },
+  { name: "--- 金額を選択 ---", value: 0 },
+  { name: "120円", value: 120 },
+  { name: "980円", value: 980 },
+  { name: "2,820円", value: 2820 },
+  { name: "5,740円", value: 5740 },
+  { name: "10,000円", value: 10_000 },
 ];
 
 export const RANKS = [
@@ -28,18 +28,30 @@ export const RANKS = [
   { id: 13, magnification: -6, percent: 25 },
 ];
 
+export const DEFENCE_ENHANCEMENTS = [
+  { name: "2.0 - ファーコート等", value: 2.0 },
+  { name: "1.5 - ふくつのたて等", value: 1.5 },
+  { name: "1.0", value: 1.0 },
+];
+
+export const SP_DEFENCE_ENHANCEMENTS = [
+  { name: "2.0 - こおりのりんぷん等", value: 2.0 },
+  { name: "1.5 - とつげきチョッキ等", value: 1.5 },
+  { name: "1.0", value: 1.0 },
+];
+
 export const SPEED_ITEMS = [
-  { id: 1, name: "スピードパウダー (×2)", value: 20 },
-  { id: 2, name: "こだわりスカーフ (×1.5)", value: 15 },
-  { id: 3, name: "--- 道具を選択 ---", value: 10 },
-  { id: 4, name: "くろいてっきゅう (×0.5)", value: 5 },
+  { name: "スピードパウダー (×2)", value: 20 },
+  { name: "こだわりスカーフ (×1.5)", value: 15 },
+  { name: "--- 道具を選択 ---", value: 10 },
+  { name: "くろいてっきゅう (×0.5)", value: 5 },
 ];
 
 export const SPEED_ABILITIES = [
-  { id: 1, name: "すいすい・ようりょくそ (×2)", value: 20 },
-  { id: 2, name: "はやあし・かるわざ (×2)", value: 2 },
-  { id: 3, name: "--- 特性を選択 ---", value: 10 },
-  { id: 4, name: "スロースタート (×0.5)", value: 5 },
+  { name: "すいすい・ようりょくそ (×2)", value: 20 },
+  { name: "はやあし・かるわざ (×2)", value: 2 },
+  { name: "--- 特性を選択 ---", value: 10 },
+  { name: "スロースタート (×0.5)", value: 5 },
 ];
 
 // HTTPステータスコード

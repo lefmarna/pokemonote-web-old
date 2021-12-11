@@ -173,14 +173,14 @@
                       <v-card-subtitle class="pa-0">倍率</v-card-subtitle>
                       <v-select
                         v-model="selectDefenceEnhancement"
-                        :items="defenceEnhancements"
+                        :items="DEFENCE_ENHANCEMENTS"
                         item-text="name"
                         item-value="value"
                         label="防御"
                       ></v-select>
                       <v-select
                         v-model="selectSpDefenceEnhancement"
-                        :items="spDefenceEnhancements"
+                        :items="SP_DEFENCE_ENHANCEMENTS"
                         item-text="name"
                         item-value="value"
                         label="特防"
@@ -270,6 +270,10 @@ import { Pokemon } from "@/types/pokemon";
 import { Nature } from "@/types/nature";
 import { Stat } from "@/types/stat";
 import { numberToInt, valueVerification } from "@/utils/calc";
+import {
+  DEFENCE_ENHANCEMENTS,
+  SP_DEFENCE_ENHANCEMENTS,
+} from "@/utils/constants";
 
 export default defineComponent({
   components: {
@@ -493,22 +497,6 @@ export default defineComponent({
         default:
           return "あく";
       }
-    });
-
-    const defenceEnhancements = computed(() => {
-      return [
-        { name: "2.0 - ファーコート等", value: 2.0 },
-        { name: "1.5 - ふくつのたて等", value: 1.5 },
-        { name: "1.0", value: 1.0 },
-      ];
-    });
-
-    const spDefenceEnhancements = computed(() => {
-      return [
-        { name: "2.0 - こおりのりんぷん等", value: 2.0 },
-        { name: "1.5 - とつげきチョッキ等", value: 1.5 },
-        { name: "1.0", value: 1.0 },
-      ];
     });
 
     // 努力値の更新
@@ -806,8 +794,9 @@ export default defineComponent({
       emit("submit", params);
     };
     return {
+      DEFENCE_ENHANCEMENTS,
+      SP_DEFENCE_ENHANCEMENTS,
       calcStyle,
-      defenceEnhancements,
       description,
       effortValues,
       hiddenPower,
@@ -817,7 +806,6 @@ export default defineComponent({
       realNumbers,
       selectDefenceEnhancement,
       selectSpDefenceEnhancement,
-      spDefenceEnhancements,
       specialDurability,
       totalBaseStats,
       totalEvCheck,
