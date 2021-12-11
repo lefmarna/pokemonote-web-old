@@ -287,23 +287,29 @@ export default Vue.extend({
   props: {
     title: {
       type: String,
+      required: true,
     },
     buttonText: {
       type: String,
+      required: true,
     },
     currentPokemon: {
       type: Object as Vue.PropType<Pokemon>,
+      required: true,
     },
     currentNature: {
       type: Object as Vue.PropType<Nature>,
+      required: true,
     },
     lv: {
       // String型を許可しないと null のとき怒られる
       type: [Number, String],
+      required: false,
       default: "",
     },
     stats: {
       type: Array as Vue.PropType<Stat[]>,
+      required: true,
     },
   },
   data: (): DataType => ({
@@ -490,20 +496,14 @@ export default Vue.extend({
           return "あく";
       }
     },
-    defenceEnhancements(): {
-      name: string;
-      value: number;
-    }[] {
+    defenceEnhancements() {
       return [
         { name: "2.0 - ファーコート等", value: 2.0 },
         { name: "1.5 - ふくつのたて等", value: 1.5 },
         { name: "1.0", value: 1.0 },
       ];
     },
-    spDefenceEnhancements(): {
-      name: string;
-      value: number;
-    }[] {
+    spDefenceEnhancements() {
       return [
         { name: "2.0 - こおりのりんぷん等", value: 2.0 },
         { name: "1.5 - とつげきチョッキ等", value: 1.5 },
