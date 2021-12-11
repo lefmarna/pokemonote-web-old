@@ -2,21 +2,21 @@
 const state = {
   // 初期値を用意しておく
   currentPokemon: {
-    no: 645,
-    name: "ランドロス(霊獣)",
-    form: "れいじゅうフォルム",
+    no: 567,
+    name: "アーケオス",
+    form: "",
     ranks: [],
     evolutions: [],
-    types: ["じめん", "ひこう"],
-    abilities: ["いかく"],
+    types: ["いわ", "ひこう"],
+    abilities: ["よわき"],
     hiddenAbilities: [],
     stats: {
-      hp: 89,
-      attack: 145,
-      defence: 90,
-      spAttack: 105,
-      spDefence: 80,
-      speed: 91,
+      hp: 75,
+      attack: 140,
+      defence: 65,
+      spAttack: 112,
+      spDefence: 65,
+      speed: 110,
     },
   },
   lv: 50,
@@ -39,6 +39,7 @@ const state = {
       abbreviation: "H",
       individualValue: 31,
       effortValue: null,
+      realNumber: 150,
     },
     {
       en: "attack",
@@ -46,6 +47,7 @@ const state = {
       abbreviation: "A",
       individualValue: 31,
       effortValue: null,
+      realNumber: 160,
     },
     {
       en: "defence",
@@ -53,6 +55,7 @@ const state = {
       abbreviation: "B",
       individualValue: 31,
       effortValue: null,
+      realNumber: 85,
     },
     {
       en: "spAttack",
@@ -60,6 +63,7 @@ const state = {
       abbreviation: "C",
       individualValue: 31,
       effortValue: null,
+      realNumber: 132,
     },
     {
       en: "spDefence",
@@ -67,6 +71,7 @@ const state = {
       abbreviation: "D",
       individualValue: 31,
       effortValue: null,
+      realNumber: 85,
     },
     {
       en: "speed",
@@ -74,6 +79,7 @@ const state = {
       abbreviation: "S",
       individualValue: 31,
       effortValue: null,
+      realNumber: 130,
     },
   ],
 };

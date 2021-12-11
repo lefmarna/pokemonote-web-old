@@ -66,6 +66,7 @@ export interface Stat {
   abbreviation: string;
   individualValue: number | null;
   effortValue: number | null;
+  realNumber: number;
 }
 
 export interface Tip {

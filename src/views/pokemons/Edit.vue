@@ -23,7 +23,7 @@ import axios from "axios";
 import router from "@/router";
 import { Pokemon } from "@/types/pokemon";
 import { Nature } from "@/types/nature";
-import { Stat } from "@/types/stat";
+import { Stat } from "@/types/index";
 import store from "@/store";
 
 export default defineComponent({
@@ -38,21 +38,21 @@ export default defineComponent({
   },
   setup(props) {
     const currentPokemon = ref<Pokemon>({
-      no: 645,
-      name: "ランドロス(霊獣)",
-      form: "れいじゅうフォルム",
+      no: 567,
+      name: "アーケオス",
+      form: "",
       ranks: [],
       evolutions: [],
-      types: ["じめん", "ひこう"],
-      abilities: ["いかく"],
+      types: ["いわ", "ひこう"],
+      abilities: ["よわき"],
       hiddenAbilities: [],
       stats: {
-        hp: 89,
-        attack: 145,
-        defence: 90,
-        spAttack: 105,
-        spDefence: 80,
-        speed: 91,
+        hp: 75,
+        attack: 140,
+        defence: 65,
+        spAttack: 112,
+        spDefence: 65,
+        speed: 110,
       },
     });
 
@@ -77,6 +77,7 @@ export default defineComponent({
         abbreviation: "H",
         individualValue: 31,
         effortValue: null,
+        realNumber: 150,
       },
       {
         en: "attack",
@@ -84,6 +85,7 @@ export default defineComponent({
         abbreviation: "A",
         individualValue: 31,
         effortValue: null,
+        realNumber: 160,
       },
       {
         en: "defence",
@@ -91,6 +93,7 @@ export default defineComponent({
         abbreviation: "B",
         individualValue: 31,
         effortValue: null,
+        realNumber: 85,
       },
       {
         en: "spAttack",
@@ -98,6 +101,7 @@ export default defineComponent({
         abbreviation: "C",
         individualValue: 31,
         effortValue: null,
+        realNumber: 132,
       },
       {
         en: "spDefence",
@@ -105,6 +109,7 @@ export default defineComponent({
         abbreviation: "D",
         individualValue: 31,
         effortValue: null,
+        realNumber: 85,
       },
       {
         en: "speed",
@@ -112,6 +117,7 @@ export default defineComponent({
         abbreviation: "S",
         individualValue: 31,
         effortValue: null,
+        realNumber: 130,
       },
     ]);
 

@@ -268,7 +268,7 @@ import CalcButton from "@/components/molecules/CalcButton.vue";
 import PokemonParams from "@/components/organisms/PokemonParams.vue";
 import { Pokemon } from "@/types/pokemon";
 import { Nature } from "@/types/nature";
-import { Stat } from "@/types/stat";
+import { Stat } from "@/types/index";
 import { numberToInt, valueVerification } from "@/utils/calc";
 import {
   DEFENCE_ENHANCEMENTS,
