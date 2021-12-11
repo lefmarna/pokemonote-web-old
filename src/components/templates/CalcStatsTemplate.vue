@@ -299,10 +299,9 @@ export default defineComponent({
       required: true,
     },
     lv: {
-      // String型を許可しないと null のとき怒られる
-      type: [Number, String],
+      type: Number,
       required: false,
-      default: "",
+      default: null,
     },
     stats: {
       type: [] as PropType<Stat[]>,
