@@ -1,4 +1,5 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils";
+import { createLocalVue, shallowMount } from "@vue/test-utils";
+import VueCompositionApi from "@vue/composition-api";
 import CalcStatsTemplate from "@/components/templates/CalcStatsTemplate.vue";
 import Vuex from "vuex";
 import store from "@/store";
@@ -7,10 +8,12 @@ import { Pokemon } from "@/types/pokemon";
 import { Nature } from "@/types/nature";
 import { Stat } from "@/types/stat";
 
-describe("CalcButtonの正常系テスト", () => {
-  const localVue = createLocalVue();
-  localVue.use(Vuex);
+// localVueを使ってComposition APIを有効にする
+const localVue = createLocalVue();
+localVue.use(VueCompositionApi);
+localVue.use(Vuex);
 
+describe("CalcButtonの正常系テスト", () => {
   // propsで渡すデータを用意
   const title = "タイトル";
   const buttonText = "送信";
@@ -120,12 +123,12 @@ describe("CalcButtonの正常系テスト", () => {
   });
 
   it("実数値が正しく反映されていること", () => {
-    expect(wrapper.vm.hp).toBe(150);
-    expect(wrapper.vm.attack).toBe(60);
-    expect(wrapper.vm.defence).toBe(72);
-    expect(wrapper.vm.spAttack).toBe(90);
-    expect(wrapper.vm.spDefence).toBe(99);
-    expect(wrapper.vm.speed).toBe(45);
+    expect(wrapper.vm.$data.realNumbers[0]).toBe(150);
+    expect(wrapper.vm.$data.realNumbers[1]).toBe(60);
+    expect(wrapper.vm.$data.realNumbers[2]).toBe(72);
+    expect(wrapper.vm.$data.realNumbers[3]).toBe(90);
+    expect(wrapper.vm.$data.realNumbers[4]).toBe(99);
+    expect(wrapper.vm.$data.realNumbers[5]).toBe(45);
   });
 
   it("ステータスの合計値が正しく反映されていること", () => {
