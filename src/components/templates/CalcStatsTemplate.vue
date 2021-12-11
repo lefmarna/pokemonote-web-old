@@ -125,7 +125,7 @@
                 <p class="mb-0">{{ totalBaseStats }}</p>
               </v-col>
               <v-col cols="3" class="d-flex justify-center">
-                <span class="pr-1" :class="totalIvCheck">{{ totalIv }}</span>
+                <span class="pr-1">{{ totalIv }}</span>
               </v-col>
               <v-col class="d-flex justify-center">
                 <span class="pr-1" :class="totalEvCheck">{{ totalEv }}</span
@@ -411,12 +411,6 @@ export default defineComponent({
         sum += numberToInt(stat.individualValue);
         return sum;
       }, 0);
-    });
-
-    // 個体値の合計が186より大きい場合は警告を出す
-    const totalIvCheck = computed(() => {
-      if (totalIv.value > 186) return "text-danger";
-      return "";
     });
 
     // 努力値の合計値を計算する
@@ -810,7 +804,6 @@ export default defineComponent({
       specialDurability,
       totalBaseStats,
       totalEvCheck,
-      totalIvCheck,
       totalEv,
       totalIv,
       totalStats,
