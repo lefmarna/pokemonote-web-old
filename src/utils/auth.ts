@@ -7,21 +7,11 @@ export const login = async (
   params: FormData | Login,
   method = "post",
   path = "/login"
-): Promise<void | string[]> => {
-  try {
-    const response = await axios[method](path, params);
-    updateAuthUser(response.data.data);
-    router.push("/");
-    notice();
-  } catch (error) {
-    if (!axios.isAxiosError(error)) return;
-    const errorMessages: string[] = [];
-    const errorsResponse: string[] = error.response.data.errors;
-    Object.values(errorsResponse).forEach((errorResponse) => {
-      errorMessages.push(errorResponse[0]);
-    });
-    return errorMessages;
-  }
+): Promise<void> => {
+  const response = await axios[method](path, params);
+  updateAuthUser(response.data.data);
+  router.push("/");
+  notice();
 };
 
 export const logout = async (

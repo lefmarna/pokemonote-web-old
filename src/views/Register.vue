@@ -47,6 +47,7 @@ import Form from "@/components/templates/Form.vue";
 import EmailField from "@/components/molecules/EmailField.vue";
 import PasswordField from "@/components/molecules/PasswordField.vue";
 import { login } from "@/utils/auth";
+import { exceptionErrorToArray } from "@/utils/error";
 
 export default defineComponent({
   components: {
@@ -83,8 +84,12 @@ export default defineComponent({
       // 画像のデータはformDataを介さないと送れない
       const form = document.forms.namedItem("form");
       const formData = new FormData(form);
-      const errorMessages = await login(formData, "post", "/register");
-      if (errorMessages) errors.value = errorMessages;
+
+      try {
+        await login(formData, "post", "/register");
+      } catch (error) {
+        errors.value = exceptionErrorToArray(error);
+      }
     };
 
     return {
