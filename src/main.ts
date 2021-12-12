@@ -36,9 +36,6 @@ Vue.component("Title", Title);
       store.commit("updateAuthUser", data.auth_user);
       store.commit("updatePokemonData", data.pokemon_data);
       store.commit("updateNatureData", data.nature_data);
-      store.commit("updateSpeedItems", data.speed_items);
-      store.commit("updateSpeedAbilities", data.speed_abilities);
-      store.commit("updateGifts", data.gifts);
     })
     .catch((error) => {
       console.log(error);
