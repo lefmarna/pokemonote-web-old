@@ -1,5 +1,5 @@
 <template>
-  <CalcStats
+  <CalcStatsTemplate
     title="ポケモン編集"
     buttonText="更新する"
     :currentPokemon.sync="currentPokemon"
@@ -11,24 +11,16 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  reactive,
-  ref,
-  watch,
-} from "@vue/composition-api";
-import CalcStats from "@/components/templates/CalcStats.vue";
+import { defineComponent, reactive, ref, watch } from "@vue/composition-api";
+import CalcStatsTemplate from "@/components/templates/CalcStatsTemplate.vue";
 import axios from "axios";
 import router from "@/router";
-import { Pokemon } from "@/types/pokemon";
-import { Nature } from "@/types/nature";
-import { Stat } from "@/types/stat";
-import store from "@/store";
+import { Nature, PokemonData, Stat } from "@/types/index";
+import { natureData, pokemonData } from "@/utils/store";
 
 export default defineComponent({
   components: {
-    CalcStats,
+    CalcStatsTemplate,
   },
   props: {
     id: {
@@ -37,35 +29,28 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const currentPokemon = ref<Pokemon>({
-      no: 645,
-      name: "ランドロス(霊獣)",
-      form: "れいじゅうフォルム",
+    const currentPokemon = ref<PokemonData>({
+      no: 567,
+      name: "アーケオス",
+      form: "",
       ranks: [],
       evolutions: [],
-      types: ["じめん", "ひこう"],
-      abilities: ["いかく"],
+      types: ["いわ", "ひこう"],
+      abilities: ["よわき"],
       hiddenAbilities: [],
       stats: {
-        hp: 89,
-        attack: 145,
-        defence: 90,
-        spAttack: 105,
-        spDefence: 80,
-        speed: 91,
+        hp: 75,
+        attack: 140,
+        defence: 65,
+        spAttack: 112,
+        spDefence: 65,
+        speed: 110,
       },
     });
 
     const currentNature = ref<Nature>({
       name: "がんばりや",
-      stats: {
-        hp: 1.0,
-        attack: 1.0,
-        defence: 1.0,
-        spAttack: 1.0,
-        spDefence: 1.0,
-        speed: 1.0,
-      },
+      stats: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
     });
 
     const lv = ref(50);
@@ -115,14 +100,6 @@ export default defineComponent({
       },
     ]);
 
-    const pokemonData = computed((): Pokemon[] => {
-      return store.getters.pokemonData;
-    });
-
-    const natureDate = computed((): Nature[] => {
-      return store.getters.natureData;
-    });
-
     const updatePokemon = (params): void => {
       axios
         .patch(`/pokemons/${props.id}`, params)
@@ -142,9 +119,9 @@ export default defineComponent({
           .then((response) => {
             const data = response.data.data;
             currentPokemon.value = pokemonData.value.find(
-              (pokemon: Pokemon) => pokemon.name == data.name
+              (pokemon: PokemonData) => pokemon.name == data.name
             );
-            currentNature.value = natureDate.value.find(
+            currentNature.value = natureData.value.find(
               (nature: Nature) => nature.name == data.nature
             );
             lv.value = data.lv;

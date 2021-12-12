@@ -32,8 +32,7 @@
 import { computed, defineComponent, PropType } from "@vue/composition-api";
 import SearchField from "@/components/molecules/SearchField.vue";
 import LvField from "@/components/organisms/LvField.vue";
-import { Pokemon } from "@/types/pokemon";
-import { Nature } from "@/types/nature";
+import { Nature, PokemonData } from "@/types/index";
 import store from "@/store";
 
 export default defineComponent({
@@ -43,7 +42,7 @@ export default defineComponent({
   },
   props: {
     currentPokemon: {
-      type: Object as PropType<Pokemon>,
+      type: Object as PropType<PokemonData>,
       required: false,
       default: () => Object,
     },
@@ -53,14 +52,13 @@ export default defineComponent({
       default: () => Object,
     },
     lv: {
-      // String型を許可しないと null のとき怒られる
-      type: [Number, String],
+      type: Number,
       required: false,
-      default: "",
+      default: null,
     },
   },
   setup() {
-    const pokemonData = computed((): Pokemon[] => {
+    const pokemonData = computed((): PokemonData[] => {
       return store.getters.pokemonData;
     });
     const natureData = computed((): Nature[] => {

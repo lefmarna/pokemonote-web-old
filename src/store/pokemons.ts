@@ -2,34 +2,27 @@
 const state = {
   // 初期値を用意しておく
   currentPokemon: {
-    no: 645,
-    name: "ランドロス(霊獣)",
-    form: "れいじゅうフォルム",
+    no: 567,
+    name: "アーケオス",
+    form: "",
     ranks: [],
     evolutions: [],
-    types: ["じめん", "ひこう"],
-    abilities: ["いかく"],
+    types: ["いわ", "ひこう"],
+    abilities: ["よわき"],
     hiddenAbilities: [],
     stats: {
-      hp: 89,
-      attack: 145,
-      defence: 90,
-      spAttack: 105,
-      spDefence: 80,
-      speed: 91,
+      hp: 75,
+      attack: 140,
+      defence: 65,
+      spAttack: 112,
+      spDefence: 65,
+      speed: 110,
     },
   },
   lv: 50,
   currentNature: {
     name: "がんばりや",
-    stats: {
-      hp: 1.0,
-      attack: 1.0,
-      defence: 1.0,
-      spAttack: 1.0,
-      spDefence: 1.0,
-      speed: 1.0,
-    },
+    stats: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
   },
   // 各種ステータス
   stats: [

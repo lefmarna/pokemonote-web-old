@@ -44,13 +44,6 @@ export default new Vuex.Store({
       // ログインページにリダイレクトする
       router.replace("/login");
     },
-    notice({ commit }) {
-      commit("updateNotice", true);
-      // setTimeoutで3000ms後にshowをfalseにする
-      setTimeout(() => {
-        commit("updateNotice", false);
-      }, 2250);
-    },
   },
   modules: {
     pokemons,

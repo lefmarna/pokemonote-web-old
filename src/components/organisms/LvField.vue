@@ -3,9 +3,9 @@
     <div>
       <v-text-field
         ref="lvRef"
-        type="number"
+        type="tel"
         label="レベル"
-        placeholder="1"
+        :placeholder="String(MIN_LEVEL)"
         :value="lv"
         @input="updateLv($event)"
         persistent-placeholder
@@ -13,15 +13,15 @@
     </div>
     <div>
       <CalcButton
-        buttonText="100"
+        :buttonText="String(MAX_LEVEL)"
         class="mb-1 btn-min-sm"
-        @click.native="$emit('update', 100)"
+        @click.native="$emit('update', MAX_LEVEL)"
       />
       <br />
       <CalcButton
-        buttonText="50"
+        :buttonText="String(DEFAULT_LEVEL)"
         class="btn-min-sm"
-        @click.native="$emit('update', 50)"
+        @click.native="$emit('update', DEFAULT_LEVEL)"
       />
     </div>
   </div>
@@ -30,6 +30,9 @@
 <script lang="ts">
 import CalcButton from "@/components/molecules/CalcButton.vue";
 import { defineComponent, ref } from "@vue/composition-api";
+import { convertHalfWidthNumber } from "@/utils/calc";
+import { DEFAULT_LEVEL, MAX_LEVEL, MIN_LEVEL } from "@/utils/constants";
+import { LazyValue } from "@/types";
 
 export default defineComponent({
   components: {
@@ -37,34 +40,31 @@ export default defineComponent({
   },
   props: {
     lv: {
-      // String型を許可しないと null のとき怒られる
-      type: [Number, String],
+      type: Number,
       required: false,
-      default: "",
+      default: null,
     },
   },
   setup(_, { emit }) {
-    const lvRef = ref<{ lazyValue: number }>();
+    const lvRef = ref<LazyValue>();
 
-    const updateLv = (value: number | null) => {
-      // レベルの上限を100、下限を1とする
-      if (value > 100) {
-        value = 100;
-        // ここを「value < 1」にしてしまうと、一度消してから入力しようとした際に「1」が自動入力されるため、UI的によろしくない。そこで、"0から始まる数値"と"負の数"を正規表現を用いて検出するようにし、空白の際の自動入力はなくしつつも「0」以下の入力を「1」に繰り上げる処理を実現した。
-      } else if (/^0|^\.|^-/.test(String(value))) {
-        value = 1;
-        // 小数点以下を削除する（勝手に0が入ってしまうのを防ぐため、空白を明示的に除外している）
-      } else if (String(value) != "") {
-        value = Math.floor(value);
-      }
+    const updateLv = (value: number | string) => {
+      let formatValue: number | null = convertHalfWidthNumber(String(value));
+      // 1以上の整数でない場合はnullを返す
+      if (!String(formatValue).match(/^[1-9]\d*$/)) formatValue = null;
+      if (formatValue > MAX_LEVEL) formatValue = MAX_LEVEL;
+
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
-      lvRef.value.lazyValue = value;
-      emit("update", value);
+      lvRef.value.lazyValue = formatValue;
+      emit("update", formatValue);
     };
 
     return {
       lvRef,
       updateLv,
+      DEFAULT_LEVEL,
+      MAX_LEVEL,
+      MIN_LEVEL,
     };
   },
 });

@@ -1,7 +1,7 @@
 <template>
   <div>
     <LoginAlert alertTitle="計算結果の保存" />
-    <CalcStats
+    <CalcStatsTemplate
       title="ステータス計算機"
       buttonText="投稿する"
       :currentPokemon.sync="currentPokemon"
@@ -16,7 +16,7 @@
 <script lang="ts">
 import { defineComponent } from "@vue/composition-api";
 import LoginAlert from "@/components/molecules/LoginAlert.vue";
-import CalcStats from "@/components/templates/CalcStats.vue";
+import CalcStatsTemplate from "@/components/templates/CalcStatsTemplate.vue";
 import axios from "axios";
 import router from "@/router";
 import { currentNature, currentPokemon, lv, stats } from "@/utils/store";
@@ -24,7 +24,7 @@ import { currentNature, currentPokemon, lv, stats } from "@/utils/store";
 export default defineComponent({
   components: {
     LoginAlert,
-    CalcStats,
+    CalcStatsTemplate,
   },
   setup() {
     const postPokemon = async (params): Promise<void> => {

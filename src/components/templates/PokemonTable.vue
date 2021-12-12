@@ -107,11 +107,8 @@ export default defineComponent({
     };
 
     const formatLv = (lv: number | null): number => {
-      if (lv) {
-        return lv;
-      } else {
-        return 1;
-      }
+      if (!lv) return 1;
+      return lv;
     };
 
     const editPokemon = (pokemon: Pokemon): void => {

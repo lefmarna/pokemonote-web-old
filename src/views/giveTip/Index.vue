@@ -9,8 +9,8 @@
       この機能は、現在テストモードで動作しています。<br />挙動は確認できますが、お金が引き落とされることはありません。
     </v-card-subtitle>
     <v-select
-      v-model="price"
-      :items="gifts"
+      v-model="tip.price"
+      :items="GIFTS"
       item-text="name"
       item-value="value"
       prepend-icon="mdi-gift"
@@ -18,7 +18,7 @@
       type="number"
     ></v-select>
     <v-text-field
-      v-model="number"
+      v-model="card.number"
       prepend-icon="mdi-credit-card"
       label="カード番号"
       type="text"
@@ -26,7 +26,7 @@
     <v-row>
       <v-col>
         <v-text-field
-          v-model="exp_month"
+          v-model="card.exp_month"
           prepend-icon="mdi-calendar-month"
           label="月"
           type="text"
@@ -36,7 +36,8 @@
       </v-col>
       <v-col>
         <v-text-field
-          v-model="exp_year"
+          :value="card.exp_year.substr(2)"
+          @input="card.exp_year = `20${$event}`"
           prepend-icon="mdi-calendar"
           label="年"
           type="text"
@@ -46,7 +47,7 @@
       </v-col>
     </v-row>
     <v-text-field
-      v-model="cvc"
+      v-model="card.cvc"
       prepend-icon="mdi-lock"
       label="セキュリティコード"
       type="text"
@@ -56,21 +57,22 @@
 
 <script lang="ts">
 import {
-  computed,
   defineComponent,
   onMounted,
+  reactive,
   ref,
 } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
 import Form from "@/components/templates/Form.vue";
-import store from "@/store";
-
-interface Gift {
-  name: string;
-  value: number;
-}
-[];
+import {
+  GIFTS,
+  HTTP_OK,
+  HTTP_PAYMENT_REQUIRED,
+  HTTP_UNPROCESSABLE_ENTITY,
+} from "@/utils/constants";
+import { exceptionErrorToArray } from "@/utils/error";
+import { Card, Tip } from "@/types";
 
 // Payjpに型を指定しないとエラーになる
 declare global {
@@ -84,67 +86,54 @@ export default defineComponent({
     Form,
   },
   setup() {
-    // カード情報はString型で渡す必要がある
-    const price = ref<number | null>(0);
-    const number = ref<string>();
-    const cvc = ref<string>();
-    const exp_month = ref<string>();
-    const exp_year = ref<string>();
-    const token = ref<string>();
     const errors = ref<string[]>();
 
-    const gifts = computed((): Gift => {
-      return store.getters.gifts;
+    // カード情報はString型で渡す必要がある
+    const card = reactive<Card>({
+      number: "",
+      cvc: "",
+      exp_month: "",
+      exp_year: "20",
+    });
+
+    const tip = reactive<Tip>({
+      price: 0,
+      token: "",
+    });
+
+    /**
+     * 公開鍵を読み込む
+     */
+    onMounted(() => {
+      window.Payjp.setPublicKey(process.env.VUE_APP_PAYJP_PUBLIC_KEY);
     });
 
     const giveTip = (): void => {
-      /**
-       * 公開鍵を読み込む
-       */
-      onMounted(() => {
-        window.Payjp.setPublicKey(process.env.VUE_APP_PAYJP_PUBLIC_KEY);
-      });
+      window.Payjp.createToken(
+        card,
+        async (status: number, response: { id: string }) => {
+          if (status === HTTP_OK) {
+            tip.token = response.id;
+          }
 
-      const card = {
-        number: number.value,
-        cvc: cvc.value,
-        exp_month: exp_month.value,
-        exp_year: `20${exp_year.value}`,
-      };
-
-      window.Payjp.createToken(card, (status: number, response: any) => {
-        if (status === 200) {
-          token.value = response.id;
+          try {
+            await axios.post("/tips", tip);
+            router.push("/give-tip/thanks");
+          } catch (error) {
+            errors.value = exceptionErrorToArray(error, [
+              HTTP_PAYMENT_REQUIRED,
+              HTTP_UNPROCESSABLE_ENTITY,
+            ]);
+            tip.token = "";
+          }
         }
-        // 金額とトークン情報を送信する
-        axios.get("/csrf-cookie").then(() => {
-          axios
-            .post("/tips", {
-              price: price.value,
-              token: token.value,
-            })
-            .then(() => {
-              router.push("/give-tip/thanks");
-            })
-            .catch((error) => {
-              errors.value = [];
-              const errorsMessages: string[] = error.response.data.errors;
-              Object.values(errorsMessages).forEach((errorMessages) => {
-                errors.value.push(errorMessages[0]);
-                token.value = "";
-              });
-            });
-        });
-      });
+      );
     };
     return {
-      gifts,
+      GIFTS,
+      card,
       errors,
-      price,
-      number,
-      exp_month,
-      exp_year,
-      cvc,
+      tip,
       giveTip,
     };
   },

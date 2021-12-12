@@ -1,3 +1,14 @@
+export interface Card {
+  number: string;
+  cvc: string;
+  exp_month: string;
+  exp_year: string;
+}
+
+export interface LazyValue {
+  lazyValue: number;
+}
+
 export interface Login {
   email: string;
   password: string;
@@ -5,14 +16,7 @@ export interface Login {
 
 export interface Nature {
   name: string;
-  stats: {
-    hp: number;
-    attack: number;
-    defence: number;
-    spAttack: number;
-    spDefence: number;
-    speed: number;
-  };
+  stats: number[];
 }
 
 export interface Pokemon {
@@ -25,6 +29,26 @@ export interface Pokemon {
   user: User;
 }
 
+export interface PokemonData {
+  no: number;
+  name: string;
+  form: string;
+  ranks: string[];
+  evolutions: number[];
+  types: string[];
+  abilities: string[];
+  hiddenAbilities: string[];
+  stats: {
+    hp: number;
+    attack: number;
+    defence: number;
+    spAttack: number;
+    spDefence: number;
+    speed: number;
+  };
+  total?: number;
+}
+
 export interface Ranking {
   name: string;
 }
@@ -35,6 +59,11 @@ export interface Stat {
   abbreviation: string;
   individualValue: number | null;
   effortValue: number | null;
+}
+
+export interface Tip {
+  price: number;
+  token: string;
 }
 
 export interface User {
