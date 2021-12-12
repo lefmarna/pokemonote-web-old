@@ -677,14 +677,14 @@ export default defineComponent({
     // 理想の耐久調整を自動で計算する関数
     const durabilityAdjustment = (): void => {
       // 攻撃、特攻、素早さの努力値を除いた値を求める
-      const maxEffortValue =
+      const remainderEffortValue =
         MAX_TOTAL_EV -
         props.stats[1].effortValue -
         props.stats[3].effortValue -
         props.stats[5].effortValue;
 
       // 計算に使う努力値を一時的に格納しておくための変数
-      let tmpHpEV = maxEffortValue; // HPから順に計算していくので、最初に余りの努力値をそのまま代入している
+      let tmpHpEV = remainderEffortValue; // HPから順に計算していくので、最初に余りの努力値をそのまま代入している
       let tmpDefenceEV = 0;
       let tmpSpDefenceEV = 0;
 
@@ -712,24 +712,22 @@ export default defineComponent({
       props.stats[4].effortValue = 0;
 
       // 努力値の余りが最大値より大きかった場合、スタートであるHPの仮努力値を最大値とする
-      if (tmpHpEV > MAX_EV) {
-        tmpHpEV = MAX_EV;
-      }
+      if (tmpHpEV > MAX_EV) tmpHpEV = MAX_EV;
+
       // HP→特防→防御の順に総当たりで計算していく
       while (tmpHpEV >= 0) {
         tmpHp = getStats("hp", 0, tmpHpEV); // HPの努力値からHPの実数値を計算
-        tmpSpDefenceEV = maxEffortValue - tmpHpEV;
+        tmpSpDefenceEV = remainderEffortValue - tmpHpEV;
         if (tmpSpDefenceEV > MAX_EV) {
           tmpSpDefenceEV = MAX_EV;
         }
         // 防御より先に特防を計算することで、端数が出た場合に特防に割り振られるようになる(ダウンロード対策でB<Dのほうが好まれることから、このような仕様にしている)
         while (tmpSpDefenceEV >= 0) {
           tmpSpDefence = getStats("spDefence", 4, tmpSpDefenceEV); // 特防の努力値から特防の実数値を計算
-          tmpDefenceEV = maxEffortValue - tmpHpEV - tmpSpDefenceEV;
+          tmpDefenceEV = remainderEffortValue - tmpHpEV - tmpSpDefenceEV;
           // 防御の仮努力値が最大値を超えてしまう場合には値を更新しない
-          if (tmpDefenceEV > MAX_EV) {
-            break;
-          }
+          if (tmpDefenceEV > MAX_EV) break;
+
           tmpDefence = getStats("defence", 2, tmpDefenceEV); // 防御の努力値から防御の実数値を計算
 
           // 耐久補正込での耐久値を求める
