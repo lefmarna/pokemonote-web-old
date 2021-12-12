@@ -271,12 +271,18 @@ import CalcButton from "@/components/molecules/CalcButton.vue";
 import PokemonParams from "@/components/organisms/PokemonParams.vue";
 import { numberToInt, valueVerification } from "@/utils/calc";
 import {
+  ATTACK_INDEX,
   DEFENCE_ENHANCEMENTS,
+  DEFENCE_INDEX,
+  HP_INDEX,
   LOWER_NATURE,
   MAX_EV,
   MAX_IV,
   MAX_TOTAL_EV,
+  SPEED_INDEX,
+  SP_ATTACK_INDEX,
   SP_DEFENCE_ENHANCEMENTS,
+  SP_DEFENCE_INDEX,
   UPPER_NATURE,
 } from "@/utils/constants";
 import { LazyValue, Nature, PokemonData, Stat } from "@/types/index";
@@ -388,7 +394,7 @@ export default defineComponent({
       for (let i = 0, len = props.stats.length; i < len; i++) {
         if (props.stats[i].individualValue % 2 == 1) {
           // めざパの計算では特攻の前に素早さを持ってくる必要があるため、とりあえずif文で対応した（配列の順番を変えてからまとめて処理するのもありかもしれない）
-          if (i == 5) {
+          if (i === SPEED_INDEX) {
             hiddenPowerCalc += 8;
           } else if (i > 2) {
             hiddenPowerCalc += 2 ** (1 + i);
@@ -603,28 +609,28 @@ export default defineComponent({
       let newHBD = 0;
 
       // HBDの努力値を一度リセットする(不要な処理のような気もするが、これを記載しないと努力値の合計が最大値を超えてしまうことがある)
-      props.stats[0].effortValue = 0;
-      props.stats[2].effortValue = 0;
-      props.stats[4].effortValue = 0;
+      props.stats[HP_INDEX].effortValue = 0;
+      props.stats[DEFENCE_INDEX].effortValue = 0;
+      props.stats[SP_DEFENCE_INDEX].effortValue = 0;
 
       // 努力値の余りが最大値より大きかった場合、スタートであるHPの仮努力値を最大値とする
       if (tmpHpEV > MAX_EV) tmpHpEV = MAX_EV;
 
       // HP→特防→防御の順に総当たりで計算していく
       while (tmpHpEV >= 0) {
-        tmpHp = getStat("hp", 0, tmpHpEV); // HPの努力値からHPの実数値を計算
+        tmpHp = getStat("hp", HP_INDEX, tmpHpEV); // HPの努力値からHPの実数値を計算
         tmpSpDefenceEV = remainderEffortValue - tmpHpEV;
         if (tmpSpDefenceEV > MAX_EV) {
           tmpSpDefenceEV = MAX_EV;
         }
         // 防御より先に特防を計算することで、端数が出た場合に特防に割り振られるようになる(ダウンロード対策でB<Dのほうが好まれることから、このような仕様にしている)
         while (tmpSpDefenceEV >= 0) {
-          tmpSpDefence = getStat("spDefence", 4, tmpSpDefenceEV); // 特防の努力値から特防の実数値を計算
+          tmpSpDefence = getStat("spDefence", SP_DEFENCE_INDEX, tmpSpDefenceEV); // 特防の努力値から特防の実数値を計算
           tmpDefenceEV = remainderEffortValue - tmpHpEV - tmpSpDefenceEV;
           // 防御の仮努力値が最大値を超えてしまう場合には値を更新しない
           if (tmpDefenceEV > MAX_EV) break;
 
-          tmpDefence = getStat("defence", 2, tmpDefenceEV); // 防御の努力値から防御の実数値を計算
+          tmpDefence = getStat("defence", DEFENCE_INDEX, tmpDefenceEV); // 防御の努力値から防御の実数値を計算
 
           // 耐久補正込での耐久値を求める
           tmpDefenceEnhancement = Math.floor(
@@ -650,9 +656,9 @@ export default defineComponent({
         tmpHpEV--;
       }
       // 最も優秀だった結果を代入する
-      setStat(resultHp, "hp", 0);
-      setStat(resultDefence, "defence", 2);
-      setStat(resultSpDefence, "spDefence", 4);
+      setStat(resultHp, "hp", HP_INDEX);
+      setStat(resultDefence, "defence", DEFENCE_INDEX);
+      setStat(resultSpDefence, "spDefence", SP_DEFENCE_INDEX);
     };
 
     // ポケモンのデータを親に渡す
@@ -661,23 +667,23 @@ export default defineComponent({
         name: props.currentPokemon.name,
         nature: props.currentNature.name,
         lv: props.lv,
-        hp_iv: props.stats[0].individualValue,
-        hp_ev: props.stats[0].effortValue,
+        hp_iv: props.stats[HP_INDEX].individualValue,
+        hp_ev: props.stats[HP_INDEX].effortValue,
         hp: realNumbers.value.hp,
-        attack_iv: props.stats[1].individualValue,
-        attack_ev: props.stats[1].effortValue,
+        attack_iv: props.stats[ATTACK_INDEX].individualValue,
+        attack_ev: props.stats[ATTACK_INDEX].effortValue,
         attack: realNumbers.value.attack,
-        defence_iv: props.stats[2].individualValue,
-        defence_ev: props.stats[2].effortValue,
+        defence_iv: props.stats[DEFENCE_INDEX].individualValue,
+        defence_ev: props.stats[DEFENCE_INDEX].effortValue,
         defence: realNumbers.value.defence,
-        sp_attack_iv: props.stats[3].individualValue,
-        sp_attack_ev: props.stats[3].effortValue,
+        sp_attack_iv: props.stats[SP_ATTACK_INDEX].individualValue,
+        sp_attack_ev: props.stats[SP_ATTACK_INDEX].effortValue,
         sp_attack: realNumbers.value.spAttack,
-        sp_defence_iv: props.stats[4].individualValue,
-        sp_defence_ev: props.stats[4].effortValue,
+        sp_defence_iv: props.stats[SP_DEFENCE_INDEX].individualValue,
+        sp_defence_ev: props.stats[SP_DEFENCE_INDEX].effortValue,
         sp_defence: realNumbers.value.spDefence,
-        speed_iv: props.stats[5].individualValue,
-        speed_ev: props.stats[5].effortValue,
+        speed_iv: props.stats[SPEED_INDEX].individualValue,
+        speed_ev: props.stats[SPEED_INDEX].effortValue,
         speed: realNumbers.value.speed,
         description: description.value,
         is_public: 1,
@@ -690,12 +696,12 @@ export default defineComponent({
      */
     const realNumbers = computed(() => {
       return {
-        hp: getStat("hp", 0),
-        attack: getStat("attack", 1),
-        defence: getStat("defence", 2),
-        spAttack: getStat("spAttack", 3),
-        spDefence: getStat("spDefence", 4),
-        speed: getStat("speed", 5),
+        hp: getStat("hp", HP_INDEX),
+        attack: getStat("attack", ATTACK_INDEX),
+        defence: getStat("defence", DEFENCE_INDEX),
+        spAttack: getStat("spAttack", SP_ATTACK_INDEX),
+        spDefence: getStat("spDefence", SP_DEFENCE_INDEX),
+        speed: getStat("speed", SPEED_INDEX),
       };
     });
 
