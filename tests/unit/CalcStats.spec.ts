@@ -4,9 +4,7 @@ import CalcStatsTemplate from "@/components/templates/CalcStatsTemplate.vue";
 import Vuex from "vuex";
 import store from "@/store";
 import Vuetify from "vuetify";
-import { Pokemon } from "@/types/pokemon";
-import { Nature } from "@/types/nature";
-import { Stat } from "@/types/index";
+import { Nature, PokemonData, Stat } from "@/types/index";
 
 // localVueを使ってComposition APIを有効にする
 const localVue = createLocalVue();
@@ -17,7 +15,7 @@ describe("CalcButtonの正常系テスト", () => {
   // propsで渡すデータを用意
   const title = "タイトル";
   const buttonText = "送信";
-  const currentPokemon: Pokemon = {
+  const currentPokemon: PokemonData = {
     no: 682,
     name: "シュシュプ",
     form: "",

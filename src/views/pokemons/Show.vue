@@ -48,7 +48,7 @@
 import { computed, defineComponent, ref, watch } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
-import { Pokemon } from "@/types/pokemon";
+import { PokemonData } from "@/types/index";
 import store from "@/store";
 import { authUserName } from "@/utils/store";
 
@@ -64,7 +64,7 @@ export default defineComponent({
 
     // ポケモンの詳細情報をVuexから取得する
     const pokemonDetails = computed(() => {
-      const pokemonData: Pokemon[] = store.getters.pokemonData;
+      const pokemonData: PokemonData[] = store.getters.pokemonData;
       return pokemonData.find((data) => data.name === pokemon.value.name);
     });
 

@@ -21,9 +21,7 @@ import {
 import CalcStatsTemplate from "@/components/templates/CalcStatsTemplate.vue";
 import axios from "axios";
 import router from "@/router";
-import { Pokemon } from "@/types/pokemon";
-import { Nature } from "@/types/nature";
-import { Stat } from "@/types/index";
+import { Nature, PokemonData, Stat } from "@/types/index";
 import store from "@/store";
 
 export default defineComponent({
@@ -37,7 +35,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const currentPokemon = ref<Pokemon>({
+    const currentPokemon = ref<PokemonData>({
       no: 567,
       name: "アーケオス",
       form: "",
@@ -115,7 +113,7 @@ export default defineComponent({
       },
     ]);
 
-    const pokemonData = computed((): Pokemon[] => {
+    const pokemonData = computed((): PokemonData[] => {
       return store.getters.pokemonData;
     });
 
@@ -142,7 +140,7 @@ export default defineComponent({
           .then((response) => {
             const data = response.data.data;
             currentPokemon.value = pokemonData.value.find(
-              (pokemon: Pokemon) => pokemon.name == data.name
+              (pokemon: PokemonData) => pokemon.name == data.name
             );
             currentNature.value = natureDate.value.find(
               (nature: Nature) => nature.name == data.nature

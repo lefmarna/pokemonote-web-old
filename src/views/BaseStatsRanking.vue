@@ -51,7 +51,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive } from "@vue/composition-api";
 import store from "@/store";
-import { Pokemon } from "@/types/pokemon";
+import { PokemonData } from "@/types/index";
 
 export default defineComponent({
   setup() {
@@ -85,7 +85,7 @@ export default defineComponent({
       ];
     });
 
-    const pokemonList = computed((): Pokemon[] => {
+    const pokemonList = computed((): PokemonData[] => {
       return store.getters.pokemonData;
     });
 
@@ -108,7 +108,7 @@ export default defineComponent({
     });
 
     const filterPokemonListByRank = (
-      pokemonData: Pokemon[],
+      pokemonData: PokemonData[],
       excludeRank: string
     ) => {
       return pokemonData.filter(

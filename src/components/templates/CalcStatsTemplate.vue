@@ -266,15 +266,12 @@
 import { computed, defineComponent, ref, PropType } from "@vue/composition-api";
 import CalcButton from "@/components/molecules/CalcButton.vue";
 import PokemonParams from "@/components/organisms/PokemonParams.vue";
-import { Pokemon } from "@/types/pokemon";
-import { Nature } from "@/types/nature";
-import { Stat } from "@/types/index";
 import { numberToInt, valueVerification } from "@/utils/calc";
 import {
   DEFENCE_ENHANCEMENTS,
   SP_DEFENCE_ENHANCEMENTS,
 } from "@/utils/constants";
-import { LazyValue } from "@/types";
+import { LazyValue, Nature, PokemonData, Stat } from "@/types/index";
 
 export default defineComponent({
   components: {
@@ -291,7 +288,7 @@ export default defineComponent({
       required: true,
     },
     currentPokemon: {
-      type: Object as PropType<Pokemon>,
+      type: Object as PropType<PokemonData>,
       required: true,
     },
     currentNature: {
