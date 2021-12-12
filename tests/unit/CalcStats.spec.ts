@@ -35,14 +35,7 @@ describe("CalcButtonの正常系テスト", () => {
   };
   const currentNature: Nature = {
     name: "おだやか",
-    stats: {
-      hp: 1.0,
-      attack: 0.9,
-      defence: 1.0,
-      spAttack: 1.0,
-      spDefence: 1.1,
-      speed: 1.0,
-    },
+    stats: [1.0, 0.9, 1.0, 1.0, 1.1, 1.0],
   };
   const lv: number | null = 50;
   const stats: Stat[] = [

@@ -16,14 +16,7 @@ export interface Login {
 
 export interface Nature {
   name: string;
-  stats: {
-    hp: number;
-    attack: number;
-    defence: number;
-    spAttack: number;
-    spDefence: number;
-    speed: number;
-  };
+  stats: number[];
 }
 
 export interface Pokemon {

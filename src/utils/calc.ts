@@ -32,11 +32,7 @@ export const valueVerification = (
   value: number,
   max: number
 ): number | null => {
-  if (value > max) {
-    return max;
-  } else if (value <= 0) {
-    return null;
-  } else {
-    return Math.floor(value);
-  }
+  if (value > max) return max;
+  if (value <= 0) return null;
+  return Math.floor(value);
 };

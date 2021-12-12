@@ -11,18 +11,12 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  reactive,
-  ref,
-  watch,
-} from "@vue/composition-api";
+import { defineComponent, reactive, ref, watch } from "@vue/composition-api";
 import CalcStatsTemplate from "@/components/templates/CalcStatsTemplate.vue";
 import axios from "axios";
 import router from "@/router";
 import { Nature, PokemonData, Stat } from "@/types/index";
-import store from "@/store";
+import { natureData, pokemonData } from "@/utils/store";
 
 export default defineComponent({
   components: {
@@ -56,14 +50,7 @@ export default defineComponent({
 
     const currentNature = ref<Nature>({
       name: "がんばりや",
-      stats: {
-        hp: 1.0,
-        attack: 1.0,
-        defence: 1.0,
-        spAttack: 1.0,
-        spDefence: 1.0,
-        speed: 1.0,
-      },
+      stats: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
     });
 
     const lv = ref(50);
@@ -113,14 +100,6 @@ export default defineComponent({
       },
     ]);
 
-    const pokemonData = computed((): PokemonData[] => {
-      return store.getters.pokemonData;
-    });
-
-    const natureDate = computed((): Nature[] => {
-      return store.getters.natureData;
-    });
-
     const updatePokemon = (params): void => {
       axios
         .patch(`/pokemons/${props.id}`, params)
@@ -142,7 +121,7 @@ export default defineComponent({
             currentPokemon.value = pokemonData.value.find(
               (pokemon: PokemonData) => pokemon.name == data.name
             );
-            currentNature.value = natureDate.value.find(
+            currentNature.value = natureData.value.find(
               (nature: Nature) => nature.name == data.nature
             );
             lv.value = data.lv;

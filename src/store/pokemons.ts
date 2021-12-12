@@ -22,14 +22,7 @@ const state = {
   lv: 50,
   currentNature: {
     name: "がんばりや",
-    stats: {
-      hp: 1.0,
-      attack: 1.0,
-      defence: 1.0,
-      spAttack: 1.0,
-      spDefence: 1.0,
-      speed: 1.0,
-    },
+    stats: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
   },
   // 各種ステータス
   stats: [

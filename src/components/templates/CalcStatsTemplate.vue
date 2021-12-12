@@ -22,9 +22,8 @@
                 :class="[
                   'justify-center',
                   {
-                    'text-danger': currentNature.stats[stat.en] == UPPER_NATURE,
-                    'text-primary':
-                      currentNature.stats[stat.en] == LOWER_NATURE,
+                    'text-danger': currentNature.stats[index] == UPPER_NATURE,
+                    'text-primary': currentNature.stats[index] == LOWER_NATURE,
                   },
                 ]"
               >
@@ -508,7 +507,7 @@ export default defineComponent({
               100
           ) +
             5) *
-            props.currentNature.stats[statsName]
+            props.currentNature.stats[index]
         );
       }
     };
@@ -530,7 +529,7 @@ export default defineComponent({
         // HP以外の計算では、性格補正を修正してから努力値の逆算を行う必要がある
       } else {
         const effortValue = numberToInt(props.stats[index].effortValue);
-        const currentNatureStat = props.currentNature.stats[statsName];
+        const currentNatureStat = props.currentNature.stats[index];
         if (setValue % 11 === 10 && currentNatureStat === UPPER_NATURE) {
           if (
             setValue >=
