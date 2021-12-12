@@ -46,7 +46,7 @@
                     label="個体値"
                     placeholder="0"
                     :value="stats[index].individualValue"
-                    @input="updateIndividualValue($event, stat.en, index)"
+                    @input="updateIndividualValue($event, index)"
                     persistent-placeholder
                   />
                 </div>
@@ -54,15 +54,13 @@
                   <CalcButton
                     :buttonText="String(MAX_IV)"
                     class="mb-1 btn-min-xs"
-                    @click.native="
-                      updateIndividualValue(MAX_IV, stat.en, index)
-                    "
+                    @click.native="updateIndividualValue(MAX_IV, index)"
                   />
                   <br />
                   <CalcButton
                     buttonText="0"
                     class="btn-min-xs"
-                    @click.native="updateIndividualValue(null, stat.en, index)"
+                    @click.native="updateIndividualValue(null, index)"
                   />
                 </div>
               </v-col>
@@ -75,7 +73,7 @@
                     label="努力値"
                     placeholder="0"
                     :value="stats[index].effortValue"
-                    @input="updateEffortValue($event, stat.en, index)"
+                    @input="updateEffortValue($event, index)"
                     persistent-placeholder
                   />
                 </div>
@@ -83,13 +81,13 @@
                   <CalcButton
                     :buttonText="String(MAX_EV)"
                     class="mb-1 btn-min-sm"
-                    @click.native="updateEffortValue(MAX_EV, stat.en, index)"
+                    @click.native="updateEffortValue(MAX_EV, index)"
                   />
                   <br />
                   <CalcButton
                     buttonText="0"
                     class="btn-min-sm"
-                    @click.native="updateEffortValue(null, stat.en, index)"
+                    @click.native="updateEffortValue(null, index)"
                   />
                 </div>
               </v-col>
@@ -111,13 +109,17 @@
                   <CalcButton
                     buttonText="▲"
                     class="mb-1 btn-min-xs"
-                    @click.native="statPlus(stat.en, index)"
+                    @click.native="
+                      setStat(realNumbers[stat.en] + 1, stat.en, index)
+                    "
                   />
                   <br />
                   <CalcButton
                     buttonText="▼"
                     class="btn-min-xs"
-                    @click.native="statMinus(stat.en, index)"
+                    @click.native="
+                      setStat(realNumbers[stat.en] - 1, stat.en, index)
+                    "
                   />
                 </div>
               </v-col>
@@ -440,35 +442,17 @@ export default defineComponent({
     });
 
     // 努力値の更新
-    const updateEffortValue = (
-      value: number,
-      statsName: string,
-      index: number
-    ): void => {
+    const updateEffortValue = (value: number, index: number): void => {
       const formatValue = valueVerification(value, MAX_EV);
       effortValueRefs.value[index].lazyValue = formatValue;
       props.stats[index].effortValue = formatValue;
     };
 
     // 個体値の更新
-    const updateIndividualValue = (
-      value: number,
-      statsName: string,
-      index: number
-    ): void => {
+    const updateIndividualValue = (value: number, index: number): void => {
       const formatValue = valueVerification(value, MAX_IV);
       individualValueRefs.value[index].lazyValue = formatValue;
       props.stats[index].individualValue = formatValue;
-    };
-
-    // 実数値を+1するボタンを設置
-    const statPlus = (statsName: string, index: number): void => {
-      setStat(realNumbers.value[statsName] + 1, statsName, index);
-    };
-
-    // 実数値を-1するボタンを設置
-    const statMinus = (statsName: string, index: number): void => {
-      setStat(realNumbers.value[statsName] - 1, statsName, index);
     };
 
     // 実数値を計算して返す
@@ -731,8 +715,6 @@ export default defineComponent({
       durabilityAdjustment,
       emitPokemon,
       setStat,
-      statMinus,
-      statPlus,
       resetEffortValue,
       updateEffortValue,
       updateIndividualValue,
