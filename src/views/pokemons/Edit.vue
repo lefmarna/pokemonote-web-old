@@ -77,7 +77,6 @@ export default defineComponent({
         abbreviation: "H",
         individualValue: 31,
         effortValue: null,
-        realNumber: 150,
       },
       {
         en: "attack",
@@ -85,7 +84,6 @@ export default defineComponent({
         abbreviation: "A",
         individualValue: 31,
         effortValue: null,
-        realNumber: 160,
       },
       {
         en: "defence",
@@ -93,7 +91,6 @@ export default defineComponent({
         abbreviation: "B",
         individualValue: 31,
         effortValue: null,
-        realNumber: 85,
       },
       {
         en: "spAttack",
@@ -101,7 +98,6 @@ export default defineComponent({
         abbreviation: "C",
         individualValue: 31,
         effortValue: null,
-        realNumber: 132,
       },
       {
         en: "spDefence",
@@ -109,7 +105,6 @@ export default defineComponent({
         abbreviation: "D",
         individualValue: 31,
         effortValue: null,
-        realNumber: 85,
       },
       {
         en: "speed",
@@ -117,7 +112,6 @@ export default defineComponent({
         abbreviation: "S",
         individualValue: 31,
         effortValue: null,
-        realNumber: 130,
       },
     ]);
 

@@ -39,7 +39,6 @@ const state = {
       abbreviation: "H",
       individualValue: 31,
       effortValue: null,
-      realNumber: 150,
     },
     {
       en: "attack",
@@ -47,7 +46,6 @@ const state = {
       abbreviation: "A",
       individualValue: 31,
       effortValue: null,
-      realNumber: 160,
     },
     {
       en: "defence",
@@ -55,7 +53,6 @@ const state = {
       abbreviation: "B",
       individualValue: 31,
       effortValue: null,
-      realNumber: 85,
     },
     {
       en: "spAttack",
@@ -63,7 +60,6 @@ const state = {
       abbreviation: "C",
       individualValue: 31,
       effortValue: null,
-      realNumber: 132,
     },
     {
       en: "spDefence",
@@ -71,7 +67,6 @@ const state = {
       abbreviation: "D",
       individualValue: 31,
       effortValue: null,
-      realNumber: 85,
     },
     {
       en: "speed",
@@ -79,7 +74,6 @@ const state = {
       abbreviation: "S",
       individualValue: 31,
       effortValue: null,
-      realNumber: 130,
     },
   ],
 };

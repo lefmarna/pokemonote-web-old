@@ -6,7 +6,7 @@ import store from "@/store";
 import Vuetify from "vuetify";
 import { Pokemon } from "@/types/pokemon";
 import { Nature } from "@/types/nature";
-import { Stat } from "@/types/stat";
+import { Stat } from "@/types/index";
 
 // localVueを使ってComposition APIを有効にする
 const localVue = createLocalVue();
