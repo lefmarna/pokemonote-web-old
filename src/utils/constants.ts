@@ -1,7 +1,16 @@
+// ポケモンの性格補正
+export const UPPER_NATURE = 1.1;
+export const LOWER_NATURE = 0.9;
+
 // ポケモンのレベル
 export const DEFAULT_LEVEL = 50;
 export const MAX_LEVEL = 100;
 export const MIN_LEVEL = 1;
+
+// ポケモンの3値
+export const MAX_EV = 252;
+export const MAX_TOTAL_EV = 510;
+export const MAX_IV = 31;
 
 export const GIFTS = [
   { name: "--- 金額を選択 ---", value: 0 },

@@ -22,8 +22,9 @@
                 :class="[
                   'justify-center',
                   {
-                    'text-danger': currentNature.stats[stat.en] == 1.1,
-                    'text-primary': currentNature.stats[stat.en] == 0.9,
+                    'text-danger': currentNature.stats[stat.en] == UPPER_NATURE,
+                    'text-primary':
+                      currentNature.stats[stat.en] == LOWER_NATURE,
                   },
                 ]"
               >
@@ -52,9 +53,9 @@
                 </div>
                 <div>
                   <CalcButton
-                    buttonText="31"
+                    :buttonText="String(MAX_IV)"
                     class="mb-1 btn-min-xs"
-                    @click.native="stats[index].individualValue = 31"
+                    @click.native="stats[index].individualValue = MAX_IV"
                   />
                   <br />
                   <CalcButton
@@ -79,9 +80,9 @@
                 </div>
                 <div>
                   <CalcButton
-                    buttonText="252"
+                    :buttonText="String(MAX_EV)"
                     class="mb-1 btn-min-sm"
-                    @click.native="stats[index].effortValue = 252"
+                    @click.native="stats[index].effortValue = MAX_EV"
                   />
                   <br />
                   <CalcButton
@@ -129,7 +130,7 @@
               </v-col>
               <v-col class="d-flex justify-center">
                 <span class="pr-1" :class="totalEvCheck">{{ totalEv }}</span
-                >/&nbsp;510
+                >/&nbsp;{{ MAX_TOTAL_EV }}
               </v-col>
               <v-col class="d-flex justify-center">
                 {{ totalStats }}
@@ -269,7 +270,12 @@ import PokemonParams from "@/components/organisms/PokemonParams.vue";
 import { numberToInt, valueVerification } from "@/utils/calc";
 import {
   DEFENCE_ENHANCEMENTS,
+  LOWER_NATURE,
+  MAX_EV,
+  MAX_IV,
+  MAX_TOTAL_EV,
   SP_DEFENCE_ENHANCEMENTS,
+  UPPER_NATURE,
 } from "@/utils/constants";
 import { LazyValue, Nature, PokemonData, Stat } from "@/types/index";
 
@@ -417,9 +423,9 @@ export default defineComponent({
       }, 0);
     });
 
-    // 努力値の合計が510より大きい場合は警告を出す
+    // 努力値の合計が最大値より大きい場合は警告を出す
     const totalEvCheck = computed(() => {
-      if (totalEv.value > 510) return "text-danger";
+      if (totalEv.value > MAX_TOTAL_EV) return "text-danger";
       return "";
     });
 
@@ -496,7 +502,7 @@ export default defineComponent({
       statsName: string,
       index: number
     ): void => {
-      const formatValue = valueVerification(value, 252);
+      const formatValue = valueVerification(value, MAX_EV);
       effortValueRefs.value[index].lazyValue = formatValue;
       props.stats[index].effortValue = formatValue;
     };
@@ -507,7 +513,7 @@ export default defineComponent({
       statsName: string,
       index: number
     ): void => {
-      const formatValue = valueVerification(value, 31);
+      const formatValue = valueVerification(value, MAX_IV);
       individualValueRefs.value[index].lazyValue = formatValue;
       props.stats[index].individualValue = formatValue;
     };
@@ -623,7 +629,7 @@ export default defineComponent({
       } else {
         const effortValue = numberToInt(props.stats[index].effortValue);
         const currentNatureStat = props.currentNature.stats[statsName];
-        if (setValue % 11 === 10 && currentNatureStat === 1.1) {
+        if (setValue % 11 === 10 && currentNatureStat === UPPER_NATURE) {
           if (
             setValue >=
             Math.floor(
@@ -643,10 +649,10 @@ export default defineComponent({
             setValue -= 1;
           }
         }
-        if (currentNatureStat === 1.1) {
-          setValue = Math.ceil(setValue / 1.1);
-        } else if (currentNatureStat === 0.9) {
-          setValue = Math.ceil(setValue / 0.9);
+        if (currentNatureStat === UPPER_NATURE) {
+          setValue = Math.ceil(setValue / UPPER_NATURE);
+        } else if (currentNatureStat === LOWER_NATURE) {
+          setValue = Math.ceil(setValue / LOWER_NATURE);
         }
         setValue =
           (Math.ceil(((setValue - 5) * 100) / formatLv) -
@@ -655,7 +661,7 @@ export default defineComponent({
           4;
       }
       // 【共通の処理】計算した値を代入する
-      setValue = valueVerification(setValue, 252);
+      setValue = valueVerification(setValue, MAX_EV);
       props.stats[index].effortValue = setValue;
 
       realNumberRefs.value[index].lazyValue = getStats(statsName, index);
@@ -672,7 +678,7 @@ export default defineComponent({
     const durabilityAdjustment = (): void => {
       // 攻撃、特攻、素早さの努力値を除いた値を求める
       const maxEffortValue =
-        510 -
+        MAX_TOTAL_EV -
         props.stats[1].effortValue -
         props.stats[3].effortValue -
         props.stats[5].effortValue;
@@ -700,28 +706,28 @@ export default defineComponent({
       let oldHBD = 0;
       let newHBD = 0;
 
-      // HBDの努力値を一度リセットする(不要な処理のような気もするが、これを記載しないと努力値の合計が510を超えてしまうことがある)
+      // HBDの努力値を一度リセットする(不要な処理のような気もするが、これを記載しないと努力値の合計が最大値を超えてしまうことがある)
       props.stats[0].effortValue = 0;
       props.stats[2].effortValue = 0;
       props.stats[4].effortValue = 0;
 
-      // 努力値の余りが252より大きかった場合、スタートであるHPの仮努力値を252とする
-      if (tmpHpEV > 252) {
-        tmpHpEV = 252;
+      // 努力値の余りが最大値より大きかった場合、スタートであるHPの仮努力値を最大値とする
+      if (tmpHpEV > MAX_EV) {
+        tmpHpEV = MAX_EV;
       }
       // HP→特防→防御の順に総当たりで計算していく
       while (tmpHpEV >= 0) {
         tmpHp = getStats("hp", 0, tmpHpEV); // HPの努力値からHPの実数値を計算
         tmpSpDefenceEV = maxEffortValue - tmpHpEV;
-        if (tmpSpDefenceEV > 252) {
-          tmpSpDefenceEV = 252;
+        if (tmpSpDefenceEV > MAX_EV) {
+          tmpSpDefenceEV = MAX_EV;
         }
         // 防御より先に特防を計算することで、端数が出た場合に特防に割り振られるようになる(ダウンロード対策でB<Dのほうが好まれることから、このような仕様にしている)
         while (tmpSpDefenceEV >= 0) {
           tmpSpDefence = getStats("spDefence", 4, tmpSpDefenceEV); // 特防の努力値から特防の実数値を計算
           tmpDefenceEV = maxEffortValue - tmpHpEV - tmpSpDefenceEV;
-          // 防御の仮努力値が252を超えてしまう場合には値を更新しない
-          if (tmpDefenceEV > 252) {
+          // 防御の仮努力値が最大値を超えてしまう場合には値を更新しない
+          if (tmpDefenceEV > MAX_EV) {
             break;
           }
           tmpDefence = getStats("defence", 2, tmpDefenceEV); // 防御の努力値から防御の実数値を計算
@@ -786,7 +792,12 @@ export default defineComponent({
     };
     return {
       DEFENCE_ENHANCEMENTS,
+      LOWER_NATURE,
+      MAX_EV,
+      MAX_IV,
+      MAX_TOTAL_EV,
       SP_DEFENCE_ENHANCEMENTS,
+      UPPER_NATURE,
       calcStyle,
       description,
       effortValueRefs,
