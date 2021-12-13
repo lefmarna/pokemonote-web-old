@@ -100,7 +100,7 @@
                     ref="realNumberRefs"
                     type="number"
                     :label="stats[index].ja"
-                    :value="realNumbers[stat.en]"
+                    :value="realNumbers[index]"
                     @change="setStat($event, stat.en, index)"
                     persistent-placeholder
                   />
@@ -110,7 +110,7 @@
                     buttonText="▲"
                     class="mb-1 btn-min-xs"
                     @click.native="
-                      setStat(realNumbers[stat.en] + 1, stat.en, index)
+                      setStat(realNumbers[index] + 1, stat.en, index)
                     "
                   />
                   <br />
@@ -118,7 +118,7 @@
                     buttonText="▼"
                     class="btn-min-xs"
                     @click.native="
-                      setStat(realNumbers[stat.en] - 1, stat.en, index)
+                      setStat(realNumbers[index] - 1, stat.en, index)
                     "
                   />
                 </div>
@@ -332,12 +332,12 @@ export default defineComponent({
 
     const totalStats = computed(() => {
       return (
-        realNumbers.value.hp +
-        realNumbers.value.attack +
-        realNumbers.value.defence +
-        realNumbers.value.spAttack +
-        realNumbers.value.spDefence +
-        realNumbers.value.speed
+        realNumbers.value[HP_INDEX] +
+        realNumbers.value[ATTACK_INDEX] +
+        realNumbers.value[DEFENCE_INDEX] +
+        realNumbers.value[SP_ATTACK_INDEX] +
+        realNumbers.value[SP_DEFENCE_INDEX] +
+        realNumbers.value[SPEED_INDEX]
       );
     });
 
@@ -374,17 +374,19 @@ export default defineComponent({
     // 物理耐久指数を求める
     const physicalDurability = computed(() => {
       return (
-        realNumbers.value.hp *
-        Math.floor(realNumbers.value.defence * selectDefenceEnhancement.value)
+        realNumbers.value[HP_INDEX] *
+        Math.floor(
+          realNumbers.value[DEFENCE_INDEX] * selectDefenceEnhancement.value
+        )
       );
     });
 
     // 特殊耐久指数を求める
     const specialDurability = computed(() => {
       return (
-        realNumbers.value.hp *
+        realNumbers.value[HP_INDEX] *
         Math.floor(
-          realNumbers.value.spDefence * selectSpDefenceEnhancement.value
+          realNumbers.value[SP_DEFENCE_INDEX] * selectSpDefenceEnhancement.value
         )
       );
     });
@@ -652,22 +654,22 @@ export default defineComponent({
         lv: props.lv,
         hp_iv: props.stats[HP_INDEX].individualValue,
         hp_ev: props.stats[HP_INDEX].effortValue,
-        hp: realNumbers.value.hp,
+        hp: realNumbers.value[HP_INDEX],
         attack_iv: props.stats[ATTACK_INDEX].individualValue,
         attack_ev: props.stats[ATTACK_INDEX].effortValue,
-        attack: realNumbers.value.attack,
+        attack: realNumbers.value[ATTACK_INDEX],
         defence_iv: props.stats[DEFENCE_INDEX].individualValue,
         defence_ev: props.stats[DEFENCE_INDEX].effortValue,
-        defence: realNumbers.value.defence,
+        defence: realNumbers.value[DEFENCE_INDEX],
         sp_attack_iv: props.stats[SP_ATTACK_INDEX].individualValue,
         sp_attack_ev: props.stats[SP_ATTACK_INDEX].effortValue,
-        sp_attack: realNumbers.value.spAttack,
+        sp_attack: realNumbers.value[SP_ATTACK_INDEX],
         sp_defence_iv: props.stats[SP_DEFENCE_INDEX].individualValue,
         sp_defence_ev: props.stats[SP_DEFENCE_INDEX].effortValue,
-        sp_defence: realNumbers.value.spDefence,
+        sp_defence: realNumbers.value[SP_DEFENCE_INDEX],
         speed_iv: props.stats[SPEED_INDEX].individualValue,
         speed_ev: props.stats[SPEED_INDEX].effortValue,
-        speed: realNumbers.value.speed,
+        speed: realNumbers.value[SPEED_INDEX],
         description: description.value,
         is_public: 1,
       };
@@ -678,14 +680,14 @@ export default defineComponent({
      * 実数値は努力値の更新による自動計算によって求めるため、直接代入してはいけない。
      */
     const realNumbers = computed(() => {
-      return {
-        hp: getStat("hp", HP_INDEX),
-        attack: getStat("attack", ATTACK_INDEX),
-        defence: getStat("defence", DEFENCE_INDEX),
-        spAttack: getStat("spAttack", SP_ATTACK_INDEX),
-        spDefence: getStat("spDefence", SP_DEFENCE_INDEX),
-        speed: getStat("speed", SPEED_INDEX),
-      };
+      return [
+        getStat("hp", HP_INDEX),
+        getStat("attack", ATTACK_INDEX),
+        getStat("defence", DEFENCE_INDEX),
+        getStat("spAttack", SP_ATTACK_INDEX),
+        getStat("spDefence", SP_DEFENCE_INDEX),
+        getStat("speed", SPEED_INDEX),
+      ];
     });
 
     return {
