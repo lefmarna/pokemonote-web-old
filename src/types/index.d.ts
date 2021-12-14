@@ -38,14 +38,7 @@ export interface PokemonData {
   types: string[];
   abilities: string[];
   hiddenAbilities: string[];
-  stats: {
-    hp: number;
-    attack: number;
-    defence: number;
-    spAttack: number;
-    spDefence: number;
-    speed: number;
-  };
+  stats: number[];
   total?: number;
 }
 
@@ -54,9 +47,8 @@ export interface Ranking {
 }
 
 export interface Stat {
-  en: string;
-  ja: string;
-  abbreviation: string;
+  name: string;
+  initial: string;
   individualValue: number | null;
   effortValue: number | null;
 }

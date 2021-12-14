@@ -15,11 +15,13 @@
     </v-row>
     <v-row> {{ pokemonDetails.hiddenAbilities }}</v-row>
     <v-row
-      >{{ pokemonDetails.stats.hp }}-{{ pokemonDetails.stats.attack }}-{{
-        pokemonDetails.stats.defence
-      }}-{{ pokemonDetails.stats.spAttack }}-{{
-        pokemonDetails.stats.spDefence
-      }}-{{ pokemonDetails.stats.speed }}</v-row
+      >{{ pokemonDetails.stats[HP_INDEX] }}-{{
+        pokemonDetails.stats[ATTACK_INDEX]
+      }}-{{ pokemonDetails.stats[DEFENCE_INDEX] }}-{{
+        pokemonDetails.stats[SP_ATTACK_INDEX]
+      }}-{{ pokemonDetails.stats[SP_DEFENCE_INDEX] }}-{{
+        pokemonDetails.stats[SPEED_INDEX]
+      }}</v-row
     >
 
     <!-- {{ pokemonDetails.types[0] }} -->

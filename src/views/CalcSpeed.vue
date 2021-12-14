@@ -21,15 +21,17 @@
                 :class="[
                   'justify-center',
                   {
-                    'text-danger': currentNature.stats['speed'] === 1.1,
-                    'text-primary': currentNature.stats['speed'] === 0.9,
+                    'text-danger':
+                      currentNature.stats[SPEED_INDEX] === UPPER_NATURE,
+                    'text-primary':
+                      currentNature.stats[SPEED_INDEX] === LOWER_NATURE,
                   },
                 ]"
               >
                 <v-text-field
                   label="種族値"
                   placeholder="0"
-                  :value="`${stats[5].abbreviation}${currentPokemon.stats['speed']}`"
+                  :value="`${stats[SPEED_INDEX].initial}${currentPokemon.stats[SPEED_INDEX]}`"
                   disabled
                   persistent-placeholder
                 />
@@ -42,22 +44,22 @@
                     type="number"
                     label="個体値"
                     placeholder="0"
-                    :value="stats[5].individualValue"
+                    :value="stats[SPEED_INDEX].individualValue"
                     @input="updateSpeedIndividualValue($event)"
                     persistent-placeholder
                   />
                 </div>
                 <div>
                   <CalcButton
-                    buttonText="31"
+                    :buttonText="String(MAX_IV)"
                     class="mb-1 btn-min-xs"
-                    @click.native="stats[5].individualValue = 31"
+                    @click.native="updateSpeedIndividualValue(MAX_IV)"
                   />
                   <br />
                   <CalcButton
                     buttonText="0"
                     class="btn-min-xs"
-                    @click.native="stats[5].individualValue = ''"
+                    @click.native="updateSpeedIndividualValue(null)"
                   />
                 </div>
               </v-col>
@@ -69,22 +71,22 @@
                     type="number"
                     label="努力値"
                     placeholder="0"
-                    :value="stats[5].effortValue"
+                    :value="stats[SPEED_INDEX].effortValue"
                     @input="updateSpeedEffortValue($event)"
                     persistent-placeholder
                   />
                 </div>
                 <div>
                   <CalcButton
-                    buttonText="252"
+                    :buttonText="String(MAX_EV)"
                     class="mb-1 btn-min-sm"
-                    @click.native="stats[5].effortValue = 252"
+                    @click.native="updateSpeedEffortValue(MAX_EV)"
                   />
                   <br />
                   <CalcButton
                     buttonText="0"
                     class="btn-min-sm"
-                    @click.native="stats[5].effortValue = ''"
+                    @click.native="updateSpeedEffortValue(null)"
                   />
                 </div>
               </v-col>
@@ -94,7 +96,7 @@
                   <v-text-field
                     ref="speedRef"
                     type="number"
-                    :label="stats[5].ja"
+                    :label="stats[SPEED_INDEX].name"
                     :value="speed"
                     @change="setSpeed($event)"
                     persistent-placeholder
@@ -104,13 +106,13 @@
                   <CalcButton
                     buttonText="▲"
                     class="mb-1 btn-min-xs"
-                    @click.native="speed++"
+                    @click.native="setSpeed(speed + 1)"
                   />
                   <br />
                   <CalcButton
                     buttonText="▼"
                     class="btn-min-xs"
-                    @click.native="speed--"
+                    @click.native="setSpeed(speed - 1)"
                   />
                 </div>
               </v-col>
@@ -206,7 +208,16 @@ import { computed, defineComponent, ref } from "@vue/composition-api";
 import CalcButton from "@/components/molecules/CalcButton.vue";
 import PokemonParams from "@/components/organisms/PokemonParams.vue";
 import { numberToInt, valueVerification } from "@/utils/calc";
-import { RANKS, SPEED_ABILITIES, SPEED_ITEMS } from "@/utils/constants";
+import {
+  LOWER_NATURE,
+  MAX_EV,
+  MAX_IV,
+  RANKS,
+  SPEED_ABILITIES,
+  SPEED_INDEX,
+  SPEED_ITEMS,
+  UPPER_NATURE,
+} from "@/utils/constants";
 import { currentNature, currentPokemon, lv, stats } from "@/utils/store";
 import { LazyValue } from "@/types";
 
@@ -265,18 +276,20 @@ export default defineComponent({
      */
     const getSpeed = (): number => {
       const formatLv = numberToInt(lv.value, 1);
-      const individualValue = numberToInt(stats.value[5].individualValue);
-      const effortValue = numberToInt(stats.value[5].effortValue);
+      const individualValue = numberToInt(
+        stats.value[SPEED_INDEX].individualValue
+      );
+      const effortValue = numberToInt(stats.value[SPEED_INDEX].effortValue);
       return Math.floor(
         (Math.floor(
-          ((currentPokemon.value.stats["speed"] * 2 +
+          ((currentPokemon.value.stats[SPEED_INDEX] * 2 +
             individualValue +
             Math.floor(effortValue / 4)) *
             formatLv) /
             100
         ) +
           5) *
-          currentNature.value.stats["speed"]
+          currentNature.value.stats[SPEED_INDEX]
       );
     };
 
@@ -286,15 +299,17 @@ export default defineComponent({
     const setSpeed = (event: number) => {
       let setValue = Number(event); // eventで取ってきたものはstring型になってしまうため、明示的にキャストの処理を記載している
       const formatLv = numberToInt(lv.value, 1);
-      const individualValue = numberToInt(stats.value[5].individualValue);
-      const effortValue = numberToInt(stats.value[5].effortValue);
-      const currentNatureStat = currentNature.value.stats["speed"];
-      if (setValue % 11 === 10 && currentNatureStat === 1.1) {
+      const individualValue = numberToInt(
+        stats.value[SPEED_INDEX].individualValue
+      );
+      const effortValue = numberToInt(stats.value[SPEED_INDEX].effortValue);
+      const currentNatureStat = currentNature.value.stats[SPEED_INDEX];
+      if (setValue % 11 === 10 && currentNatureStat === UPPER_NATURE) {
         if (
           setValue >=
           Math.floor(
             (Math.floor(
-              ((currentPokemon.value.stats["speed"] * 2 +
+              ((currentPokemon.value.stats[SPEED_INDEX] * 2 +
                 individualValue +
                 Math.floor(effortValue / 4)) *
                 formatLv) /
@@ -309,19 +324,20 @@ export default defineComponent({
           setValue -= 1;
         }
       }
-      if (currentNatureStat === 1.1) {
-        setValue = Math.ceil(setValue / 1.1);
-      } else if (currentNatureStat === 0.9) {
-        setValue = Math.ceil(setValue / 0.9);
+      if (currentNatureStat === UPPER_NATURE) {
+        setValue = Math.ceil(setValue / UPPER_NATURE);
+      } else if (currentNatureStat === LOWER_NATURE) {
+        setValue = Math.ceil(setValue / LOWER_NATURE);
       }
       setValue =
         (Math.ceil(((setValue - 5) * 100) / formatLv) -
-          currentPokemon.value.stats["speed"] * 2 -
+          currentPokemon.value.stats[SPEED_INDEX] * 2 -
           individualValue) *
         4;
       // 計算した値を代入する
-      setValue = valueVerification(setValue, 252);
-      stats.value[5].effortValue = setValue;
+      setValue = valueVerification(setValue, MAX_EV);
+      stats.value[SPEED_INDEX].effortValue = setValue;
+
       speedRef.value.lazyValue = getSpeed();
     };
 
@@ -366,8 +382,13 @@ export default defineComponent({
     };
 
     return {
+      LOWER_NATURE,
+      MAX_EV,
+      MAX_IV,
       SPEED_ABILITIES,
       SPEED_ITEMS,
+      SPEED_INDEX,
+      UPPER_NATURE,
       currentPokemon,
       currentNature,
       lv,

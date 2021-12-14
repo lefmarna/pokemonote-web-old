@@ -38,14 +38,7 @@ export default defineComponent({
       types: ["いわ", "ひこう"],
       abilities: ["よわき"],
       hiddenAbilities: [],
-      stats: {
-        hp: 75,
-        attack: 140,
-        defence: 65,
-        spAttack: 112,
-        spDefence: 65,
-        speed: 110,
-      },
+      stats: [75, 140, 65, 112, 65, 110],
     });
 
     const currentNature = ref<Nature>({
@@ -57,44 +50,38 @@ export default defineComponent({
 
     const stats = reactive<Stat[]>([
       {
-        en: "hp",
-        ja: "ＨＰ",
-        abbreviation: "H",
+        name: "ＨＰ",
+        initial: "H",
         individualValue: 31,
         effortValue: null,
       },
       {
-        en: "attack",
-        ja: "こうげき",
-        abbreviation: "A",
+        name: "こうげき",
+        initial: "A",
         individualValue: 31,
         effortValue: null,
       },
       {
-        en: "defence",
-        ja: "ぼうぎょ",
-        abbreviation: "B",
+        name: "ぼうぎょ",
+        initial: "B",
         individualValue: 31,
         effortValue: null,
       },
       {
-        en: "spAttack",
-        ja: "とくこう",
-        abbreviation: "C",
+        name: "とくこう",
+        initial: "C",
         individualValue: 31,
         effortValue: null,
       },
       {
-        en: "spDefence",
-        ja: "とくぼう",
-        abbreviation: "D",
+        name: "とくぼう",
+        initial: "D",
         individualValue: 31,
         effortValue: null,
       },
       {
-        en: "speed",
-        ja: "すばやさ",
-        abbreviation: "S",
+        name: "すばやさ",
+        initial: "S",
         individualValue: 31,
         effortValue: null,
       },

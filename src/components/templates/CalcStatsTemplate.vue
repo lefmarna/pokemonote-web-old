@@ -22,17 +22,15 @@
                 :class="[
                   'justify-center',
                   {
-                    'text-danger': currentNature.stats[index] == UPPER_NATURE,
-                    'text-primary': currentNature.stats[index] == LOWER_NATURE,
+                    'text-danger': currentNature.stats[index] === UPPER_NATURE,
+                    'text-primary': currentNature.stats[index] === LOWER_NATURE,
                   },
                 ]"
               >
                 <v-text-field
                   label="種族値"
                   placeholder="0"
-                  :value="`${stat.abbreviation}${
-                    currentPokemon.stats[stat.en]
-                  }`"
+                  :value="`${stat.initial}${currentPokemon.stats[index]}`"
                   disabled
                   persistent-placeholder
                 />
@@ -99,9 +97,9 @@
                   <v-text-field
                     ref="realNumberRefs"
                     type="number"
-                    :label="stats[index].ja"
+                    :label="stats[index].name"
                     :value="realNumbers[index]"
-                    @change="setStat($event, stat.en, index)"
+                    @change="setStat($event, index)"
                     persistent-placeholder
                   />
                 </div>
@@ -109,17 +107,13 @@
                   <CalcButton
                     buttonText="▲"
                     class="mb-1 btn-min-xs"
-                    @click.native="
-                      setStat(realNumbers[index] + 1, stat.en, index)
-                    "
+                    @click.native="setStat(realNumbers[index] + 1, index)"
                   />
                   <br />
                   <CalcButton
                     buttonText="▼"
                     class="btn-min-xs"
-                    @click.native="
-                      setStat(realNumbers[index] - 1, stat.en, index)
-                    "
+                    @click.native="setStat(realNumbers[index] - 1, index)"
                   />
                 </div>
               </v-col>
@@ -458,7 +452,7 @@ export default defineComponent({
     };
 
     // 実数値を計算して返す
-    const getStat = (statsName: string, index: number, tmpEV = 0): number => {
+    const getStat = (index: number, tmpEV = 0): number => {
       const formatLv = numberToInt(Number(props.lv), 1);
       const formatIndividualValue = numberToInt(
         props.stats[index].individualValue
@@ -470,11 +464,11 @@ export default defineComponent({
       } else {
         formatEffortValue = numberToInt(props.stats[index].effortValue);
       }
-      if (statsName == "hp") {
-        if (props.currentPokemon.name == "ヌケニン") return 1;
+      if (index === HP_INDEX) {
+        if (props.currentPokemon.name === "ヌケニン") return 1;
         return (
           Math.floor(
-            ((props.currentPokemon.stats[statsName] * 2 +
+            ((props.currentPokemon.stats[index] * 2 +
               formatIndividualValue +
               Math.floor(formatEffortValue / 4)) *
               formatLv) /
@@ -486,7 +480,7 @@ export default defineComponent({
       } else {
         return Math.floor(
           (Math.floor(
-            ((props.currentPokemon.stats[statsName] * 2 +
+            ((props.currentPokemon.stats[index] * 2 +
               formatIndividualValue +
               Math.floor(formatEffortValue / 4)) *
               formatLv) /
@@ -499,17 +493,17 @@ export default defineComponent({
     };
 
     // 実数値から努力値の逆算を行う
-    const setStat = (event: number, statsName: string, index: number): void => {
+    const setStat = (event: number, index: number): void => {
       let setValue = Number(event); // eventで取ってきたものはstring型になってしまうため、明示的にキャストの処理を記載している
       const formatLv = numberToInt(Number(props.lv), 1);
       const formatIndividualValue = numberToInt(
         props.stats[index].individualValue
       );
       // HPのみ計算式が異なる
-      if (statsName == "hp") {
+      if (index === HP_INDEX) {
         setValue =
           (Math.ceil(((setValue - formatLv - 10) * 100) / formatLv) -
-            props.currentPokemon.stats.hp * 2 -
+            props.currentPokemon.stats[index] * 2 -
             formatIndividualValue) *
           4;
         // HP以外の計算では、性格補正を修正してから努力値の逆算を行う必要がある
@@ -521,7 +515,7 @@ export default defineComponent({
             setValue >=
             Math.floor(
               (Math.floor(
-                ((props.currentPokemon.stats[statsName] * 2 +
+                ((props.currentPokemon.stats[index] * 2 +
                   formatIndividualValue +
                   Math.floor(effortValue / 4)) *
                   formatLv) /
@@ -543,7 +537,7 @@ export default defineComponent({
         }
         setValue =
           (Math.ceil(((setValue - 5) * 100) / formatLv) -
-            props.currentPokemon.stats[statsName] * 2 -
+            props.currentPokemon.stats[index] * 2 -
             formatIndividualValue) *
           4;
       }
@@ -551,7 +545,7 @@ export default defineComponent({
       setValue = valueVerification(setValue, MAX_EV);
       props.stats[index].effortValue = setValue;
 
-      realNumberRefs.value[index].lazyValue = getStat(statsName, index);
+      realNumberRefs.value[index].lazyValue = getStat(index);
     };
 
     // 努力値をリセットする
@@ -603,19 +597,19 @@ export default defineComponent({
 
       // HP→特防→防御の順に総当たりで計算していく
       while (tmpHpEV >= 0) {
-        tmpHp = getStat("hp", HP_INDEX, tmpHpEV); // HPの努力値からHPの実数値を計算
+        tmpHp = getStat(HP_INDEX, tmpHpEV); // HPの努力値からHPの実数値を計算
         tmpSpDefenceEV = remainderEffortValue - tmpHpEV;
         if (tmpSpDefenceEV > MAX_EV) {
           tmpSpDefenceEV = MAX_EV;
         }
         // 防御より先に特防を計算することで、端数が出た場合に特防に割り振られるようになる(ダウンロード対策でB<Dのほうが好まれることから、このような仕様にしている)
         while (tmpSpDefenceEV >= 0) {
-          tmpSpDefence = getStat("spDefence", SP_DEFENCE_INDEX, tmpSpDefenceEV); // 特防の努力値から特防の実数値を計算
+          tmpSpDefence = getStat(SP_DEFENCE_INDEX, tmpSpDefenceEV); // 特防の努力値から特防の実数値を計算
           tmpDefenceEV = remainderEffortValue - tmpHpEV - tmpSpDefenceEV;
           // 防御の仮努力値が最大値を超えてしまう場合には値を更新しない
           if (tmpDefenceEV > MAX_EV) break;
 
-          tmpDefence = getStat("defence", DEFENCE_INDEX, tmpDefenceEV); // 防御の努力値から防御の実数値を計算
+          tmpDefence = getStat(DEFENCE_INDEX, tmpDefenceEV); // 防御の努力値から防御の実数値を計算
 
           // 耐久補正込での耐久値を求める
           tmpDefenceEnhancement = Math.floor(
@@ -641,9 +635,9 @@ export default defineComponent({
         tmpHpEV--;
       }
       // 最も優秀だった結果を代入する
-      setStat(resultHp, "hp", HP_INDEX);
-      setStat(resultDefence, "defence", DEFENCE_INDEX);
-      setStat(resultSpDefence, "spDefence", SP_DEFENCE_INDEX);
+      setStat(resultHp, HP_INDEX);
+      setStat(resultDefence, DEFENCE_INDEX);
+      setStat(resultSpDefence, SP_DEFENCE_INDEX);
     };
 
     // ポケモンのデータを親に渡す
@@ -681,12 +675,12 @@ export default defineComponent({
      */
     const realNumbers = computed(() => {
       return [
-        getStat("hp", HP_INDEX),
-        getStat("attack", ATTACK_INDEX),
-        getStat("defence", DEFENCE_INDEX),
-        getStat("spAttack", SP_ATTACK_INDEX),
-        getStat("spDefence", SP_DEFENCE_INDEX),
-        getStat("speed", SPEED_INDEX),
+        getStat(HP_INDEX),
+        getStat(ATTACK_INDEX),
+        getStat(DEFENCE_INDEX),
+        getStat(SP_ATTACK_INDEX),
+        getStat(SP_DEFENCE_INDEX),
+        getStat(SPEED_INDEX),
       ];
     });
 
