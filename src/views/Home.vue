@@ -4,7 +4,7 @@
       <v-img
         alt="Pokemonote ポケモンをもっと楽しく！"
         class="shrink"
-        src="@/assets/pokemonote.jpg"
+        src="@/assets/pokemonote.svg"
         transition="scale-transition"
         max-height="492"
         min-height="164"
