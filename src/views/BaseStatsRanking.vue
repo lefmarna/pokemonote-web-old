@@ -52,6 +52,14 @@
 import { computed, defineComponent, reactive } from "@vue/composition-api";
 import store from "@/store";
 import { PokemonData } from "@/types/index";
+import {
+  ATTACK_INDEX,
+  DEFENCE_INDEX,
+  HP_INDEX,
+  SPEED_INDEX,
+  SP_ATTACK_INDEX,
+  SP_DEFENCE_INDEX,
+} from "@/utils/constants";
 
 export default defineComponent({
   setup() {
@@ -93,17 +101,48 @@ export default defineComponent({
     const headers = computed(() => {
       const dataTableList = [
         { text: "ポケモン名", value: "name", align: "start", width: "30%" },
-        { text: "ＨＰ", value: "stats.hp", align: "end", width: "10%" },
-        { text: "攻撃", value: "stats.attack", align: "end", width: "10%" },
-        { text: "防御", value: "stats.defence", align: "end", width: "10%" },
-        { text: "特攻", value: "stats.spAttack", align: "end", width: "10%" },
-        { text: "特防", value: "stats.spDefence", align: "end", width: "10%" },
-        { text: "素早", value: "stats.speed", align: "end", width: "10%" },
+        {
+          text: "ＨＰ",
+          value: `stats[${HP_INDEX}]`,
+          align: "end",
+          width: "10%",
+        },
+        {
+          text: "攻撃",
+          value: `stats[${ATTACK_INDEX}]`,
+          align: "end",
+          width: "10%",
+        },
+        {
+          text: "防御",
+          value: `stats[${DEFENCE_INDEX}]`,
+          align: "end",
+          width: "10%",
+        },
+        {
+          text: "特攻",
+          value: `stats[${SP_ATTACK_INDEX}]`,
+          align: "end",
+          width: "10%",
+        },
+        {
+          text: "特防",
+          value: `stats[${SP_DEFENCE_INDEX}]`,
+          align: "end",
+          width: "10%",
+        },
+        {
+          text: "素早",
+          value: `stats[${SPEED_INDEX}]`,
+          align: "end",
+          width: "10%",
+        },
         { text: "合計", value: "total", align: "end", width: "10%" },
       ];
-      if (isNotShowStats.attack) dataTableList[2].value = "";
-      if (isNotShowStats.spAttack) dataTableList[4].value = "";
-      if (isNotShowStats.speed) dataTableList[6].value = "";
+      if (isNotShowStats.attack) dataTableList[ATTACK_INDEX + 1].value = "";
+      if (isNotShowStats.spAttack)
+        dataTableList[SP_ATTACK_INDEX + 1].value = "";
+      if (isNotShowStats.speed) dataTableList[SPEED_INDEX + 1].value = "";
       return dataTableList;
     });
 
@@ -134,11 +173,10 @@ export default defineComponent({
 
       // 全てのオブジェクトで合計(total)を計算する
       result.forEach((array) => {
-        const stats = Object.values(array.stats);
-        array.total = stats.reduce((sum, value, index) => {
-          if (isNotShowStats.attack && index === 1) return sum;
-          if (isNotShowStats.spAttack && index === 3) return sum;
-          if (isNotShowStats.speed && index === 5) return sum;
+        array.total = array.stats.reduce((sum, value, index) => {
+          if (isNotShowStats.attack && index === ATTACK_INDEX) return sum;
+          if (isNotShowStats.spAttack && index === SP_ATTACK_INDEX) return sum;
+          if (isNotShowStats.speed && index === SPEED_INDEX) return sum;
           sum += value;
           return sum;
         }, 0);
