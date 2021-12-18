@@ -31,106 +31,22 @@
     <div class="statsTable">
       <v-row v-for="(stat, index) in stats" :key="stat.en">
         <!-- 種族値 -->
-        <v-col
-          cols="2"
-          :class="[
-            'justify-center',
-            {
-              'text-danger': currentNature.stats[index] === UPPER_NATURE,
-              'text-primary': currentNature.stats[index] === LOWER_NATURE,
-            },
-          ]"
-        >
-          <v-text-field
-            label="種族値"
-            placeholder="0"
-            :value="`${stat.initial}${currentPokemon.stats[index]}`"
-            disabled
-            persistent-placeholder
-          />
-        </v-col>
+        <BaseStatsField
+          :baseStat="currentPokemon.stats[index]"
+          :statsInitial="stat.initial"
+          :natureStat="currentNature.stats[index]"
+        />
         <!-- 個体値 -->
-        <v-col class="d-flex justify-center">
-          <div>
-            <v-text-field
-              ref="individualValueRefs"
-              type="number"
-              label="個体値"
-              placeholder="0"
-              :value="stats[index].individualValue"
-              @input="updateIndividualValue($event, index)"
-              persistent-placeholder
-            />
-          </div>
-          <div>
-            <CalcButton
-              :buttonText="String(MAX_IV)"
-              class="mb-1 btn-min-xs"
-              @click.native="updateIndividualValue(MAX_IV, index)"
-            />
-            <br />
-            <CalcButton
-              buttonText="0"
-              class="btn-min-xs"
-              @click.native="updateIndividualValue(null, index)"
-            />
-          </div>
-        </v-col>
+        <IndividualValueField :stats="stats" :statsIndex="index" />
         <!-- 努力値 -->
-        <v-col class="d-flex justify-center">
-          <div>
-            <v-text-field
-              ref="effortValueRefs"
-              type="number"
-              label="努力値"
-              placeholder="0"
-              :value="stats[index].effortValue"
-              @input="updateEffortValue($event, index)"
-              persistent-placeholder
-            />
-          </div>
-          <div>
-            <CalcButton
-              :buttonText="String(MAX_EV)"
-              class="mb-1 btn-min-sm"
-              @click.native="updateEffortValue(MAX_EV, index)"
-            />
-            <br />
-            <CalcButton
-              buttonText="0"
-              class="btn-min-sm"
-              @click.native="updateEffortValue(null, index)"
-            />
-          </div>
-        </v-col>
+        <EffortValueField :stats="stats" :statsIndex="index" />
         <!-- 実数値 -->
-        <v-col class="d-flex justify-center">
-          <div>
-            <!-- 努力値が自動更新されることによって実数値の入力を妨げてしまうため、実数値はinputではなくchangeで発火させている
-                  なお、Vuetifyではv-modelのlazy修飾子をサポートしていないため、:valueと@changeで分けて書く必要がある -->
-            <v-text-field
-              ref="realNumberRefs"
-              type="number"
-              :label="stats[index].name"
-              :value="realNumbers[index]"
-              @change="updateRealNumber($event, index)"
-              persistent-placeholder
-            />
-          </div>
-          <div>
-            <CalcButton
-              buttonText="▲"
-              class="mb-1 btn-min-xs"
-              @click.native="updateRealNumber(realNumbers[index] + 1, index)"
-            />
-            <br />
-            <CalcButton
-              buttonText="▼"
-              class="btn-min-xs"
-              @click.native="updateRealNumber(realNumbers[index] - 1, index)"
-            />
-          </div>
-        </v-col>
+        <RealNumberField
+          :realNumbers="realNumbers"
+          :stats="stats"
+          :statsIndex="index"
+          @updateRealNumber="$emit('updateRealNumber', $event, index)"
+        />
       </v-row>
       <v-row class="font-weight-bold">
         <v-col cols="2" class="d-flex justify-center">
@@ -154,8 +70,12 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from "@vue/composition-api";
 import CalcButton from "@/components/molecules/CalcButton.vue";
-import SearchField from "@/components/molecules/SearchField.vue";
+import BaseStatsField from "@/components/organisms/BaseStatsField.vue";
+import EffortValueField from "@/components/organisms/EffortValueField.vue";
+import IndividualValueField from "@/components/organisms/IndividualValueField.vue";
+import RealNumberField from "@/components/organisms/RealNumberField.vue";
 import LvField from "@/components/organisms/LvField.vue";
+import SearchField from "@/components/molecules/SearchField.vue";
 import { LazyValue, Nature, PokemonData, Stat } from "@/types/index";
 import { natureData, pokemonData } from "@/utils/store";
 import {
@@ -175,8 +95,12 @@ import { numberToInt, valueVerification } from "@/utils/calc";
 
 export default defineComponent({
   components: {
+    BaseStatsField,
     CalcButton,
+    EffortValueField,
+    IndividualValueField,
     LvField,
+    RealNumberField,
     SearchField,
   },
   props: {
