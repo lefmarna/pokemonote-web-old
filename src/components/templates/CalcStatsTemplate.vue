@@ -28,7 +28,7 @@
               <EffortValueField :stats="stats" :statsIndex="index" />
               <!-- 実数値 -->
               <RealNumberField
-                :realNumbers="realNumbers"
+                :realNumber="realNumbers[index]"
                 :stats="stats"
                 :statsIndex="index"
                 @updateRealNumber="updateRealNumber"

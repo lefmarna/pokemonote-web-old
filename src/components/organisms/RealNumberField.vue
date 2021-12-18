@@ -7,7 +7,7 @@
         ref="realNumberRef"
         type="number"
         :label="stats[statsIndex].name"
-        :value="realNumbers[statsIndex]"
+        :value="realNumber"
         @change="updateRealNumber($event, statsIndex)"
         persistent-placeholder
       />
@@ -16,17 +16,13 @@
       <CalcButton
         buttonText="▲"
         class="mb-1 btn-min-xs"
-        @click.native="
-          updateRealNumber(realNumbers[statsIndex] + 1, statsIndex)
-        "
+        @click.native="updateRealNumber(realNumber + 1, statsIndex)"
       />
       <br />
       <CalcButton
         buttonText="▼"
         class="btn-min-xs"
-        @click.native="
-          updateRealNumber(realNumbers[statsIndex] - 1, statsIndex)
-        "
+        @click.native="updateRealNumber(realNumber - 1, statsIndex)"
       />
     </div>
   </v-col>
@@ -42,8 +38,8 @@ export default defineComponent({
     CalcButton,
   },
   props: {
-    realNumbers: {
-      type: Array as PropType<number[]>,
+    realNumber: {
+      type: Number,
       required: true,
     },
     stats: {
@@ -60,7 +56,7 @@ export default defineComponent({
 
     const updateRealNumber = (event: number, index: number): void => {
       emit("updateRealNumber", event, index);
-      realNumberRef.value.lazyValue = props.realNumbers[index];
+      realNumberRef.value.lazyValue = props.realNumber;
     };
 
     return {
