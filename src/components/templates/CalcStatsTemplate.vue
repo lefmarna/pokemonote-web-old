@@ -4,17 +4,53 @@
     <v-row>
       <!-- 左ここから -->
       <v-col cols="12" md="6" class="d-flex">
-        <PokemonParams
-          :currentPokemon="currentPokemon"
-          :currentNature="currentNature"
-          :lv="lv"
-          :stats="stats"
-          :realNumbers="realNumbers"
-          @updatePokemon="$emit('update:currentPokemon', $event)"
-          @updateNature="$emit('update:currentNature', $event)"
-          @updateLv="$emit('update:lv', $event)"
-          @updateRealNumber="updateRealNumber"
-        />
+        <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
+          <PokemonParams
+            :currentPokemon="currentPokemon"
+            :currentNature="currentNature"
+            :lv="lv"
+            @updatePokemon="$emit('update:currentPokemon', $event)"
+            @updateNature="$emit('update:currentNature', $event)"
+            @updateLv="$emit('update:lv', $event)"
+          />
+          <!-- ステータス一覧 -->
+          <div class="statsTable">
+            <v-row v-for="(stat, index) in stats" :key="stat.name">
+              <!-- 種族値 -->
+              <BaseStatsField
+                :baseStat="currentPokemon.stats[index]"
+                :statsInitial="stat.initial"
+                :natureStat="currentNature.stats[index]"
+              />
+              <!-- 個体値 -->
+              <IndividualValueField :stats="stats" :statsIndex="index" />
+              <!-- 努力値 -->
+              <EffortValueField :stats="stats" :statsIndex="index" />
+              <!-- 実数値 -->
+              <RealNumberField
+                :realNumbers="realNumbers"
+                :stats="stats"
+                :statsIndex="index"
+                @updateRealNumber="updateRealNumber"
+              />
+            </v-row>
+            <v-row class="font-weight-bold">
+              <v-col cols="2" class="d-flex justify-center">
+                <p class="mb-0">{{ totalBaseStats }}</p>
+              </v-col>
+              <v-col cols="3" class="d-flex justify-center">
+                <span class="pr-1">{{ totalIv }}</span>
+              </v-col>
+              <v-col class="d-flex justify-center">
+                <span class="pr-1" :class="totalEvCheck">{{ totalEv }}</span
+                >/&nbsp;{{ MAX_TOTAL_EV }}
+              </v-col>
+              <v-col class="d-flex justify-center">
+                {{ totalStats }}
+              </v-col>
+            </v-row>
+          </div>
+        </v-container>
       </v-col>
       <!-- 左ここまで -->
       <!-- 右ここから -->
@@ -142,6 +178,10 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, PropType } from "@vue/composition-api";
+import BaseStatsField from "@/components/organisms/BaseStatsField.vue";
+import EffortValueField from "@/components/organisms/EffortValueField.vue";
+import IndividualValueField from "@/components/organisms/IndividualValueField.vue";
+import RealNumberField from "@/components/organisms/RealNumberField.vue";
 import CalcButton from "@/components/molecules/CalcButton.vue";
 import PokemonParams from "@/components/organisms/PokemonParams.vue";
 import { numberToInt, valueVerification } from "@/utils/calc";
@@ -163,8 +203,12 @@ import { Nature, PokemonData, Stat } from "@/types/index";
 
 export default defineComponent({
   components: {
+    BaseStatsField,
     CalcButton,
+    EffortValueField,
+    IndividualValueField,
     PokemonParams,
+    RealNumberField,
   },
   props: {
     title: {
@@ -199,12 +243,45 @@ export default defineComponent({
     const calcStyle = ref("balance");
     const description = ref("");
 
+    const totalStats = computed(() => {
+      return (
+        realNumbers.value[HP_INDEX] +
+        realNumbers.value[ATTACK_INDEX] +
+        realNumbers.value[DEFENCE_INDEX] +
+        realNumbers.value[SP_ATTACK_INDEX] +
+        realNumbers.value[SP_DEFENCE_INDEX] +
+        realNumbers.value[SPEED_INDEX]
+      );
+    });
+
     // 種族値の合計値を計算する
     const totalBaseStats = computed(() => {
       return Object.values(props.currentPokemon.stats).reduce((sum, stat) => {
         sum += stat;
         return sum;
       }, 0);
+    });
+
+    // 個体値の合計値を計算する
+    const totalIv = computed(() => {
+      return props.stats.reduce((sum, stat) => {
+        sum += numberToInt(stat.individualValue);
+        return sum;
+      }, 0);
+    });
+
+    // 努力値の合計値を計算する
+    const totalEv = computed(() => {
+      return props.stats.reduce((sum, stat) => {
+        sum += numberToInt(stat.effortValue);
+        return sum;
+      }, 0);
+    });
+
+    // 努力値の合計が最大値より大きい場合は警告を出す
+    const totalEvCheck = computed(() => {
+      if (totalEv.value > MAX_TOTAL_EV) return "text-danger";
+      return "";
     });
 
     // 物理耐久指数を求める
@@ -512,6 +589,7 @@ export default defineComponent({
 
     return {
       DEFENCE_ENHANCEMENTS,
+      MAX_TOTAL_EV,
       SP_DEFENCE_ENHANCEMENTS,
       calcStyle,
       description,
@@ -522,6 +600,10 @@ export default defineComponent({
       selectSpDefenceEnhancement,
       specialDurability,
       totalBaseStats,
+      totalEvCheck,
+      totalEv,
+      totalIv,
+      totalStats,
       durabilityAdjustment,
       emitPokemon,
       updateRealNumber,
