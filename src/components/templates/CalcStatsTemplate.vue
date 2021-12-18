@@ -4,137 +4,17 @@
     <v-row>
       <!-- 左ここから -->
       <v-col cols="12" md="6" class="d-flex">
-        <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
-          <PokemonParams
-            :currentPokemon="currentPokemon"
-            :currentNature="currentNature"
-            :lv="lv"
-            @updatePokemon="$emit('update:currentPokemon', $event)"
-            @updateNature="$emit('update:currentNature', $event)"
-            @updateLv="$emit('update:lv', $event)"
-          />
-          <!-- ステータス一覧 -->
-          <div class="statsTable">
-            <v-row v-for="(stat, index) in stats" :key="stat.en">
-              <!-- 種族値 -->
-              <v-col
-                cols="2"
-                :class="[
-                  'justify-center',
-                  {
-                    'text-danger': currentNature.stats[index] === UPPER_NATURE,
-                    'text-primary': currentNature.stats[index] === LOWER_NATURE,
-                  },
-                ]"
-              >
-                <v-text-field
-                  label="種族値"
-                  placeholder="0"
-                  :value="`${stat.initial}${currentPokemon.stats[index]}`"
-                  disabled
-                  persistent-placeholder
-                />
-              </v-col>
-              <!-- 個体値 -->
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    ref="individualValueRefs"
-                    type="number"
-                    label="個体値"
-                    placeholder="0"
-                    :value="stats[index].individualValue"
-                    @input="updateIndividualValue($event, index)"
-                    persistent-placeholder
-                  />
-                </div>
-                <div>
-                  <CalcButton
-                    :buttonText="String(MAX_IV)"
-                    class="mb-1 btn-min-xs"
-                    @click.native="updateIndividualValue(MAX_IV, index)"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="0"
-                    class="btn-min-xs"
-                    @click.native="updateIndividualValue(null, index)"
-                  />
-                </div>
-              </v-col>
-              <!-- 努力値 -->
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    ref="effortValueRefs"
-                    type="number"
-                    label="努力値"
-                    placeholder="0"
-                    :value="stats[index].effortValue"
-                    @input="updateEffortValue($event, index)"
-                    persistent-placeholder
-                  />
-                </div>
-                <div>
-                  <CalcButton
-                    :buttonText="String(MAX_EV)"
-                    class="mb-1 btn-min-sm"
-                    @click.native="updateEffortValue(MAX_EV, index)"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="0"
-                    class="btn-min-sm"
-                    @click.native="updateEffortValue(null, index)"
-                  />
-                </div>
-              </v-col>
-              <!-- 実数値 -->
-              <v-col class="d-flex justify-center">
-                <div>
-                  <!-- 努力値が自動更新されることによって実数値の入力を妨げてしまうため、実数値はinputではなくchangeで発火させている
-                  なお、Vuetifyではv-modelのlazy修飾子をサポートしていないため、:valueと@changeで分けて書く必要がある -->
-                  <v-text-field
-                    ref="realNumberRefs"
-                    type="number"
-                    :label="stats[index].name"
-                    :value="realNumbers[index]"
-                    @change="setStat($event, index)"
-                    persistent-placeholder
-                  />
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="▲"
-                    class="mb-1 btn-min-xs"
-                    @click.native="setStat(realNumbers[index] + 1, index)"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="▼"
-                    class="btn-min-xs"
-                    @click.native="setStat(realNumbers[index] - 1, index)"
-                  />
-                </div>
-              </v-col>
-            </v-row>
-            <v-row class="font-weight-bold">
-              <v-col cols="2" class="d-flex justify-center">
-                <p class="mb-0">{{ totalBaseStats }}</p>
-              </v-col>
-              <v-col cols="3" class="d-flex justify-center">
-                <span class="pr-1">{{ totalIv }}</span>
-              </v-col>
-              <v-col class="d-flex justify-center">
-                <span class="pr-1" :class="totalEvCheck">{{ totalEv }}</span
-                >/&nbsp;{{ MAX_TOTAL_EV }}
-              </v-col>
-              <v-col class="d-flex justify-center">
-                {{ totalStats }}
-              </v-col>
-            </v-row>
-          </div>
-        </v-container>
+        <PokemonParams
+          :currentPokemon="currentPokemon"
+          :currentNature="currentNature"
+          :lv="lv"
+          :stats="stats"
+          :realNumbers="realNumbers"
+          @updatePokemon="$emit('update:currentPokemon', $event)"
+          @updateNature="$emit('update:currentNature', $event)"
+          @updateLv="$emit('update:lv', $event)"
+          @updateRealNumber="updateRealNumber"
+        />
       </v-col>
       <!-- 左ここまで -->
       <!-- 右ここから -->
@@ -272,7 +152,6 @@ import {
   HP_INDEX,
   LOWER_NATURE,
   MAX_EV,
-  MAX_IV,
   MAX_TOTAL_EV,
   SPEED_INDEX,
   SP_ATTACK_INDEX,
@@ -280,7 +159,7 @@ import {
   SP_DEFENCE_INDEX,
   UPPER_NATURE,
 } from "@/utils/constants";
-import { LazyValue, Nature, PokemonData, Stat } from "@/types/index";
+import { Nature, PokemonData, Stat } from "@/types/index";
 
 export default defineComponent({
   components: {
@@ -320,49 +199,12 @@ export default defineComponent({
     const calcStyle = ref("balance");
     const description = ref("");
 
-    const effortValueRefs = ref<LazyValue[]>();
-    const individualValueRefs = ref<LazyValue[]>();
-    const realNumberRefs = ref<LazyValue[]>();
-
-    const totalStats = computed(() => {
-      return (
-        realNumbers.value[HP_INDEX] +
-        realNumbers.value[ATTACK_INDEX] +
-        realNumbers.value[DEFENCE_INDEX] +
-        realNumbers.value[SP_ATTACK_INDEX] +
-        realNumbers.value[SP_DEFENCE_INDEX] +
-        realNumbers.value[SPEED_INDEX]
-      );
-    });
-
     // 種族値の合計値を計算する
     const totalBaseStats = computed(() => {
       return Object.values(props.currentPokemon.stats).reduce((sum, stat) => {
         sum += stat;
         return sum;
       }, 0);
-    });
-
-    // 個体値の合計値を計算する
-    const totalIv = computed(() => {
-      return props.stats.reduce((sum, stat) => {
-        sum += numberToInt(stat.individualValue);
-        return sum;
-      }, 0);
-    });
-
-    // 努力値の合計値を計算する
-    const totalEv = computed(() => {
-      return props.stats.reduce((sum, stat) => {
-        sum += numberToInt(stat.effortValue);
-        return sum;
-      }, 0);
-    });
-
-    // 努力値の合計が最大値より大きい場合は警告を出す
-    const totalEvCheck = computed(() => {
-      if (totalEv.value > MAX_TOTAL_EV) return "text-danger";
-      return "";
     });
 
     // 物理耐久指数を求める
@@ -437,20 +279,6 @@ export default defineComponent({
       }
     });
 
-    // 努力値の更新
-    const updateEffortValue = (value: number, index: number): void => {
-      const formatValue = valueVerification(value, MAX_EV);
-      effortValueRefs.value[index].lazyValue = formatValue;
-      props.stats[index].effortValue = formatValue;
-    };
-
-    // 個体値の更新
-    const updateIndividualValue = (value: number, index: number): void => {
-      const formatValue = valueVerification(value, MAX_IV);
-      individualValueRefs.value[index].lazyValue = formatValue;
-      props.stats[index].individualValue = formatValue;
-    };
-
     // 実数値を計算して返す
     const getStat = (index: number, tmpEV = 0): number => {
       const formatLv = numberToInt(Number(props.lv), 1);
@@ -493,7 +321,7 @@ export default defineComponent({
     };
 
     // 実数値から努力値の逆算を行う
-    const setStat = (event: number, index: number): void => {
+    const updateRealNumber = (event: number, index: number): void => {
       let setValue = Number(event); // eventで取ってきたものはstring型になってしまうため、明示的にキャストの処理を記載している
       const formatLv = numberToInt(Number(props.lv), 1);
       const formatIndividualValue = numberToInt(
@@ -544,8 +372,6 @@ export default defineComponent({
       // 【共通の処理】計算した値を代入する
       setValue = valueVerification(setValue, MAX_EV);
       props.stats[index].effortValue = setValue;
-
-      realNumberRefs.value[index].lazyValue = getStat(index);
     };
 
     // 努力値をリセットする
@@ -635,9 +461,9 @@ export default defineComponent({
         tmpHpEV--;
       }
       // 最も優秀だった結果を代入する
-      setStat(resultHp, HP_INDEX);
-      setStat(resultDefence, DEFENCE_INDEX);
-      setStat(resultSpDefence, SP_DEFENCE_INDEX);
+      updateRealNumber(resultHp, HP_INDEX);
+      updateRealNumber(resultDefence, DEFENCE_INDEX);
+      updateRealNumber(resultSpDefence, SP_DEFENCE_INDEX);
     };
 
     // ポケモンのデータを親に渡す
@@ -686,34 +512,20 @@ export default defineComponent({
 
     return {
       DEFENCE_ENHANCEMENTS,
-      LOWER_NATURE,
-      MAX_EV,
-      MAX_IV,
-      MAX_TOTAL_EV,
       SP_DEFENCE_ENHANCEMENTS,
-      UPPER_NATURE,
       calcStyle,
       description,
-      effortValueRefs,
       hiddenPower,
-      individualValueRefs,
       physicalDurability,
-      realNumberRefs,
       realNumbers,
       selectDefenceEnhancement,
       selectSpDefenceEnhancement,
       specialDurability,
       totalBaseStats,
-      totalEvCheck,
-      totalEv,
-      totalIv,
-      totalStats,
       durabilityAdjustment,
       emitPokemon,
-      setStat,
+      updateRealNumber,
       resetEffortValue,
-      updateEffortValue,
-      updateIndividualValue,
     };
   },
 });
