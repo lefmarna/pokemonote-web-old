@@ -5,7 +5,7 @@
       <!-- 左ここから -->
       <v-col cols="12" md="6" class="d-flex">
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
-          <PokemonParams
+          <StatsTableHeader
             :currentPokemon="currentPokemon"
             :currentNature="currentNature"
             :lv="lv"
@@ -179,11 +179,11 @@
 <script lang="ts">
 import { computed, defineComponent, ref, PropType } from "@vue/composition-api";
 import BaseStatsField from "@/components/organisms/BaseStatsField.vue";
+import CalcButton from "@/components/molecules/CalcButton.vue";
 import EffortValueField from "@/components/organisms/EffortValueField.vue";
 import IndividualValueField from "@/components/organisms/IndividualValueField.vue";
 import RealNumberField from "@/components/organisms/RealNumberField.vue";
-import CalcButton from "@/components/molecules/CalcButton.vue";
-import PokemonParams from "@/components/organisms/PokemonParams.vue";
+import StatsTableHeader from "@/components/organisms/StatsTableHeader.vue";
 import { numberToInt, valueVerification } from "@/utils/calc";
 import {
   ATTACK_INDEX,
@@ -207,8 +207,8 @@ export default defineComponent({
     CalcButton,
     EffortValueField,
     IndividualValueField,
-    PokemonParams,
     RealNumberField,
+    StatsTableHeader,
   },
   props: {
     title: {
