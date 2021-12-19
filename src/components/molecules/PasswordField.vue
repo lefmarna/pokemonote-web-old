@@ -13,6 +13,7 @@
 </template>
 
 <script lang="ts">
+import { PASSWORD_VAlIDATION } from "@/utils/constants";
 import { computed, defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
@@ -38,9 +39,8 @@ export default defineComponent({
       return {
         required: (value: string) => !!value || "この項目は必須です",
         password: (value: string) => {
-          const pattern = /^(?=.*?[a-z])(?=.*?\d)[a-z\d!@#$%^&*]{8,64}$/i;
           return (
-            pattern.test(value) ||
+            PASSWORD_VAlIDATION.test(value) ||
             "パスワードは、英数それぞれ1種類以上含む、8〜64文字で入力してください"
           );
         },
