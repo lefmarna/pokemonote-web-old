@@ -29,11 +29,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "@vue/composition-api";
 import SearchField from "@/components/molecules/SearchField.vue";
 import LvField from "@/components/organisms/LvField.vue";
 import { Nature, PokemonData } from "@/types/index";
-import store from "@/store";
+import { natureData, pokemonData } from "@/utils/store";
 
 export default defineComponent({
   components: {
@@ -58,12 +58,6 @@ export default defineComponent({
     },
   },
   setup() {
-    const pokemonData = computed((): PokemonData[] => {
-      return store.getters.pokemonData;
-    });
-    const natureData = computed((): Nature[] => {
-      return store.getters.natureData;
-    });
     return {
       pokemonData,
       natureData,
