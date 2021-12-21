@@ -119,20 +119,19 @@ export default defineComponent({
       }
     };
 
-    const deletePokemon = (id: number): void => {
-      axios
-        .delete(`/pokemons/${id}`)
-        .then(() => {
-          // 削除するポケモンのデータを探す
-          const deletePokemon = pokemonTable.value.findIndex(
-            (pokemon: Pokemon) => pokemon.id === id
-          );
-          // 配列から要素を削除
-          pokemonTable.value.splice(deletePokemon, 1);
-        })
-        .catch(() => {
-          router.push("/");
-        });
+    const deletePokemon = async (id: number): Promise<void> => {
+      try {
+        await axios.delete(`/pokemons/${id}`);
+        // 削除するポケモンのデータを探す
+        const deletePokemon = pokemonTable.value.findIndex(
+          (pokemon: Pokemon) => pokemon.id === id
+        );
+        // 配列から要素を削除
+        pokemonTable.value.splice(deletePokemon, 1);
+      } catch (error) {
+        console.log(error);
+        router.push("/");
+      }
     };
     return {
       authUserName,
