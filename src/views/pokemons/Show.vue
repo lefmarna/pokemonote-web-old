@@ -53,6 +53,14 @@ import router from "@/router";
 import { PokemonData } from "@/types/index";
 import store from "@/store";
 import { authUserName } from "@/utils/store";
+import {
+  ATTACK_INDEX,
+  DEFENCE_INDEX,
+  HP_INDEX,
+  SPEED_INDEX,
+  SP_ATTACK_INDEX,
+  SP_DEFENCE_INDEX,
+} from "@/utils/constants";
 
 export default defineComponent({
   props: {
@@ -106,6 +114,12 @@ export default defineComponent({
     };
 
     return {
+      HP_INDEX,
+      ATTACK_INDEX,
+      DEFENCE_INDEX,
+      SP_ATTACK_INDEX,
+      SP_DEFENCE_INDEX,
+      SPEED_INDEX,
       authUserName,
       pokemon,
       pokemonDetails,
