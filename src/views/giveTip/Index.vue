@@ -77,7 +77,13 @@ import { Card, Tip } from "@/types";
 // Payjpに型を指定しないとエラーになる
 declare global {
   interface Window {
-    Payjp: any;
+    Payjp: {
+      setPublicKey: (key: string) => void;
+      createToken: (
+        card: Card,
+        callback: (status: number, response: { id: string }) => void
+      ) => void;
+    };
   }
 }
 
@@ -109,25 +115,22 @@ export default defineComponent({
     });
 
     const giveTip = (): void => {
-      window.Payjp.createToken(
-        card,
-        async (status: number, response: { id: string }) => {
-          if (status === HTTP_OK) {
-            tip.token = response.id;
-          }
-
-          try {
-            await axios.post("/tips", tip);
-            router.push("/give-tip/thanks");
-          } catch (error) {
-            errors.value = exceptionErrorToArray(error, [
-              HTTP_PAYMENT_REQUIRED,
-              HTTP_UNPROCESSABLE_ENTITY,
-            ]);
-            tip.token = "";
-          }
+      window.Payjp.createToken(card, (status, response) => {
+        if (status === HTTP_OK) {
+          tip.token = response.id;
         }
-      );
+
+        try {
+          axios.post("/tips", tip);
+          router.push("/give-tip/thanks");
+        } catch (error) {
+          errors.value = exceptionErrorToArray(error, [
+            HTTP_PAYMENT_REQUIRED,
+            HTTP_UNPROCESSABLE_ENTITY,
+          ]);
+          tip.token = "";
+        }
+      });
     };
     return {
       GIFTS,
