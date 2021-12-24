@@ -7,6 +7,7 @@ import { computed, defineComponent, ref } from "@vue/composition-api";
 import axios from "axios";
 import PokemonTable from "@/components/templates/PokemonTable.vue";
 import store from "@/store";
+import { Pokemon } from "@/types";
 
 export default defineComponent({
   components: {
@@ -19,10 +20,10 @@ export default defineComponent({
      * 自分の投稿したポケモンは表示させない
      */
     const filteredPokemons = computed(() => {
-      const authUserName = store.getters.authUser.username;
+      const authUserName: string = store.getters.authUser.username;
       if (!authUserName) return pokemons.value;
       return pokemons.value.filter(
-        (pokemon: any) => pokemon.user.username != authUserName
+        (pokemon: Pokemon) => pokemon.user.username !== authUserName
       );
     });
 

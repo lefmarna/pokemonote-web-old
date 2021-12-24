@@ -50,7 +50,7 @@
 import { computed, defineComponent, ref, watch } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
-import { PokemonData } from "@/types/index";
+import { Pokemon, PokemonData } from "@/types/index";
 import store from "@/store";
 import { authUserName } from "@/utils/store";
 import {
@@ -94,7 +94,7 @@ export default defineComponent({
       { immediate: true }
     );
 
-    const editItem = (item: any): void => {
+    const editItem = (item: Pokemon): void => {
       if (item.user.username === authUserName.value) {
         router.push(`/pokemons/${item.id}/edit`);
       } else {
