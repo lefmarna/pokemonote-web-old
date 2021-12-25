@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <FormTemplate
     title="チップを贈る"
     buttonText="チップを贈る"
     :errors="errors"
@@ -52,7 +52,7 @@
       label="セキュリティコード"
       type="text"
     />
-  </Form>
+  </FormTemplate>
 </template>
 
 <script lang="ts">
@@ -64,7 +64,7 @@ import {
 } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
-import Form from "@/components/templates/Form.vue";
+import FormTemplate from "@/components/templates/FormTemplate.vue";
 import {
   GIFTS,
   HTTP_OK,
@@ -89,7 +89,7 @@ declare global {
 
 export default defineComponent({
   components: {
-    Form,
+    FormTemplate,
   },
   setup() {
     const errors = ref<string[]>();

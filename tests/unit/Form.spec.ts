@@ -1,6 +1,6 @@
 import { createLocalVue, shallowMount } from "@vue/test-utils";
 import VueCompositionApi from "@vue/composition-api";
-import Form from "@/components/templates/Form.vue";
+import FormTemplate from "@/components/templates/FormTemplate.vue";
 
 // localVueを使ってComposition APIを有効にする
 const localVue = createLocalVue();
@@ -11,7 +11,7 @@ describe("CalcButtonの正常系テスト", () => {
     const title = "タイトル";
     const buttonText = "ボタン";
     const errors = ["エラー1", "エラー2", "エラー3"];
-    const wrapper = shallowMount(Form, {
+    const wrapper = shallowMount(FormTemplate, {
       localVue,
       propsData: {
         title: title,

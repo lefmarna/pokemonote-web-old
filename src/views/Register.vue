@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <FormTemplate
     name="form"
     title="アカウント作成"
     buttonText="新規登録"
@@ -38,12 +38,12 @@
       name="password_confirmation"
       label="パスワード確認"
     />
-  </Form>
+  </FormTemplate>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "@vue/composition-api";
-import Form from "@/components/templates/Form.vue";
+import FormTemplate from "@/components/templates/FormTemplate.vue";
 import EmailField from "@/components/molecules/EmailField.vue";
 import PasswordField from "@/components/molecules/PasswordField.vue";
 import { login } from "@/utils/auth";
@@ -51,7 +51,7 @@ import { exceptionErrorToArray } from "@/utils/error";
 
 export default defineComponent({
   components: {
-    Form,
+    FormTemplate,
     EmailField,
     PasswordField,
   },

@@ -1,15 +1,20 @@
 <template>
-  <Form title="ログイン" buttonText="ログイン" :errors="errors" @submit="login">
+  <FormTemplate
+    title="ログイン"
+    buttonText="ログイン"
+    :errors="errors"
+    @submit="login"
+  >
     <EmailField :email.sync="email" />
     <PasswordField :password.sync="password" />
-  </Form>
+  </FormTemplate>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
-import Form from "@/components/templates/Form.vue";
+import FormTemplate from "@/components/templates/FormTemplate.vue";
 import EmailField from "@/components/molecules/EmailField.vue";
 import PasswordField from "@/components/molecules/PasswordField.vue";
 import { RawLocation } from "vue-router";
@@ -17,7 +22,7 @@ import { notice, updateAuthUser } from "@/utils/store";
 
 export default defineComponent({
   components: {
-    Form,
+    FormTemplate,
     EmailField,
     PasswordField,
   },

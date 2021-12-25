@@ -1,5 +1,9 @@
 <template>
-  <Form title="メール確認" buttonText="確認メールを再送信する" @submit="resend">
+  <FormTemplate
+    title="メール確認"
+    buttonText="確認メールを再送信する"
+    @submit="resend"
+  >
     <p>
       登録はまだ完了していません。<br />
       メールに記載されたリンクをクリックして本登録を完了してください。
@@ -8,7 +12,7 @@
       メールが届いていない場合、メールアドレスをご確認の上、「確認メールを再送信する」のボタンを押してください。
     </p>
     <EmailField :email.sync="email" name="email" />
-  </Form>
+  </FormTemplate>
 </template>
 
 <script lang="ts">
@@ -17,13 +21,13 @@ import router from "@/router";
 import { RawLocation } from "vue-router";
 import axios from "axios";
 import EmailField from "@/components/molecules/EmailField.vue";
-import Form from "@/components/templates/Form.vue";
+import FormTemplate from "@/components/templates/FormTemplate.vue";
 import { authUser } from "@/utils/store";
 
 export default defineComponent({
   components: {
     EmailField,
-    Form,
+    FormTemplate,
   },
   setup(_, context) {
     const route = context.root.$route;
