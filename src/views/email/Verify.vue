@@ -20,7 +20,7 @@ import { defineComponent, ref } from "@vue/composition-api";
 import router from "@/router";
 import { RawLocation } from "vue-router";
 import axios from "axios";
-import EmailField from "@/components/molecules/EmailField.vue";
+import { EmailField } from "@/components/molecules";
 import FormTemplate from "@/components/templates/FormTemplate.vue";
 import { authUser } from "@/utils/store";
 

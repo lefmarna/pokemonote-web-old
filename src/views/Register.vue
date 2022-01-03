@@ -44,8 +44,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "@vue/composition-api";
 import FormTemplate from "@/components/templates/FormTemplate.vue";
-import EmailField from "@/components/molecules/EmailField.vue";
-import PasswordField from "@/components/molecules/PasswordField.vue";
+import { EmailField, PasswordField } from "@/components/molecules";
 import { login } from "@/utils/auth";
 import { exceptionErrorToArray } from "@/utils/error";
 

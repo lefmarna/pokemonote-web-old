@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent } from "@vue/composition-api";
-import CalcButton from "@/components/molecules/CalcButton.vue";
+import { CalcButton } from "@/components/molecules";
 import { LOWER_NATURE, UPPER_NATURE } from "@/utils/constants";
 
 export default defineComponent({

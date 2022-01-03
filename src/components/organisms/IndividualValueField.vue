@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from "@vue/composition-api";
-import CalcButton from "@/components/molecules/CalcButton.vue";
+import { CalcButton } from "@/components/molecules";
 import { LazyValue, Stat } from "@/types";
 import { valueVerification } from "@/utils/calc";
 import { MAX_IV } from "@/utils/constants";
