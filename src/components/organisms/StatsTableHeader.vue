@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "@vue/composition-api";
 import { SearchField } from "@/components/molecules";
-import LvField from "@/components/organisms/LvField.vue";
+import { LvField } from "@/components/organisms";
 import { Nature, PokemonData } from "@/types/index";
 import { natureData, pokemonData } from "@/utils/store";
 

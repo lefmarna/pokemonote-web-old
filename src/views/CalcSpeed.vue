@@ -121,12 +121,14 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "@vue/composition-api";
-import BaseStatsField from "@/components/organisms/BaseStatsField.vue";
 import { CalcButton } from "@/components/molecules";
-import EffortValueField from "@/components/organisms/EffortValueField.vue";
-import IndividualValueField from "@/components/organisms/IndividualValueField.vue";
-import RealNumberField from "@/components/organisms/RealNumberField.vue";
-import StatsTableHeader from "@/components/organisms/StatsTableHeader.vue";
+import {
+  BaseStatsField,
+  EffortValueField,
+  IndividualValueField,
+  RealNumberField,
+  StatsTableHeader,
+} from "@/components/organisms";
 import { numberToInt, valueVerification } from "@/utils/calc";
 import {
   LOWER_NATURE,
