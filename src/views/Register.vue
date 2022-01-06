@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "@vue/composition-api";
-import FormTemplate from "@/components/templates/FormTemplate.vue";
+import { FormTemplate } from "@/components/templates";
 import { EmailField, PasswordField } from "@/components/molecules";
 import { login } from "@/utils/auth";
 import { exceptionErrorToArray } from "@/utils/error";

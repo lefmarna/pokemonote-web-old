@@ -64,7 +64,7 @@ import {
 } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
-import FormTemplate from "@/components/templates/FormTemplate.vue";
+import { FormTemplate } from "@/components/templates";
 import {
   GIFTS,
   HTTP_OK,

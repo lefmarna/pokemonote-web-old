@@ -14,7 +14,7 @@
 import { defineComponent, ref } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
-import FormTemplate from "@/components/templates/FormTemplate.vue";
+import { FormTemplate } from "@/components/templates";
 import { EmailField, PasswordField } from "@/components/molecules";
 import { RawLocation } from "vue-router";
 import { notice, updateAuthUser } from "@/utils/store";

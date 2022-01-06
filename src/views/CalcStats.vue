@@ -16,7 +16,7 @@
 <script lang="ts">
 import { defineComponent } from "@vue/composition-api";
 import { LoginAlert } from "@/components/molecules";
-import CalcStatsTemplate from "@/components/templates/CalcStatsTemplate.vue";
+import { CalcStatsTemplate } from "@/components/templates";
 import axios from "axios";
 import router from "@/router";
 import { currentNature, currentPokemon, lv, stats } from "@/utils/store";

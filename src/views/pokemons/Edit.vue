@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, watch } from "@vue/composition-api";
-import CalcStatsTemplate from "@/components/templates/CalcStatsTemplate.vue";
+import { CalcStatsTemplate } from "@/components/templates";
 import axios from "axios";
 import router from "@/router";
 import { Nature, PokemonData, Stat } from "@/types/index";

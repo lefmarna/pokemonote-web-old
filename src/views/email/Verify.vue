@@ -21,7 +21,7 @@ import router from "@/router";
 import { RawLocation } from "vue-router";
 import axios from "axios";
 import { EmailField } from "@/components/molecules";
-import FormTemplate from "@/components/templates/FormTemplate.vue";
+import { FormTemplate } from "@/components/templates";
 import { authUser } from "@/utils/store";
 
 export default defineComponent({

@@ -5,7 +5,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "@vue/composition-api";
 import axios from "axios";
-import PokemonTable from "@/components/templates/PokemonTable.vue";
+import { PokemonTable } from "@/components/templates";
 import store from "@/store";
 import { Pokemon } from "@/types";
 
