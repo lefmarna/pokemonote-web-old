@@ -19,6 +19,8 @@ import { FormTemplate } from "@/components/templates";
 import { EmailField, PasswordField } from "@/components/molecules";
 import { RawLocation } from "vue-router";
 import { notice, updateAuthUser } from "@/utils/store";
+import { exceptionErrorToArray } from "@/utils/error";
+import { AuthUser } from "@/types";
 
 export default defineComponent({
   components: {
@@ -34,14 +36,20 @@ export default defineComponent({
     const password = ref("");
     const errors = ref<string[]>();
 
-    const login = async (
-      params = { email: email.value, password: password.value },
-      method = "post",
-      path = "/login"
-    ): Promise<void | string[]> => {
-      // FIXME @/utils/auth.tsにまとめたい、Vue3に移行したらtsファイルでもroute.query.redirectがかけるようになるので、その際にまとめよう
+    const login = async (): Promise<void | string[]> => {
       try {
-        const response = await axios[method](path, params);
+        const response = await axios.post<{ data: AuthUser }>("/login", {
+          email: email.value,
+          password: password.value,
+        });
+
+        // メール認証済でない場合は、メール確認ページへ
+        if (!response.data.data.email_verified_at) {
+          localStorage.setItem("email", response.data.data.email);
+          router.push("/email/resend");
+          return;
+        }
+
         updateAuthUser(response.data.data);
         if (route.query.redirect) {
           router.push(route.query.redirect as RawLocation);
@@ -51,13 +59,7 @@ export default defineComponent({
         }
         notice();
       } catch (error) {
-        if (!axios.isAxiosError(error)) return;
-        const errorMessages: string[] = [];
-        const errorsResponse: string[] = error.response.data.errors;
-        Object.values(errorsResponse).forEach((errorResponse) => {
-          errorMessages.push(errorResponse[0]);
-        });
-        return errorMessages;
+        errors.value = exceptionErrorToArray(error);
       }
     };
     return {

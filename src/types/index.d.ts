@@ -1,3 +1,8 @@
+export interface AuthUser extends User {
+  email: string;
+  email_verified_at: string;
+}
+
 export interface Card {
   number: string;
   cvc: string;
