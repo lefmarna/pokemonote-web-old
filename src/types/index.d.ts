@@ -53,6 +53,11 @@ export interface Stat {
   effortValue: number | null;
 }
 
+export interface Signature {
+  expires: string;
+  signature: string;
+}
+
 export interface Tip {
   price: number;
   token: string;

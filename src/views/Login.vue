@@ -7,6 +7,7 @@
   >
     <EmailField :email.sync="email" />
     <PasswordField :password.sync="password" />
+    <router-link to="/register"> 新規会員登録はこちら</router-link>
   </FormTemplate>
 </template>
 

@@ -86,14 +86,39 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: "/email/verify",
+    path: "/email/resend",
     name: "メール確認",
-    component: () => import("../views/email/Verify.vue"),
+    component: () => import("../views/email/Resend.vue"),
+    beforeEnter: (to, from, next) => {
+      // ログイン済の場合はアクセスさせない
+      if (
+        store.getters.authUser.username ||
+        store.getters.authUser.nickname ||
+        !localStorage.getItem("email")
+      ) {
+        next("/");
+      } else {
+        next();
+      }
+    },
     meta: {
       title: "メール確認",
     },
   },
-
+  {
+    path: "/email/verify/:id",
+    name: "メール認証",
+    component: () => import("../views/email/Verify.vue"),
+    props: (route) => ({ id: route.params.id, query: route.query }),
+    beforeEnter: (to, from, next) => {
+      // ログイン済の場合はアクセスさせない
+      if (store.getters.authUser.username || store.getters.authUser.nickname) {
+        next("/");
+      } else {
+        next();
+      }
+    },
+  },
   {
     path: "/users/:id",
     name: "ユーザ詳細",
@@ -178,11 +203,6 @@ router.beforeEach((to, from, next) => {
       // 認証していなければログインページにリダイレクト
       next({
         path: "/login",
-        query: { redirect: to.fullPath },
-      });
-    } else if (!store.getters.authUser.email_verified_at) {
-      next({
-        path: "/email/verify",
         query: { redirect: to.fullPath },
       });
     } else {

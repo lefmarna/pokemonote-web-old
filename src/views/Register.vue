@@ -45,8 +45,9 @@
 import { computed, defineComponent, ref } from "@vue/composition-api";
 import { FormTemplate } from "@/components/templates";
 import { EmailField, PasswordField } from "@/components/molecules";
-import { login } from "@/utils/auth";
 import { exceptionErrorToArray } from "@/utils/error";
+import router from "@/router";
+import axios from "axios";
 
 export default defineComponent({
   components: {
@@ -85,7 +86,9 @@ export default defineComponent({
       const formData = new FormData(form);
 
       try {
-        await login(formData, "post", "/register");
+        const response = await axios.post("/register", formData);
+        localStorage.setItem("email", response.data.data.email);
+        router.push("/email/resend");
       } catch (error) {
         errors.value = exceptionErrorToArray(error);
       }
