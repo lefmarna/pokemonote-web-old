@@ -15,11 +15,13 @@
     </v-row>
     <v-row> {{ pokemonDetails.hiddenAbilities }}</v-row>
     <v-row
-      >{{ pokemonDetails.stats.hp }}-{{ pokemonDetails.stats.attack }}-{{
-        pokemonDetails.stats.defence
-      }}-{{ pokemonDetails.stats.spAttack }}-{{
-        pokemonDetails.stats.spDefence
-      }}-{{ pokemonDetails.stats.speed }}</v-row
+      >{{ pokemonDetails.stats[HP_INDEX] }}-{{
+        pokemonDetails.stats[ATTACK_INDEX]
+      }}-{{ pokemonDetails.stats[DEFENCE_INDEX] }}-{{
+        pokemonDetails.stats[SP_ATTACK_INDEX]
+      }}-{{ pokemonDetails.stats[SP_DEFENCE_INDEX] }}-{{
+        pokemonDetails.stats[SPEED_INDEX]
+      }}</v-row
     >
 
     <!-- {{ pokemonDetails.types[0] }} -->
@@ -48,9 +50,17 @@
 import { computed, defineComponent, ref, watch } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
-import { PokemonData } from "@/types/index";
+import { Pokemon, PokemonData } from "@/types/index";
 import store from "@/store";
 import { authUserName } from "@/utils/store";
+import {
+  ATTACK_INDEX,
+  DEFENCE_INDEX,
+  HP_INDEX,
+  SPEED_INDEX,
+  SP_ATTACK_INDEX,
+  SP_DEFENCE_INDEX,
+} from "@/utils/constants";
 
 export default defineComponent({
   props: {
@@ -84,7 +94,7 @@ export default defineComponent({
       { immediate: true }
     );
 
-    const editItem = (item: any): void => {
+    const editItem = (item: Pokemon): void => {
       if (item.user.username === authUserName.value) {
         router.push(`/pokemons/${item.id}/edit`);
       } else {
@@ -104,6 +114,12 @@ export default defineComponent({
     };
 
     return {
+      HP_INDEX,
+      ATTACK_INDEX,
+      DEFENCE_INDEX,
+      SP_ATTACK_INDEX,
+      SP_DEFENCE_INDEX,
+      SPEED_INDEX,
       authUserName,
       pokemon,
       pokemonDetails,

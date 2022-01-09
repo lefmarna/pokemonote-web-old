@@ -1,13 +1,6 @@
 import { computed } from "@vue/composition-api";
 import store from "@/store";
-import {
-  Nature,
-  Pokemon,
-  PokemonData,
-  Ranking,
-  Stat,
-  User,
-} from "@/types/index";
+import { Nature, PokemonData, Ranking, Stat, User } from "@/types/index";
 
 export const authUser = computed(() => {
   return store.getters.authUser;
@@ -27,7 +20,7 @@ export const currentNature = computed({
 });
 
 export const currentPokemon = computed({
-  get: (): Pokemon => {
+  get: (): PokemonData => {
     return store.getters.currentPokemon;
   },
   set(value): void {

@@ -79,7 +79,7 @@
             alt="Pokemonote"
             class="shrink mt-2"
             contain
-            src="@/assets/logo.png"
+            src="@/assets/logo.svg"
             transition="scale-transition"
             max-height="81"
             max-width="286"

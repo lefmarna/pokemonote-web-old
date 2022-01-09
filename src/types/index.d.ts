@@ -1,3 +1,8 @@
+export interface AuthUser extends User {
+  email: string;
+  email_verified_at: string;
+}
+
 export interface Card {
   number: string;
   cvc: string;
@@ -38,14 +43,7 @@ export interface PokemonData {
   types: string[];
   abilities: string[];
   hiddenAbilities: string[];
-  stats: {
-    hp: number;
-    attack: number;
-    defence: number;
-    spAttack: number;
-    spDefence: number;
-    speed: number;
-  };
+  stats: number[];
   total?: number;
 }
 
@@ -54,11 +52,15 @@ export interface Ranking {
 }
 
 export interface Stat {
-  en: string;
-  ja: string;
-  abbreviation: string;
+  name: string;
+  initial: string;
   individualValue: number | null;
   effortValue: number | null;
+}
+
+export interface Signature {
+  expires: string;
+  signature: string;
 }
 
 export interface Tip {

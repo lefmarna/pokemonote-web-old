@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <FormTemplate
     title="チップを贈る"
     buttonText="チップを贈る"
     :errors="errors"
@@ -52,7 +52,7 @@
       label="セキュリティコード"
       type="text"
     />
-  </Form>
+  </FormTemplate>
 </template>
 
 <script lang="ts">
@@ -64,7 +64,7 @@ import {
 } from "@vue/composition-api";
 import axios from "axios";
 import router from "@/router";
-import Form from "@/components/templates/Form.vue";
+import { FormTemplate } from "@/components/templates";
 import {
   GIFTS,
   HTTP_OK,
@@ -77,13 +77,19 @@ import { Card, Tip } from "@/types";
 // Payjpに型を指定しないとエラーになる
 declare global {
   interface Window {
-    Payjp: any;
+    Payjp: {
+      setPublicKey: (key: string) => void;
+      createToken: (
+        card: Card,
+        callback: (status: number, response: { id: string }) => void
+      ) => void;
+    };
   }
 }
 
 export default defineComponent({
   components: {
-    Form,
+    FormTemplate,
   },
   setup() {
     const errors = ref<string[]>();
@@ -109,25 +115,22 @@ export default defineComponent({
     });
 
     const giveTip = (): void => {
-      window.Payjp.createToken(
-        card,
-        async (status: number, response: { id: string }) => {
-          if (status === HTTP_OK) {
-            tip.token = response.id;
-          }
-
-          try {
-            await axios.post("/tips", tip);
-            router.push("/give-tip/thanks");
-          } catch (error) {
-            errors.value = exceptionErrorToArray(error, [
-              HTTP_PAYMENT_REQUIRED,
-              HTTP_UNPROCESSABLE_ENTITY,
-            ]);
-            tip.token = "";
-          }
+      window.Payjp.createToken(card, (status, response) => {
+        if (status === HTTP_OK) {
+          tip.token = response.id;
         }
-      );
+
+        try {
+          axios.post("/tips", tip);
+          router.push("/give-tip/thanks");
+        } catch (error) {
+          errors.value = exceptionErrorToArray(error, [
+            HTTP_PAYMENT_REQUIRED,
+            HTTP_UNPROCESSABLE_ENTITY,
+          ]);
+          tip.token = "";
+        }
+      });
     };
     return {
       GIFTS,

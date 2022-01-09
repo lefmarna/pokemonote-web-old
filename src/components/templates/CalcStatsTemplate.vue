@@ -5,7 +5,7 @@
       <!-- 左ここから -->
       <v-col cols="12" md="6" class="d-flex">
         <v-container :class="$vuetify.breakpoint.xs ? 'px-0' : ''">
-          <PokemonParams
+          <StatsTableHeader
             :currentPokemon="currentPokemon"
             :currentNature="currentNature"
             :lv="lv"
@@ -15,112 +15,24 @@
           />
           <!-- ステータス一覧 -->
           <div class="statsTable">
-            <v-row v-for="(stat, index) in stats" :key="stat.en">
+            <v-row v-for="(stat, index) in stats" :key="stat.name">
               <!-- 種族値 -->
-              <v-col
-                cols="2"
-                :class="[
-                  'justify-center',
-                  {
-                    'text-danger': currentNature.stats[index] == UPPER_NATURE,
-                    'text-primary': currentNature.stats[index] == LOWER_NATURE,
-                  },
-                ]"
-              >
-                <v-text-field
-                  label="種族値"
-                  placeholder="0"
-                  :value="`${stat.abbreviation}${
-                    currentPokemon.stats[stat.en]
-                  }`"
-                  disabled
-                  persistent-placeholder
-                />
-              </v-col>
+              <BaseStatsField
+                :baseStat="currentPokemon.stats[index]"
+                :statsInitial="stat.initial"
+                :natureStat="currentNature.stats[index]"
+              />
               <!-- 個体値 -->
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    ref="individualValueRefs"
-                    type="number"
-                    label="個体値"
-                    placeholder="0"
-                    :value="stats[index].individualValue"
-                    @input="updateIndividualValue($event, stat.en, index)"
-                    persistent-placeholder
-                  />
-                </div>
-                <div>
-                  <CalcButton
-                    :buttonText="String(MAX_IV)"
-                    class="mb-1 btn-min-xs"
-                    @click.native="
-                      updateIndividualValue(MAX_IV, stat.en, index)
-                    "
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="0"
-                    class="btn-min-xs"
-                    @click.native="updateIndividualValue(null, stat.en, index)"
-                  />
-                </div>
-              </v-col>
+              <IndividualValueField :stats="stats" :statsIndex="index" />
               <!-- 努力値 -->
-              <v-col class="d-flex justify-center">
-                <div>
-                  <v-text-field
-                    ref="effortValueRefs"
-                    type="number"
-                    label="努力値"
-                    placeholder="0"
-                    :value="stats[index].effortValue"
-                    @input="updateEffortValue($event, stat.en, index)"
-                    persistent-placeholder
-                  />
-                </div>
-                <div>
-                  <CalcButton
-                    :buttonText="String(MAX_EV)"
-                    class="mb-1 btn-min-sm"
-                    @click.native="updateEffortValue(MAX_EV, stat.en, index)"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="0"
-                    class="btn-min-sm"
-                    @click.native="updateEffortValue(null, stat.en, index)"
-                  />
-                </div>
-              </v-col>
+              <EffortValueField :stats="stats" :statsIndex="index" />
               <!-- 実数値 -->
-              <v-col class="d-flex justify-center">
-                <div>
-                  <!-- 努力値が自動更新されることによって実数値の入力を妨げてしまうため、実数値はinputではなくchangeで発火させている
-                  なお、Vuetifyではv-modelのlazy修飾子をサポートしていないため、:valueと@changeで分けて書く必要がある -->
-                  <v-text-field
-                    ref="realNumberRefs"
-                    type="number"
-                    :label="stats[index].ja"
-                    :value="realNumbers[stat.en]"
-                    @change="setStat($event, stat.en, index)"
-                    persistent-placeholder
-                  />
-                </div>
-                <div>
-                  <CalcButton
-                    buttonText="▲"
-                    class="mb-1 btn-min-xs"
-                    @click.native="statPlus(stat.en, index)"
-                  />
-                  <br />
-                  <CalcButton
-                    buttonText="▼"
-                    class="btn-min-xs"
-                    @click.native="statMinus(stat.en, index)"
-                  />
-                </div>
-              </v-col>
+              <RealNumberField
+                :realNumber="realNumbers[index]"
+                :stats="stats"
+                :statsIndex="index"
+                @updateRealNumber="updateRealNumber"
+              />
             </v-row>
             <v-row class="font-weight-bold">
               <v-col cols="2" class="d-flex justify-center">
@@ -266,8 +178,14 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, PropType } from "@vue/composition-api";
-import CalcButton from "@/components/molecules/CalcButton.vue";
-import PokemonParams from "@/components/organisms/PokemonParams.vue";
+import { CalcButton } from "@/components/molecules";
+import {
+  BaseStatsField,
+  EffortValueField,
+  IndividualValueField,
+  RealNumberField,
+  StatsTableHeader,
+} from "@/components/organisms";
 import { numberToInt, valueVerification } from "@/utils/calc";
 import {
   ATTACK_INDEX,
@@ -276,7 +194,6 @@ import {
   HP_INDEX,
   LOWER_NATURE,
   MAX_EV,
-  MAX_IV,
   MAX_TOTAL_EV,
   SPEED_INDEX,
   SP_ATTACK_INDEX,
@@ -284,12 +201,16 @@ import {
   SP_DEFENCE_INDEX,
   UPPER_NATURE,
 } from "@/utils/constants";
-import { LazyValue, Nature, PokemonData, Stat } from "@/types/index";
+import { Nature, PokemonData, Stat } from "@/types/index";
 
 export default defineComponent({
   components: {
+    BaseStatsField,
     CalcButton,
-    PokemonParams,
+    EffortValueField,
+    IndividualValueField,
+    RealNumberField,
+    StatsTableHeader,
   },
   props: {
     title: {
@@ -324,18 +245,14 @@ export default defineComponent({
     const calcStyle = ref("balance");
     const description = ref("");
 
-    const effortValueRefs = ref<LazyValue[]>();
-    const individualValueRefs = ref<LazyValue[]>();
-    const realNumberRefs = ref<LazyValue[]>();
-
     const totalStats = computed(() => {
       return (
-        realNumbers.value.hp +
-        realNumbers.value.attack +
-        realNumbers.value.defence +
-        realNumbers.value.spAttack +
-        realNumbers.value.spDefence +
-        realNumbers.value.speed
+        realNumbers.value[HP_INDEX] +
+        realNumbers.value[ATTACK_INDEX] +
+        realNumbers.value[DEFENCE_INDEX] +
+        realNumbers.value[SP_ATTACK_INDEX] +
+        realNumbers.value[SP_DEFENCE_INDEX] +
+        realNumbers.value[SPEED_INDEX]
       );
     });
 
@@ -372,17 +289,19 @@ export default defineComponent({
     // 物理耐久指数を求める
     const physicalDurability = computed(() => {
       return (
-        realNumbers.value.hp *
-        Math.floor(realNumbers.value.defence * selectDefenceEnhancement.value)
+        realNumbers.value[HP_INDEX] *
+        Math.floor(
+          realNumbers.value[DEFENCE_INDEX] * selectDefenceEnhancement.value
+        )
       );
     });
 
     // 特殊耐久指数を求める
     const specialDurability = computed(() => {
       return (
-        realNumbers.value.hp *
+        realNumbers.value[HP_INDEX] *
         Math.floor(
-          realNumbers.value.spDefence * selectSpDefenceEnhancement.value
+          realNumbers.value[SP_DEFENCE_INDEX] * selectSpDefenceEnhancement.value
         )
       );
     });
@@ -439,40 +358,8 @@ export default defineComponent({
       }
     });
 
-    // 努力値の更新
-    const updateEffortValue = (
-      value: number,
-      statsName: string,
-      index: number
-    ): void => {
-      const formatValue = valueVerification(value, MAX_EV);
-      effortValueRefs.value[index].lazyValue = formatValue;
-      props.stats[index].effortValue = formatValue;
-    };
-
-    // 個体値の更新
-    const updateIndividualValue = (
-      value: number,
-      statsName: string,
-      index: number
-    ): void => {
-      const formatValue = valueVerification(value, MAX_IV);
-      individualValueRefs.value[index].lazyValue = formatValue;
-      props.stats[index].individualValue = formatValue;
-    };
-
-    // 実数値を+1するボタンを設置
-    const statPlus = (statsName: string, index: number): void => {
-      setStat(realNumbers.value[statsName] + 1, statsName, index);
-    };
-
-    // 実数値を-1するボタンを設置
-    const statMinus = (statsName: string, index: number): void => {
-      setStat(realNumbers.value[statsName] - 1, statsName, index);
-    };
-
     // 実数値を計算して返す
-    const getStat = (statsName: string, index: number, tmpEV = 0): number => {
+    const getStat = (index: number, tmpEV = 0): number => {
       const formatLv = numberToInt(Number(props.lv), 1);
       const formatIndividualValue = numberToInt(
         props.stats[index].individualValue
@@ -484,11 +371,11 @@ export default defineComponent({
       } else {
         formatEffortValue = numberToInt(props.stats[index].effortValue);
       }
-      if (statsName == "hp") {
-        if (props.currentPokemon.name == "ヌケニン") return 1;
+      if (index === HP_INDEX) {
+        if (props.currentPokemon.name === "ヌケニン") return 1;
         return (
           Math.floor(
-            ((props.currentPokemon.stats[statsName] * 2 +
+            ((props.currentPokemon.stats[index] * 2 +
               formatIndividualValue +
               Math.floor(formatEffortValue / 4)) *
               formatLv) /
@@ -500,7 +387,7 @@ export default defineComponent({
       } else {
         return Math.floor(
           (Math.floor(
-            ((props.currentPokemon.stats[statsName] * 2 +
+            ((props.currentPokemon.stats[index] * 2 +
               formatIndividualValue +
               Math.floor(formatEffortValue / 4)) *
               formatLv) /
@@ -513,17 +400,17 @@ export default defineComponent({
     };
 
     // 実数値から努力値の逆算を行う
-    const setStat = (event: number, statsName: string, index: number): void => {
+    const updateRealNumber = (event: number, index: number): void => {
       let setValue = Number(event); // eventで取ってきたものはstring型になってしまうため、明示的にキャストの処理を記載している
       const formatLv = numberToInt(Number(props.lv), 1);
       const formatIndividualValue = numberToInt(
         props.stats[index].individualValue
       );
       // HPのみ計算式が異なる
-      if (statsName == "hp") {
+      if (index === HP_INDEX) {
         setValue =
           (Math.ceil(((setValue - formatLv - 10) * 100) / formatLv) -
-            props.currentPokemon.stats.hp * 2 -
+            props.currentPokemon.stats[index] * 2 -
             formatIndividualValue) *
           4;
         // HP以外の計算では、性格補正を修正してから努力値の逆算を行う必要がある
@@ -535,7 +422,7 @@ export default defineComponent({
             setValue >=
             Math.floor(
               (Math.floor(
-                ((props.currentPokemon.stats[statsName] * 2 +
+                ((props.currentPokemon.stats[index] * 2 +
                   formatIndividualValue +
                   Math.floor(effortValue / 4)) *
                   formatLv) /
@@ -557,15 +444,13 @@ export default defineComponent({
         }
         setValue =
           (Math.ceil(((setValue - 5) * 100) / formatLv) -
-            props.currentPokemon.stats[statsName] * 2 -
+            props.currentPokemon.stats[index] * 2 -
             formatIndividualValue) *
           4;
       }
       // 【共通の処理】計算した値を代入する
       setValue = valueVerification(setValue, MAX_EV);
       props.stats[index].effortValue = setValue;
-
-      realNumberRefs.value[index].lazyValue = getStat(statsName, index);
     };
 
     // 努力値をリセットする
@@ -617,19 +502,19 @@ export default defineComponent({
 
       // HP→特防→防御の順に総当たりで計算していく
       while (tmpHpEV >= 0) {
-        tmpHp = getStat("hp", HP_INDEX, tmpHpEV); // HPの努力値からHPの実数値を計算
+        tmpHp = getStat(HP_INDEX, tmpHpEV); // HPの努力値からHPの実数値を計算
         tmpSpDefenceEV = remainderEffortValue - tmpHpEV;
         if (tmpSpDefenceEV > MAX_EV) {
           tmpSpDefenceEV = MAX_EV;
         }
         // 防御より先に特防を計算することで、端数が出た場合に特防に割り振られるようになる(ダウンロード対策でB<Dのほうが好まれることから、このような仕様にしている)
         while (tmpSpDefenceEV >= 0) {
-          tmpSpDefence = getStat("spDefence", SP_DEFENCE_INDEX, tmpSpDefenceEV); // 特防の努力値から特防の実数値を計算
+          tmpSpDefence = getStat(SP_DEFENCE_INDEX, tmpSpDefenceEV); // 特防の努力値から特防の実数値を計算
           tmpDefenceEV = remainderEffortValue - tmpHpEV - tmpSpDefenceEV;
           // 防御の仮努力値が最大値を超えてしまう場合には値を更新しない
           if (tmpDefenceEV > MAX_EV) break;
 
-          tmpDefence = getStat("defence", DEFENCE_INDEX, tmpDefenceEV); // 防御の努力値から防御の実数値を計算
+          tmpDefence = getStat(DEFENCE_INDEX, tmpDefenceEV); // 防御の努力値から防御の実数値を計算
 
           // 耐久補正込での耐久値を求める
           tmpDefenceEnhancement = Math.floor(
@@ -655,9 +540,9 @@ export default defineComponent({
         tmpHpEV--;
       }
       // 最も優秀だった結果を代入する
-      setStat(resultHp, "hp", HP_INDEX);
-      setStat(resultDefence, "defence", DEFENCE_INDEX);
-      setStat(resultSpDefence, "spDefence", SP_DEFENCE_INDEX);
+      updateRealNumber(resultHp, HP_INDEX);
+      updateRealNumber(resultDefence, DEFENCE_INDEX);
+      updateRealNumber(resultSpDefence, SP_DEFENCE_INDEX);
     };
 
     // ポケモンのデータを親に渡す
@@ -668,22 +553,22 @@ export default defineComponent({
         lv: props.lv,
         hp_iv: props.stats[HP_INDEX].individualValue,
         hp_ev: props.stats[HP_INDEX].effortValue,
-        hp: realNumbers.value.hp,
+        hp: realNumbers.value[HP_INDEX],
         attack_iv: props.stats[ATTACK_INDEX].individualValue,
         attack_ev: props.stats[ATTACK_INDEX].effortValue,
-        attack: realNumbers.value.attack,
+        attack: realNumbers.value[ATTACK_INDEX],
         defence_iv: props.stats[DEFENCE_INDEX].individualValue,
         defence_ev: props.stats[DEFENCE_INDEX].effortValue,
-        defence: realNumbers.value.defence,
+        defence: realNumbers.value[DEFENCE_INDEX],
         sp_attack_iv: props.stats[SP_ATTACK_INDEX].individualValue,
         sp_attack_ev: props.stats[SP_ATTACK_INDEX].effortValue,
-        sp_attack: realNumbers.value.spAttack,
+        sp_attack: realNumbers.value[SP_ATTACK_INDEX],
         sp_defence_iv: props.stats[SP_DEFENCE_INDEX].individualValue,
         sp_defence_ev: props.stats[SP_DEFENCE_INDEX].effortValue,
-        sp_defence: realNumbers.value.spDefence,
+        sp_defence: realNumbers.value[SP_DEFENCE_INDEX],
         speed_iv: props.stats[SPEED_INDEX].individualValue,
         speed_ev: props.stats[SPEED_INDEX].effortValue,
-        speed: realNumbers.value.speed,
+        speed: realNumbers.value[SPEED_INDEX],
         description: description.value,
         is_public: 1,
       };
@@ -694,31 +579,24 @@ export default defineComponent({
      * 実数値は努力値の更新による自動計算によって求めるため、直接代入してはいけない。
      */
     const realNumbers = computed(() => {
-      return {
-        hp: getStat("hp", HP_INDEX),
-        attack: getStat("attack", ATTACK_INDEX),
-        defence: getStat("defence", DEFENCE_INDEX),
-        spAttack: getStat("spAttack", SP_ATTACK_INDEX),
-        spDefence: getStat("spDefence", SP_DEFENCE_INDEX),
-        speed: getStat("speed", SPEED_INDEX),
-      };
+      return [
+        getStat(HP_INDEX),
+        getStat(ATTACK_INDEX),
+        getStat(DEFENCE_INDEX),
+        getStat(SP_ATTACK_INDEX),
+        getStat(SP_DEFENCE_INDEX),
+        getStat(SPEED_INDEX),
+      ];
     });
 
     return {
       DEFENCE_ENHANCEMENTS,
-      LOWER_NATURE,
-      MAX_EV,
-      MAX_IV,
       MAX_TOTAL_EV,
       SP_DEFENCE_ENHANCEMENTS,
-      UPPER_NATURE,
       calcStyle,
       description,
-      effortValueRefs,
       hiddenPower,
-      individualValueRefs,
       physicalDurability,
-      realNumberRefs,
       realNumbers,
       selectDefenceEnhancement,
       selectSpDefenceEnhancement,
@@ -730,12 +608,8 @@ export default defineComponent({
       totalStats,
       durabilityAdjustment,
       emitPokemon,
-      setStat,
-      statMinus,
-      statPlus,
+      updateRealNumber,
       resetEffortValue,
-      updateEffortValue,
-      updateIndividualValue,
     };
   },
 });

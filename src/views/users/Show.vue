@@ -11,7 +11,7 @@
 <script lang="ts">
 import Vue from "vue";
 import axios from "axios";
-import PokemonTable from "@/components/templates/PokemonTable.vue";
+import { PokemonTable } from "@/components/templates";
 
 export interface DataType {
   user: any;

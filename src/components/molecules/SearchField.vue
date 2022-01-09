@@ -243,7 +243,7 @@ export default defineComponent({
      * ひらがなをすべてカタカナに変換し、一致する結果を返すフィルター
      */
     const filterForSearch = (
-      item: { [key: string]: any },
+      item: { name: string },
       queryText: string
     ): boolean => {
       // アイテム名のひらがなを全てカタカナに置き換える
@@ -269,7 +269,7 @@ export default defineComponent({
       const LowerCaseText = queryText.toLowerCase(); // 大文字を小文字に変更
       let result = ""; // result：最終的に返すテキストを格納していく変数
       let tmp = ""; // tmp：子音のみが入力されている状態など、カタカナに変換できない場合に一時的に格納しておくための変数
-      let node: { [key: string]: any } = romanConversionTable.value;
+      let node = romanConversionTable.value;
       const push = (char: string, toRoot = true) => {
         result += char;
         tmp = "";
@@ -316,7 +316,7 @@ export default defineComponent({
     /**
      * Itemが変更されたときに親のイベントを発火させる
      */
-    const updateItem = ($event: any): void => {
+    const updateItem = ($event: Event): void => {
       if ($event) {
         emit("update", $event);
         (document.activeElement as HTMLElement).blur(); // 性格を更新後、フォーカスを外す

@@ -1,57 +1,39 @@
 <template>
-  <Form title="メール確認" buttonText="確認メールを再送信する" @submit="resend">
-    <p>
-      登録はまだ完了していません。<br />
-      メールに記載されたリンクをクリックして本登録を完了してください。
-    </p>
-    <p>
-      メールが届いていない場合、メールアドレスをご確認の上、「確認メールを再送信する」のボタンを押してください。
-    </p>
-    <EmailField :email.sync="email" name="email" />
-  </Form>
+  <div>メール認証中...</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "@vue/composition-api";
 import router from "@/router";
-import { RawLocation } from "vue-router";
+import { Signature } from "@/types";
+import { notice, updateAuthUser } from "@/utils/store";
+import { defineComponent, PropType } from "@vue/composition-api";
 import axios from "axios";
-import EmailField from "@/components/molecules/EmailField.vue";
-import Form from "@/components/templates/Form.vue";
-import { authUser } from "@/utils/store";
 
 export default defineComponent({
-  components: {
-    EmailField,
-    Form,
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+    query: {
+      type: Object as PropType<Signature>,
+      required: true,
+    },
   },
-  setup(_, context) {
-    const route = context.root.$route;
-
-    const email = ref<string>(authUser.value.email);
-
-    // FIXME Vue3に移行したらtsファイルでもroute.query.redirectがかけるようになるので、その際にまとめよう
-    if (route.query.redirect) {
-      router.push(route.query.redirect as RawLocation);
-      // そうでない場合はトップページへ
-    } else {
-      router.push("/");
-    }
-
-    const resend = async (): Promise<void> => {
+  setup(props) {
+    const verify = async () => {
       try {
-        await axios.post("/email/resend", {
-          email: email.value,
-        });
-        alert("メールを再送信しました。");
+        const response = await axios.get(
+          `/email/verify/${props.id}?expires=${props.query.expires}&signature=${props.query.signature}`
+        );
+        updateAuthUser(response.data.data);
+        notice();
       } catch (error) {
         console.log(error);
       }
+      router.push("/");
     };
-    return {
-      email,
-      resend,
-    };
+    verify();
   },
 });
 </script>

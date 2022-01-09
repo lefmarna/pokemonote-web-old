@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import CalcButton from "@/components/molecules/CalcButton.vue";
+import { CalcButton } from "@/components/molecules";
 import { defineComponent, ref } from "@vue/composition-api";
 import { convertHalfWidthNumber } from "@/utils/calc";
 import { DEFAULT_LEVEL, MAX_LEVEL, MIN_LEVEL } from "@/utils/constants";

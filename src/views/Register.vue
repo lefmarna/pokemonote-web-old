@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <FormTemplate
     name="form"
     title="アカウント作成"
     buttonText="新規登録"
@@ -38,20 +38,20 @@
       name="password_confirmation"
       label="パスワード確認"
     />
-  </Form>
+  </FormTemplate>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "@vue/composition-api";
-import Form from "@/components/templates/Form.vue";
-import EmailField from "@/components/molecules/EmailField.vue";
-import PasswordField from "@/components/molecules/PasswordField.vue";
-import { login } from "@/utils/auth";
+import { FormTemplate } from "@/components/templates";
+import { EmailField, PasswordField } from "@/components/molecules";
 import { exceptionErrorToArray } from "@/utils/error";
+import router from "@/router";
+import axios from "axios";
 
 export default defineComponent({
   components: {
-    Form,
+    FormTemplate,
     EmailField,
     PasswordField,
   },
@@ -86,7 +86,9 @@ export default defineComponent({
       const formData = new FormData(form);
 
       try {
-        await login(formData, "post", "/register");
+        const response = await axios.post("/register", formData);
+        localStorage.setItem("email", response.data.data.email);
+        router.push("/email/resend");
       } catch (error) {
         errors.value = exceptionErrorToArray(error);
       }
