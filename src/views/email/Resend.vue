@@ -2,6 +2,7 @@
   <FormTemplate
     title="メール確認"
     buttonText="確認メールを再送信する"
+    :isLoading="isLoading"
     @submit="resend"
   >
     <p>
@@ -30,6 +31,7 @@ export default defineComponent({
   },
   setup() {
     const email = ref<string>(localStorage.getItem("email"));
+    const isLoading = ref(false);
     localStorage.removeItem("email");
 
     const fetchEmail = () => {
@@ -50,9 +52,11 @@ export default defineComponent({
 
     const resend = async (): Promise<void> => {
       try {
+        isLoading.value = true;
         await axios.post("/email/resend", {
           email: email.value,
         });
+        isLoading.value = false;
         alert("メールを再送信しました。");
       } catch (error) {
         console.log(error);
@@ -60,6 +64,7 @@ export default defineComponent({
     };
     return {
       email,
+      isLoading,
       resend,
     };
   },

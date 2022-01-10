@@ -12,7 +12,13 @@
         </v-card-text>
         <!-- ボタン -->
         <v-card-actions>
-          <v-btn @click="submit" class="mx-auto px-5" color="info" large>
+          <v-btn
+            @click="submit"
+            class="mx-auto px-5"
+            color="info"
+            :disabled="isLoading"
+            large
+          >
             {{ buttonText }}
           </v-btn>
         </v-card-actions>
@@ -46,6 +52,11 @@ export default defineComponent({
     buttonText: {
       type: String,
       required: true,
+    },
+    isLoading: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     errors: {
       type: Array,
