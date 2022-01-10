@@ -91,11 +91,7 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/email/Resend.vue"),
     beforeEnter: (to, from, next) => {
       // ログイン済の場合はアクセスさせない
-      if (
-        store.getters.authUser.username ||
-        store.getters.authUser.nickname ||
-        !localStorage.getItem("email")
-      ) {
+      if (store.getters.authUser.username || store.getters.authUser.nickname) {
         next("/");
       } else {
         next();

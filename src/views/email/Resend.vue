@@ -2,6 +2,7 @@
   <FormTemplate
     title="メール確認"
     buttonText="確認メールを再送信する"
+    :isLoading="isLoading"
     @submit="resend"
   >
     <p>
@@ -20,6 +21,8 @@ import { defineComponent, ref } from "@vue/composition-api";
 import axios from "axios";
 import { EmailField } from "@/components/molecules";
 import { FormTemplate } from "@/components/templates";
+import router from "@/router";
+import { Email } from "@/types";
 
 export default defineComponent({
   components: {
@@ -28,13 +31,32 @@ export default defineComponent({
   },
   setup() {
     const email = ref<string>(localStorage.getItem("email"));
+    const isLoading = ref(false);
     localStorage.removeItem("email");
+
+    const fetchEmail = () => {
+      return axios.get<{ data: Email }>("/email/fetch");
+    };
+
+    // NOTE 登録直後はローカルストレージを活用するため、非同期通信によるメールアドレスの取得は行わない
+    if (!email.value) {
+      (async () => {
+        const response = await fetchEmail();
+        if (!response.data) {
+          router.push("/");
+          return;
+        }
+        email.value = response.data.data.email;
+      })();
+    }
 
     const resend = async (): Promise<void> => {
       try {
+        isLoading.value = true;
         await axios.post("/email/resend", {
           email: email.value,
         });
+        isLoading.value = false;
         alert("メールを再送信しました。");
       } catch (error) {
         console.log(error);
@@ -42,6 +64,7 @@ export default defineComponent({
     };
     return {
       email,
+      isLoading,
       resend,
     };
   },

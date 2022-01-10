@@ -10,6 +10,10 @@ export interface Card {
   exp_year: string;
 }
 
+export interface Email {
+  email: string;
+}
+
 export interface LazyValue {
   lazyValue: number;
 }
