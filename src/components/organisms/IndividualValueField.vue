@@ -51,8 +51,11 @@ export default defineComponent({
   setup(props) {
     const individualValueRef = ref<LazyValue>();
 
-    const updateIndividualValue = (value: string, index: number): void => {
-      const formatValue = convertToHalfWidthInteger(value, MAX_IV);
+    const updateIndividualValue = (
+      value: string | number,
+      index: number
+    ): void => {
+      const formatValue = convertToHalfWidthInteger(String(value), MAX_IV);
 
       individualValueRef.value.lazyValue = formatValue;
       props.stats[index].individualValue = formatValue;

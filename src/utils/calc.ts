@@ -2,12 +2,12 @@
  * 正の全角整数を半角整数に変換する。また、数値以外の文字や記号も取り除く。
  */
 export const convertToHalfWidthInteger = (
-  str: string,
+  str: string | number,
   maxNumber: number,
   allowZero = true
 ): number => {
   // 全角数値を半角数値に変換する
-  const convertValue = str.replace(/[０-９]/g, (s: string) => {
+  const convertValue = String(str).replace(/[０-９]/g, (s: string) => {
     return String.fromCharCode(s.charCodeAt(0) - 65248).replace(/[^0-9]/g, "");
   });
 
