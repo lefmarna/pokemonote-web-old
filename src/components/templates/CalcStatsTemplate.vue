@@ -186,7 +186,11 @@ import {
   RealNumberField,
   StatsTableHeader,
 } from "@/components/organisms";
-import { numberToInt, valueVerification } from "@/utils/calc";
+import {
+  convertToHalfWidthInteger,
+  numberToInt,
+  valueVerification,
+} from "@/utils/calc";
 import {
   ATTACK_INDEX,
   DEFENCE_ENHANCEMENTS,
@@ -194,7 +198,9 @@ import {
   HP_INDEX,
   LOWER_NATURE,
   MAX_EV,
+  MAX_REAL_NUMBER,
   MAX_TOTAL_EV,
+  MIN_LEVEL,
   SPEED_INDEX,
   SP_ATTACK_INDEX,
   SP_DEFENCE_ENHANCEMENTS,
@@ -400,9 +406,9 @@ export default defineComponent({
     };
 
     // 実数値から努力値の逆算を行う
-    const updateRealNumber = (event: number, index: number): void => {
-      let setValue = Number(event); // eventで取ってきたものはstring型になってしまうため、明示的にキャストの処理を記載している
-      const formatLv = numberToInt(Number(props.lv), 1);
+    const updateRealNumber = (value: string | number, index: number): void => {
+      let setValue = convertToHalfWidthInteger(value, MAX_REAL_NUMBER, false);
+      const formatLv = numberToInt(props.lv, MIN_LEVEL);
       const formatIndividualValue = numberToInt(
         props.stats[index].individualValue
       );
