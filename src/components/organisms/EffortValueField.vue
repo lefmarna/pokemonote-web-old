@@ -3,7 +3,7 @@
     <div>
       <v-text-field
         ref="effortValueRef"
-        type="number"
+        type="tel"
         label="努力値"
         placeholder="0"
         :value="stats[statsIndex].effortValue"
@@ -31,7 +31,7 @@
 import { defineComponent, PropType, ref } from "@vue/composition-api";
 import { CalcButton } from "@/components/molecules";
 import { LazyValue, Stat } from "@/types";
-import { valueVerification } from "@/utils/calc";
+import { convertToHalfWidthInteger } from "@/utils/calc";
 import { MAX_EV } from "@/utils/constants";
 
 export default defineComponent({
@@ -51,8 +51,9 @@ export default defineComponent({
   setup(props) {
     const effortValueRef = ref<LazyValue>();
 
-    const updateEffortValue = (value: number, index: number): void => {
-      const formatValue = valueVerification(value, MAX_EV);
+    const updateEffortValue = (value: string | number, index: number): void => {
+      const formatValue = convertToHalfWidthInteger(value, MAX_EV);
+
       effortValueRef.value.lazyValue = formatValue;
       props.stats[index].effortValue = formatValue;
     };
