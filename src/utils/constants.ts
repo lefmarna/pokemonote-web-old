@@ -11,6 +11,7 @@ export const MIN_LEVEL = 1;
 export const MAX_EV = 252;
 export const MAX_TOTAL_EV = 510;
 export const MAX_IV = 31;
+export const MAX_REAL_NUMBER = 999;
 
 // ポケモンのステータスのindex番号（順番を保証してほしいため、オブジェクトではなく配列で管理する）
 export const HP_INDEX = 0;

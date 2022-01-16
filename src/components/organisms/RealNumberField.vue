@@ -5,7 +5,7 @@
                   なお、Vuetifyではv-modelのlazy修飾子をサポートしていないため、:valueと@changeで分けて書く必要がある -->
       <v-text-field
         ref="realNumberRef"
-        type="number"
+        type="tel"
         :label="stats[statsIndex].name"
         :value="realNumber"
         @change="updateRealNumber($event, statsIndex)"
@@ -54,7 +54,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const realNumberRef = ref<LazyValue>();
 
-    const updateRealNumber = (event: number, index: number): void => {
+    const updateRealNumber = (event: string | number, index: number): void => {
       emit("updateRealNumber", event, index);
       realNumberRef.value.lazyValue = props.realNumber;
     };

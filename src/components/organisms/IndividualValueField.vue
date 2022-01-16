@@ -3,7 +3,7 @@
     <div>
       <v-text-field
         ref="individualValueRef"
-        type="number"
+        type="tel"
         label="個体値"
         placeholder="0"
         :value="stats[statsIndex].individualValue"
@@ -31,7 +31,7 @@
 import { defineComponent, PropType, ref } from "@vue/composition-api";
 import { CalcButton } from "@/components/molecules";
 import { LazyValue, Stat } from "@/types";
-import { valueVerification } from "@/utils/calc";
+import { convertToHalfWidthInteger } from "@/utils/calc";
 import { MAX_IV } from "@/utils/constants";
 
 export default defineComponent({
@@ -48,13 +48,17 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup(_, { emit }) {
     const individualValueRef = ref<LazyValue>();
 
-    const updateIndividualValue = (value: number, index: number): void => {
-      const formatValue = valueVerification(value, MAX_IV);
+    const updateIndividualValue = (
+      value: string | number,
+      index: number
+    ): void => {
+      const formatValue = convertToHalfWidthInteger(String(value), MAX_IV);
+
       individualValueRef.value.lazyValue = formatValue;
-      props.stats[index].individualValue = formatValue;
+      emit("updateIndividualValue", formatValue, index);
     };
 
     return {

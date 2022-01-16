@@ -7,6 +7,8 @@
     :lv.sync="lv"
     :stats.sync="stats"
     @submit="updatePokemon"
+    @updateEffortValue="updateEffortValue"
+    @updateIndividualValue="updateIndividualValue"
   />
 </template>
 
@@ -98,6 +100,14 @@ export default defineComponent({
         });
     };
 
+    const updateEffortValue = (value: number, index: number) => {
+      stats[index].effortValue = value;
+    };
+
+    const updateIndividualValue = (value: number, index: number) => {
+      stats[index].individualValue = value;
+    };
+
     watch(
       () => props.id,
       (id) => {
@@ -128,6 +138,8 @@ export default defineComponent({
       currentNature,
       lv,
       stats,
+      updateEffortValue,
+      updateIndividualValue,
       updatePokemon,
     };
   },

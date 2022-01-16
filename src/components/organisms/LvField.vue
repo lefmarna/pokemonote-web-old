@@ -30,7 +30,7 @@
 <script lang="ts">
 import { CalcButton } from "@/components/molecules";
 import { defineComponent, ref } from "@vue/composition-api";
-import { convertHalfWidthNumber } from "@/utils/calc";
+import { convertToHalfWidthInteger } from "@/utils/calc";
 import { DEFAULT_LEVEL, MAX_LEVEL, MIN_LEVEL } from "@/utils/constants";
 import { LazyValue } from "@/types";
 
@@ -48,11 +48,8 @@ export default defineComponent({
   setup(_, { emit }) {
     const lvRef = ref<LazyValue>();
 
-    const updateLv = (value: number | string) => {
-      let formatValue: number | null = convertHalfWidthNumber(String(value));
-      // 1以上の整数でない場合はnullを返す
-      if (!String(formatValue).match(/^[1-9]\d*$/)) formatValue = null;
-      if (formatValue > MAX_LEVEL) formatValue = MAX_LEVEL;
+    const updateLv = (value: string) => {
+      const formatValue = convertToHalfWidthInteger(value, MAX_LEVEL, false);
 
       // lazyValueはVuetifyでinputタグの中身の値を示す、ここに直接代入することでリアクティブに入力を更新することができる
       lvRef.value.lazyValue = formatValue;
