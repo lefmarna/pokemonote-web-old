@@ -25,7 +25,11 @@
               <!-- 個体値 -->
               <IndividualValueField :stats="stats" :statsIndex="index" />
               <!-- 努力値 -->
-              <EffortValueField :stats="stats" :statsIndex="index" />
+              <EffortValueField
+                :stats="stats"
+                :statsIndex="index"
+                @updateEffortValue="$emit('updateEffortValue', $event, index)"
+              />
               <!-- 実数値 -->
               <RealNumberField
                 :realNumber="realNumbers[index]"
@@ -456,7 +460,7 @@ export default defineComponent({
       }
       // 【共通の処理】計算した値を代入する
       setValue = valueVerification(setValue, MAX_EV);
-      props.stats[index].effortValue = setValue;
+      emit("updateEffortValue", setValue, index);
     };
 
     // 努力値をリセットする

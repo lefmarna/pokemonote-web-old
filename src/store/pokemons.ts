@@ -78,6 +78,9 @@ const mutations = {
   updateStats(state, value) {
     state.stats = value;
   },
+  updateEffortValue(state, { value, index }) {
+    state.stats[index].effortValue = value;
+  },
 };
 
 export default {

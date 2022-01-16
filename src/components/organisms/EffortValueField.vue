@@ -48,14 +48,14 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup(_, { emit }) {
     const effortValueRef = ref<LazyValue>();
 
     const updateEffortValue = (value: string | number, index: number): void => {
       const formatValue = convertToHalfWidthInteger(value, MAX_EV);
 
       effortValueRef.value.lazyValue = formatValue;
-      props.stats[index].effortValue = formatValue;
+      emit("updateEffortValue", formatValue, index);
     };
 
     return {

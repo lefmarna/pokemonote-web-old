@@ -9,6 +9,7 @@
       :lv.sync="lv"
       :stats.sync="stats"
       @submit="postPokemon"
+      @updateEffortValue="updateEffortValue"
     />
   </div>
 </template>
@@ -20,6 +21,7 @@ import { CalcStatsTemplate } from "@/components/templates";
 import axios from "axios";
 import router from "@/router";
 import { currentNature, currentPokemon, lv, stats } from "@/utils/store";
+import store from "@/store";
 
 export default defineComponent({
   components: {
@@ -35,12 +37,18 @@ export default defineComponent({
         console.log(error);
       }
     };
+
+    const updateEffortValue = (value: number, index: number) => {
+      store.commit("updateEffortValue", { value, index });
+    };
+
     return {
       currentNature,
       currentPokemon,
       lv,
       stats,
       postPokemon,
+      updateEffortValue,
     };
   },
 });
