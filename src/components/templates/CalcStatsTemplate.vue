@@ -23,7 +23,13 @@
                 :natureStat="currentNature.stats[index]"
               />
               <!-- 個体値 -->
-              <IndividualValueField :stats="stats" :statsIndex="index" />
+              <IndividualValueField
+                :stats="stats"
+                :statsIndex="index"
+                @updateIndividualValue="
+                  $emit('updateIndividualValue', $event, index)
+                "
+              />
               <!-- 努力値 -->
               <EffortValueField
                 :stats="stats"

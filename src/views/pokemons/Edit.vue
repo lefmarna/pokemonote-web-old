@@ -8,6 +8,7 @@
     :stats.sync="stats"
     @submit="updatePokemon"
     @updateEffortValue="updateEffortValue"
+    @updateIndividualValue="updateIndividualValue"
   />
 </template>
 
@@ -103,6 +104,10 @@ export default defineComponent({
       stats[index].effortValue = value;
     };
 
+    const updateIndividualValue = (value: number, index: number) => {
+      stats[index].individualValue = value;
+    };
+
     watch(
       () => props.id,
       (id) => {
@@ -134,6 +139,7 @@ export default defineComponent({
       lv,
       stats,
       updateEffortValue,
+      updateIndividualValue,
       updatePokemon,
     };
   },

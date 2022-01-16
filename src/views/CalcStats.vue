@@ -10,6 +10,7 @@
       :stats.sync="stats"
       @submit="postPokemon"
       @updateEffortValue="updateEffortValue"
+      @updateIndividualValue="updateIndividualValue"
     />
   </div>
 </template>
@@ -42,6 +43,10 @@ export default defineComponent({
       store.commit("updateEffortValue", { value, index });
     };
 
+    const updateIndividualValue = (value: number, index: number) => {
+      store.commit("updateIndividualValue", { value, index });
+    };
+
     return {
       currentNature,
       currentPokemon,
@@ -49,6 +54,7 @@ export default defineComponent({
       stats,
       postPokemon,
       updateEffortValue,
+      updateIndividualValue,
     };
   },
 });
