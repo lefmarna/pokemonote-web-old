@@ -1,6 +1,4 @@
 /* eslint-disable */
-import axios from "axios";
-
 const state = {
   // サーバーから取得する
   pokemonData: [],
