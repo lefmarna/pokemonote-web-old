@@ -14,7 +14,7 @@ export default defineComponent({
     PokemonTable,
   },
   setup() {
-    const pokemons = ref<[]>([]);
+    const pokemons = ref<Pokemon[]>([]);
 
     /**
      * 自分の投稿したポケモンは表示させない
@@ -28,7 +28,7 @@ export default defineComponent({
     });
 
     axios
-      .get("/pokemons")
+      .get<{ data: Pokemon[] }>("/pokemons")
       .then((response) => {
         pokemons.value = response.data.data;
       })
